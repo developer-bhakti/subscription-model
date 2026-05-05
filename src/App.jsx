@@ -18,7 +18,7 @@ function App() {
           }
         />
         <Route
-          path="/user"
+          path="/user/*"
           element={
             <ProtectedRoute allowedRoles={["user"]}>
               <User />

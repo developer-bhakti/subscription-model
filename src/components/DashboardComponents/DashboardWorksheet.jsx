@@ -143,7 +143,7 @@ const activities = [
   },
 ];
 
-const Worksheet = () => {
+const DashboardWorksheet = () => {
   
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
@@ -193,4 +193,4 @@ const Worksheet = () => {
   );
 };
 
-export default Worksheet;
+export default DashboardWorksheet;

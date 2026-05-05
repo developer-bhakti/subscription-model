@@ -1,10 +1,23 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Worksheet from "../components/Worksheet";
+import { useState, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { sections } from "../data";
+import DashboardHome from "../components/DashboardComponents/DashboardHome";
+import DashboardCurriculum from "../components/DashboardComponents/DashboardCurriculum";
+import DashboardWorksheet from "../components/DashboardComponents/DashboardWorksheet";
+import DashboardAssessment from "../components/DashboardComponents/DashboardAssessment";
+import DashboardTeacherSupport from "../components/DashboardComponents/DashboardTeacherSupport";
+import DashboardManagement from "../components/DashboardComponents/DashboardManagement";
+import DashboardMarketing from "../components/DashboardComponents/DashboardMarketing";
+import DashboardPremium from "../components/DashboardComponents/DashboardPremium";
 
 export default function User() {
-  const [user] = useState(() => JSON.parse(localStorage.getItem("user")));
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -13,7 +26,7 @@ export default function User() {
 
   if (!user) {
     return (
-      <div className="h-screen flex items-center justify-center text-gray-500 text-lg">
+      <div className="h-screen flex items-center justify-center">
         Loading...
       </div>
     );
@@ -22,67 +35,55 @@ export default function User() {
   const today = new Date();
   const endDate = new Date(user.end_date);
   const isActive = today <= endDate;
-  const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-100 max-h-screen overflow-hidden">
+      {/* SIDEBAR */}
+      <div className="w-64 bg-white shadow-lg p-5 flex flex-col justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-indigo-600 mb-8">Das hboard</h1>
 
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center py-4">
-          <h1 className="text-2xl font-bold text-indigo-600">
-            School Activities
-          </h1>
-
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-indigo-100 to-purple-100 py-12 text-center">
-        <h2 className="text-3xl font-bold text-gray-800">
-          Explore Fun Learning Activities 🎨
-        </h2>
-        <p className="text-gray-600 mt-2">
-          Creative activities designed for kids growth and development
-        </p>
-      </div>
-
-      {/* Subscription Info */}
-      <div className="max-w-7xl mx-auto px-6 mt-8">
-        <div className="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center border-l-4 border-indigo-500">
-          <div>
-            <h3 className="font-semibold text-gray-800">
-              {user.username}
-            </h3>
-            <p className="text-sm text-gray-500">
-              {isActive
-                ? `Active • ${daysLeft} days left`
-                : "Subscription expired"}
-            </p>
+          <div className="space-y-3">
+            {sections.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  if (item.premium && !isActive) return;
+                  navigate(item.path);
+                }}
+                className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-indigo-50 transition"
+              >
+                <span>{item.icon}</span>
+                <span className="text-gray-700">{item.title}</span>
+              </div>
+            ))}
           </div>
-
-          <span
-            className={`px-3 py-1 rounded-full text-sm ${
-              isActive
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-600"
-            }`}
-          >
-            {isActive ? "Active" : "Expired"}
-          </span>
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+        >
+          Logout
+        </button>
       </div>
 
-      {/* Activities Grid */}
-
-      <Worksheet />
-
+      {/* MAIN CONTENT */}
+      <div className="flex-1 p-8 overflow-auto">
+        <Routes>
+          <Route path="/" element={<DashboardHome />} />
+          <Route path="/curriculum" element={<DashboardCurriculum />} />
+          <Route path="/worksheet" element={<DashboardWorksheet />} />
+          <Route path="/assessment" element={<DashboardAssessment />} />
+          <Route
+            path="/teacher-support"
+            element={<DashboardTeacherSupport />}
+          />
+          <Route path="/management" element={<DashboardManagement />} />
+          <Route path="/marketing" element={<DashboardMarketing />} />
+          <Route path="/premium" element={<DashboardPremium />} />
+        </Routes>
+      </div>
     </div>
   );
 }
