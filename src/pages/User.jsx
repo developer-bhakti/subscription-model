@@ -7,8 +7,19 @@ import DashboardWorksheet from "../components/DashboardComponents/DashboardWorks
 import DashboardAssessment from "../components/DashboardComponents/DashboardAssessment";
 import DashboardTeacherSupport from "../components/DashboardComponents/DashboardTeacherSupport";
 import DashboardManagement from "../components/DashboardComponents/DashboardManagement";
+import ClassWiseDiagnosticAssessment from "../components/AssessmentAndProgressTracking/ClassWiseDiagnosticAssessment";
+import MonthFormativeAssessment from "../components/AssessmentAndProgressTracking/MonthFormativeAssessment";
+import SumativeAssessment from "../components/AssessmentAndProgressTracking/SumativeAssessment";
+import AssessmentForNutritional from "../components/AssessmentAndProgressTracking/AssessmentForNutritional";
 import DashboardMarketing from "../components/DashboardComponents/DashboardMarketing";
 import DashboardPremium from "../components/DashboardComponents/DashboardPremium";
+import SchoolNewsletterApp from "./SchoolNewsletterApp";
+import LEMCoreCurriculum from "../components/CurriculumAndAcademicResources/LEMCoreCurriculum";
+import ParentCounsellingTools from "../components/CurriculumAndAcademicResources/ParentCounsellingTools";
+import MonthWiseWorksheets from "../components/ClassroomActivity/MonthWiseWorksheets";
+import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
+import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
+import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
 
 export default function User() {
   const navigate = useNavigate();
@@ -71,17 +82,28 @@ export default function User() {
       {/* MAIN CONTENT */}
       <div className="flex-1 p-8 overflow-auto">
         <Routes>
-          <Route path="/" element={<DashboardHome />} />
-          <Route path="/curriculum" element={<DashboardCurriculum />} />
-          <Route path="/worksheet" element={<DashboardWorksheet />} />
-          <Route path="/assessment" element={<DashboardAssessment />} />
+          <Route index element={<DashboardHome />} />
+          <Route path="curriculum" element={<DashboardCurriculum />} />
+          <Route path="curriculum/lem-core-curriculum" element={<LEMCoreCurriculum />} />
+          <Route path="curriculum/parent-counselling-tools" element={<ParentCounsellingTools />} />
+          <Route path="worksheet" element={<DashboardWorksheet />} />
+          <Route path="worksheet/month-wise" element={<MonthWiseWorksheets />} />
+          <Route path="worksheet/summer-worksheets" element={<SummerWorksheets />} />
+          <Route path="assessment" element={<DashboardAssessment />} />
+          <Route path="assessment/class-wise-diagnostic" element={<ClassWiseDiagnosticAssessment />} />
+          <Route path="assessment/month-formative" element={<MonthFormativeAssessment />} />
+          <Route path="assessment/sumative" element={<SumativeAssessment />} />
+          <Route path="assessment/nutritional" element={<AssessmentForNutritional />} />
           <Route
-            path="/teacher-support"
+            path="teacher-support"
             element={<DashboardTeacherSupport />}
           />
-          <Route path="/management" element={<DashboardManagement />} />
-          <Route path="/marketing" element={<DashboardMarketing />} />
-          <Route path="/premium" element={<DashboardPremium />} />
+          <Route path="management" element={<DashboardManagement />} />
+          <Route path="management/admission-form" element={<SchoolAdmissionForm />} />
+          <Route path="management/admission-test" element={<SchoolAdmissionTest />} />
+          <Route path="marketing" element={<DashboardMarketing />} />
+          <Route path="premium" element={<DashboardPremium />} />
+          <Route path="school-newsletter-app" element={<SchoolNewsletterApp />} />
         </Routes>
       </div>
     </div>
