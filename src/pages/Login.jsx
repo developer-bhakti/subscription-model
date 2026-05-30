@@ -25,7 +25,7 @@ export default function Login() {
       return;
     }
 
-    // Store user data in localStorage
+    // Store user data
     localStorage.setItem("user", JSON.stringify(data));
 
     if (data.role === "admin") {
@@ -46,80 +46,93 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-10">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100 flex items-center justify-center px-4 py-6 sm:py-10">
 
-        {/* Top Notification */}
-        <div className="mb-4 bg-blue-100 border border-blue-200 rounded-xl p-4 text-center">
-          
-          <p className="text-sm text-gray-700 leading-relaxed">
-            Want access to premium worksheets and learning resources?
-            Contact our team for subscription assistance.
+      <div className="w-full max-w-md">
+
+        {/* Top Info Box */}
+        <div className="mb-5 bg-blue-100 border border-blue-200 rounded-2xl p-4 sm:p-5 text-center shadow-sm">
+
+          <h3 className="text-base sm:text-lg font-bold text-blue-900 mb-2">
+            Premium Learning Access
+          </h3>
+
+          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+            Get access to premium worksheets and learning resources.
+            Contact our team for subscription support.
           </p>
 
-          <p className="text-sm text-gray-700 mt-2 leading-relaxed">
-            Once your subscription is activated, you will receive your
-            Login ID and Password. Our team will get back to you shortly.
+          <p className="text-xs sm:text-sm text-gray-700 mt-2 leading-relaxed">
+            After subscription activation, you will receive your
+            Login ID and Password. Our team will contact you shortly.
           </p>
 
-          <div className="mt-3 text-sm font-medium text-blue-700">
-            📞 +91 98765 43210 | ✉ info@adiuvaret.in
+          {/* Contact Numbers */}
+          <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+
+            <div className="w-full sm:w-auto bg-white px-4 py-2 rounded-xl shadow text-xs sm:text-sm font-semibold text-blue-700">
+              📞 +91 80879 24064
+            </div>
+
+            <div className="w-full sm:w-auto bg-white px-4 py-2 rounded-xl shadow text-xs sm:text-sm font-semibold text-blue-700">
+              📞 +91 91751 84064
+            </div>
+
+          </div>
+
+          {/* Email */}
+          <div className="mt-3 text-xs sm:text-sm font-medium text-blue-700 break-all">
+            ✉ info@adiuvaret.in
           </div>
 
         </div>
 
         {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <div className="bg-white rounded-2xl shadow-xl p-5 sm:p-8 border border-gray-100">
 
           {/* Header */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="text-center mb-6 sm:mb-8">
+
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               Welcome Back
             </h2>
 
-            <p className="text-gray-600">
-              Sign in to your account
+            <p className="text-sm sm:text-base text-gray-600">
+              Sign in to continue to your account
             </p>
+
           </div>
 
-          {/* Login Form */}
-          <div className="space-y-6">
+          {/* Form */}
+          <div className="space-y-5">
 
             {/* Username */}
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Username
               </label>
 
               <input
-                id="username"
                 type="text"
                 placeholder="Enter your username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
 
               <input
-                id="password"
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
               />
             </div>
 
@@ -127,9 +140,9 @@ export default function Login() {
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all font-semibold text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Signing In..." : "Sign In"}
             </button>
 
           </div>

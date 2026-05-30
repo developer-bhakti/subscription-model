@@ -24,6 +24,7 @@ import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/
 export default function User() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -48,24 +49,70 @@ export default function User() {
   const isActive = today <= endDate;
 
   return (
-    <div className="flex min-h-screen bg-gray-100 max-h-screen overflow-hidden">
-      {/* SIDEBAR */}
-      <div className="w-64 bg-white shadow-lg p-5 flex flex-col justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-indigo-600 mb-8">Das hboard</h1>
+    <div className="flex h-screen bg-gray-100 overflow-hidden relative">
+      
+      {/* MOBILE MENU BUTTON */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="lg:hidden fixed top-4 left-4 z-50 bg-white shadow-md p-2 rounded-lg"
+      >
+        ☰
+      </button>
 
-          <div className="space-y-3">
+      {/* MOBILE OVERLAY */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* SIDEBAR */}
+      <div
+        className={`
+          fixed lg:static top-0 left-0 z-50
+          h-full w-72 bg-white shadow-lg p-5
+          flex flex-col justify-between
+          transform transition-transform duration-300
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+        `}
+      >
+        <div className="overflow-y-auto">
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-2xl font-bold text-indigo-600">
+              Dashboard
+            </h1>
+
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden text-2xl"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="space-y-2">
             {sections.map((item, index) => (
               <div
                 key={index}
                 onClick={() => {
                   if (item.premium && !isActive) return;
+
                   navigate(item.path);
+                  setSidebarOpen(false);
                 }}
-                className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-indigo-50 transition"
+                className={`
+                  flex items-center gap-3 p-3 rounded-xl
+                  cursor-pointer transition-all duration-200
+                  hover:bg-indigo-50 hover:text-indigo-600
+                `}
               >
-                <span>{item.icon}</span>
-                <span className="text-gray-700">{item.title}</span>
+                <span className="text-lg">{item.icon}</span>
+
+                <span className="text-gray-700 text-sm md:text-base">
+                  {item.title}
+                </span>
               </div>
             ))}
           </div>
@@ -73,37 +120,106 @@ export default function User() {
 
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+          className="bg-red-500 text-white py-3 rounded-xl hover:bg-red-600 transition mt-5"
         >
           Logout
         </button>
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 p-8 overflow-auto">
+      <div className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 w-full">
         <Routes>
           <Route index element={<DashboardHome />} />
-          <Route path="curriculum" element={<DashboardCurriculum />} />
-          <Route path="curriculum/lem-core-curriculum" element={<LEMCoreCurriculum />} />
-          <Route path="curriculum/parent-counselling-tools" element={<ParentCounsellingTools />} />
-          <Route path="worksheet" element={<DashboardWorksheet />} />
-          <Route path="worksheet/month-wise" element={<MonthWiseWorksheets />} />
-          <Route path="worksheet/summer-worksheets" element={<SummerWorksheets />} />
-          <Route path="assessment" element={<DashboardAssessment />} />
-          <Route path="assessment/class-wise-diagnostic" element={<ClassWiseDiagnosticAssessment />} />
-          <Route path="assessment/month-formative" element={<MonthFormativeAssessment />} />
-          <Route path="assessment/sumative" element={<SumativeAssessment />} />
-          <Route path="assessment/nutritional" element={<AssessmentForNutritional />} />
+
+          <Route
+            path="curriculum"
+            element={<DashboardCurriculum />}
+          />
+
+          <Route
+            path="curriculum/lem-core-curriculum"
+            element={<LEMCoreCurriculum />}
+          />
+
+          <Route
+            path="curriculum/parent-counselling-tools"
+            element={<ParentCounsellingTools />}
+          />
+
+          <Route
+            path="worksheet"
+            element={<DashboardWorksheet />}
+          />
+
+          <Route
+            path="worksheet/month-wise"
+            element={<MonthWiseWorksheets />}
+          />
+
+          <Route
+            path="worksheet/summer-worksheets"
+            element={<SummerWorksheets />}
+          />
+
+          <Route
+            path="assessment"
+            element={<DashboardAssessment />}
+          />
+
+          <Route
+            path="assessment/class-wise-diagnostic"
+            element={<ClassWiseDiagnosticAssessment />}
+          />
+
+          <Route
+            path="assessment/month-formative"
+            element={<MonthFormativeAssessment />}
+          />
+
+          <Route
+            path="assessment/sumative"
+            element={<SumativeAssessment />}
+          />
+
+          <Route
+            path="assessment/nutritional"
+            element={<AssessmentForNutritional />}
+          />
+
           <Route
             path="teacher-support"
             element={<DashboardTeacherSupport />}
           />
-          <Route path="management" element={<DashboardManagement />} />
-          <Route path="management/admission-form" element={<SchoolAdmissionForm />} />
-          <Route path="management/admission-test" element={<SchoolAdmissionTest />} />
-          <Route path="marketing" element={<DashboardMarketing />} />
-          <Route path="premium" element={<DashboardPremium />} />
-          <Route path="school-newsletter-app" element={<SchoolNewsletterApp />} />
+
+          <Route
+            path="management"
+            element={<DashboardManagement />}
+          />
+
+          <Route
+            path="management/admission-form"
+            element={<SchoolAdmissionForm />}
+          />
+
+          <Route
+            path="management/admission-test"
+            element={<SchoolAdmissionTest />}
+          />
+
+          <Route
+            path="marketing"
+            element={<DashboardMarketing />}
+          />
+
+          <Route
+            path="premium"
+            element={<DashboardPremium />}
+          />
+
+          <Route
+            path="school-newsletter-app"
+            element={<SchoolNewsletterApp />}
+          />
         </Routes>
       </div>
     </div>
