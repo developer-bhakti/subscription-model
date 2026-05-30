@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const trainingData = [
   {
@@ -89,12 +90,12 @@ export default function TeacherSupportTraining() {
                 </a>
 
                 {/* Coupon Button */}
-                <a
-                  href="/pages/get-free-udemy-coupon"
+                <Link
+                  to="/get-free-udemy-coupon"
                   className="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
                 >
                   Get Free Coupon Code
-                </a>
+                </Link>
 
               </div>
             </div>

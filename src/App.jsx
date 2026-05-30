@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import User from "./pages/User";
+import FreeCoupon from "./components/TeacherSupportAndTraining/FreeCoupon";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/get-free-udemy-coupon" element={<FreeCoupon />} />
         <Route
           path="/user/*"
           element={
