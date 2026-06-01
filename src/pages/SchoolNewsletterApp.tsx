@@ -394,8 +394,8 @@ export default function App() {
        ))}
       </SectionCard>
 
-      {/* Fruitless Food */}
-      <SectionCard title="Fruitless Food Activity" icon="🥗" color="bg-gradient-to-r from-lime-400 to-green-500"
+      {/* Fireless Food */}
+      <SectionCard title="Fireless Food Activity" icon="🥗" color="bg-gradient-to-r from-lime-400 to-green-500"
        onAdd={() => setFruitless(f => [...f, emptyFruitless()])} addLabel="Add Activity">
        {fruitless.map(f => (
         <EntryCard key={f.id} onRemove={() => remove(setFruitless, f.id)}>

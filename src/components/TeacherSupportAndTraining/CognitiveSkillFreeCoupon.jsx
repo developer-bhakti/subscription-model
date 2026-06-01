@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export default function TeacherTrainingCoupon() {
+export default function CognitiveSkillFreeCoupon() {
 
   /* =========================
      DIRECT COUPON CODE
   ========================= */
 
-  const couponCode = "OP_JUN_2026";
+  const couponCode = "OP_COG_JUN_2026";
 
   /* =========================
      UPDATED DATE
@@ -103,7 +103,7 @@ export default function TeacherTrainingCoupon() {
 
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
 
-            🎓 Teacher Support & Training
+            🧠 Cognitive Skill Development
 
           </h2>
 
@@ -111,7 +111,8 @@ export default function TeacherTrainingCoupon() {
 
           <p className="text-gray-500 leading-8 text-[15px] mb-8">
 
-            Use this exclusive Udemy coupon to access premium teacher training.
+            Use this exclusive Udemy coupon to access premium cognitive skill
+            development training and learning resources.
             This coupon works for only{" "}
 
             <span className="font-bold text-black">
@@ -140,7 +141,7 @@ export default function TeacherTrainingCoupon() {
 
               </div>
 
-              <div className="text-white text-4xl md:text-5xl font-extrabold tracking-[6px] mb-5">
+              <div className="text-white text-3xl md:text-5xl font-extrabold tracking-[4px] md:tracking-[6px] mb-5 break-words">
 
                 {couponCode}
 
@@ -264,13 +265,13 @@ export default function TeacherTrainingCoupon() {
 
             <div className="mt-5 space-y-3 text-gray-700 text-sm">
 
+              <div>✔ Cognitive Skill Development Training</div>
+
               <div>✔ Premium Udemy Coupons</div>
 
-              <div>✔ Teacher Training Materials</div>
+              <div>✔ Brain Development Activities</div>
 
-              <div>✔ Assessment Resources</div>
-
-              <div>✔ Preschool Management Tools</div>
+              <div>✔ Learning & Assessment Resources</div>
 
             </div>
 

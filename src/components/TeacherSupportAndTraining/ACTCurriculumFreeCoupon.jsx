@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export default function TeacherTrainingCoupon() {
+export default function ACTCurriculumFreeCoupon() {
 
   /* =========================
      DIRECT COUPON CODE
   ========================= */
 
-  const couponCode = "OP_JUN_2026";
+  const couponCode = "OP_ACT_JUN_2026";
 
   /* =========================
      UPDATED DATE
@@ -103,7 +103,7 @@ export default function TeacherTrainingCoupon() {
 
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
 
-            🎓 Teacher Support & Training
+            📘 ACT Curriculum Premium Access
 
           </h2>
 
@@ -111,7 +111,8 @@ export default function TeacherTrainingCoupon() {
 
           <p className="text-gray-500 leading-8 text-[15px] mb-8">
 
-            Use this exclusive Udemy coupon to access premium teacher training.
+            Use this exclusive ACT Curriculum coupon to unlock premium
+            curriculum resources, worksheets, and educational materials.
             This coupon works for only{" "}
 
             <span className="font-bold text-black">
@@ -264,11 +265,11 @@ export default function TeacherTrainingCoupon() {
 
             <div className="mt-5 space-y-3 text-gray-700 text-sm">
 
-              <div>✔ Premium Udemy Coupons</div>
+              <div>✔ ACT Curriculum Resources</div>
 
-              <div>✔ Teacher Training Materials</div>
+              <div>✔ Printable Worksheets</div>
 
-              <div>✔ Assessment Resources</div>
+              <div>✔ Assessment Materials</div>
 
               <div>✔ Preschool Management Tools</div>
 

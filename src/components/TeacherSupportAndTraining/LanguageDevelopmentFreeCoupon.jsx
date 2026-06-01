@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export default function TeacherTrainingCoupon() {
+export default function LanguageDevelopmentFreeCoupon() {
 
   /* =========================
      DIRECT COUPON CODE
   ========================= */
 
-  const couponCode = "OP_JUN_2026";
+  const couponCode = "OP_LNG_JUN_2026";
 
   /* =========================
      UPDATED DATE
@@ -103,7 +103,7 @@ export default function TeacherTrainingCoupon() {
 
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
 
-            🎓 Teacher Support & Training
+            🗣️ Language Development Support
 
           </h2>
 
@@ -111,8 +111,8 @@ export default function TeacherTrainingCoupon() {
 
           <p className="text-gray-500 leading-8 text-[15px] mb-8">
 
-            Use this exclusive Udemy coupon to access premium teacher training.
-            This coupon works for only{" "}
+            Use this exclusive coupon to access premium language development
+            resources and training materials. This coupon works for only{" "}
 
             <span className="font-bold text-black">
               30 days
@@ -264,9 +264,9 @@ export default function TeacherTrainingCoupon() {
 
             <div className="mt-5 space-y-3 text-gray-700 text-sm">
 
-              <div>✔ Premium Udemy Coupons</div>
+              <div>✔ Language Development Resources</div>
 
-              <div>✔ Teacher Training Materials</div>
+              <div>✔ Premium Learning Materials</div>
 
               <div>✔ Assessment Resources</div>
 

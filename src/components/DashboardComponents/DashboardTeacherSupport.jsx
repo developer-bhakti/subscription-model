@@ -8,6 +8,7 @@ const trainingData = [
       "Professional training resources focused on effective academic planning, classroom management, and preschool administration.",
     explore:
       "https://www.udemy.com/course/pre-school-skill-building-techniques-and-academic-management/?couponCode=UDEAFFHP22025",
+    couponRoute: "/get-free-udemy-coupon",
   },
   {
     title: "Cognitive Skill Management for PreSchool - Udemy",
@@ -15,6 +16,7 @@ const trainingData = [
       "Specialized guidance and training modules designed to enhance cognitive skill development strategies for preschool learners.",
     explore:
       "https://www.udemy.com/course/cognitive-skill-management-for-pre-school-children/?couponCode=UDEAFFHP22025",
+    couponRoute: "/cognitive-skill-coupon",
   },
   {
     title: "ACT Syllabus Management In Preschools - Udemy",
@@ -22,6 +24,7 @@ const trainingData = [
       "Structured support materials and training for implementing ACT-based preschool syllabus planning and execution.",
     explore:
       "https://www.udemy.com/course/activity-based-curriculum-for-tacit-knowledge-act/?couponCode=UDEAFFHP22025",
+    couponRoute: "/act-curriculum-coupon",
   },
   {
     title:
@@ -30,6 +33,7 @@ const trainingData = [
       "Practical teacher training resources to improve communication, phonics, vocabulary, and language development in young learners.",
     explore:
       "https://www.udemy.com/course/language-development-through-shared-book-reading-technique/?couponCode=UDEAFFHP22025",
+    couponRoute: "/language-development-coupon",
   },
   {
     title:
@@ -38,12 +42,14 @@ const trainingData = [
       "Comprehensive training modules for conducting assessments, evaluations, and progress tracking in preschool education.",
     explore:
       "https://www.udemy.com/course/management-of-preschool-skill-evaluation-and-assessment/?couponCode=UDEAFFHP22025",
+    couponRoute: "/management-assessment-coupon",
   },
   {
     title: "NTT Program Documents - 299 Each Volumes",
     description:
       "Detailed nursery teacher training documents and reference materials covering preschool teaching methodologies and practices.",
     explore: "/pages/get-free-udemy-coupon",
+    couponRoute: "/get-free-udemy-coupon",
   },
 ];
 
@@ -91,7 +97,7 @@ export default function TeacherSupportTraining() {
 
                 {/* Coupon Button */}
                 <Link
-                  to="/get-free-udemy-coupon"
+                  to={item.couponRoute}
                   className="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
                 >
                   Get Free Coupon Code
