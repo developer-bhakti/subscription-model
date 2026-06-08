@@ -6,7 +6,7 @@ const DashboardMarketing = () => {
   return (
     <div>
       <ParentCounselling />
-      <AdmissionStrategyTool />
+      {/* <AdmissionStrategyTool /> */}
     </div>
   );
 };

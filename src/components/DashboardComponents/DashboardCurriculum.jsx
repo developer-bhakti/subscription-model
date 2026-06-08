@@ -39,6 +39,7 @@ const DashboardCurriculum = () => {
             Open the LEMCore Curriculum section for Nursery, LKG and UKG
             learning resources.
           </p>
+          
         </button>
 
         {/* Parent Counselling Tools */}

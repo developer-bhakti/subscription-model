@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../services/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,31 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const razorpayRef = useRef(null);
+
+  useEffect(() => {
+    // Create script
+    const script = document.createElement("script");
+
+    script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+    script.async = true;
+    script.setAttribute(
+      "data-payment_button_id",
+      "pl_SwJTAx7YVYQZTu"
+    );
+
+    // Append script inside form
+    if (razorpayRef.current) {
+      razorpayRef.current.innerHTML = "";
+      razorpayRef.current.appendChild(script);
+    }
+
+    return () => {
+      if (razorpayRef.current) {
+        razorpayRef.current.innerHTML = "";
+      }
+    };
+  }, []);
 
   const handleLogin = async () => {
     setLoading(true);
@@ -78,6 +103,11 @@ export default function Login() {
               📞 +91 91751 84064
             </div>
 
+          </div>
+
+          {/* Razorpay Button */}
+          <div className="mt-5 flex justify-center">
+            <form ref={razorpayRef}></form>
           </div>
 
           {/* Email */}

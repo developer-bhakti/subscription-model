@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -211,10 +211,20 @@ export default function App() {
   reader.readAsDataURL(file);
  };
 
+ const [isPrinting, setIsPrinting] = useState(false);
+
+ useEffect(() => {
+  if (!isPrinting) return;
+  if (tab !== "preview") return;
+  setIsPrinting(false);
+  // Small delay to ensure DOM is fully rendered before print dialog opens
+  setTimeout(() => window.print(), 150);
+ }, [isPrinting, tab]);
+
  const handlePrint = () => {
   if (tab !== "preview") {
    setTab("preview");
-   setTimeout(() => window.print(), 300);
+   setIsPrinting(true);
    return;
   }
   window.print();
@@ -245,15 +255,85 @@ export default function App() {
     .font-display { font-family: 'Fraunces', serif; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
     .animate-fadeIn { animation: fadeIn 0.25s ease-out; }
+
     @media print {
-     body * { visibility: hidden !important; }
-     .print-area, .print-area * { visibility: visible !important; }
-     .print-area { position: absolute; top: 0; left: 0; width: 100%; background: white !important; color: #111 !important; box-shadow: none !important; }
-     .print-area * { color: inherit !important; background: transparent !important; }
-     .no-print { display: none !important; }
-     body { background: white !important; }
+      html,
+      body {
+        width: 100%;
+        height: auto;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+      }
+
+      body * {
+        visibility: hidden;
+      }
+
+      .print-area,
+      .print-area * {
+        visibility: visible;
+      }
+
+      .print-area {
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        height: auto !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: white !important;
+      }
+
+      .print-area section {
+        break-inside: auto !important;
+        page-break-inside: auto !important;
+      }
+
+      .print-area img {
+        max-width: 100% !important;
+        page-break-inside: avoid !important;
+      }
+
+      .no-print,
+      header {
+        display: none !important;
+      }
+
+      main {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+      }
+
+      table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto !important;
+      }
+
+      tr,
+      td,
+      th {
+        page-break-inside: avoid !important;
+      }
+
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
     }
-    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 99px; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 99px; }
    `}</style>
 
    {/* Header */}
@@ -266,7 +346,8 @@ export default function App() {
        <p className="text-xs text-gray-400">Monthly Generator</p>
       </div>
      </div>
-     <div className="flex items-center gap-2">      <button onClick={handlePrint}
+     <div className="flex items-center gap-2">
+      <button onClick={handlePrint}
        className="no-print flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm">
        🖨️ Print
       </button>
@@ -335,7 +416,7 @@ export default function App() {
        {holidays.map(h => (
         <EntryCard key={h.id} onRemove={() => remove(setHolidays, h.id)}>
          <Field label="Holiday Title" value={h.title} onChange={v => update(setHolidays, h.id, "title", v)} placeholder="Diwali Vacation" required />
-         <div /> {/* spacer */}
+         <div />
          <Field label="Start Date" type="date" value={h.startDate} onChange={v => update(setHolidays, h.id, "startDate", v)} />
          <Field label="End Date" type="date" value={h.endDate} onChange={v => update(setHolidays, h.id, "endDate", v)} />
          <Field label="Description" type="textarea" value={h.description} onChange={v => update(setHolidays, h.id, "description", v)} placeholder="Brief description..." full />
@@ -419,7 +500,7 @@ export default function App() {
     {/* ── NEWSLETTER PREVIEW TAB ── */}
     {tab === "preview" && (
      <AnimatedSection>
-      <div ref={printRef} className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 print-area">
+      <div ref={printRef} className="bg-white shadow-xl border border-gray-100 print-area">
        {/* Newsletter Header */}
        <div className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700 px-8 py-8 text-white">
         <div className="flex items-center gap-6">
@@ -454,7 +535,6 @@ export default function App() {
          ))}
         </div>
 
-        {/* Sections preview */}
         {sortedHolidays.length > 0 && (
          <section>
           <h2 className="font-display font-bold text-xl text-rose-600 border-b-2 border-rose-100 pb-2 mb-4">🌴 Holidays</h2>
@@ -576,7 +656,6 @@ export default function App() {
     {tab === "calendar" && (
      <AnimatedSection>
       <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-       {/* Calendar header */}
        <div className="bg-gradient-to-r from-indigo-500 to-violet-600 px-6 py-4 text-white flex items-center justify-between">
         <div>
          <h2 className="font-display text-2xl font-bold">{MONTHS[school.month]} {school.year}</h2>
@@ -585,7 +664,6 @@ export default function App() {
         <div className="text-5xl opacity-30 select-none">📅</div>
        </div>
 
-       {/* Legend */}
        <div className="px-6 py-3 bg-gray-50 border-b border-gray-100 flex flex-wrap gap-3">
         {Object.entries(COLORS).map(([k, v]) => (
          <span key={k} className={`text-xs font-semibold px-2.5 py-1 rounded-full ${v.bg} ${v.text}`}>
@@ -595,7 +673,6 @@ export default function App() {
        </div>
 
        <div className="p-4">
-        {/* Day headers */}
         <div className="grid grid-cols-7 gap-1 mb-2">
          {DAYS.map(d => (
           <div key={d} className={`text-center text-xs font-bold py-2 rounded-lg ${d === "Sun" || d === "Sat" ? "text-rose-400 bg-rose-50" : "text-gray-500 bg-gray-50"}`}>
@@ -604,7 +681,6 @@ export default function App() {
          ))}
         </div>
 
-        {/* Calendar grid */}
         <div className="grid grid-cols-7 gap-1">
          {calendarDays().map((day, i) => {
           if (!day) return <div key={`empty-${i}`} />;
@@ -674,7 +750,7 @@ export default function App() {
           {filteredRows.map((row, i) => {
            const c = row.type !== "regular" ? COLORS[row.type] : null;
            return (
-            <tr key={i} className={`transition-colors ${row.type === "regular" ? "hover:bg-gray-50" : `hover:bg-opacity-50`}`}>
+            <tr key={i} className="transition-colors hover:bg-gray-50">
              <td className="px-4 py-3 font-semibold text-gray-700 whitespace-nowrap">{formatDate(row.startDate)}</td>
              <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
               {row.endDate && row.endDate !== row.startDate ? formatDate(row.endDate) : "—"}
@@ -700,16 +776,6 @@ export default function App() {
     )}
 
    </main>
-
-   {/* Print styles */}
-   <style>{`
-    @media print {
-     .no-print { display: none !important; }
-     header { display: none !important; }
-     main { padding: 0 !important; }
-     .bg-gradient-to-br { background: white !important; }
-    }
-   `}</style>
   </div>
  );
 }
