@@ -9,6 +9,7 @@ import DashboardTeacherSupport from "../components/DashboardComponents/Dashboard
 import DashboardManagement from "../components/DashboardComponents/DashboardManagement";
 import ClassWiseDiagnosticAssessment from "../components/AssessmentAndProgressTracking/ClassWiseDiagnosticAssessment";
 import MonthFormativeAssessment from "../components/AssessmentAndProgressTracking/MonthFormativeAssessment";
+import OnlineAssessmentLoader from "../components/AssessmentAndProgressTracking/OnlineAssessmentLoader";
 import SumativeAssessment from "../components/AssessmentAndProgressTracking/SumativeAssessment";
 import AssessmentForNutritional from "../components/AssessmentAndProgressTracking/AssessmentForNutritional";
 import DashboardMarketing from "../components/DashboardComponents/DashboardMarketing";
@@ -20,6 +21,8 @@ import MonthWiseWorksheets from "../components/ClassroomActivity/MonthWiseWorksh
 import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
 import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
 import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
+import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurriculum";
+import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTracking/FormativeAssessmentGeneral";
 
 export default function User() {
   const navigate = useNavigate();
@@ -142,6 +145,11 @@ export default function User() {
           />
 
           <Route
+            path="curriculum/act-curriculum"
+            element={<ACTCurriculum/>}
+          />
+
+          <Route
             path="curriculum/parent-counselling-tools"
             element={<ParentCounsellingTools />}
           />
@@ -174,6 +182,17 @@ export default function User() {
           <Route
             path="assessment/month-formative"
             element={<MonthFormativeAssessment />}
+          />
+          
+
+          <Route
+            path="assessment/formative-general"
+            element={<FormativeAssessmentGeneral />}
+          />
+
+          <Route
+            path="assessment/month-formative/online/:level/:month"
+            element={<OnlineAssessmentLoader />}
           />
 
           <Route

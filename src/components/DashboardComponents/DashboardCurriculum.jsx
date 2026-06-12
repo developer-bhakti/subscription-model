@@ -42,6 +42,24 @@ const DashboardCurriculum = () => {
           
         </button>
 
+        {/* ACT Curriculum */}
+         <button
+          onClick={() => navigate("/user/curriculum/act-curriculum")}
+          className="text-left bg-white rounded-2xl sm:rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 p-5 sm:p-6 border border-gray-200 w-full"
+        >
+          <div className="text-4xl sm:text-5xl mb-4">📘</div>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+            ACT Curriculum 
+          </h3>
+
+          <p className="text-sm sm:text-base text-gray-500 leading-relaxed">
+            Open the ACT Curriculum section for Nursery, LKG and UKG
+            learning resources.
+          </p>
+          
+        </button>
+
         {/* Parent Counselling Tools */}
         <button
           onClick={() =>

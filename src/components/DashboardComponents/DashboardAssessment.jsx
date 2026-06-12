@@ -28,7 +28,16 @@ const DashboardAssessment = () => {
           className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
         >
           <div className="text-4xl mb-4">📆</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Month Formative</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Month Formative (Prime Syllubus)</h3>
+          <p className="text-sm text-gray-500">Open monthly formative assessment tools.</p>
+        </button>
+
+           <button
+          onClick={() => navigate('/user/assessment/formative-general')}
+          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
+        >
+          <div className="text-4xl mb-4">📆</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Month Formative (General Syllubus)</h3>
           <p className="text-sm text-gray-500">Open monthly formative assessment tools.</p>
         </button>
 
@@ -48,6 +57,15 @@ const DashboardAssessment = () => {
           <div className="text-4xl mb-4">🍎</div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Nutritional Assessment</h3>
           <p className="text-sm text-gray-500">Open nutritional and health assessment tools.</p>
+        </button>
+
+         <button
+          onClick={() => navigate('/user/assessment/assessement-adhd')}
+          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
+        >
+          <div className="text-4xl mb-4">📝</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2"> Assessment For ADHD</h3>
+          <p className="text-sm text-gray-500">Specialized assessment tools to help identify attention, behavioral patterns, and learning support requirements in children..</p>
         </button>
       </div>
     </div>

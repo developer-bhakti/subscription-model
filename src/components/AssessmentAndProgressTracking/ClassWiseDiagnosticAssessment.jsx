@@ -6,25 +6,25 @@ const levels = [
     id: "pg",
     title: "PG",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/diagonsic-pg.jpg?v=1779704801",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-playgroup.jpg?v=1781242641",
   },
   {
     id: "nursery",
     title: "Nursery",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/diagonsic-nursery.jpg?v=1779705278",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-nursery_bd5eeb3b-70ff-474e-9ea5-1cafc9634015.jpg?v=1781242527",
   },
   {
     id: "lkg",
     title: "LKG",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/diagonsic-lkg.jpg?v=1779705377",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-lkg_1e3ca9cc-40fc-4dff-99e7-10ce980cb1f1.jpg?v=1781242526",
   },
   {
     id: "ukg",
     title: "UKG",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/diagonsic-ukg.jpg?v=1779705277",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-ukg.jpg?v=1781242526",
   },
 ];
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { CalendarCheck, FileText } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { CalendarCheck, FileText, Laptop } from "lucide-react";
 
 const assessmentData = {
   pg: [
@@ -168,6 +169,7 @@ const levels = [
 
 export default function MonthFormativeAssessment() {
   const [activeSection, setActiveSection] = useState("");
+  const navigate = useNavigate();
 
   return (
     <section className="bg-gradient-to-b from-[#f8f9ff] to-[#eef2ff] py-20 px-5 font-sans">
@@ -235,15 +237,25 @@ export default function MonthFormativeAssessment() {
                     {item.month}
                   </h3>
 
-                  <a
-                    href={item.pdf}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
-                  >
-                    <FileText size={18} />
-                    View & Download
-                  </a>
+                  <div className="flex flex-col gap-3">
+                    <button
+                      onClick={() => navigate(`/user/assessment/month-formative/online/${activeSection}/${index + 1}`)}
+                      className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer"
+                    >
+                      <Laptop size={18} />
+                      Do It Online
+                    </button>
+
+                    <a
+                      href={item.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                    >
+                      <FileText size={18} />
+                      View & Download
+                    </a>
+                  </div>
                 </div>
               ))}
 
