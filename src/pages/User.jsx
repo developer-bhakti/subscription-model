@@ -23,6 +23,7 @@ import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/
 import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
 import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurriculum";
 import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTracking/FormativeAssessmentGeneral";
+import AssessementForADHD from "../components/AssessmentAndProgressTracking/AssessementForADHD";
 
 export default function User() {
   const navigate = useNavigate();
@@ -183,11 +184,15 @@ export default function User() {
             path="assessment/month-formative"
             element={<MonthFormativeAssessment />}
           />
-          
 
           <Route
             path="assessment/formative-general"
             element={<FormativeAssessmentGeneral />}
+          />
+
+          <Route
+            path="assessment/assessement-adhd"
+            element={<AssessementForADHD />}
           />
 
           <Route

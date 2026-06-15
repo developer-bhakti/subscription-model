@@ -6,25 +6,25 @@ const levels = [
     id: "pg",
     title: "PG",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/sumetive_main.jpg?v=1779698224",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_26_24_PM.png?v=1781510355",
   },
   {
     id: "nursery",
     title: "Nursery",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-nursery.jpg?v=1779702219",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_29_24_PM.png?v=1781510384",
   },
   {
     id: "lkg",
     title: "LKG",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Summative-lkg.jpg?v=1779702045",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_31_05_PM.png?v=1781510504",
   },
   {
     id: "ukg",
     title: "UKG",
     image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-ukg.jpg?v=1779702159",
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_32_16_PM.png?v=1781510552",
   },
 ];
 

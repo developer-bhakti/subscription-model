@@ -34,6 +34,7 @@ const assessments = [
 
 const AssessementForADHD = () => {
     const navigate = useNavigate();
+    
   return (
     <section className="py-16 px-4 bg-slate-50 min-h-screen">
       <div className="max-w-6xl mx-auto">

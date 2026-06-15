@@ -75,7 +75,7 @@ export default function FormativeAssessmentGeneral() {
   return (
     <div className="min-h-screen bg-slate-100 py-16">
       <div className="w-[90%] max-w-7xl mx-auto">
-        <h1 className="text-center text-4xl md:text-6xl font-extrabold text-slate-800 mb-16">
+        <h1 className="text-center text-2xl md:text-4xl font-extrabold text-slate-700 mb-16">
           Formative Assessment (General Syllabus)
         </h1>
 
