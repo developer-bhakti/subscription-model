@@ -31,6 +31,15 @@ const DashboardWorksheet = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Summer Worksheets</h3>
           <p className="text-sm text-gray-500">Open summer worksheet packs for Nursery, LKG and UKG.</p>
         </button>
+
+         <button
+          onClick={() => navigate('/user/rhyming/words')}
+          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
+        >
+          <div className="text-4xl mb-4">🎵</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Rhyming Words Adventure</h3>
+          <p className="text-sm text-gray-500">Choose the word that rhymes with the teacher's word.</p>
+        </button>
       </div>
     </div>
   )

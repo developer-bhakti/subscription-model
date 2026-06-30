@@ -19,7 +19,7 @@ const DashboardAssessment = () => {
           className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
         >
           <div className="text-4xl mb-4">🔎</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Class-wise Diagnostic</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Class-wise Initial Diagnostic Assessment (Prime) </h3>
           <p className="text-sm text-gray-500">Open diagnostic assessments for each class/level.</p>
         </button>
 

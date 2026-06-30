@@ -24,6 +24,7 @@ import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/
 import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurriculum";
 import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTracking/FormativeAssessmentGeneral";
 import AssessementForADHD from "../components/AssessmentAndProgressTracking/AssessementForADHD";
+import RhymingWords from "../components/ClassroomActivity/RhymingWords";
 
 export default function User() {
   const navigate = useNavigate();
@@ -148,6 +149,11 @@ export default function User() {
           <Route
             path="curriculum/act-curriculum"
             element={<ACTCurriculum/>}
+          />
+
+          <Route
+            path="rhyming/words"
+            element={<RhymingWords/>}
           />
 
           <Route
