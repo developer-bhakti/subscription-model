@@ -144,7 +144,6 @@ export default function ClassWiseDiagnosticAssessment() {
   return (
     <section className="bg-gradient-to-b from-[#f7f8ff] to-[#eef1ff] py-20 px-5 font-sans">
       <div className="max-w-7xl mx-auto">
-        {/* Heading */}
         <h2 className="text-center text-4xl md:text-6xl font-extrabold text-gray-900 mb-16">
           Diagnostic Assessment For Preschool
         </h2>
@@ -156,11 +155,13 @@ export default function ClassWiseDiagnosticAssessment() {
               key={level.id}
               className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-300"
             >
-              <img
-                src={level.image}
-                alt={level.title}
-                className="w-full h-64 object-cover"
-              />
+              <div className="w-full h-64 bg-gray-100 flex items-center justify-center p-3">
+                <img
+                  src={level.image}
+                  alt={level.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
 
               <div className="p-8 text-center">
                 <h3 className="text-3xl font-bold text-gray-800 mb-5">
@@ -178,7 +179,7 @@ export default function ClassWiseDiagnosticAssessment() {
           ))}
         </div>
 
-        {/* Active Assessment Section */}
+        {/* Assessment Section */}
         {activeSection && (
           <div className="animate-fadeIn">
             <h2 className="text-center text-4xl md:text-5xl font-extrabold text-gray-900 mb-14 capitalize">
@@ -191,11 +192,13 @@ export default function ClassWiseDiagnosticAssessment() {
                   key={index}
                   className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-300"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-60 object-cover"
-                  />
+                  <div className="w-full h-60 bg-gray-100 flex items-center justify-center p-3">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
 
                   <div className="p-7 text-center">
                     <h3 className="text-2xl font-bold text-gray-800 leading-relaxed min-h-[90px] mb-6">
