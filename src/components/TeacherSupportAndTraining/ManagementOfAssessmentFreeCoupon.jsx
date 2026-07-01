@@ -6,15 +6,15 @@ export default function ManagementOfAssessmentFreeCoupon() {
      DIRECT COUPON CODE
   ========================= */
 
-  const couponCode = "OP_ASS_JUN_2026";
+  const couponCode = "OP_ASS_JULY_2026";
 
   /* =========================
      UPDATED DATE
      Month starts from 0
-     (5 = June)
+     (6 = July)
   ========================= */
 
-  const updatedDate = new Date(2026, 5, 1, 10, 0);
+  const updatedDate = new Date(2026, 6, 1, 10, 0);
 
   /* =========================
      EXPIRY DATE = 30 DAYS
