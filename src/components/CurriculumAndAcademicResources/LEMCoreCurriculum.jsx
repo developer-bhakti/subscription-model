@@ -25,35 +25,75 @@ const pdfLinks = {
   Nursery: {
     1: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M1-W1.pdf?v=1783402864",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M1-W2.pdf?v=1783402864",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M1-W3.pdf?v=1783402864",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M1-W4.pdf?v=1783402865",
+      ],
     },
     2: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M2-W1.pdf?v=1783403535",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M2-W2.pdf?v=1783403534",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M2-W3.pdf?v=1783403535",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M2-W4.pdf?v=1783403535",
+      ],
     },
     3: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M3-W1.pdf?v=1783403782",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M3-W2.pdf?v=1783403784",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M3-W3.pdf?v=1783403785",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M3-W4.pdf?v=1783403782",
+      ],
     },
     4: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M4-W1.pdf?v=1783404427",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M4-W2.pdf?v=1783404426",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M4-W3.pdf?v=1783404431",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M4-W4.pdf?v=1783404426",
+      ],
     },
     5: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M5-W1.pdf?v=1783405002",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M5-W2.pdf?v=1783405001",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M5-W3.pdf?v=1783405003",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M5-W4.pdf?v=1783405001",
+      ],
     },
     6: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M6-W1.pdf?v=1783405857",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M6-W2.pdf?v=1783405858",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M6-W3.pdf?v=1783405858",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M6-W4.pdf?v=1783405858",
+      ],
     },
     7: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M7-W1.pdf?v=1783406111",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M7-W2.pdf?v=1783406112",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M7-W3.pdf?v=1783406111",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M7-W4.pdf?v=1783406110",
+      ],
     },
     8: {
       practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
+      syllabus: [
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-m8-w1.pdf?v=1783406225",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/NUR-M8-W2.pdf?v=1783406226",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M8-W3.pdf?v=1783406209",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nur-M8-w4.pdf?v=1783406211",
+      ],
     },
   },
   LKG: {
