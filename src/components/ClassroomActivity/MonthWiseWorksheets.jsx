@@ -39,6 +39,14 @@ const months = [
     description:
       "Summer worksheets and preschool fun learning sheets.",
   },
+  {
+    id: "june",
+    title: "June Activities",
+    image:
+      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/june.png?v=1783931807",
+    description:
+      "",
+  }
 ];
 
 const activitiesData = {
@@ -206,6 +214,79 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/MAY-Mothers_Day.pdf?v=1779174675",
     },
   ],
+
+  june: [
+    {
+      title: "Father's Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Fathers_Day_fadb8805-1bd5-4d4a-8210-fcfce934c500.jpg?v=1781000654",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Fathers_Day-All_Class.pdf?v=1781000650",
+    },
+     {
+      title: "Global Parents Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Global_Parents_Day.jpg?v=1780047617",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Global_Parents_Day.pdf?v=1780047616",
+    },
+     {
+      title: "International Pineapple Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Pineapple_Day_fd1318b0-aa6e-482e-b7d6-011e4a8b9190.jpg?v=1781499895",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Pineapple_Day_1.pdf?v=1781499896",
+    },
+     {
+      title: "National Camera Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Camera_Day_96e8d411-77f5-4e2d-80b9-68522c3629ba.jpg?v=1782288919",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Camera_Day.pdf?v=1782288920",
+    },
+     {
+      title: "National Red Rose Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Red_Rose_Day_28b6c9c5-c778-4955-8ff1-d4843f7b7098.jpg?v=1781000649",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Red_Rose_Day.pdf?v=1781000651",
+    },
+       {
+      title: "World Bicycle Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Bicycle_Day_e0f261b7-6472-4078-96db-8e3f2dccb422.jpg?v=1780401335",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Bicycle_Day_1.pdf?v=1780402386",
+    },
+      {
+      title: "World Donut Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Donut_Day.jpg?v=1780571122",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Donut_Day.pdf?v=1780571123",
+    },
+     {
+      title: "World Environment Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Environment_Day.jpg?v=1780571121",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Environment_Day.pdf?v=1780571122",
+    },
+     {
+      title: "World Milk Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Milk_Day.jpg?v=1779539217",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Milk_Day.pdf?v=1779539218",
+    },
+     {
+      title: "World Ocean Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Ocean_Day_543d73d2-b885-4e79-922e-46c5a18bf807.jpg?v=1780899484",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Ocean_Day.pdf?v=1780899485",
+    },
+  ],
 };
 export default function MonthWiseWorksheets() {
   const [activeMonth, setActiveMonth] = useState("january");
@@ -226,11 +307,13 @@ export default function MonthWiseWorksheets() {
               key={month.id}
               className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
             >
-              <img
-                src={month.image}
-                alt={month.title}
-                className="w-full h-[220px] object-cover"
-              />
+              <div className="w-full h-[240px] bg-[#f7f8ff] flex items-center justify-center overflow-hidden rounded-t-3xl">
+                <img
+                  src={month.image}
+                  alt={month.title}
+                  className="w-full h-full object-contain p-3"
+                />
+              </div>
 
               <div className="p-6">
                 <h3 className="text-2xl font-bold text-gray-800 mb-3">
@@ -264,11 +347,13 @@ export default function MonthWiseWorksheets() {
                 key={index}
                 className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
               >
-                <img
-                  src={activity.image}
-                  alt={activity.title}
-                  className="w-full h-[230px] object-cover"
-                />
+                <div className="w-full h-[240px] bg-[#f7f8ff] flex items-center justify-center overflow-hidden rounded-t-3xl">
+                  <img
+                    src={activity.image}
+                    alt={activity.title}
+                    className="w-full h-full object-contain p-3"
+                  />
+                </div>
 
                 <div className="p-6 text-center">
                   <h3 className="text-2xl font-bold text-gray-800 mb-5">
