@@ -45,8 +45,16 @@ const months = [
     image:
       "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/june.png?v=1783931807",
     description:
-      "",
-  }
+      "Father's Day, World Environment Day, Yoga Day worksheets.",
+  },
+  {
+    id: "july",
+    title: "July Activities",
+    image:
+       "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/july1.png?v=1783939685",
+    description:
+      "Rainy Season, Doctor's Day, Guru Purnima worksheets.",
+  },
 ];
 
 const activitiesData = {
@@ -169,7 +177,7 @@ const activitiesData = {
     {
       title: "Ram Navmi",
       image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/RamNavami.jpg?v=1743057039",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ramnavni.jpg?v=1774269059",
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/MARCH-Ram_Navami.pdf?v=1779172227",
     },
@@ -285,6 +293,78 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Ocean_Day_543d73d2-b885-4e79-922e-46c5a18bf807.jpg?v=1780899484",
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Ocean_Day.pdf?v=1780899485",
+    },
+  ],
+  july: [
+    {
+      title: "Big Butterfly Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Big_Butterfly_Day_8226bf19-7a98-4fd1-88ea-2a204bb4d961.jpg?v=1784093989",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Big_Butterfly_Day.pdf?v=1784093990",
+    },
+     {
+      title: "World Snake Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Snake_Day_fce5d928-ae60-4bb4-a016-e8602ba7eb19.jpg?v=1783919209",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Sanke_Day.pdf?v=1783919212",
+    },
+     {
+      title: "World Emoji Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Emoji_Day.jpg?v=1783919208",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Emoji_Day.pdf?v=1783919212",
+    },
+     {
+      title: "Paper Bag Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Paper_Bag_Day.jpg?v=1783153562",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Paper_Bag_Day.pdf?v=1783416508",
+    },
+      {
+      title: "National Raspberry Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Raspberry_Day.jpg?v=1783153526",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Raspberry_Day.pdf?v=1783153583",
+    },
+      {
+      title: "National Chocolate Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/choclate_day.jpg?v=1782820241",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_chocolate_Day.pdf?v=1782820282",
+    },
+     {
+      title: "Global Forgiveness Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Global_Forgiveness_Day.jpg?v=1782820243",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Global_Forgiveness_Day.pdf?v=1782820272",
+    },
+    {
+      title: "Kargil Vijay Diwas",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Kargil_Vijay_Diwas.jpg?v=1784182688",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Kargil_Vijay_Diwas.pdf?v=1784182690",
+    },
+    {
+      title: "International Tiger Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Tiger_Day.jpg?v=1784182690",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Tiger_Day.pdf?v=1784182690",
+    },
+     {
+      title: "International Mango Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Mango_Day.jpg?v=1784182687",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Mango_Day.pdf?v=1784182856",
     },
   ],
 };

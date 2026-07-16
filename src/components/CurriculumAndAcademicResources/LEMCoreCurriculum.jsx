@@ -21,6 +21,8 @@ const classes = [
   },
 ];
 
+const SESSION_PLAN_URL = "https://lemcore-session-plan.adiuvaretfoundation.com/";
+
 const pdfLinks = {
   Nursery: {
     1: {
@@ -97,38 +99,14 @@ const pdfLinks = {
     },
   },
   LKG: {
-    1: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    2: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    3: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    4: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    5: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    6: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    7: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
-    8: {
-      practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-      syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"],
-    },
+    1: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    2: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    3: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    4: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    5: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    6: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    7: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
+    8: { practices: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"], syllabus: ["LINK_HERE", "LINK_HERE", "LINK_HERE", "LINK_HERE"] },
   },
   UKG: {
     1: {
@@ -136,7 +114,7 @@ const pdfLinks = {
       syllabus: [
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W1_2ba1e935-c14a-4ba5-808c-cacb72a8537b.pdf?v=1782713323",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W2_e847ed05-899c-4822-b57b-2c890f183672.pdf?v=1782713340",
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W3_efe8a616-79ed-4e7c-b4f2-fd925cb9cc39.pdf?v=1782713362LINK_HERE",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W3_efe8a616-79ed-4e7c-b4f2-fd925cb9cc39.pdf?v=1782713362",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W4_8afe7f58-760e-4382-81aa-8f7321628d58.pdf?v=1782713362",
       ],
     },
@@ -231,25 +209,42 @@ const LemcoreCurriculum = () => {
             {classes.map((item) => (
               <div
                 key={item.name}
-                onClick={() => setSelectedClass(item.name)}
-                className="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer hover:-translate-y-2 duration-300"
+                className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 duration-300"
               >
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-full h-56 object-cover"
+                  onClick={() => setSelectedClass(item.name)}
+                  className="w-full h-56 object-cover cursor-pointer"
                 />
 
                 <div className="p-6">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                  <h2
+                    onClick={() => setSelectedClass(item.name)}
+                    className="text-3xl font-bold text-gray-900 mb-3 cursor-pointer"
+                  >
                     {item.name}
                   </h2>
 
                   <p className="text-gray-500 leading-7 mb-5">{item.desc}</p>
 
-                  <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold">
-                    Explore
-                  </button>
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      onClick={() => setSelectedClass(item.name)}
+                      className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold"
+                    >
+                      Explore
+                    </button>
+
+                    <a
+                      href={`${SESSION_PLAN_URL}?class=${encodeURIComponent(item.name)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-center hover:bg-emerald-700 duration-300"
+                    >
+                      Session Plan
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
