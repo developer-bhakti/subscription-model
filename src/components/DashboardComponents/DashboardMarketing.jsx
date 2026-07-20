@@ -30,7 +30,7 @@ const tools = [
       "Monthly newsletters to strengthen your school's image.",
     icon: Newspaper,
     color: "from-cyan-500 to-blue-600",
-    route: "/marketing/newsletter",
+    route: "school-newsletter-app",
   },
   {
     title: "Outreach Program for Admissions",
