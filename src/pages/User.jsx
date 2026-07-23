@@ -25,6 +25,7 @@ import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurri
 import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTracking/FormativeAssessmentGeneral";
 import AssessementForADHD from "../components/AssessmentAndProgressTracking/AssessementForADHD";
 import RhymingWords from "../components/ClassroomActivity/RhymingWords";
+//import AdmissionStrategyTool from "../components/MarketingAndParentEngagement/AdmissionStrategyTool";
 
 export default function User() {
   const navigate = useNavigate();
@@ -240,6 +241,11 @@ export default function User() {
             path="marketing"
             element={<DashboardMarketing />}
           />
+
+          {/* <Route
+            path="marketing/admission-strategy-tool"
+            element={<AdmissionStrategyTool />}
+          /> */}
 
           <Route
             path="premium"

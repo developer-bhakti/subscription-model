@@ -14,7 +14,7 @@ const tools = [
       "Smart admission plans to increase preschool enrollments.",
     icon: GraduationCap,
     color: "from-indigo-500 to-purple-600",
-    route: "/marketing/admission-strategy",
+    route: "/marketing/admission-strategy-tool",
   },
   {
     title: "Worksheets to Engage Children",
