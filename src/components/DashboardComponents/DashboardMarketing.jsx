@@ -1,44 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import {
-  GraduationCap,
-  BookOpen,
-  Newspaper,
-  Megaphone,
-  ArrowRight,
-} from "lucide-react";
+import { FileText, Megaphone, ArrowRight } from "lucide-react";
 
 const tools = [
   {
-    title: "Admission Strategy",
+    title: "Build Your Professional Admission Doc",
     description:
-      "Smart admission plans to increase preschool enrollments.",
-    icon: GraduationCap,
+      "Create professional admission documents, brochures, forms, and marketing materials for your preschool.",
+    icon: FileText,
     color: "from-indigo-500 to-purple-600",
-    route: "/marketing/admission-strategy-tool",
+    route: "/marketing/admission-doc",
+    comingSoon: false,
   },
   {
-    title: "Worksheets to Engage Children",
+    title: "Create Your Outreach",
     description:
-      "Creative printable worksheets to keep children engaged.",
-    icon: BookOpen,
-    color: "from-pink-500 to-orange-500",
-    route: "/marketing/worksheets",
-  },
-  {
-    title: "Newsletter for Building Professionalism",
-    description:
-      "Monthly newsletters to strengthen your school's image.",
-    icon: Newspaper,
-    color: "from-cyan-500 to-blue-600",
-    route: "school-newsletter-app",
-  },
-  {
-    title: "Outreach Program for Admissions",
-    description:
-      "Marketing campaigns and outreach ideas for admissions.",
+      "Plan outreach campaigns and parent engagement activities to increase admissions.",
     icon: Megaphone,
     color: "from-green-500 to-emerald-600",
-    route: "/marketing/outreach",
+    route: "#",
+    comingSoon: true,
   },
 ];
 
@@ -47,54 +27,65 @@ export default function DashboardMarketing() {
 
   return (
     <div className="min-h-screen bg-slate-100 py-12 px-6">
-      <div className="max-w-7xl mx-auto">
-
+      <div className="max-w-5xl mx-auto">
+        {/* Heading */}
         <h1 className="text-4xl font-bold text-center mb-3">
           Marketing & Parent Engagement
         </h1>
 
         <p className="text-center text-gray-600 mb-12">
-          Choose a marketing tool to improve admissions and engagement.
+          Choose a tool to build professional marketing resources for your
+          preschool.
         </p>
 
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-
+        {/* Cards */}
+        <div className="grid gap-8 md:grid-cols-2">
           {tools.map((tool, index) => {
             const Icon = tool.icon;
 
             return (
               <div
                 key={index}
-                className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-2"
+                className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
               >
-                <div
-                  className={`h-2 bg-gradient-to-r ${tool.color}`}
-                />
+                {/* Top Gradient */}
+                <div className={`h-2 bg-gradient-to-r ${tool.color}`} />
 
                 <div className="p-8">
-
+                  {/* Icon */}
                   <div
                     className={`w-20 h-20 rounded-2xl bg-gradient-to-r ${tool.color} flex items-center justify-center mb-6`}
                   >
                     <Icon size={38} className="text-white" />
                   </div>
 
-                  <h2 className="text-2xl font-bold mb-4">
-                    {tool.title}
-                  </h2>
+                  {/* Title */}
+                  <h2 className="text-2xl font-bold mb-4">{tool.title}</h2>
 
-                  <p className="text-gray-600 mb-8">
-                    {tool.description}
-                  </p>
+                  {/* Description */}
+                  <p className="text-gray-600 mb-8">{tool.description}</p>
 
+                  {/* Button */}
                   <button
-                    onClick={() => navigate(tool.route)}
-                    className={`w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-r ${tool.color} flex justify-center items-center gap-2`}
+                    onClick={() =>
+                      !tool.comingSoon && navigate(tool.route)
+                    }
+                    disabled={tool.comingSoon}
+                    className={`w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-r ${tool.color} flex justify-center items-center gap-2 transition ${
+                      tool.comingSoon
+                        ? "cursor-not-allowed opacity-70"
+                        : "hover:scale-105"
+                    }`}
                   >
-                    Explore
-                    <ArrowRight size={18} />
+                    {tool.comingSoon ? (
+                      "🚧 Coming Soon"
+                    ) : (
+                      <>
+                        Coming Soon
+                        <ArrowRight size={18} />
+                      </>
+                    )}
                   </button>
-
                 </div>
               </div>
             );

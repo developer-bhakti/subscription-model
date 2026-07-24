@@ -64,7 +64,7 @@ const activitiesData = {
       image:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Army_Day.jpg?v=1768462813",
       pdf:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/JAN-Army_Day.pdf?v=1779098355",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Army_Day_d6c8467f-3e97-4283-896d-29d3cc9c2414.pdf?v=1784886205",
     },
     {
       title: "Handwriting",
@@ -181,6 +181,13 @@ const activitiesData = {
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/MARCH-Ram_Navami.pdf?v=1779172227",
     },
+    {
+    title: "World Sparrow Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/sparrrow.jpg?v=1779173210",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/MARCH-World_Sparrow_Day.pdf?v=1779172228",
+    },
   ],
 
   april: [
@@ -204,13 +211,76 @@ const activitiesData = {
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-Earth_Day.pdf?v=1779173264",
     },
+    {
+      title: "World Art Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Art_Day_e5f62384-8927-4451-ba9c-efaeccd76293.jpg?v=1775630951",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-Art_Day-for_all_class.pdf?v=1779173263",
+    },
+     {
+      title: "Dolphin Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Dolphine_Day_c9289ba6-bb50-47cd-9165-b2c62373db4c.jpg?v=1775630950",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-Dolphine_Day.pdf?v=1779173263",
+    },
+     {
+      title: "International Bat Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Bat_Day.jpg?v=1775886785",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-International_Bat_Day-for_all_class.pdf?v=1779173262",
+    },
+    {
+      title: "National Rainbow Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/rainbow.jpg?v=1774688364",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Rainbow_Day.pdf?v=1774688367",
+    },
+     {
+      title: "Telephone Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Telephone_Day.jpg?v=1776337243",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-National_Telephone_Day.pdf?v=1779173263",
+    },
+    {
+      title: "Pet Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Pet_Day_jpg.jpg?v=1775312672",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-Natonal_Pet_Day.pdf?v=1779173260",
+    },
+      {
+      title: "Book Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Book_Day.jpg?v=1776337243",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-World_Book_Day.pdf?v=1779173263",
+    },
+      {
+      title: "World Health Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Health_Day_jpg.jpg?v=1775312670",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Health_Day-for_all_class.pdf?v=1775312672",
+    },
+     {
+      title: "World Health Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Rat_Day.jpg?v=1775036641",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/April-World_Rat_Day.pdf?v=1779173264",
+    },
   ],
 
   may: [
     {
       title: "World Turtle Day",
       image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Easter_Day.jpg?v=1775036585",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/turtle-day.jpg?v=1778477345",
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/MAY-World_Turtle_Day.pdf?v=1779174683",
     },
@@ -294,6 +364,14 @@ const activitiesData = {
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Ocean_Day.pdf?v=1780899485",
     },
+    {
+      title: "World Food Safety Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/world_food_day.jpg?v=1780765067",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Food_Safety_Day.pdf?v=1780765068",
+    },
+
   ],
   july: [
     {
