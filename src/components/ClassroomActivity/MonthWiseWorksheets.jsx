@@ -268,7 +268,7 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Health_Day-for_all_class.pdf?v=1775312672",
     },
      {
-      title: "World Health Day",
+      title: "Rat Day",
       image:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Rat_Day.jpg?v=1775036641",
       pdf:

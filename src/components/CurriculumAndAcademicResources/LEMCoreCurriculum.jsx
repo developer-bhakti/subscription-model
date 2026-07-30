@@ -265,7 +265,7 @@ const pdfLinks = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W1_2ba1e935-c14a-4ba5-808c-cacb72a8537b.pdf?v=1782713323",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W2_e847ed05-899c-4822-b57b-2c890f183672.pdf?v=1782713340",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W3_efe8a616-79ed-4e7c-b4f2-fd925cb9cc39.pdf?v=1782713362",
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W4_8afe7f58-760e-4382-81aa-8f7321628d58.pdf?v=1782713362",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M1-W4_b85a041a-0b2c-4764-91ba-16b8a2c44659.pdf?v=1784972054",
       ],
     },
     2: {
@@ -318,7 +318,7 @@ const pdfLinks = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M5-W4_990a1a15-65c5-4e18-b4bf-345567a35e19.pdf?v=1784191733",
       ],
       syllabus: [
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M5-W1.pdf?v=1782715149",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M5-W1_e5cd7b96-54a7-4cf2-8dd9-08c79b638903.pdf?v=1784972053",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M5-W2.pdf?v=1782715151",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M5-W3.pdf?v=1782715146",
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/UKG-M5-W4.pdf?v=1782715149",

@@ -61,7 +61,6 @@ const DashboardHome = () => {
             key={index}
             whileHover={{ scale: 1.03 }}
             onClick={() => {
-              if (item.premium && !isActive) return;
               navigate(item.path);
             }}
             className="bg-white p-6 rounded-xl shadow cursor-pointer hover:shadow-lg transition relative"
@@ -71,13 +70,6 @@ const DashboardHome = () => {
             <h3 className="font-semibold text-gray-800">{item.title}</h3>
 
             <p className="text-sm text-gray-500 mt-1">Open section →</p>
-
-            {/* Premium lock */}
-            {item.premium && !isActive && (
-              <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-xl">
-                🔒 Locked
-              </div>
-            )}
           </motion.div>
         ))}
       </div>

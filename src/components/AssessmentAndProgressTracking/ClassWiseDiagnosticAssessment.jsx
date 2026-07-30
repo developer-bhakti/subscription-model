@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FileText } from "lucide-react";
+import { classAssessments } from "../../data/classAssessments";
 
 const levels = [
   {
@@ -27,116 +28,6 @@ const levels = [
       "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-ukg.jpg?v=1781242526",
   },
 ];
-
-const assessments = {
-  pg: [
-    {
-      title: "Social & Emotional Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/social_observating_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Social_Emotional_Skill_PG.pdf?v=1779773399",
-    },
-    {
-      title: "Language & Communication Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/communication_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Language_Communication_PG.pdf?v=1779773399",
-    },
-    {
-      title: "Cognitive Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cognative-skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Cognative_Skill_PG.pdf?v=1779773399",
-    },
-    {
-      title: "Movement & Physical Development",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/movement_and_physcial_development.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Movement_and_Physical_Development_Skill_PG.pdf?v=1779773399",
-    },
-  ],
-
-  nursery: [
-    {
-      title: "Social & Emotional Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/social_observating_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Social_Emotional_Skill_Nursery.pdf?v=1779773498",
-    },
-    {
-      title: "Language & Communication Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/communication_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Language_Communication_Nursery.pdf?v=1779773498",
-    },
-    {
-      title: "Cognitive Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cognative-skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Cognative_Skill_Nursery.pdf?v=1779773498",
-    },
-    {
-      title: "Movement & Physical Development",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/movement_and_physcial_development.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Movement_and_Physical_Development_Skill_Nursery.pdf?v=1779773498",
-    },
-  ],
-
-  lkg: [
-    {
-      title: "Social & Emotional Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/social_observating_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Social_Emotional_Skill_LKG.pdf?v=1779710324",
-    },
-    {
-      title: "Language & Communication Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/communication_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Language_Communication_LKG.pdf?v=1779710325",
-    },
-    {
-      title: "Cognitive Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cognative-skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Cognative_Skill_LKG.pdf?v=1779710325",
-    },
-    {
-      title: "Movement & Physical Development",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/movement_and_physcial_development.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Movement_and_Physical_Development_Skill_LKG.pdf?v=1779710325",
-    },
-  ],
-
-  ukg: [
-    {
-      title: "Social & Emotional Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/social_observating_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Social_Emotional_Skill_UKG.pdf?v=1779773593",
-    },
-    {
-      title: "Language & Communication Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/communication_skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Language_Communication_UKG.pdf?v=1779773593",
-    },
-    {
-      title: "Cognitive Skills",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cognative-skill.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Cognative_Skill_UKG.pdf?v=1779773592",
-    },
-    {
-      title: "Movement & Physical Development",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/movement_and_physcial_development.jpg?v=1779709928",
-      pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Movement_and_Physical_Development_Skill_UKG.pdf?v=1779773593",
-    },
-  ],
-};
 
 export default function ClassWiseDiagnosticAssessment() {
   const [activeSection, setActiveSection] = useState(null);
@@ -187,7 +78,7 @@ export default function ClassWiseDiagnosticAssessment() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-              {assessments[activeSection].map((item, index) => (
+              {classAssessments[activeSection].map((item, index) => (
                 <div
                   key={index}
                   className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-300"

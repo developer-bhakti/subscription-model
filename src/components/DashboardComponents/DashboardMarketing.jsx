@@ -8,7 +8,7 @@ const tools = [
       "Create professional admission documents, brochures, forms, and marketing materials for your preschool.",
     icon: FileText,
     color: "from-indigo-500 to-purple-600",
-    route: "/marketing/admission-doc",
+    route: "/user/marketing/admission-doc",
     comingSoon: false,
   },
   {
@@ -17,8 +17,8 @@ const tools = [
       "Plan outreach campaigns and parent engagement activities to increase admissions.",
     icon: Megaphone,
     color: "from-green-500 to-emerald-600",
-    route: "#",
-    comingSoon: true,
+    route: "/user/marketing/outreach",
+    comingSoon: false,
   },
 ];
 
@@ -78,10 +78,10 @@ export default function DashboardMarketing() {
                     }`}
                   >
                     {tool.comingSoon ? (
-                      "🚧 Coming Soon"
+                      "🚧 Build"
                     ) : (
                       <>
-                        Coming Soon
+                        Build
                         <ArrowRight size={18} />
                       </>
                     )}
