@@ -1,6 +1,3 @@
-// Worksheets for the Admission Doc / Outreach builders, keyed by month, then by class.
-// Add the real worksheet PDF link for each month/class/title below.
-// Leave "pdf" as "" until a file is ready — the UI will show "Coming soon" for it.
 export const monthlyWorksheets = {
   January: {
     pg: [
@@ -197,28 +194,28 @@ export const monthlyWorksheets = {
 
   August: {
     pg: [
-      { title: "Handwriting Practice", pdf: "" },
-      { title: "Coloring Activity", pdf: "" },
-      { title: "Tracing & Pattern", pdf: "" },
-      { title: "Puzzle & Matching", pdf: "" },
+      { title: "Watermelon Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Watermelon_Day_-Play_Group.pdf?v=1785406410" },
+      { title: "Rakshabandhan", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Rakshabandhan-Play_Group.pdf?v=1785406531" },
+      { title: "World Photography Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Photography_Day-Play_Group.pdf?v=1785406637" },
+      { title: "National Beach Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Beach_Day-Play_Group.pdf?v=1785406789" },
     ],
     nursery: [
-      { title: "Handwriting Practice", pdf: "" },
-      { title: "Coloring Activity", pdf: "" },
-      { title: "Tracing & Pattern", pdf: "" },
-      { title: "Puzzle & Matching", pdf: "" },
+      { title: "Watermelon Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Watermelon_Day-Nursery.pdf?v=1785406410" },
+      { title: "Rakshabandhan", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Rakshabandhan-Nursery.pdf?v=1785406531" },
+      { title: "World Photography Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Photography_Day-Nursery.pdf?v=1785406637" },
+      { title: "National Beach Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Beach_Day-Nursery.pdf?v=1785406789" },
     ],
     lkg: [
-      { title: "Handwriting Practice", pdf: "" },
-      { title: "Coloring Activity", pdf: "" },
-      { title: "Tracing & Pattern", pdf: "" },
-      { title: "Puzzle & Matching", pdf: "" },
+      { title: "Watermelon Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Watermelon_Day-LKG.pdf?v=1785406410" },
+      { title: "Rakshabandhan", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Rakshabandhan-LKG.pdf?v=1785406531" },
+      { title: "World Photography Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Photography_Day-LKG.pdf?v=1785406638" },
+      { title: "National Beach Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Beach_Day-LKG.pdf?v=1785406789" },
     ],
     ukg: [
-      { title: "Handwriting Practice", pdf: "" },
-      { title: "Coloring Activity", pdf: "" },
-      { title: "Tracing & Pattern", pdf: "" },
-      { title: "Puzzle & Matching", pdf: "" },
+      { title: "Watermelon Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Watermelon_Day-UKG.pdf?v=1785406411" },
+      { title: "Rakshabandhan", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Rakshabandhan-UKG.pdf?v=1785406531" },
+      { title: "World Photography Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Photography_Day-UKG.pdf?v=1785406638" },
+      { title: "National Beach Day", pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Beach_Day-UKG.pdf?v=1785406789" },
     ],
   },
 

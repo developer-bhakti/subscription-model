@@ -1,4 +1,4 @@
-// Keyed by class id: pg, nursery, lkg, ukg — same data used by ClassWiseDiagnosticAssessment.
+
 export const classAssessments = {
   pg: [
     {
