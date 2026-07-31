@@ -6,15 +6,15 @@ export default function LanguageDevelopmentFreeCoupon() {
      DIRECT COUPON CODE
   ========================= */
 
-  const couponCode = "OP_LNG_JULY_2026";
+  const couponCode = "OP_LNG_AUG_2026";
 
   /* =========================
      UPDATED DATE
      Month starts from 0
-     (6 = July)
+     (7 = August)
   ========================= */
 
-  const updatedDate = new Date(2026, 6, 1, 10, 0);
+  const updatedDate = new Date(2026, 7, 1, 10, 0);
 
   /* =========================
      EXPIRY DATE = 30 DAYS

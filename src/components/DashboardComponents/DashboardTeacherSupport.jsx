@@ -49,7 +49,6 @@ const trainingData = [
     description:
       "Detailed nursery teacher training documents and reference materials covering preschool teaching methodologies and practices.",
     explore: "/pages/get-free-udemy-coupon",
-    couponRoute: "/get-free-udemy-coupon",
   },
 ];
 
@@ -96,12 +95,14 @@ export default function TeacherSupportTraining() {
                 </a>
 
                 {/* Coupon Button */}
-                <Link
-                  to={item.couponRoute}
-                  className="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
-                >
-                  Get Free Coupon Code
-                </Link>
+                {item.couponRoute && (
+                  <Link
+                    to={item.couponRoute}
+                    className="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
+                  >
+                    Get Free Coupon Code
+                  </Link>
+                )}
 
               </div>
             </div>

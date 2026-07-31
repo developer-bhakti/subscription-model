@@ -6,15 +6,15 @@ export default function TeacherTrainingCoupon() {
      DIRECT COUPON CODE
   ========================= */
 
-  const couponCode = "OP_JULy_2026";
+  const couponCode = "OP_NTT_AUG_2026";
 
   /* =========================
      UPDATED DATE
      Month starts from 0
-     (6 = July)
+     (7 = August)
   ========================= */
 
-  const updatedDate = new Date(2026, 6, 1, 10, 0);
+  const updatedDate = new Date(2026, 7, 1, 10, 0);
 
   /* =========================
      EXPIRY DATE = 30 DAYS

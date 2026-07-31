@@ -26,9 +26,7 @@ import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTrack
 import AssessementForADHD from "../components/AssessmentAndProgressTracking/AssessementForADHD";
 import RhymingWords from "../components/ClassroomActivity/RhymingWords";
 import AdmissionDocWizard from "../components/MarketingAndParentEngagement/AdmissionDocWizard";
-import CreateYourOutreach from "../components/MarketingAndParentEngagement/CreateYourOutreach";
-import OutreachDocGenerator from "../components/MarketingAndParentEngagement/OutreachDocGenerator";
-import OutreachDocPreview from "../components/MarketingAndParentEngagement/OutreachDocPreview";
+import OutreachDocWizard from "../components/MarketingAndParentEngagement/OutreachDocWizard";
 //import AdmissionStrategyTool from "../components/MarketingAndParentEngagement/AdmissionStrategyTool";
 
 export default function User() {
@@ -253,17 +251,7 @@ export default function User() {
 
           <Route
             path="marketing/outreach"
-            element={<CreateYourOutreach />}
-          />
-
-          <Route
-            path="marketing/outreach/generate"
-            element={<OutreachDocGenerator />}
-          />
-
-          <Route
-            path="marketing/outreach/preview"
-            element={<OutreachDocPreview />}
+            element={<OutreachDocWizard />}
           />
 
           {/* <Route
