@@ -21,9 +21,6 @@ const classes = [
   },
 ];
 
-const SESSION_PLAN_URL =
-  "https://lemcore-session-plan.adiuvaretfoundation.com/";
-
 const pdfLinks = {
   Nursery: {
     1: {
@@ -420,15 +417,6 @@ const LemcoreCurriculum = () => {
                     >
                       Explore
                     </button>
-
-                    <a
-                      href={`${SESSION_PLAN_URL}?class=${encodeURIComponent(item.name)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-center hover:bg-emerald-700 duration-300"
-                    >
-                      Session Plan
-                    </a>
                   </div>
                 </div>
               </div>

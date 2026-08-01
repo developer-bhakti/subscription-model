@@ -1,0 +1,129 @@
+/*
+  Scoped styles for the Session Plan feature only. Every rule is namespaced
+  under .session-plan-app (applied by SessionPlanLayout) so this dark
+  "glassmorphism" theme can't leak into the rest of the light-themed app —
+  Vite injects imported CSS globally, it isn't automatically scoped to the
+  importing component.
+*/
+
+.session-plan-app {
+  --sp-gradient: radial-gradient(circle at 15% 20%, #4338ca33 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, #db277733 0%, transparent 40%),
+    radial-gradient(circle at 50% 90%, #06b6d433 0%, transparent 45%),
+    linear-gradient(135deg, #0b1020 0%, #151233 45%, #1a1030 100%);
+  min-height: 100%;
+  font-family: "Plus Jakarta Sans", "Poppins", ui-sans-serif, system-ui, sans-serif;
+  background: var(--sp-gradient);
+  background-attachment: fixed;
+  color: #f3f4f6;
+}
+
+/* Glassmorphism primitives */
+.session-plan-app .glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.session-plan-app .glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12);
+}
+
+.session-plan-app .glass-input {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.session-plan-app .glass-input:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(129, 140, 248, 0.7);
+}
+
+/* Ambient floating blobs used behind glass cards */
+@keyframes session-plan-blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.15);
+  }
+  66% {
+    transform: translate(-25px, 25px) scale(0.9);
+  }
+}
+
+.session-plan-app .animate-blob {
+  animation: session-plan-blob 14s infinite ease-in-out;
+}
+
+.session-plan-app .animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.session-plan-app .animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes session-plan-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.session-plan-app .animate-fade-in-up {
+  animation: session-plan-fade-in-up 0.4s ease-out both;
+}
+
+/* Custom scrollbar, scoped to this feature only */
+.session-plan-app::-webkit-scrollbar,
+.session-plan-app *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.session-plan-app::-webkit-scrollbar-track,
+.session-plan-app *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.session-plan-app::-webkit-scrollbar-thumb,
+.session-plan-app *::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+}
+
+.session-plan-app::-webkit-scrollbar-thumb:hover,
+.session-plan-app *::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.55);
+}
+
+@media print {
+  .session-plan-app {
+    background: #ffffff !important;
+    color: #000;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .session-plan-app,
+  .session-plan-app * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

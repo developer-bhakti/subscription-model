@@ -17,6 +17,10 @@ import DashboardPremium from "../components/DashboardComponents/DashboardPremium
 import SchoolNewsletterApp from "./SchoolNewsletterApp";
 import LEMCoreCurriculum from "../components/CurriculumAndAcademicResources/LEMCoreCurriculum";
 import ParentCounsellingTools from "../components/CurriculumAndAcademicResources/ParentCounsellingTools";
+import SessionPlanLayout from "../components/SessionPlan/SessionPlanLayout";
+import SessionPlanSchoolInfo from "../components/SessionPlan/SessionPlanSchoolInfo";
+import SessionPlanManageTerms from "../components/SessionPlan/SessionPlanManageTerms";
+import SessionPlanPreview from "../components/SessionPlan/SessionPlanPreview";
 import MonthWiseWorksheets from "../components/ClassroomActivity/MonthWiseWorksheets";
 import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
 import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
@@ -57,12 +61,12 @@ export default function User() {
   const isActive = today <= endDate;
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden relative">
-      
+    <div className="flex h-screen bg-gray-100 overflow-hidden relative print:h-auto print:overflow-visible print:block">
+
       {/* MOBILE MENU BUTTON */}
       <button
         onClick={() => setSidebarOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 bg-white shadow-md p-2 rounded-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 bg-white shadow-md p-2 rounded-lg print:hidden"
       >
         ☰
       </button>
@@ -82,6 +86,7 @@ export default function User() {
           h-full w-72 bg-white shadow-lg p-5
           flex flex-col justify-between
           transform transition-transform duration-300
+          print:hidden
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
         `}
@@ -135,7 +140,7 @@ export default function User() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 w-full">
+      <div className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 w-full print:overflow-visible print:p-0">
         <Routes>
           <Route index element={<DashboardHome />} />
 
@@ -148,6 +153,15 @@ export default function User() {
             path="curriculum/lem-core-curriculum"
             element={<LEMCoreCurriculum />}
           />
+
+          <Route
+            path="curriculum/lem-core-curriculum/session-plan"
+            element={<SessionPlanLayout />}
+          >
+            <Route index element={<SessionPlanSchoolInfo />} />
+            <Route path="manage-terms" element={<SessionPlanManageTerms />} />
+            <Route path="preview-print" element={<SessionPlanPreview />} />
+          </Route>
 
           <Route
             path="curriculum/act-curriculum"

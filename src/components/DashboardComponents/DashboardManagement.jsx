@@ -31,6 +31,15 @@ const DashboardManagement = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Admission Test</h3>
           <p className="text-sm text-gray-500">Open admission test resources.</p>
         </button>
+
+        <button
+          onClick={() => navigate('/user/curriculum/lem-core-curriculum/session-plan')}
+          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
+        >
+          <div className="text-4xl mb-4">🗓️</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Lemcore Session Plan</h3>
+          <p className="text-sm text-gray-500">Build and print a school term session plan.</p>
+        </button>
       </div>
     </div>
   );
