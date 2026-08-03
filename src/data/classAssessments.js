@@ -4,7 +4,7 @@ export const classAssessments = {
     {
       title: "Social & Emotional Skills",
       image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/social_observating_skill.jpg?v=1779709928",
+         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/social_observating_skill.jpg?v=1779709928",
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-Social_Emotional_Skill_PG.pdf?v=1779773399",
     },
     {
