@@ -1,4 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import html2canvas from "html2canvas-pro";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -130,6 +132,11 @@ export default function App() {
  const [logoUrl, setLogoUrl] = useState("");
  const logoInputRef = useRef();
  const printRef = useRef();
+ const rootRef = useRef();
+ const [searchParams] = useSearchParams();
+ const fromAdmissionDoc = searchParams.get("from") === "admission-doc";
+ const [handoffSent, setHandoffSent] = useState(false);
+ const [isCapturing, setIsCapturing] = useState(false);
 
  const [school, setSchool] = useState({
   name: "", address: "", contact: "", email: "", principal: "",
@@ -221,6 +228,21 @@ export default function App() {
   setTimeout(() => window.print(), 150);
  }, [isPrinting, tab]);
 
+ // Switching tabs (e.g. clicking "Generate Newsletter" at the bottom of the
+ // long Setup form) shouldn't carry the old scroll position into the new
+ // tab — otherwise the Preview & Download bar can land under the sticky
+ // header. This page is mounted inside the dashboard shell's own scrollable
+ // pane (not the window), and that pane's padding throws off
+ // scrollIntoView's alignment, so the actual scrollable ancestor is reset
+ // directly instead.
+ useEffect(() => {
+  let ancestor = rootRef.current?.parentElement;
+  while (ancestor && ancestor.scrollHeight <= ancestor.clientHeight) {
+   ancestor = ancestor.parentElement;
+  }
+  (ancestor || window).scrollTo({ top: 0, behavior: "smooth" });
+ }, [tab]);
+
  const handlePrint = () => {
   if (tab !== "preview") {
    setTab("preview");
@@ -228,6 +250,52 @@ export default function App() {
    return;
   }
   window.print();
+ };
+
+ // Signals the admission wizard tab (same origin, opened this tab) that the
+ // newsletter is done via localStorage — the "storage" event fires in that
+ // other tab immediately, even if it isn't focused. A snapshot of the actual
+ // rendered newsletter goes along too, so the admission PDF can embed the
+ // real document instead of just noting "a newsletter was made". Then this
+ // tab closes itself so the user lands back where they started.
+ const handleReturnToAdmissionDoc = async () => {
+  setIsCapturing(true);
+  let image = null;
+  try {
+   const canvas = await html2canvas(printRef.current, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#ffffff",
+   });
+   image = canvas.toDataURL("image/jpeg", 0.85);
+  } catch (err) {
+   console.warn("Could not capture a snapshot of the newsletter:", err);
+  }
+
+  const payload = {
+   schoolName: school.name,
+   month: MONTHS[school.month],
+   year: school.year,
+   image,
+  };
+
+  try {
+   localStorage.setItem("admissionNewsletterHandoff", JSON.stringify(payload));
+  } catch (err) {
+   console.warn("Newsletter snapshot too large to hand off, sending details only:", err);
+   try {
+    localStorage.setItem(
+     "admissionNewsletterHandoff",
+     JSON.stringify({ ...payload, image: null }),
+    );
+   } catch (err2) {
+    console.warn("Could not signal the admission document tab:", err2);
+    setIsCapturing(false);
+    return;
+   }
+  }
+  setHandoffSent(true);
+  window.close();
  };
 
  const calendarDays = () => {
@@ -242,13 +310,13 @@ export default function App() {
 
  const tabs = [
   { id: "form", label: "📝 Setup" },
-  { id: "preview", label: "📄 Newsletter" },
+  { id: "preview", label: "📄 Preview & Download" },
   { id: "calendar", label: "📅 Calendar" },
   { id: "schedule", label: "📋 Schedule" },
  ];
 
  return (
-  <div className="min-h-screen bg-slate-50 font-sans">
+  <div ref={rootRef} className="min-h-screen bg-slate-50 font-sans">
    <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;600;700&display=swap');
     * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
@@ -500,6 +568,33 @@ export default function App() {
     {/* ── NEWSLETTER PREVIEW TAB ── */}
     {tab === "preview" && (
      <AnimatedSection>
+      <div className="no-print flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4">
+       <div>
+        <h2 className="font-display font-bold text-lg text-gray-800">Preview & Download</h2>
+        <p className="text-sm text-gray-500">Review your newsletter below, then download it as a PDF.</p>
+       </div>
+       <div className="flex items-center gap-2">
+        <button onClick={() => setTab("form")}
+         className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-xl transition">
+         ← Edit
+        </button>
+        <button onClick={() => window.print()}
+         className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm">
+         ⬇️ Download PDF
+        </button>
+        {fromAdmissionDoc && (
+         <button onClick={handleReturnToAdmissionDoc} disabled={isCapturing}
+          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm">
+          {isCapturing ? "Capturing..." : "✅ Done — Return to Admission Doc"}
+         </button>
+        )}
+       </div>
+      </div>
+      {fromAdmissionDoc && handoffSent && (
+       <p className="no-print text-center text-xs text-gray-400 -mt-2 mb-4">
+        Sent back to your admission document — you can close this tab now.
+       </p>
+      )}
       <div ref={printRef} className="bg-white shadow-xl border border-gray-100 print-area">
        {/* Newsletter Header */}
        <div className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700 px-8 py-8 text-white">

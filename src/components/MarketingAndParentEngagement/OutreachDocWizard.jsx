@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { jsPDF } from "jspdf";
+import { PDFDocument } from "pdf-lib";
 import { Upload, FileDown, Check, Eye, Plus, X, ExternalLink } from "lucide-react";
 import { outreachWorksheets } from "../../data/outreachWorksheets";
 
@@ -85,9 +86,11 @@ const OutreachDocWizard = () => {
   // Step 2 — events (typed array, e.g. Diwali, Christmas)
   const [events, setEvents] = useState([]);
   const [eventDraft, setEventDraft] = useState("");
+  const [eventAddress, setEventAddress] = useState("");
 
   // Step 3 — preview & download
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [isBuildingPdf, setIsBuildingPdf] = useState(false);
 
   // Suggested events for the Events step, keyed by month then by class.
   const monthWorksheets = outreachWorksheets[month]?.[classLevel.toLowerCase()] || [];
@@ -96,13 +99,32 @@ const OutreachDocWizard = () => {
   const getEventPdf = (name) =>
     monthWorksheets.find((w) => w.title === name)?.pdf || null;
 
+  const refreshPreview = async () => {
+    setIsBuildingPdf(true);
+    try {
+      const bytes = await buildOutreachPdfBytes();
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      setPreviewUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return url;
+      });
+    } catch (err) {
+      console.error("Failed to build outreach PDF preview:", err);
+    } finally {
+      setIsBuildingPdf(false);
+    }
+  };
+
   const goToStep = (n) => {
-    if (n <= maxStepReached) setStep(n);
+    if (n > maxStepReached) return;
+    setStep(n);
+    if (n === 3) refreshPreview();
   };
 
   const advanceTo = (n) => {
     setStep(n);
     setMaxStepReached((prev) => Math.max(prev, n));
+    if (n === 3) refreshPreview();
   };
 
   const handleLogoUpload = (e) => {
@@ -133,7 +155,7 @@ const OutreachDocWizard = () => {
     setEvents((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const buildPdfDoc = () => {
+  const buildCoverDoc = (resourceCellFor) => {
     const doc = new jsPDF();
     const marginX = 15;
     const pageWidth = 210;
@@ -221,22 +243,80 @@ const OutreachDocWizard = () => {
     drawTable(
       "Events",
       ["Event", "Resource"],
-      events.map((e) => {
-        const pdfLink = getEventPdf(e);
-        return [e, pdfLink ? { text: "View PDF", link: pdfLink } : "-"];
-      }),
+      events.map((e) => [e, resourceCellFor(e)]),
       [125, 55]
     );
 
     return doc;
   };
 
-  const handlePreviewPdf = () => {
-    setPreviewUrl(buildPdfDoc().output("bloburl"));
+
+  const buildOutreachPdfBytes = async () => {
+    const fetchedBytesByEvent = {};
+
+    await Promise.all(
+      events.map(async (e) => {
+        const url = getEventPdf(e);
+        if (!url) return;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          fetchedBytesByEvent[e] = await res.arrayBuffer();
+        } catch (err) {
+          console.warn(`Could not fetch worksheet PDF for "${e}":`, err);
+        }
+      }),
+    );
+
+    const coverDoc = buildCoverDoc((e) => {
+      const url = getEventPdf(e);
+      if (!url) return "-";
+      return fetchedBytesByEvent[e]
+        ? "Worksheet attached below"
+        : { text: "View PDF", link: url };
+    });
+
+    const finalDoc = await PDFDocument.load(coverDoc.output("arraybuffer"));
+
+    for (const e of events) {
+      const bytes = fetchedBytesByEvent[e];
+      if (!bytes) continue;
+      try {
+        const worksheetDoc = await PDFDocument.load(bytes);
+        const copiedPages = await finalDoc.copyPages(
+          worksheetDoc,
+          worksheetDoc.getPageIndices(),
+        );
+        copiedPages.forEach((page) => finalDoc.addPage(page));
+      } catch (err) {
+        console.warn(`Could not merge worksheet PDF for "${e}":`, err);
+      }
+    }
+
+    return finalDoc.save();
   };
 
-  const handleDownloadPdf = () => {
-    buildPdfDoc().save(`${schoolName || "outreach"}-${classLevel}-${month}.pdf`);
+  const handlePreviewPdf = () => {
+    refreshPreview();
+  };
+
+  const handleDownloadPdf = async () => {
+    setIsBuildingPdf(true);
+    try {
+      const bytes = await buildOutreachPdfBytes();
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${schoolName || "outreach"}-${classLevel}-${month}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to build outreach PDF for download:", err);
+    } finally {
+      setIsBuildingPdf(false);
+    }
   };
 
   return (
@@ -340,10 +420,23 @@ const OutreachDocWizard = () => {
         {/* STEP 2 — Events (typed array + suggested occasions) */}
         {step === 2 && (
           <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-1">Events</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-1">Event & Location Details</h3>
             <p className="text-sm text-gray-500 mb-6">
-              Add extra events for {month} (e.g. Diwali, Christmas)
+              For different age groups you may download different documents by selecting the month.
             </p>
+
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Society / Event Address
+              </label>
+              <input
+                type="text"
+                value={eventAddress}
+                onChange={(e) => setEventAddress(e.target.value)}
+                placeholder="Enter event or society address"
+                className={inputClass}
+              />
+            </div>
 
             {monthWorksheets.length > 0 && (
               <div className="mb-6">
@@ -452,21 +545,34 @@ const OutreachDocWizard = () => {
             </p>
 
             <div className="flex flex-wrap gap-4 mb-6">
-              <button onClick={handlePreviewPdf} className={primaryBtn}>
+              <button onClick={handlePreviewPdf} disabled={isBuildingPdf} className={primaryBtn}>
                 <Eye size={18} />
-                Preview PDF
+                {isBuildingPdf ? "Building..." : "Preview PDF"}
               </button>
               <button
                 onClick={handleDownloadPdf}
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
+                disabled={isBuildingPdf}
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
               >
                 <FileDown size={18} />
-                Download PDF
+                {isBuildingPdf ? "Building..." : "Download PDF"}
               </button>
             </div>
 
+            {isBuildingPdf && !previewUrl && (
+              <div className="border border-dashed border-gray-300 rounded-xl p-10 text-center text-sm text-gray-400">
+                Building your outreach document
+                {monthWorksheets.length > 0 ? " and attaching worksheet PDFs" : ""}...
+              </div>
+            )}
+
             {previewUrl && (
-              <div className="border border-gray-200 rounded-xl overflow-hidden">
+              <div className="relative border border-gray-200 rounded-xl overflow-hidden">
+                {isBuildingPdf && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 text-sm font-medium text-gray-500">
+                    Refreshing preview...
+                  </div>
+                )}
                 <iframe
                   title="PDF Preview"
                   src={previewUrl}
