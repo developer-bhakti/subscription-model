@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { jsPDF } from "jspdf";
-import { Upload, FileDown, ExternalLink, Check, Eye, Plus, X, Newspaper } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { classAssessments } from "../../data/classAssessments";
+import { Upload, FileDown, Check, Eye, Plus, X, ExternalLink } from "lucide-react";
 import { outreachWorksheets } from "../../data/outreachWorksheets";
 
 const months = [
@@ -15,10 +13,7 @@ const classes = ["PG", "Nursery", "LKG", "UKG"];
 const stepDefs = [
   { id: 1, label: "Details" },
   { id: 2, label: "Events" },
-  { id: 3, label: "Assessment" },
-  { id: 4, label: "Worksheets" },
-  { id: 5, label: "Newsletter" },
-  { id: 6, label: "Preview" },
+  { id: 3, label: "Preview" },
 ];
 
 const inputClass =
@@ -78,7 +73,6 @@ function Stepper({ step, maxStepReached, onStepClick }) {
 }
 
 const OutreachDocWizard = () => {
-  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [maxStepReached, setMaxStepReached] = useState(1);
 
@@ -92,12 +86,15 @@ const OutreachDocWizard = () => {
   const [events, setEvents] = useState([]);
   const [eventDraft, setEventDraft] = useState("");
 
-  // Step 6 — preview & download
+  // Step 3 — preview & download
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  // Step 3 data is keyed by class; Step 4 data is keyed by month, then by class.
-  const assessments = classAssessments[classLevel.toLowerCase()] || [];
+  // Suggested events for the Events step, keyed by month then by class.
   const monthWorksheets = outreachWorksheets[month]?.[classLevel.toLowerCase()] || [];
+
+  // If an event matches one of the pre-loaded worksheet occasions, surface its PDF.
+  const getEventPdf = (name) =>
+    monthWorksheets.find((w) => w.title === name)?.pdf || null;
 
   const goToStep = (n) => {
     if (n <= maxStepReached) setStep(n);
@@ -121,9 +118,14 @@ const OutreachDocWizard = () => {
     advanceTo(2);
   };
 
+  const addEventName = (name) => {
+    const trimmed = name.trim();
+    if (!trimmed || events.includes(trimmed)) return;
+    setEvents((prev) => [...prev, trimmed]);
+  };
+
   const addEvent = () => {
-    if (!eventDraft.trim()) return;
-    setEvents((prev) => [...prev, eventDraft.trim()]);
+    addEventName(eventDraft);
     setEventDraft("");
   };
 
@@ -218,40 +220,12 @@ const OutreachDocWizard = () => {
 
     drawTable(
       "Events",
-      ["Event"],
-      events.map((e) => [e]),
-      [180]
-    );
-
-    drawTable(
-      "Initial Assessment",
-      ["Subject", "Status"],
-      assessments.map((a) => [
-        a.title,
-        a.pdf ? { text: "View PDF", link: a.pdf } : "Coming soon",
-      ]),
+      ["Event", "Resource"],
+      events.map((e) => {
+        const pdfLink = getEventPdf(e);
+        return [e, pdfLink ? { text: "View PDF", link: pdfLink } : "-"];
+      }),
       [125, 55]
-    );
-
-    drawTable(
-      "Worksheets",
-      ["Worksheet", "Status"],
-      monthWorksheets.map((w) => [
-        w.title,
-        w.pdf ? { text: "View PDF", link: w.pdf } : "Coming soon",
-      ]),
-      [125, 55]
-    );
-
-    drawTable(
-      "School Newsletter",
-      ["Field", "Value"],
-      [
-        ["Events Added", String(events.length)],
-        ["Worksheets", String(monthWorksheets.length)],
-        ["Full Newsletter", "Build in School Newsletter App"],
-      ],
-      [90, 90]
     );
 
     return doc;
@@ -363,13 +337,39 @@ const OutreachDocWizard = () => {
           </div>
         )}
 
-        {/* STEP 2 — Events (typed array) */}
+        {/* STEP 2 — Events (typed array + suggested occasions) */}
         {step === 2 && (
           <div className={cardClass}>
             <h3 className="text-2xl font-bold text-gray-800 mb-1">Events</h3>
             <p className="text-sm text-gray-500 mb-6">
               Add extra events for {month} (e.g. Diwali, Christmas)
             </p>
+
+            {monthWorksheets.length > 0 && (
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Suggested for {classLevel} · {month}
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {monthWorksheets
+                    .filter((w) => !events.includes(w.title))
+                    .map((w) => (
+                      <button
+                        key={w.title}
+                        type="button"
+                        onClick={() => addEventName(w.title)}
+                        className="inline-flex items-center gap-1.5 border border-dashed border-[#5d5be3]/40 text-[#5d5be3] rounded-full px-4 py-1.5 text-sm font-medium hover:bg-[#5d5be3]/10 transition"
+                      >
+                        <Plus size={14} />
+                        {w.title}
+                      </button>
+                    ))}
+                  {monthWorksheets.every((w) => events.includes(w.title)) && (
+                    <p className="text-xs text-gray-400">All suggestions added.</p>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-end mb-6">
               <div className="flex-1">
@@ -401,20 +401,34 @@ const OutreachDocWizard = () => {
 
             {events.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-2">
-                {events.map((ev, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-flex items-center gap-2 border border-gray-200 rounded-full px-4 py-1.5 text-sm font-medium text-gray-700"
-                  >
-                    {ev}
-                    <button
-                      onClick={() => removeEvent(idx)}
-                      className="text-gray-400 hover:text-red-500"
+                {events.map((ev, idx) => {
+                  const pdfLink = getEventPdf(ev);
+                  return (
+                    <span
+                      key={idx}
+                      className="inline-flex items-center gap-2 border border-gray-200 rounded-full px-4 py-1.5 text-sm font-medium text-gray-700"
                     >
-                      <X size={14} />
-                    </button>
-                  </span>
-                ))}
+                      {ev}
+                      {pdfLink && (
+                        <a
+                          href={pdfLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View worksheet PDF"
+                          className="text-[#5d5be3] hover:text-[#4745c7]"
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                      )}
+                      <button
+                        onClick={() => removeEvent(idx)}
+                        className="text-gray-400 hover:text-red-500"
+                      >
+                        <X size={14} />
+                      </button>
+                    </span>
+                  );
+                })}
               </div>
             )}
 
@@ -429,157 +443,8 @@ const OutreachDocWizard = () => {
           </div>
         )}
 
-        {/* STEP 3 — Initial Assessment (by class) */}
+        {/* STEP 3 — Preview & Download */}
         {step === 3 && (
-          <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-1">Initial Assessment</h3>
-            <p className="text-sm text-gray-500 mb-6">{classLevel} assessments</p>
-
-            {assessments.length === 0 ? (
-              <p className="text-sm text-gray-400">
-                No assessments defined for {classLevel} yet.
-              </p>
-            ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {assessments.map((a) => (
-                  <div
-                    key={a.title}
-                    className="flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3"
-                  >
-                    <span className="text-sm font-medium text-gray-700">{a.title}</span>
-                    {a.pdf ? (
-                      <a
-                        href={a.pdf}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-semibold text-[#5d5be3] hover:text-[#4745c7]"
-                      >
-                        View <ExternalLink size={14} />
-                      </a>
-                    ) : (
-                      <span className="text-xs text-gray-400">Coming soon</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-8 flex justify-between">
-              <button onClick={() => goToStep(2)} className={secondaryBtn}>
-                Back
-              </button>
-              <button onClick={() => advanceTo(4)} className={primaryBtn}>
-                Continue
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 4 — Worksheets (by month + class) */}
-        {step === 4 && (
-          <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-1">Worksheets</h3>
-            <p className="text-sm text-gray-500 mb-6">{classLevel} | {month} worksheets</p>
-
-            {monthWorksheets.length === 0 ? (
-              <p className="text-sm text-gray-400 mb-6">
-                No worksheets defined for {classLevel} in {month} yet.
-              </p>
-            ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {monthWorksheets.map((w) => (
-                  <div
-                    key={w.title}
-                    className="flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3"
-                  >
-                    <span className="text-sm font-medium text-gray-700">{w.title}</span>
-                    {w.pdf ? (
-                      <a
-                        href={w.pdf}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-semibold text-[#5d5be3] hover:text-[#4745c7]"
-                      >
-                        View <ExternalLink size={14} />
-                      </a>
-                    ) : (
-                      <span className="text-xs text-gray-400">Coming soon</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-8 flex justify-between">
-              <button onClick={() => goToStep(3)} className={secondaryBtn}>
-                Back
-              </button>
-              <button onClick={() => advanceTo(5)} className={primaryBtn}>
-                Continue
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 5 — Newsletter */}
-        {step === 5 && (
-          <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-1">School Newsletter</h3>
-            <p className="text-sm text-gray-500 mb-6">{month} summary</p>
-
-            <div className="grid gap-4 sm:grid-cols-2 mb-6">
-              <div className="border border-gray-200 rounded-xl px-4 py-3">
-                <p className="text-xs text-gray-500 mb-1">Month</p>
-                <p className="text-sm font-semibold text-gray-800">{month}</p>
-              </div>
-              <div className="border border-gray-200 rounded-xl px-4 py-3">
-                <p className="text-xs text-gray-500 mb-1">Class</p>
-                <p className="text-sm font-semibold text-gray-800">{classLevel}</p>
-              </div>
-              <div className="border border-gray-200 rounded-xl px-4 py-3 sm:col-span-2">
-                <p className="text-xs text-gray-500 mb-1">Events</p>
-                {events.length > 0 ? (
-                  <p className="text-sm text-gray-700">{events.join(", ")}</p>
-                ) : (
-                  <p className="text-sm text-gray-400">None added</p>
-                )}
-              </div>
-              <div className="border border-gray-200 rounded-xl px-4 py-3 sm:col-span-2">
-                <p className="text-xs text-gray-500 mb-1">Worksheets</p>
-                {monthWorksheets.length > 0 ? (
-                  <p className="text-sm text-gray-700">
-                    {monthWorksheets.map((w) => w.title).join(", ")}
-                  </p>
-                ) : (
-                  <p className="text-sm text-gray-400">None added</p>
-                )}
-              </div>
-            </div>
-
-            <p className="text-sm text-gray-500 mb-4">
-              Build the full {month} newsletter for {schoolName} in the School Newsletter App.
-            </p>
-            <button
-              onClick={() => navigate("/user/school-newsletter-app")}
-              className="inline-flex items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-6 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
-            >
-              <Newspaper size={18} />
-              Open School Newsletter App
-            </button>
-
-            <div className="mt-8 flex justify-between">
-              <button onClick={() => goToStep(4)} className={secondaryBtn}>
-                Back
-              </button>
-              <button onClick={() => advanceTo(6)} className={primaryBtn}>
-                Continue
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 6 — Preview & Download */}
-        {step === 6 && (
           <div className={cardClass}>
             <h3 className="text-2xl font-bold text-gray-800 mb-1">Preview & Download</h3>
             <p className="text-sm text-gray-500 mb-6">
@@ -611,7 +476,7 @@ const OutreachDocWizard = () => {
             )}
 
             <div className="mt-8 flex justify-start">
-              <button onClick={() => goToStep(5)} className={secondaryBtn}>
+              <button onClick={() => goToStep(2)} className={secondaryBtn}>
                 Back
               </button>
             </div>
