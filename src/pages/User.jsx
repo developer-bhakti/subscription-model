@@ -4,6 +4,7 @@ import { sections } from "../data";
 import DashboardHome from "../components/DashboardComponents/DashboardHome";
 import DashboardCurriculum from "../components/DashboardComponents/DashboardCurriculum";
 import DashboardWorksheet from "../components/DashboardComponents/DashboardWorksheet";
+import DashboardOnlineGames from "../components/DashboardComponents/DashboardOnlineGames";
 import DashboardAssessment from "../components/DashboardComponents/DashboardAssessment";
 import DashboardTeacherSupport from "../components/DashboardComponents/DashboardTeacherSupport";
 import DashboardManagement from "../components/DashboardComponents/DashboardManagement";
@@ -23,6 +24,7 @@ import SessionPlanManageTerms from "../components/SessionPlan/SessionPlanManageT
 import SessionPlanPreview from "../components/SessionPlan/SessionPlanPreview";
 import MonthWiseWorksheets from "../components/ClassroomActivity/MonthWiseWorksheets";
 import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
+import ColourThemeActivities from "../components/ClassroomActivity/ColourThemeActivities";
 import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
 import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
 import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurriculum";
@@ -169,8 +171,13 @@ export default function User() {
           />
 
           <Route
-            path="rhyming/words"
-            element={<RhymingWords/>}
+            path="online-games"
+            element={<DashboardOnlineGames />}
+          />
+
+          <Route
+            path="online-games/rhyming-words"
+            element={<RhymingWords />}
           />
 
           <Route
@@ -191,6 +198,11 @@ export default function User() {
           <Route
             path="worksheet/summer-worksheets"
             element={<SummerWorksheets />}
+          />
+
+          <Route
+            path="worksheet/theme-based-colouring"
+            element={<ColourThemeActivities />}
           />
 
           <Route
