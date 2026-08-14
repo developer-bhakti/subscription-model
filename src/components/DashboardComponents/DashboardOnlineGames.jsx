@@ -32,14 +32,14 @@ const DashboardOnlineGames = () => {
           <p className="text-sm text-gray-500">Pick the missing letter to complete each alphabet question.</p>
         </button>
 
-        {/* <button
+        <button
           onClick={() => navigate('/user/online-games/numeracy-skills')}
           className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
         >
           <div className="text-4xl mb-4">🔢</div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Numeracy Skills</h3>
           <p className="text-sm text-gray-500">Build cognitive skills with number and counting activities.</p>
-        </button> */}
+        </button>
       </div>
     </div>
   )
