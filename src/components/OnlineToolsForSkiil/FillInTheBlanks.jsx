@@ -211,7 +211,7 @@ const FillInTheBlanks = () => {
     return (
       <div className="min-h-screen bg-gradient-to-r from-yellow-200 via-orange-200 to-pink-200 flex flex-col items-center justify-center p-6">
         <h1 className="text-4xl font-bold text-orange-600 mb-2 text-center">
-          🔤 Fill in the Blanks 🔤
+          🔤 Literacy Skills 🔤
         </h1>
         <p className="text-gray-700 mb-8 text-center">Choose your class to begin</p>
 

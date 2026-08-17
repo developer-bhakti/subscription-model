@@ -55,6 +55,15 @@ const months = [
     description:
       "Rainy Season, Doctor's Day, Guru Purnima worksheets.",
   },
+   {
+    id: "august",
+    title: "August Activities",
+    image:
+       "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Aug_17_2026_01_45_54_PM.png?v=1786954730",
+    portraitCover: true,
+    description:
+      "Rainy Season, Doctor's Day, Guru Purnima worksheets.",
+  },
 ];
 
 const activitiesData = {
@@ -445,6 +454,7 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Mango_Day.pdf?v=1784182856",
     },
   ],
+  
 };
 export default function MonthWiseWorksheets() {
   const [activeMonth, setActiveMonth] = useState("january");
@@ -465,11 +475,15 @@ export default function MonthWiseWorksheets() {
               key={month.id}
               className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
             >
-              <div className="w-full h-[240px] bg-[#f7f8ff] flex items-center justify-center overflow-hidden rounded-t-3xl">
+              <div className="w-full h-[240px] bg-[#f7f8ff] flex items-center justify-center overflow-hidden rounded-t-3xl p-3">
                 <img
                   src={month.image}
                   alt={month.title}
-                  className="w-full h-full object-contain p-3"
+                  className={
+                    month.portraitCover
+                      ? "w-full max-w-74 aspect-1469/1071 object-cover object-top"
+                      : "w-full h-full object-contain"
+                  }
                 />
               </div>
 
