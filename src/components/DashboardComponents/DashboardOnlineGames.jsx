@@ -28,8 +28,8 @@ const DashboardOnlineGames = () => {
           className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
         >
           <div className="text-4xl mb-4">🔤</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Fill in the Blanks</h3>
-          <p className="text-sm text-gray-500">Pick the missing letter to complete each alphabet question.</p>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Literacy Skills</h3>
+          <p className="text-sm text-gray-500">Letter and word games to build early reading skills.</p>
         </button>
 
         <button
