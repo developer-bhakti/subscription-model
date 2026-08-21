@@ -223,6 +223,98 @@ const vegetableWorksheets = [
   },
 ];
 
+const domesticAnimalWorksheets = [
+  {
+    title: "Guinea Pig Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/guine_pig.jpg?v=1787289743",
+  },
+  {
+    title: "Mule Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/mule.jpg?v=1787289743",
+  },
+  {
+    title: "Rabbit Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/rabbit.jpg?v=1787289743",
+  },
+  {
+    title: "Cat Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cat.jpg?v=1787289743",
+  },
+  {
+    title: "Cow Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cow.jpg?v=1787289743",
+  },
+  {
+    title: "Pig Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/pig.jpg?v=1787289743",
+  },
+  {
+    title: "Yak Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/yak.jpg?v=1787289743",
+  },
+  {
+    title: "Turkey Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/turkey.jpg?v=1787289743",
+  },
+  {
+    title: "Goose Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/goose.jpg?v=1787289743",
+  },
+  {
+    title: "Ox Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ox.jpg?v=1787289743",
+  },
+  {
+    title: "Horse Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/horse.jpg?v=1787289743",
+  },
+  {
+    title: "Sheep Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/sheep.jpg?v=1787289743",
+  },
+  {
+    title: "Hen Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hen.jpg?v=1787289743",
+  },
+  {
+    title: "Duck Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/duck.jpg?v=1787289744",
+  },
+  {
+    title: "Dog Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/dog.jpg?v=1787289743",
+  },
+  {
+    title: "Donkey Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/donkey.jpg?v=1787289743",
+  },
+  {
+    title: "Buffalo Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/buffalo.jpg?v=1787289743",
+  },
+  {
+    title: "Humstar Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hamstar.jpg?v=1787289743",
+  },
+  {
+    title: "Goat Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/goat.jpg?v=1787289743",
+  },
+
+  {
+    title: "Bull Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/bull.jpg?v=1787289743",
+  },
+  {
+    title: "Rooster Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/rooster.jpg?v=1787289743",
+  },
+  {
+    title: "Camel Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/camel.jpg?v=1787289743",
+  },
+];
+
 const worksheetData = [
   {
     title: "Fruit Worksheets",
@@ -237,6 +329,13 @@ const worksheetData = [
       "Explore vegetable colouring sheets and practice identifying healthy vegetables.",
     icon: "🥕",
     items: vegetableWorksheets,
+  },
+  {
+    title: "Domestic Animal Worksheets",
+    description:
+      "Colour farm and pet animals while learning the names and sounds they make.",
+    icon: "🐄",
+    items: domesticAnimalWorksheets,
   },
 ];
 
@@ -291,7 +390,7 @@ const buildWorksheetPdf = async (items, onProgress) => {
 
       const scale = Math.min(
         (pageWidth - margin * 2) / image.naturalWidth,
-        (pageHeight - margin * 2) / image.naturalHeight
+        (pageHeight - margin * 2) / image.naturalHeight,
       );
       const width = image.naturalWidth * scale;
       const height = image.naturalHeight * scale;
@@ -303,7 +402,7 @@ const buildWorksheetPdf = async (items, onProgress) => {
         (pageWidth - width) / 2,
         (pageHeight - height) / 2,
         width,
-        height
+        height,
       );
       hasPage = true;
     } catch (error) {
@@ -333,8 +432,8 @@ const ColourThemeActivities = () => {
       ok
         ? previous.filter((item) => item !== index)
         : previous.includes(index)
-        ? previous
-        : [...previous, index]
+          ? previous
+          : [...previous, index],
     );
 
   const handleDownloadOne = async (worksheet, index) => {
@@ -353,7 +452,7 @@ const ColourThemeActivities = () => {
     setProgress({ current: 0, total: group.items.length });
 
     const { doc, failed } = await buildWorksheetPdf(group.items, (index) =>
-      setProgress({ current: index + 1, total: group.items.length })
+      setProgress({ current: index + 1, total: group.items.length }),
     );
 
     if (doc) {
@@ -363,10 +462,12 @@ const ColourThemeActivities = () => {
           ? `Saved ${group.items.length - failed.length} of ${
               group.items.length
             } worksheets. ${failed.length} could not be loaded.`
-          : `Saved all ${group.items.length} worksheets into one PDF.`
+          : `Saved all ${group.items.length} worksheets into one PDF.`,
       );
     } else {
-      setBundleNote("None of the worksheets could be loaded. Please try again.");
+      setBundleNote(
+        "None of the worksheets could be loaded. Please try again.",
+      );
     }
 
     setProgress(null);
@@ -406,7 +507,7 @@ const ColourThemeActivities = () => {
 
             <button
               onClick={() => handleDownloadAll(activeGroup)}
-              disabled={downloadingAll}
+              disabled={downloadingAll || activeGroup.items.length === 0}
               className="bg-[#6f6cf8] hover:bg-[#514df0] disabled:opacity-60 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
             >
               {progress
@@ -423,8 +524,14 @@ const ColourThemeActivities = () => {
 
           {failedIndexes.length > 0 && (
             <p className="mb-6 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm px-4 py-3">
-              {failedIndexes.length} worksheet(s) could not be turned into a PDF.
-              Use “Open in new tab” to save those directly.
+              {failedIndexes.length} worksheet(s) could not be turned into a
+              PDF. Use “Open in new tab” to save those directly.
+            </p>
+          )}
+
+          {activeGroup.items.length === 0 && (
+            <p className="rounded-2xl bg-white border border-indigo-100 text-gray-500 text-center px-6 py-12 font-semibold">
+              Worksheets for this theme are coming soon.
             </p>
           )}
 
@@ -491,7 +598,7 @@ const ColourThemeActivities = () => {
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {worksheetData.map((item) => (
             <div
               key={item.title}
