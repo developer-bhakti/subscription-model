@@ -315,6 +315,251 @@ const domesticAnimalWorksheets = [
   },
 ];
 
+const birdWorksheets = [
+  {
+    title: "Woodpecker Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/woodpeaker.jpg?v=1787291938",
+  },
+  {
+    title: "Cuckoon Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cuckoon.jpg?v=1787291938",
+  },
+  {
+    title: "Hawk Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hawk_634a7c83-c802-4f59-b78e-7fcf205a8c58.jpg?v=1787291938",
+  },
+  {
+    title: "Eagle Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/eagle.jpg?v=1787291938",
+  },
+  {
+    title: "Duck Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/duck_d4c207e8-6d07-435d-9c03-88e4610b43f6.jpg?v=1787291938",
+  },
+  {
+    title: "Emu Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/emu.jpg?v=1787291938",
+  },
+  {
+    title: "Hen Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hen_a2f02f2b-c351-43a2-804c-b01278a01cb4.jpg?v=1787291938",
+  },
+  {
+    title: "Heron Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/heron_ea22791a-6855-4dc3-95dd-dbc3aa24bb89.jpg?v=1787291938",
+  },
+  {
+    title: "Flamingo Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/flamingo_6551647e-54ce-44bf-878d-3ef8d2f3aa6f.jpg?v=1787291938",
+  },
+  {
+    title: "Kingfisher Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/kingfisher_a078e8b6-1068-4777-9848-f756b7636189.jpg?v=1787291938",
+  },
+  {
+    title: "Crow Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/crow.jpg?v=1787291938",
+  },
+  {
+    title: "Dove Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/dove.jpg?v=1787291938",
+  },
+  {
+    title: "Goose Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ghoos_79c1b1a7-629a-4e4b-970d-499c99951a81.jpg?v=1787291938",
+  },
+  {
+    title: "Hummingbird Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hummingbird_03f27680-9425-45bc-b4d3-c1b6747a7c89.jpg?v=1787291937",
+  },
+  {
+    title: "Hawk Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hawk.jpg?v=1787291921",
+  },
+
+  {
+    title: "Vulture Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/vulture.jpg?v=1787291921",
+  },
+
+  {
+    title: "Flamingo Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/flamingo.jpg?v=1787291921",
+  },
+  {
+    title: "Owl Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/owl.jpg?v=1787291921",
+  },
+  {
+    title: "Macow Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/macow.jpg?v=1787291921",
+  },
+  {
+    title: "Sparrow Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/sparrow.jpg?v=1787291921",
+  },
+  {
+    title: "myna Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/myna.jpg?v=1787291921",
+  },
+  {
+    title: "Parrot Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/parrot.jpg?v=1787291921",
+  },
+  {
+    title: "Tutkey Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/tutkey.jpg?v=1787291921",
+  },
+  {
+    title: "Pelican Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/pelican.jpg?v=1787291921",
+  },
+  {
+    title: "Rooster Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/rooster_7e4c1b1e-c640-45dc-bd27-73bc31023e2d.jpg?v=1787291921",
+  },
+  {
+    title: "Ostrich Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ostrich.jpg?v=1787291920",
+  },
+  {
+    title: "Heron Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/heron.jpg?v=1787291920",
+  },
+  {
+    title: "Ostrich Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ghoos.jpg?v=1787291920",
+  },
+  {
+    title: "Stork Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/stork.jpg?v=1787291920",
+  },
+  {
+    title: "Pigeon Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/pigeon.jpg?v=1787291920",
+  },
+  {
+    title: "Seagull Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/seagull.jpg?v=1787291919",
+  },
+  {
+    title: "Peacock Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/peacock.jpg?v=1787295417",
+  },
+];
+
+const wildAnimalWorksheets = [
+  {
+    title: "Reindeer Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/reindeer.jpg?v=1787295520",
+  },
+  {
+    title: "Zebra Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/zebra.jpg?v=1787295519",
+  },
+  {
+    title: "Snake Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/snake.jpg?v=1787295519",
+  },
+  {
+    title: "Leopard Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/leopard.jpg?v=1787295519",
+  },
+  {
+    title: "Moose Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/moose.jpg?v=1787295519",
+  },
+  {
+    title: "Wild Animal Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/wild_board.jpg?v=1787295519",
+  },
+  {
+    title: "Tiger Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/tiger.jpg?v=1787295519",
+  },
+  {
+    title: "Rhinoceros Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/rhinoceros.jpg?v=1787295519",
+  },
+  {
+    title: "Wolf Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/wolf.jpg?v=1787295519",
+  },
+  {
+    title: "Lion Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/lion.jpg?v=1787295519",
+  },
+  {
+    title: "Panda Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/panda.jpg?v=1787295518",
+  },
+  {
+    title: " Crocodile Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/crocodile.jpg?v=1787295481",
+  },
+  {
+    title: " Gorilla Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/gorila.jpg?v=1787295481",
+  },
+  {
+    title: " Chimpanzee Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/chimpanzee.jpg?v=1787295481",
+  },
+  {
+    title: " Alligator Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/allgiator.jpg?v=1787295481",
+  },
+  {
+    title: " Bison Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/beson.jpg?v=1787295481",
+  },
+  {
+    title: " Hippopotamus Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hippoptoms.jpg?v=1787295481",
+  },
+  {
+    title: " Hyena Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hyena.jpg?v=1787295481",
+  },
+  {
+    title: " Jackal Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/jackal.jpg?v=1787295481",
+  },
+  {
+    title: "Fox Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/fox.jpg?v=1787295481",
+  },
+  {
+    title: "Gazelle Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/gazellea.jpg?v=1787295481",
+  },
+  {
+    title: " Cheetah Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/cheetah.jpg?v=1787295481",
+  },
+  {
+    title: " Giraffe Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/girafee.jpg?v=1787295481",
+  },
+  {
+    title: " Kangaroo Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/kangaroo.jpg?v=1787295481",
+  },
+  {
+    title: " Deer Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/deer.jpg?v=1787295481",
+  },
+
+  {
+    title: " Elephant Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/elephant.jpg?v=1787295481",
+  },
+  {
+    title: " Bear Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/bear.jpg?v=1787295480",
+  },
+];
+
 const worksheetData = [
   {
     title: "Fruit Worksheets",
@@ -336,6 +581,20 @@ const worksheetData = [
       "Colour farm and pet animals while learning the names and sounds they make.",
     icon: "🐄",
     items: domesticAnimalWorksheets,
+  },
+  {
+    title: "Bird Worksheets",
+    description:
+      "Colour common birds and learn to recognise the ones seen around the school.",
+    icon: "🦜",
+    items: birdWorksheets,
+  },
+  {
+    title: "Wild Animal Worksheets",
+    description:
+      "Colour jungle and forest animals while learning where each one lives.",
+    icon: "🦁",
+    items: wildAnimalWorksheets,
   },
 ];
 
