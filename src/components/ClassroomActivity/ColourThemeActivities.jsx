@@ -463,7 +463,7 @@ const wildAnimalWorksheets = [
   },
   {
     title: "Leopard Colouring",
-    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/leopard.jpg?v=1787295519",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/lepoard.jpg?v=1787295519",
   },
   {
     title: "Moose Colouring",
@@ -560,6 +560,90 @@ const wildAnimalWorksheets = [
   },
 ];
 
+const waterAnimalWorksheets = [
+  {
+     title: "Octopus Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/octopus.jpg?v=1787306951",
+   },
+    {
+     title: "Crocodile Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/crocodile_226d9221-1282-457b-98a3-e6431255c8b2.jpg?v=1787306951",
+   },
+    {
+     title: "Shark Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/shark.jpg?v=1787306951",
+   },
+    {
+     title: " Squid Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/squid.jpg?v=1787306951",
+   },
+    {
+     title: "Blue Whale Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/blue_whale.jpg?v=1787306951",
+   },
+    {
+     title: "Duck Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/duck_82be9360-2e23-42ae-a9e2-099a64789704.jpg?v=1787306951",
+   },
+    {
+     title: " Seal Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/seal.jpg?v=1787306951",
+   },
+    {
+     title: "Jellyfish Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/jellyfish.jpg?v=1787306951",
+   },
+    {
+     title: "Swan Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/swan.jpg?v=1787306951",
+   },
+    {
+     title: "Lobster Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/lobster.jpg?v=1787306951",
+   },
+    {
+     title: "Hippopotamus Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/hippopotamus.jpg?v=1787306950",
+   },
+
+    {
+     title: "Crab Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/crab.jpg?v=1787306951",
+   },
+   
+    {
+     title: "Sea Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/sea.jpg?v=1787306951",
+   },
+   
+    {
+     title: " Fish Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/fish.jpg?v=1787306950",
+   },
+   
+    {
+     title: " Whale Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/whale.jpg?v=1787306951",
+   },
+   
+    {
+     title: "Frog Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/frog.jpg?v=1787306950",
+   },
+    {
+     title: "Shrimp Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/shrimp.jpg?v=1787306951",
+   },
+    {
+     title: "Dolphin Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/dolphin.jpg?v=1787306950",
+   },
+    {
+     title: "Otter Colouring",
+    pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/otter.jpg?v=1787306950",
+   },
+];
+
 const worksheetData = [
   {
     title: "Fruit Worksheets",
@@ -596,7 +680,16 @@ const worksheetData = [
     icon: "🦁",
     items: wildAnimalWorksheets,
   },
+  {
+    title: "Water Animal Worksheets",
+    description:
+      "Colour sea and river animals while learning about the water they live in.",
+    icon: "🐬",
+    items: waterAnimalWorksheets,
+  },
 ];
+
+
 
 const getExtension = (url) => {
   const ext = url.split("?")[0].split(".").pop().toLowerCase();
