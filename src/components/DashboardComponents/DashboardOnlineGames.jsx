@@ -24,7 +24,7 @@ const DashboardOnlineGames = () => {
         </button>
 
         <button
-          onClick={() => navigate('/user/online-games/fill-in-the-blanks')}
+          onClick={() => navigate('/user/online-games/literacy-skills')}
           className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
         >
           <div className="text-4xl mb-4">🔤</div>

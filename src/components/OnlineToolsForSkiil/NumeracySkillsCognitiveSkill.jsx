@@ -57,7 +57,7 @@ const modes = [
   },
   {
     id: "identifyNumber",
-    name: "Identify the Number",
+    name: "Count & Identify the Number",
     emoji: "🔢",
     desc: "Count the objects or read the number name.",
   },
@@ -474,7 +474,6 @@ const NumeracySkillsCognitiveSkill = () => {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
-  const [stars, setStars] = useState(0);
   const [selected, setSelected] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [showResult, setShowResult] = useState(false);
@@ -490,7 +489,6 @@ const NumeracySkillsCognitiveSkill = () => {
     );
     setCurrent(0);
     setScore(0);
-    setStars(0);
     setSelected(null);
     setFeedback("");
     setShowResult(false);
@@ -509,7 +507,6 @@ const NumeracySkillsCognitiveSkill = () => {
 
     if (key === question.answer) {
       setScore((prev) => prev + 1);
-      setStars((prev) => prev + 1);
       setFeedback("🎉 Excellent!");
     } else {
       setFeedback("😊 Good Try!");
@@ -531,7 +528,6 @@ const NumeracySkillsCognitiveSkill = () => {
     setQuestions([]);
     setCurrent(0);
     setScore(0);
-    setStars(0);
     setSelected(null);
     setFeedback("");
     setShowResult(false);
@@ -613,6 +609,9 @@ const NumeracySkillsCognitiveSkill = () => {
 
   const modeInfo = modes.find((mode) => mode.id === selectedMode);
   const progress = ((current + 1) / questions.length) * 100;
+  // A question counts as tried the moment an option is picked, so the totals stay
+  // correct for a child who walks away mid-round.
+  const attempted = current + (selected ? 1 : 0);
 
   // RESULT PAGE
   if (showResult) {
@@ -673,12 +672,20 @@ const NumeracySkillsCognitiveSkill = () => {
         </p>
 
         <div className="flex gap-3 mt-6">
-          <div className="flex-1 bg-teal-400 text-white p-3 rounded-2xl text-lg font-bold">
-            ⭐ {score}
+          <div className="flex-1 bg-teal-400 text-white p-3 rounded-2xl">
+            <div className="text-xs uppercase tracking-wide">Total Tried</div>
+
+            <div className="text-lg font-bold">
+              {attempted} / {questions.length}
+            </div>
           </div>
 
-          <div className="flex-1 bg-yellow-400 text-white p-3 rounded-2xl text-lg font-bold">
-            🌟 {stars}
+          <div className="flex-1 bg-yellow-400 text-white p-3 rounded-2xl">
+            <div className="text-xs uppercase tracking-wide">Scored</div>
+
+            <div className="text-lg font-bold">
+              {score} / {attempted}
+            </div>
           </div>
         </div>
 

@@ -31,7 +31,7 @@ import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurri
 import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTracking/FormativeAssessmentGeneral";
 import AssessementForADHD from "../components/AssessmentAndProgressTracking/AssessementForADHD";
 import RhymingWords from "../components/ClassroomActivity/RhymingWords";
-import FillInTheBlanks from "../components/OnlineToolsForSkiil/FillInTheBlanks";
+import LiteracySkills from "../components/OnlineToolsForSkiil/LiteracySkills";
 import NumeracySkillsCognitiveSkill from "../components/OnlineToolsForSkiil/NumeracySkillsCognitiveSkill";
 import AdmissionDocWizard from "../components/MarketingAndParentEngagement/AdmissionDocWizard";
 import OutreachDocWizard from "../components/MarketingAndParentEngagement/OutreachDocWizard";
@@ -183,8 +183,8 @@ export default function User() {
           />
 
           <Route
-            path="online-games/fill-in-the-blanks"
-            element={<FillInTheBlanks />}
+            path="online-games/literacy-skills"
+            element={<LiteracySkills />}
           />
 
           <Route
