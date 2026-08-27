@@ -85,7 +85,7 @@ export default function Login() {
           <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
             The platform includes{" "}
             <strong className="font-semibold text-blue-900">
-              6 main areas with 30+ essential tools and resources
+              8 main areas with 30+ essential tools and resources
             </strong>
             , designed to support your preschool’s academic, classroom,
             assessment, teacher, management, and parent-engagement needs.
