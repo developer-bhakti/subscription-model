@@ -64,6 +64,7 @@ const months = [
     description:
       "Rainy Season, Doctor's Day, Guru Purnima worksheets.",
   },
+  
 ];
 
 const activitiesData = {
@@ -452,6 +453,85 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Mango_Day.jpg?v=1784182687",
       pdf:
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Mango_Day.pdf?v=1784182856",
+    },
+  ],
+  august: [
+    {
+      title: "National Friendship Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Friendship_Day.jpg?v=1785310814",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Friendship_Day.pdf?v=1788030949",
+    },
+     {
+      title: "Sister's Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Sisters_Day.jpg?v=1785310818",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Sister_Day.pdf?v=1788030949",
+    },
+     {
+      title: "National Watermelon Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Watermelon_Day.jpg?v=1785569754",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Watermelon_Day.pdf?v=1788031002",
+    },
+     {
+      title: "World Lizard Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Lizard_Day_1.jpg?v=1785740946",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Lizard_Day.pdf?v=1788031002",
+    },
+      {
+      title: "Independance Day",
+     image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Independence_Day.jpg?v=1786351736",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Independence_Day.pdf?v=1788031103",
+    },
+      {
+      title: "Nagpanchami",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nagpanchami_79c42c89-42e0-47d9-9500-256254e72acf.jpg?v=1786351743",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Nagpanchami.pdf?v=1788031103",
+    },
+     {
+      title: "World Photography Day",
+     image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Photography_Day.jpg?v=1786618880",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Photography_Day.pdf?v=1788031134",
+    },
+    {
+      title: "Eid",
+     image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Eid.jpg?v=1786961111",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Eid.pdf?v=1788031196",
+    },
+     {
+      title: "Onam",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Onam.jpg?v=1786961113",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Onam.pdf?v=1788031196",
+    },
+    {
+      title: "Rakshabandhan",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Rakshabandhan.jpg?v=1787633028",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Rakshabandhan.pdf?v=1787633061",
+    },
+    {
+      title: "National Beach Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Beach_Day.jpg?v=1787633029",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Beach_Day.pdf?v=1787633063",
     },
   ],
   
