@@ -35,11 +35,14 @@ const classes = [
   },
 ];
 
-const classStyles = {
+// Shared by the class cards and the Big or Small category cards. Tailwind only keeps
+// class names it can see in full, so these stay written out rather than built up.
+const cardStyles = {
   orange: { text: "text-orange-500", bg: "bg-orange-500" },
   pink: { text: "text-pink-500", bg: "bg-pink-500" },
   green: { text: "text-green-500", bg: "bg-green-500" },
   blue: { text: "text-blue-500", bg: "bg-blue-500" },
+  purple: { text: "text-purple-500", bg: "bg-purple-500" },
 };
 
 const modes = [
@@ -77,7 +80,46 @@ const modes = [
     id: "bigOrSmall",
     name: "Identify Big or Small",
     emoji: "🐘",
-    desc: "Choose the bigger or the smaller thing.",
+    desc: "Pick a category, then choose the bigger or the smaller thing.",
+  },
+];
+
+// Big or Small asks for one of these before the round starts.
+const bigOrSmallCategories = [
+  {
+    id: "vehicles",
+    name: "Vehicles",
+    emoji: "🚗",
+    desc: "Autos, buses, planes and ships.",
+    color: "orange",
+  },
+  {
+    id: "domesticAnimals",
+    name: "Domestic Animals",
+    emoji: "🐶",
+    desc: "The animals we keep at home.",
+    color: "pink",
+  },
+  {
+    id: "wildAnimals",
+    name: "Wild Animals",
+    emoji: "🦁",
+    desc: "The animals of the jungle.",
+    color: "green",
+  },
+  {
+    id: "waterAnimals",
+    name: "Water Animals",
+    emoji: "🐟",
+    desc: "The animals that live in water.",
+    color: "blue",
+  },
+  {
+    id: "birds",
+    name: "Birds",
+    emoji: "🐦",
+    desc: "The birds that fly in the sky.",
+    color: "purple",
   },
 ];
 
@@ -279,49 +321,305 @@ const heavyOrLightBank = {
   ],
 };
 
-// 6. BIG OR SMALL
-const bigOrSmallBank = {
+const makePair = (catalog) => (leftKey, rightKey, ask) => {
+  const left = catalog[leftKey];
+  const right = catalog[rightKey];
+  const biggerSide = left.size > right.size ? "left" : "right";
+
+  return {
+    ask,
+    left: { emoji: left.emoji, name: left.name },
+    right: { emoji: right.emoji, name: right.name },
+    answer: ask === "big" ? biggerSide : biggerSide === "left" ? "right" : "left",
+  };
+};
+
+const vehicleCatalog = {
+  cycle: { emoji: "🚲", name: "Cycle", size: 1 },
+  auto: { emoji: "🛺", name: "Auto", size: 2 },
+  car: { emoji: "🚗", name: "Car", size: 3 },
+  taxi: { emoji: "🚕", name: "Taxi", size: 3 },
+  truck: { emoji: "🚚", name: "Truck", size: 6 },
+  bus: { emoji: "🚌", name: "Bus", size: 7 },
+  airplane: { emoji: "✈️", name: "Airplane", size: 9 },
+  ship: { emoji: "🚢", name: "Ship", size: 10 },
+};
+
+const domesticCatalog = {
+  chick: { emoji: "🐤", name: "Chick", size: 1 },
+  hen: { emoji: "🐔", name: "Hen", size: 2 },
+  rabbit: { emoji: "🐇", name: "Rabbit", size: 3 },
+  cat: { emoji: "🐈", name: "Cat", size: 4 },
+  dog: { emoji: "🐕", name: "Dog", size: 5 },
+  goat: { emoji: "🐐", name: "Goat", size: 6 },
+  sheep: { emoji: "🐑", name: "Sheep", size: 7 },
+  pig: { emoji: "🐖", name: "Pig", size: 8 },
+  cow: { emoji: "🐄", name: "Cow", size: 9 },
+  horse: { emoji: "🐎", name: "Horse", size: 10 },
+  buffalo: { emoji: "🐃", name: "Buffalo", size: 11 },
+};
+
+const wildCatalog = {
+  ant: { emoji: "🐜", name: "Ant", size: 1 },
+  squirrel: { emoji: "🐿️", name: "Squirrel", size: 2 },
+  monkey: { emoji: "🐒", name: "Monkey", size: 3 },
+  fox: { emoji: "🦊", name: "Fox", size: 4 },
+  deer: { emoji: "🦌", name: "Deer", size: 5 },
+  zebra: { emoji: "🦓", name: "Zebra", size: 6 },
+  lion: { emoji: "🦁", name: "Lion", size: 7 },
+  tiger: { emoji: "🐅", name: "Tiger", size: 8 },
+  bear: { emoji: "🐻", name: "Bear", size: 9 },
+  camel: { emoji: "🐪", name: "Camel", size: 10 },
+  giraffe: { emoji: "🦒", name: "Giraffe", size: 11 },
+  rhino: { emoji: "🦏", name: "Rhino", size: 12 },
+  elephant: { emoji: "🐘", name: "Elephant", size: 13 },
+};
+
+const waterCatalog = {
+  prawn: { emoji: "🦐", name: "Prawn", size: 1 },
+  crab: { emoji: "🦀", name: "Crab", size: 2 },
+  fish: { emoji: "🐟", name: "Fish", size: 3 },
+  octopus: { emoji: "🐙", name: "Octopus", size: 4 },
+  turtle: { emoji: "🐢", name: "Turtle", size: 5 },
+  seal: { emoji: "🦭", name: "Seal", size: 6 },
+  dolphin: { emoji: "🐬", name: "Dolphin", size: 7 },
+  shark: { emoji: "🦈", name: "Shark", size: 8 },
+  whale: { emoji: "🐋", name: "Whale", size: 9 },
+};
+
+const birdCatalog = {
+  chick: { emoji: "🐤", name: "Chick", size: 1 },
+  sparrow: { emoji: "🐦", name: "Sparrow", size: 2 },
+  dove: { emoji: "🕊️", name: "Dove", size: 3 },
+  parrot: { emoji: "🦜", name: "Parrot", size: 4 },
+  owl: { emoji: "🦉", name: "Owl", size: 5 },
+  duck: { emoji: "🦆", name: "Duck", size: 6 },
+  penguin: { emoji: "🐧", name: "Penguin", size: 7 },
+  eagle: { emoji: "🦅", name: "Eagle", size: 8 },
+  flamingo: { emoji: "🦩", name: "Flamingo", size: 9 },
+  turkey: { emoji: "🦃", name: "Turkey", size: 10 },
+  swan: { emoji: "🦢", name: "Swan", size: 11 },
+  peacock: { emoji: "🦚", name: "Peacock", size: 12 },
+};
+
+const vehiclePair = makePair(vehicleCatalog);
+const domesticPair = makePair(domesticCatalog);
+const wildPair = makePair(wildCatalog);
+const waterPair = makePair(waterCatalog);
+const birdPair = makePair(birdCatalog);
+
+// Every class keeps meeting one anchor picture and only the partner changes, so the
+// child always compares against something already familiar.
+const vehiclesBank = {
+  // PG -> Auto
   pg: [
-    { ask: "big", left: { emoji: "🐘", name: "Elephant" }, right: { emoji: "🐁", name: "Mouse" }, answer: "left" },
-    { ask: "small", left: { emoji: "🌳", name: "Tree" }, right: { emoji: "🌱", name: "Plant" }, answer: "right" },
-    { ask: "big", left: { emoji: "⚽", name: "Football" }, right: { emoji: "🎾", name: "Tennis Ball" }, answer: "left" },
-    { ask: "big", left: { emoji: "🏠", name: "House" }, right: { emoji: "🚪", name: "Door" }, answer: "left" },
-    { ask: "small", left: { emoji: "🐜", name: "Ant" }, right: { emoji: "🦁", name: "Lion" }, answer: "left" },
-    { ask: "small", left: { emoji: "🍉", name: "Watermelon" }, right: { emoji: "🍇", name: "Grape" }, answer: "right" },
+    vehiclePair("auto", "bus", "big"),
+    vehiclePair("auto", "cycle", "big"),
+    vehiclePair("auto", "airplane", "big"),
+    vehiclePair("auto", "car", "small"),
+    vehiclePair("auto", "ship", "big"),
   ],
+  // Nursery -> Truck
   nursery: [
-    { ask: "big", left: { emoji: "🚌", name: "Bus" }, right: { emoji: "🚗", name: "Car" }, answer: "left" },
-    { ask: "small", left: { emoji: "🐳", name: "Whale" }, right: { emoji: "🐠", name: "Fish" }, answer: "right" },
-    { ask: "big", left: { emoji: "🏔️", name: "Mountain" }, right: { emoji: "⛰️", name: "Hill" }, answer: "left" },
-    { ask: "big", left: { emoji: "🎒", name: "School Bag" }, right: { emoji: "📒", name: "Notebook" }, answer: "left" },
-    { ask: "big", left: { emoji: "🦒", name: "Giraffe" }, right: { emoji: "🐐", name: "Goat" }, answer: "left" },
-    { ask: "small", left: { emoji: "🥥", name: "Coconut" }, right: { emoji: "🫐", name: "Blueberry" }, answer: "right" },
+    vehiclePair("truck", "cycle", "big"),
+    vehiclePair("truck", "auto", "big"),
+    vehiclePair("truck", "car", "big"),
+    vehiclePair("truck", "taxi", "small"),
+    vehiclePair("truck", "airplane", "big"),
+    vehiclePair("truck", "ship", "big"),
   ],
+  // LKG -> Bus
   lkg: [
-    { ask: "big", left: { emoji: "🏢", name: "Building" }, right: { emoji: "🏠", name: "House" }, answer: "left" },
-    { ask: "small", left: { emoji: "✈️", name: "Aeroplane" }, right: { emoji: "🚲", name: "Bicycle" }, answer: "right" },
-    { ask: "big", left: { emoji: "🐊", name: "Crocodile" }, right: { emoji: "🦎", name: "Lizard" }, answer: "left" },
-    { ask: "small", left: { emoji: "🍎", name: "Apple" }, right: { emoji: "🍒", name: "Cherry" }, answer: "right" },
-    { ask: "big", left: { emoji: "🚢", name: "Ship" }, right: { emoji: "⛵", name: "Sailboat" }, answer: "left" },
-    { ask: "small", left: { emoji: "🌻", name: "Sunflower" }, right: { emoji: "🌼", name: "Daisy" }, answer: "right" },
+    vehiclePair("bus", "cycle", "big"),
+    vehiclePair("bus", "auto", "small"),
+    vehiclePair("bus", "car", "big"),
+    vehiclePair("bus", "taxi", "big"),
+    vehiclePair("bus", "airplane", "big"),
+    vehiclePair("bus", "ship", "small"),
   ],
+  // UKG -> Taxi
   ukg: [
-    { ask: "big", left: { emoji: "🌍", name: "Earth" }, right: { emoji: "🌙", name: "Moon" }, answer: "left" },
-    { ask: "big", left: { emoji: "🐘", name: "Elephant" }, right: { emoji: "🦏", name: "Rhino" }, answer: "left" },
-    { ask: "big", left: { emoji: "🏟️", name: "Stadium" }, right: { emoji: "🏫", name: "School" }, answer: "left" },
-    { ask: "small", left: { emoji: "🐍", name: "Snake" }, right: { emoji: "🪱", name: "Worm" }, answer: "right" },
-    { ask: "big", left: { emoji: "🗼", name: "Tower" }, right: { emoji: "🏠", name: "House" }, answer: "left" },
-    { ask: "small", left: { emoji: "🥭", name: "Mango" }, right: { emoji: "🫒", name: "Olive" }, answer: "right" },
+    vehiclePair("taxi", "cycle", "big"),
+    vehiclePair("taxi", "auto", "big"),
+    vehiclePair("taxi", "truck", "small"),
+    vehiclePair("taxi", "bus", "big"),
+    vehiclePair("taxi", "airplane", "big"),
+    vehiclePair("taxi", "ship", "small"),
   ],
 };
 
+const domesticAnimalsBank = {
+  // PG -> Dog
+  pg: [
+    domesticPair("dog", "chick", "big"),
+    domesticPair("dog", "cow", "big"),
+    domesticPair("dog", "cat", "big"),
+    domesticPair("dog", "hen", "small"),
+    domesticPair("dog", "horse", "big"),
+    domesticPair("dog", "rabbit", "big"),
+  ],
+  // Nursery -> Cow
+  nursery: [
+    domesticPair("cow", "hen", "big"),
+    domesticPair("cow", "cat", "big"),
+    domesticPair("cow", "goat", "big"),
+    domesticPair("cow", "buffalo", "big"),
+    domesticPair("cow", "chick", "small"),
+    domesticPair("cow", "horse", "small"),
+  ],
+  // LKG -> Goat
+  lkg: [
+    domesticPair("goat", "rabbit", "big"),
+    domesticPair("goat", "buffalo", "small"),
+    domesticPair("goat", "chick", "big"),
+    domesticPair("goat", "pig", "big"),
+    domesticPair("goat", "dog", "big"),
+    domesticPair("goat", "horse", "small"),
+  ],
+  // UKG -> Horse
+  ukg: [
+    domesticPair("horse", "cat", "big"),
+    domesticPair("horse", "buffalo", "small"),
+    domesticPair("horse", "chick", "big"),
+    domesticPair("horse", "dog", "big"),
+    domesticPair("horse", "cow", "big"),
+    domesticPair("horse", "rabbit", "small"),
+  ],
+};
+
+const wildAnimalsBank = {
+  // PG -> Lion
+  pg: [
+    wildPair("lion", "ant", "big"),
+    wildPair("lion", "elephant", "big"),
+    wildPair("lion", "monkey", "big"),
+    wildPair("lion", "squirrel", "small"),
+    wildPair("lion", "giraffe", "big"),
+    wildPair("lion", "deer", "big"),
+  ],
+  // Nursery -> Elephant
+  nursery: [
+    wildPair("elephant", "monkey", "big"),
+    wildPair("elephant", "ant", "big"),
+    wildPair("elephant", "deer", "big"),
+    wildPair("elephant", "giraffe", "big"),
+    wildPair("elephant", "squirrel", "small"),
+    wildPair("elephant", "tiger", "big"),
+  ],
+  // LKG -> Tiger
+  lkg: [
+    wildPair("tiger", "fox", "big"),
+    wildPair("tiger", "rhino", "small"),
+    wildPair("tiger", "squirrel", "big"),
+    wildPair("tiger", "zebra", "big"),
+    wildPair("tiger", "elephant", "big"),
+    wildPair("tiger", "ant", "small"),
+  ],
+  // UKG -> Giraffe
+  ukg: [
+    wildPair("giraffe", "zebra", "big"),
+    wildPair("giraffe", "elephant", "small"),
+    wildPair("giraffe", "monkey", "big"),
+    wildPair("giraffe", "camel", "big"),
+    wildPair("giraffe", "ant", "big"),
+    wildPair("giraffe", "deer", "big"),
+  ],
+};
+
+const waterAnimalsBank = {
+  // PG -> Fish
+  pg: [
+    waterPair("fish", "whale", "big"),
+    waterPair("fish", "prawn", "big"),
+    waterPair("fish", "crab", "big"),
+    waterPair("fish", "shark", "big"),
+    waterPair("fish", "dolphin", "big"),
+    waterPair("fish", "octopus", "small"),
+  ],
+  // Nursery -> Whale
+  nursery: [
+    waterPair("whale", "fish", "big"),
+    waterPair("whale", "crab", "big"),
+    waterPair("whale", "dolphin", "big"),
+    waterPair("whale", "prawn", "small"),
+    waterPair("whale", "turtle", "big"),
+    waterPair("whale", "shark", "big"),
+  ],
+  // LKG -> Turtle
+  lkg: [
+    waterPair("turtle", "prawn", "big"),
+    waterPair("turtle", "whale", "small"),
+    waterPair("turtle", "crab", "big"),
+    waterPair("turtle", "shark", "small"),
+    waterPair("turtle", "fish", "big"),
+    waterPair("turtle", "dolphin", "big"),
+  ],
+  // UKG -> Dolphin
+  ukg: [
+    waterPair("dolphin", "whale", "small"),
+    waterPair("dolphin", "fish", "big"),
+    waterPair("dolphin", "octopus", "big"),
+    waterPair("dolphin", "crab", "big"),
+    waterPair("dolphin", "seal", "big"),
+    waterPair("dolphin", "prawn", "small"),
+  ],
+};
+
+const birdsBank = {
+  // PG -> Parrot
+  pg: [
+    birdPair("parrot", "chick", "big"),
+    birdPair("parrot", "peacock", "big"),
+    birdPair("parrot", "sparrow", "big"),
+    birdPair("parrot", "eagle", "big"),
+    birdPair("parrot", "dove", "small"),
+    birdPair("parrot", "swan", "big"),
+  ],
+  // Nursery -> Peacock
+  nursery: [
+    birdPair("peacock", "sparrow", "big"),
+    birdPair("peacock", "chick", "big"),
+    birdPair("peacock", "parrot", "big"),
+    birdPair("peacock", "dove", "small"),
+    birdPair("peacock", "owl", "big"),
+    birdPair("peacock", "duck", "big"),
+  ],
+  // LKG -> Sparrow
+  lkg: [
+    birdPair("sparrow", "eagle", "big"),
+    birdPair("sparrow", "chick", "big"),
+    birdPair("sparrow", "swan", "small"),
+    birdPair("sparrow", "owl", "big"),
+    birdPair("sparrow", "dove", "small"),
+    birdPair("sparrow", "turkey", "big"),
+  ],
+  // UKG -> Eagle
+  ukg: [
+    birdPair("eagle", "sparrow", "big"),
+    birdPair("eagle", "peacock", "small"),
+    birdPair("eagle", "owl", "big"),
+    birdPair("eagle", "chick", "big"),
+    birdPair("eagle", "swan", "small"),
+    birdPair("eagle", "parrot", "small"),
+  ],
+};
+
+const bigOrSmallBank = {
+  vehicles: vehiclesBank,
+  domesticAnimals: domesticAnimalsBank,
+  wildAnimals: wildAnimalsBank,
+  waterAnimals: waterAnimalsBank,
+  birds: birdsBank,
+};
+
+// Big or Small picks its questions through bigOrSmallBank[category][class] instead,
+// so it is deliberately not listed here.
 const banks = {
   compare: compareBank,
   series: seriesBank,
   identifyNumber: identifyNumberBank,
   moreOrLess: moreOrLessBank,
   heavyOrLight: heavyOrLightBank,
-  bigOrSmall: bigOrSmallBank,
 };
 
 /* ------------------------------- HELPERS -------------------------------- */
@@ -471,6 +769,7 @@ const buildQuestion = (modeId, item, classInfo) => {
 const NumeracySkillsCognitiveSkill = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -480,13 +779,17 @@ const NumeracySkillsCognitiveSkill = () => {
 
   const question = questions[current];
 
-  const startGame = (modeId) => {
+  // Big or Small is the one mode that picks its questions by category as well as class.
+  const startGame = (modeId, categoryId = null) => {
     const classInfo = classes.find((cls) => cls.id === selectedClass);
+    const items =
+      modeId === "bigOrSmall"
+        ? bigOrSmallBank[categoryId][selectedClass]
+        : banks[modeId][selectedClass];
 
     setSelectedMode(modeId);
-    setQuestions(
-      banks[modeId][selectedClass].map((item) => buildQuestion(modeId, item, classInfo))
-    );
+    setSelectedCategory(categoryId);
+    setQuestions(items.map((item) => buildQuestion(modeId, item, classInfo)));
     setCurrent(0);
     setScore(0);
     setSelected(null);
@@ -523,14 +826,25 @@ const NumeracySkillsCognitiveSkill = () => {
     }
   };
 
-  const backToModes = () => {
-    setSelectedMode(null);
+  const clearRound = () => {
     setQuestions([]);
     setCurrent(0);
     setScore(0);
     setSelected(null);
     setFeedback("");
     setShowResult(false);
+  };
+
+  // Stays inside Big or Small and drops back to its category cards.
+  const backToCategories = () => {
+    clearRound();
+    setSelectedCategory(null);
+  };
+
+  const backToModes = () => {
+    clearRound();
+    setSelectedCategory(null);
+    setSelectedMode(null);
   };
 
   const backToClasses = () => {
@@ -551,14 +865,14 @@ const NumeracySkillsCognitiveSkill = () => {
           {classes.map((cls) => (
             <div key={cls.id} className="bg-white rounded-3xl p-8 text-center shadow-xl">
               <div className="text-7xl">{cls.emoji}</div>
-              <h2 className={`text-3xl font-bold mt-4 ${classStyles[cls.color].text}`}>
+              <h2 className={`text-3xl font-bold mt-4 ${cardStyles[cls.color].text}`}>
                 {cls.name}
               </h2>
               <p className="mt-3 text-gray-600">{cls.desc}</p>
 
               <button
                 onClick={() => setSelectedClass(cls.id)}
-                className={`mt-6 ${classStyles[cls.color].bg} text-white px-6 py-3 rounded-full text-lg`}
+                className={`mt-6 ${cardStyles[cls.color].bg} text-white px-6 py-3 rounded-full text-lg`}
               >
                 ▶ Choose
               </button>
@@ -588,10 +902,12 @@ const NumeracySkillsCognitiveSkill = () => {
               <p className="mt-2 text-sm text-gray-600">{mode.desc}</p>
 
               <button
-                onClick={() => startGame(mode.id)}
+                onClick={() =>
+                  mode.id === "bigOrSmall" ? setSelectedMode(mode.id) : startGame(mode.id)
+                }
                 className="mt-5 bg-teal-500 text-white px-6 py-3 rounded-full text-lg"
               >
-                ▶ Play Now
+                {mode.id === "bigOrSmall" ? "▶ Choose Category" : "▶ Play Now"}
               </button>
             </div>
           ))}
@@ -607,7 +923,50 @@ const NumeracySkillsCognitiveSkill = () => {
     );
   }
 
+  // CATEGORY SELECTION PAGE (Big or Small only)
+  if (selectedMode === "bigOrSmall" && !selectedCategory) {
+    return (
+      <div className="min-h-screen bg-gradient-to-r from-sky-200 via-teal-200 to-green-200 flex flex-col items-center justify-center p-6">
+        <h1 className="text-4xl font-bold text-teal-700 mb-2 text-center">
+          🐘 Big or Small 🐁
+        </h1>
+        <p className="text-gray-700 mb-8 text-center">
+          {classInfo.emoji} {classInfo.name} • Which pictures do you want to play with?
+        </p>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+          {bigOrSmallCategories.map((category) => (
+            <div key={category.id} className="bg-white rounded-3xl p-6 text-center shadow-xl">
+              <div className="text-7xl">{category.emoji}</div>
+
+              <h2 className={`text-2xl font-bold mt-4 ${cardStyles[category.color].text}`}>
+                {category.name}
+              </h2>
+
+              <p className="mt-2 text-sm text-gray-600">{category.desc}</p>
+
+              <button
+                onClick={() => startGame("bigOrSmall", category.id)}
+                className={`mt-5 ${cardStyles[category.color].bg} text-white px-6 py-3 rounded-full text-lg`}
+              >
+                ▶ Play Now
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={backToModes}
+          className="mt-8 bg-white text-gray-700 px-6 py-3 rounded-full shadow"
+        >
+          ⬅ Back To Games
+        </button>
+      </div>
+    );
+  }
+
   const modeInfo = modes.find((mode) => mode.id === selectedMode);
+  const categoryInfo = bigOrSmallCategories.find((cat) => cat.id === selectedCategory);
   const progress = ((current + 1) / questions.length) * 100;
   // A question counts as tried the moment an option is picked, so the totals stay
   // correct for a child who walks away mid-round.
@@ -624,6 +983,7 @@ const NumeracySkillsCognitiveSkill = () => {
 
           <p className="text-gray-600 mt-2">
             {classInfo.name} • {modeInfo.name}
+            {categoryInfo && ` • ${categoryInfo.name}`}
           </p>
 
           <h2 className="text-2xl mt-4">
@@ -632,11 +992,20 @@ const NumeracySkillsCognitiveSkill = () => {
 
           <div className="flex flex-col gap-3 mt-6">
             <button
-              onClick={() => startGame(selectedMode)}
+              onClick={() => startGame(selectedMode, selectedCategory)}
               className="bg-teal-500 text-white px-6 py-3 rounded-full text-lg"
             >
               🔄 Play Again
             </button>
+
+            {categoryInfo && (
+              <button
+                onClick={backToCategories}
+                className="bg-indigo-500 text-white px-6 py-3 rounded-full text-lg"
+              >
+                🗂️ Choose Another Category
+              </button>
+            )}
 
             <button
               onClick={backToModes}
@@ -669,6 +1038,7 @@ const NumeracySkillsCognitiveSkill = () => {
 
         <p className="text-gray-500 mt-1">
           {classInfo.emoji} {classInfo.name}
+          {categoryInfo && ` • ${categoryInfo.emoji} ${categoryInfo.name}`}
         </p>
 
         <div className="flex gap-3 mt-6">
@@ -798,10 +1168,10 @@ const NumeracySkillsCognitiveSkill = () => {
         </div>
 
         <button
-          onClick={backToModes}
+          onClick={categoryInfo ? backToCategories : backToModes}
           className="mt-6 bg-gray-100 text-gray-700 px-6 py-2 rounded-full"
         >
-          ⬅ Back To Games
+          {categoryInfo ? "⬅ Back To Categories" : "⬅ Back To Games"}
         </button>
       </div>
     </div>
