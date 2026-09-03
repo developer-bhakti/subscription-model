@@ -8,6 +8,7 @@ import ACTCurriculumFreeCoupon from "./components/TeacherSupportAndTraining/ACTC
 import LanguageDevelopmentFreeCoupon from "./components/TeacherSupportAndTraining/LanguageDevelopmentFreeCoupon";
 import ManagementOfAssessmentFreeCoupon from "./components/TeacherSupportAndTraining/ManagementOfAssessmentFreeCoupon";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ADMIN_ROLES } from "./services/auth";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRoles={["admin"]}>
+            <ProtectedRoute allowedRoles={ADMIN_ROLES}>
               <Admin />
             </ProtectedRoute>
           }

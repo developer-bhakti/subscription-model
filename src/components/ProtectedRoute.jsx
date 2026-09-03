@@ -1,19 +1,16 @@
 import { Navigate } from "react-router-dom";
+import { getCurrentUser, isAnyAdmin } from "../services/auth";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = getCurrentUser();
 
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
   if (!allowedRoles.includes(user.role)) {
-    // If user role not allowed, redirect to their appropriate page
-    if (user.role === "admin") {
-      return <Navigate to="/admin" replace />;
-    } else {
-      return <Navigate to="/user" replace />;
-    }
+    // Send them back to the area their own role is allowed into.
+    return <Navigate to={isAnyAdmin(user) ? "/admin" : "/user"} replace />;
   }
 
   return children;

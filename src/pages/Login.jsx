@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../services/supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { isAnyAdmin } from "../services/auth";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -53,7 +54,7 @@ export default function Login() {
     // Store user data
     localStorage.setItem("user", JSON.stringify(data));
 
-    if (data.role === "admin") {
+    if (isAnyAdmin(data)) {
       navigate("/admin");
     } else {
       const today = new Date();
