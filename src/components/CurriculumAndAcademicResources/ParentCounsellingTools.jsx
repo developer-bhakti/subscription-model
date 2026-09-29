@@ -3,32 +3,32 @@ import React from "react";
 const counsellingTools = [
   {
     title: "Initial Skill Assessment for PG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/parent_consulling.jpg?v=1779266869",
+    emoji: "🍼",
+    tint: "bg-sky-50",
     description:
       "Assessment designed to help parents and teachers check and understand the developmental and functional skills of a Playgroup child. This helps evaluate toddlers readiness for early learning experiences.",
     pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-inner-PG-Adiuvaret.pdf?v=1779263813",
   },
   {
     title: "Initial Skill Assessment for Nursery",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_May_20_2026_01_46_21_PM.png?v=1779265017",
+    emoji: "👶",
+    tint: "bg-rose-50",
     description:
       "Learn activities and counselling methods to support emotional growth in children.",
     pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-inner-Nursery-update_633980e9-3d55-486d-b66b-ac38d3e7f2a1.pdf?v=1779707349",
   },
   {
     title: "Initial Skill Assessment for LKG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_May_20_2026_01_42_14_PM.png?v=1779264776",
+    emoji: "🧩",
+    tint: "bg-amber-50",
     description:
       "Helpful counselling tips and strategies for managing child behaviour effectively.",
     pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-inner-LKG-print_32012aed-a5c6-4dbb-93ed-bb5a8befd3c6.pdf?v=1779707418",
   },
   {
     title: "Initial Skill Assessment for UKG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_May_20_2026_01_44_00_PM.png?v=1779264883",
+    emoji: "🎓",
+    tint: "bg-indigo-50",
     description:
       "Guidance and counselling resources to improve speech and communication skills.",
     pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Prime-inner-UKG-Adiuvaret.pdf?v=1779263813",
@@ -54,16 +54,16 @@ export default function ParentCounsellingTools() {
               key={index}
               className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
             >
-              
-              {/* Image */}
-              <img
-                src={tool.image}
-                alt={tool.title}
-                className="w-full h-[220px] object-cover"
-              />
-
               {/* Content */}
               <div className="p-6 text-center">
+                
+                {/* Emoji */}
+                <div
+                  className={`w-20 h-20 mx-auto rounded-full ${tool.tint} flex items-center justify-center text-4xl mb-5`}
+                >
+                  {tool.emoji}
+                </div>
+
                 <h3 className="text-2xl font-bold text-[#222] mb-4 font-[Baloo_2] leading-snug">
                   {tool.title}
                 </h3>

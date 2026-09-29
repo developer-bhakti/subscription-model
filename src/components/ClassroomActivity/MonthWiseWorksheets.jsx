@@ -4,67 +4,73 @@ const months = [
   {
     id: "january",
     title: "January Activities",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/january.jpg?v=1779187060",
+    emoji: "🪁",
+    tint: "bg-sky-50",
     description: "Republic Day, Lohri, Pongal worksheets.",
   },
   {
     id: "february",
     title: "February Activities",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/february.jpg?v=1779187133",
+    emoji: "🔬",
+    tint: "bg-violet-50",
     description:
       "Fun preschool activities and printable worksheets.",
   },
   {
     id: "march",
     title: "March Activities",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/march.jpg?v=1779187765",
+    emoji: "🎨",
+    tint: "bg-rose-50",
     description: "Holi and colour themed learning activities.",
   },
   {
     id: "april",
     title: "April Activities",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/april.jpg?v=1779187632",
+    emoji: "🌈",
+    tint: "bg-amber-50",
     description:
       "Summer worksheets and preschool fun learning sheets.",
   },
   {
     id: "may",
     title: "May Activities",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/may.jpg?v=1779187764",
+    emoji: "☀️",
+    tint: "bg-orange-50",
     description:
       "Summer worksheets and preschool fun learning sheets.",
   },
   {
     id: "june",
     title: "June Activities",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/june.png?v=1783931807",
+    emoji: "🌿",
+    tint: "bg-emerald-50",
     description:
       "Father's Day, World Environment Day, Yoga Day worksheets.",
   },
   {
     id: "july",
     title: "July Activities",
-    image:
-       "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/july1.png?v=1783939685",
+    emoji: "☔",
+    tint: "bg-cyan-50",
     description:
       "Rainy Season, Doctor's Day, Guru Purnima worksheets.",
   },
-   {
+  {
     id: "august",
     title: "August Activities",
-    image:
-       "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Aug_17_2026_01_45_54_PM.png?v=1786954730",
-    portraitCover: true,
+    emoji: "🎊",
+    tint: "bg-indigo-50",
     description:
       "Rainy Season, Doctor's Day, Guru Purnima worksheets.",
   },
-  
+  {
+    id: "september",
+    title: "September Activities",
+    emoji: "📚",
+    tint: "bg-pink-50",
+    description:
+      "Teachers' Day, Ganesh Chaturthi and fun learning worksheets.",
+  },
 ];
 
 const activitiesData = {
@@ -383,6 +389,7 @@ const activitiesData = {
     },
 
   ],
+
   july: [
     {
       title: "Big Butterfly Day",
@@ -455,6 +462,7 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Mango_Day.pdf?v=1784182856",
     },
   ],
+  
   august: [
     {
       title: "National Friendship Day",
@@ -534,7 +542,107 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Beach_Day.pdf?v=1787633063",
     },
   ],
-  
+
+  september: [
+     {
+      title: "Coconut Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Coconut_Day.jpg?v=1788015814",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Coconut_Day.pdf?v=1788015823",
+    },
+     {
+      title: "National Wildlife Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Wildlife_Day.jpg?v=1788158619",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Wildlife_Day.pdf?v=1788158620",
+    },
+     {
+      title: "Janmashtami",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Janmashtami.jpg?v=1788164675",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Krushna_janmashtami_20cf8475-d596-4a91-a6ed-78447df9ac52.pdf?v=1788172275",
+    },
+     {
+      title: "Teachers Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Teachers_Day.jpg?v=1788418591",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Teachers_Day-LKG.pdf?v=1788418598",
+    },
+     {
+      title: "Gopalkala",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Gopalkala.jpg?v=1788418595",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Gopalkala.pdf?v=1788418598",
+    },
+     {
+      title: "International Literacy Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Literacy_Day.jpg?v=1788780957",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Literacy_Day.pdf?v=1788780982",
+    },
+     {
+      title: "Teddy Bear Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Teddy_Bear_Day.jpg?v=1788780954",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Teddy_Bear_Day.pdf?v=1788780967",
+    },
+     {
+      title: "First Aid Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/First_Aid_Day.jpg?v=1788949309",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/First_Aid_Day.pdf?v=1788949308",
+    },
+     {
+      title: "Hindi Diwas",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Hindi_Diwas.jpg?v=1788949307",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Hindi_Diwas.pdf?v=1788949308",
+    },
+     {
+      title: "Ganesh Chaturthi",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Ganesh_Chaturthi.jpg?v=1789194604",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Ganesh_Chaturthi.pdf?v=1789194605",
+    },
+     {
+      title: "International Day of Peace",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/peace_day.png?v=1789816865",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Day_of_peace.pdf?v=1789816865 ",
+    },
+     {
+      title: "Gorilla Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/gorila_day.png?v=1789816865",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Gorilla_Day.pdf?v=1789816865",
+    },
+     {
+      title: "International Rabbit Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Rabbit_Day.png?v=1790155726",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/International_Rabbit_Day.pdf?v=1790155728",
+    },
+     {
+      title: "World River Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_River_Day.png?v=1790155726",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_River_Day-LKG.pdf?v=1790155728",
+    },
+  ],
 };
 export default function MonthWiseWorksheets() {
   const [activeMonth, setActiveMonth] = useState("january");
@@ -555,19 +663,13 @@ export default function MonthWiseWorksheets() {
               key={month.id}
               className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
             >
-              <div className="w-full h-[240px] bg-[#f7f8ff] flex items-center justify-center overflow-hidden rounded-t-3xl p-3">
-                <img
-                  src={month.image}
-                  alt={month.title}
-                  className={
-                    month.portraitCover
-                      ? "w-full max-w-74 aspect-1469/1071 object-cover object-top"
-                      : "w-full h-full object-contain"
-                  }
-                />
-              </div>
-
               <div className="p-6">
+                <div
+                  className={`w-20 h-20 rounded-full ${month.tint} flex items-center justify-center text-4xl mb-5`}
+                >
+                  {month.emoji}
+                </div>
+
                 <h3 className="text-2xl font-bold text-gray-800 mb-3">
                   {month.title}
                 </h3>

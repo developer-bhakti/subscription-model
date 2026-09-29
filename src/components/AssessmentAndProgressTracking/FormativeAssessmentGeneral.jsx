@@ -9,19 +9,17 @@ export default function FormativeAssessmentGeneral() {
     {
       id: "nursery",
       title: "Nursery",
-      image:
-        "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1000",
+      emoji: "👶",
+      tint: "bg-rose-50",
       assessments: [
         {
           title: "Nursery 1",
-          image:
-            "https://images.unsplash.com/photo-1588072432904-843af37f03ed?w=1000",
+          emoji: "📝",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-1_Papers-Nursery.pdf?v=1781243406",
         },
         {
           title: "Nursery 2",
-          image:
-            "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1000",
+          emoji: "📋",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-2_Papers-Nursery.pdf?v=1781243406",
         },
       ],
@@ -29,19 +27,17 @@ export default function FormativeAssessmentGeneral() {
     {
       id: "lkg",
       title: "LKG",
-      image:
-        "https://images.unsplash.com/photo-1588072432836-e10032774350?w=1000",
+      emoji: "🧩",
+      tint: "bg-amber-50",
       assessments: [
         {
           title: "LKG 1",
-          image:
-            "https://images.unsplash.com/photo-1588072432904-843af37f03ed?w=1000",
+          emoji: "📝",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-1_Papers-LKG.pdf?v=1781243406",
         },
         {
           title: "LKG 2",
-          image:
-            "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1000",
+          emoji: "📋",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-2_Papers-LKG.pdf?v=1781243406",
         },
       ],
@@ -49,19 +45,17 @@ export default function FormativeAssessmentGeneral() {
     {
       id: "ukg",
       title: "UKG",
-      image:
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1000",
+      emoji: "🎓",
+      tint: "bg-indigo-50",
       assessments: [
         {
           title: "UKG 1",
-          image:
-            "https://images.unsplash.com/photo-1588072432904-843af37f03ed?w=1000",
+          emoji: "📝",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-1_Papers-UKG.pdf?v=1781243406",
         },
         {
           title: "UKG 2",
-          image:
-            "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1000",
+          emoji: "📋",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-2_Papers-UKG.pdf?v=1781243406",
         },
       ],
@@ -85,13 +79,13 @@ export default function FormativeAssessmentGeneral() {
               key={item.id}
               className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition"
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-72 object-cover"
-              />
-
               <div className="p-6 text-center">
+                <div
+                  className={`w-20 h-20 mx-auto rounded-full ${item.tint} flex items-center justify-center text-4xl mb-5`}
+                >
+                  {item.emoji}
+                </div>
+
                 <h2 className="text-4xl font-bold mb-5">{item.title}</h2>
 
                 <button
@@ -119,13 +113,13 @@ export default function FormativeAssessmentGeneral() {
                       key={index}
                       className="bg-white rounded-3xl overflow-hidden shadow-lg"
                     >
-                      <img
-                        src={paper.image}
-                        alt={paper.title}
-                        className="w-full h-80 object-cover"
-                      />
-
                       <div className="p-6 text-center">
+                        <div
+                          className={`w-24 h-24 mx-auto rounded-full ${item.tint} flex items-center justify-center text-5xl mb-6`}
+                        >
+                          {paper.emoji}
+                        </div>
+
                         <h3 className="text-3xl font-bold mb-6">
                           {paper.title}
                         </h3>

@@ -14,22 +14,22 @@ const ACTCurriculum = () => {
   const classes = [
     {
       name: "Nursery",
-      image:
-        "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
+      emoji: "👶",
+      tint: "bg-rose-50",
       description:
         "Fun phonics, tracing worksheets, playful activities and preschool curriculum.",
     },
     {
       name: "LKG",
-      image:
-        "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop",
+      emoji: "🧩",
+      tint: "bg-amber-50",
       description:
         "Interactive classroom learning, alphabet practice and creative activities.",
     },
     {
       name: "UKG",
-      image:
-        "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop",
+      emoji: "🎓",
+      tint: "bg-indigo-50",
       description:
         "Reading, writing, phonics and advanced preschool learning curriculum.",
     },
@@ -41,8 +41,6 @@ const ACTCurriculum = () => {
     Nursery: [
       {
         id: 1,
-        image:
-          "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop",
         title: "Month 1 Curriculum",
         description:
           "Weekly curriculum and skill-based learning resources for Month 1.",
@@ -62,8 +60,6 @@ const ACTCurriculum = () => {
       },
       {
         id: 2,
-        image:
-          "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
         title: "Month 2 Curriculum",
         description:
           "Creative worksheets, tracing practice and classroom learning.",
@@ -83,8 +79,6 @@ const ACTCurriculum = () => {
       },
       {
         id: 3,
-        image:
-          "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop",
         title: "Month 3 Curriculum",
         description:
           "Reading, writing and advanced preschool learning curriculum.",
@@ -107,8 +101,6 @@ const ACTCurriculum = () => {
     LKG: [
       {
         id: 1,
-        image:
-          "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop",
         title: "Month 1 Curriculum",
         description:
           "Alphabet recognition, phonics practice and interactive worksheets for LKG.",
@@ -128,8 +120,6 @@ const ACTCurriculum = () => {
       },
       {
         id: 2,
-        image:
-          "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
         title: "Month 2 Curriculum",
         description:
           "Word building, creative activities and skill-based learning for LKG.",
@@ -149,8 +139,6 @@ const ACTCurriculum = () => {
       },
       {
         id: 3,
-        image:
-          "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop",
         title: "Month 3 Curriculum",
         description:
           "Reading practice, writing skills and advanced LKG curriculum.",
@@ -173,8 +161,6 @@ const ACTCurriculum = () => {
     UKG: [
       {
         id: 1,
-        image:
-          "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop",
         title: "Month 1 Curriculum",
         description:
           "Reading fluency, writing practice and structured worksheets for UKG.",
@@ -194,8 +180,6 @@ const ACTCurriculum = () => {
       },
       {
         id: 2,
-        image:
-          "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
         title: "Month 2 Curriculum",
         description:
           "Grammar basics, creative writing and skill-based learning for UKG.",
@@ -215,8 +199,6 @@ const ACTCurriculum = () => {
       },
       {
         id: 3,
-        image:
-          "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop",
         title: "Month 3 Curriculum",
         description:
           "Advanced reading, writing and exam-ready curriculum for UKG.",
@@ -266,13 +248,13 @@ const ACTCurriculum = () => {
                 key={item.name}
                 className="bg-white rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition"
               >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-[260px] object-cover"
-                />
-
                 <div className="p-7">
+                  <div
+                    className={`w-20 h-20 rounded-full ${item.tint} flex items-center justify-center text-4xl mb-5`}
+                  >
+                    {item.emoji}
+                  </div>
+
                   <h2 className="text-4xl font-bold text-gray-900 mb-4">
                     {item.name}
                   </h2>
@@ -323,13 +305,11 @@ const ACTCurriculum = () => {
                   key={month.id}
                   className="bg-white rounded-[30px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
                 >
-                  <img
-                    src={month.image}
-                    alt=""
-                    className="w-full h-[240px] object-cover"
-                  />
-
                   <div className="p-7">
+
+                    <div className="w-16 h-16 rounded-full bg-indigo-50 flex items-center justify-center text-3xl mb-5">
+                      🗓️
+                    </div>
 
                     <span className="inline-block px-5 py-2 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold mb-5">
                       MONTH {month.id}

@@ -5,6 +5,7 @@ const DashboardCurriculum = () => {
   const navigate = useNavigate();
 
   return (
+
     <div className="space-y-6 px-3 sm:px-5 lg:px-0">
       
       {/* Header */}

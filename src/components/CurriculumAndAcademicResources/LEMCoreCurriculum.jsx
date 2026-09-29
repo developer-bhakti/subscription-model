@@ -3,20 +3,20 @@ import React, { useState } from "react";
 const classes = [
   {
     name: "Nursery",
-    image:
-      "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
+    emoji: "👶",
+    tint: "bg-rose-50",
     desc: "LEMCore curriculum resources and activities for Nursery students.",
   },
   {
     name: "LKG",
-    image:
-      "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop",
+    emoji: "🧩",
+    tint: "bg-amber-50",
     desc: "Interactive learning resources and curriculum for LKG students.",
   },
   {
     name: "UKG",
-    image:
-      "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop",
+    emoji: "🎓",
+    tint: "bg-indigo-50",
     desc: "Advanced preschool learning curriculum and educational activities.",
   },
 ];
@@ -393,14 +393,14 @@ const LemcoreCurriculum = () => {
                 key={item.name}
                 className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 duration-300"
               >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  onClick={() => setSelectedClass(item.name)}
-                  className="w-full h-56 object-cover cursor-pointer"
-                />
-
                 <div className="p-6">
+                  <div
+                    onClick={() => setSelectedClass(item.name)}
+                    className={`w-20 h-20 rounded-full ${item.tint} flex items-center justify-center text-4xl mb-5 cursor-pointer`}
+                  >
+                    {item.emoji}
+                  </div>
+
                   <h2
                     onClick={() => setSelectedClass(item.name)}
                     className="text-3xl font-bold text-gray-900 mb-3 cursor-pointer"
@@ -447,13 +447,11 @@ const LemcoreCurriculum = () => {
                   key={month}
                   className="bg-white rounded-3xl overflow-hidden shadow-lg"
                 >
-                  <img
-                    src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop"
-                    alt={`Month ${month}`}
-                    className="w-full h-56 object-cover"
-                  />
-
                   <div className="p-6">
+                    <div className="w-16 h-16 rounded-full bg-indigo-50 flex items-center justify-center text-3xl mb-4">
+                      🗓️
+                    </div>
+
                     <h3 className="text-3xl font-bold mb-3">Month {month}</h3>
 
                     <p className="text-gray-500 mb-6">
