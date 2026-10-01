@@ -644,6 +644,285 @@ const compareWords = (left, right) => {
 
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const randomInt = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
+const coinFlip = () => Math.random() < 0.5;
+
+/* ----------------------- ENDLESS QUESTION GENERATORS ---------------------- */
+/* Every mode opens with its hand-written bank, then draws on the generator below for
+   as long as the child wants to carry on playing.                                  */
+
+// The number range each class plays inside, matching the promise on its class card.
+const classRanges = {
+  pg: { min: 1, max: 5 },
+  nursery: { min: 1, max: 10 },
+  lkg: { min: 1, max: 20 },
+  ukg: { min: 1, max: 100 },
+};
+
+const countingEmojis = [
+  "🍎", "🐟", "⭐", "🎈", "🍌", "🚗", "🐥", "🍇",
+  "🌸", "🐞", "⚽", "🦋", "🍓", "🐝", "🌼", "🧸",
+];
+
+// 1. FILL THE BLANK WITH =, > OR <
+// Equal pairs stay deliberately common — left to chance, "=" would almost never be the
+// answer and the child would quietly learn to stop considering it.
+const makeCompareItem = (classId) => {
+  const { min, max } = classRanges[classId];
+  const left = randomInt(min, max);
+
+  if (Math.random() < 0.25) return [left, left];
+
+  let right = randomInt(min, max);
+  while (right === left) right = randomInt(min, max);
+
+  return [left, right];
+};
+
+// 2. NUMBER SERIES
+// Every class counts inside its own range, with the step sizes that suit it.
+const seriesRules = {
+  pg: { max: 5, steps: [1], lengths: [3, 4] },
+  nursery: { max: 10, steps: [1], lengths: [4, 5] },
+  lkg: { max: 20, steps: [1, 2, 5], lengths: [4, 5] },
+  ukg: { max: 100, steps: [1, 2, 5, 10], lengths: [4, 5] },
+};
+
+const makeSeriesItem = (classId) => {
+  const rule = seriesRules[classId];
+  const step = pick(rule.steps);
+
+  // A stepped series starts on a multiple of its step, so it reads 5, 10, 15, 20
+  // rather than 3, 8, 13, 18.
+  const minStart = step === 1 ? 1 : step;
+
+  // Only the lengths that still finish inside this class's range.
+  const fits = rule.lengths.filter((len) => minStart + step * (len - 1) <= rule.max);
+  const length = pick(fits.length ? fits : [rule.lengths[0]]);
+
+  const maxStart = rule.max - step * (length - 1);
+  const start =
+    step === 1
+      ? minStart + Math.floor(Math.random() * (maxStart - minStart + 1))
+      : step * (1 + Math.floor(Math.random() * Math.floor(maxStart / step)));
+
+  const series = Array.from({ length }, (_, i) => start + i * step);
+  const blank = Math.floor(Math.random() * length);
+  const answer = series[blank];
+
+  // The near misses a child actually reaches for: one step out either way, then the
+  // numbers either side. A couple always survive, so there are never too few options.
+  const nearMisses = [answer + step, answer - step, answer + 1, answer - 1, answer + 2 * step];
+  const wrong = shuffle([
+    ...new Set(nearMisses.filter((num) => num > 0 && num !== answer)),
+  ]).slice(0, 2);
+
+  return { series, blank, wrong };
+};
+
+// 3. COUNT & IDENTIFY THE NUMBER
+const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+const teens = [
+  "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",
+  "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+];
+const tensWords = [
+  "", "", "Twenty", "Thirty", "Forty",
+  "Fifty", "Sixty", "Seventy", "Eighty", "Ninety",
+];
+
+const numberToWords = (num) => {
+  if (num === 100) return "One Hundred";
+  if (num < 10) return ones[num];
+  if (num < 20) return teens[num - 10];
+
+  const ten = Math.floor(num / 10);
+  const one = num % 10;
+
+  return one ? `${tensWords[ten]} ${ones[one]}` : tensWords[ten];
+};
+
+const makeIdentifyNumberItem = (classId) => {
+  const { max } = classRanges[classId];
+
+  // PG and Nursery count pictures; the older classes read the number's name.
+  if (classId === "pg" || classId === "nursery") {
+    const count = randomInt(1, max);
+
+    // Distractors stay inside the class's own range, so a child counting to five is
+    // never offered a seven.
+    const nearMisses = [count + 1, count - 1, count + 2, count - 2];
+    const wrong = shuffle([
+      ...new Set(nearMisses.filter((num) => num >= 1 && num <= max && num !== count)),
+    ]).slice(0, 2);
+
+    return { emoji: pick(countingEmojis), count, wrong };
+  }
+
+  const number = randomInt(classId === "lkg" ? 1 : 20, max);
+
+  // The mix-ups that actually catch children out: the digits the other way round
+  // (34 / 43), the same digits at the wrong scale (15 / 50), then the neighbours.
+  const swapped = Number(String(number).split("").reverse().join(""));
+  const candidates = [
+    swapped,
+    number * 10,
+    Math.floor(number / 10),
+    number + 1,
+    number - 1,
+    number + 9,
+  ];
+  const wrong = shuffle([
+    ...new Set(candidates.filter((num) => num >= 1 && num <= 100 && num !== number)),
+  ]).slice(0, 2);
+
+  return { words: numberToWords(number), number, wrong };
+};
+
+// 4. MORE OR LESS
+const makeMoreOrLessItem = (classId) => {
+  const { min, max } = classRanges[classId];
+  const left = randomInt(min, max);
+
+  let right = randomInt(min, max);
+  while (right === left) right = randomInt(min, max);
+
+  const ask = coinFlip() ? "more" : "less";
+
+  // PG and Nursery compare groups of pictures, the older classes compare numerals.
+  return classId === "pg" || classId === "nursery"
+    ? { emoji: pick(countingEmojis), left, right, ask }
+    : { left, right, ask };
+};
+
+// 5. HEAVY OR LIGHT
+// Ordered lightest to heaviest. Only the order matters — the gap rule below keeps the
+// two sides far enough apart that the answer is never a judgement call.
+const weightCatalog = [
+  { emoji: "🪶", name: "Feather" },
+  { emoji: "❄️", name: "Snowflake" },
+  { emoji: "🍂", name: "Leaf" },
+  { emoji: "🐜", name: "Ant" },
+  { emoji: "🍪", name: "Biscuit" },
+  { emoji: "🍓", name: "Strawberry" },
+  { emoji: "🎈", name: "Balloon" },
+  { emoji: "✏️", name: "Pencil" },
+  { emoji: "🧽", name: "Sponge" },
+  { emoji: "🧊", name: "Ice Cube" },
+  { emoji: "🥚", name: "Egg" },
+  { emoji: "🎾", name: "Tennis Ball" },
+  { emoji: "📱", name: "Mobile" },
+  { emoji: "🛍️", name: "Small Bag" },
+  { emoji: "📕", name: "Book" },
+  { emoji: "🪁", name: "Kite" },
+  { emoji: "🥛", name: "Glass of Milk" },
+  { emoji: "🧸", name: "Teddy" },
+  { emoji: "🧱", name: "Brick" },
+  { emoji: "🪨", name: "Stone" },
+  { emoji: "🍉", name: "Watermelon" },
+  { emoji: "🎒", name: "School Bag" },
+  { emoji: "🏋️", name: "Dumbbell" },
+  { emoji: "🪣", name: "Bucket of Water" },
+  { emoji: "📺", name: "Television" },
+  { emoji: "🐈", name: "Cat" },
+  { emoji: "🐕", name: "Dog" },
+  { emoji: "🪑", name: "Chair" },
+  { emoji: "🥔", name: "Sack of Potatoes" },
+  { emoji: "🍚", name: "Rice Bag" },
+  { emoji: "🛒", name: "Full Trolley" },
+  { emoji: "🚲", name: "Cycle" },
+  { emoji: "🛏️", name: "Bed" },
+  { emoji: "🛵", name: "Scooter" },
+  { emoji: "🐬", name: "Dolphin" },
+  { emoji: "🐄", name: "Cow" },
+  { emoji: "🚗", name: "Car" },
+  { emoji: "🚁", name: "Helicopter" },
+  { emoji: "🐘", name: "Elephant" },
+  { emoji: "🚌", name: "Bus" },
+  { emoji: "🚂", name: "Train" },
+  { emoji: "🐋", name: "Whale" },
+  { emoji: "🚢", name: "Ship" },
+];
+
+// How far apart the two things must sit in that list. The little ones get glaring
+// contrasts; the older classes get to weigh up closer calls.
+const weightGaps = { pg: 12, nursery: 9, lkg: 6, ukg: 4 };
+
+const makeHeavyOrLightItem = (classId) => {
+  const gap = weightGaps[classId];
+  const lighter = randomInt(0, weightCatalog.length - 1 - gap);
+  const heavier = randomInt(lighter + gap, weightCatalog.length - 1);
+
+  const ask = coinFlip() ? "heavy" : "light";
+  const heavierOnLeft = coinFlip();
+  const heavierSide = heavierOnLeft ? "left" : "right";
+  const lighterSide = heavierOnLeft ? "right" : "left";
+
+  return {
+    ask,
+    left: heavierOnLeft ? weightCatalog[heavier] : weightCatalog[lighter],
+    right: heavierOnLeft ? weightCatalog[lighter] : weightCatalog[heavier],
+    answer: ask === "heavy" ? heavierSide : lighterSide,
+  };
+};
+
+// 6. BIG OR SMALL
+const bigOrSmallCatalogs = {
+  vehicles: vehicleCatalog,
+  domesticAnimals: domesticCatalog,
+  wildAnimals: wildCatalog,
+  waterAnimals: waterCatalog,
+  birds: birdCatalog,
+};
+
+// The anchor picture each class keeps meeting, so only the partner changes — the same
+// pairing the hand-written banks above were built around.
+const bigOrSmallAnchors = {
+  vehicles: { pg: "auto", nursery: "truck", lkg: "bus", ukg: "taxi" },
+  domesticAnimals: { pg: "dog", nursery: "cow", lkg: "goat", ukg: "horse" },
+  wildAnimals: { pg: "lion", nursery: "elephant", lkg: "tiger", ukg: "giraffe" },
+  waterAnimals: { pg: "fish", nursery: "whale", lkg: "turtle", ukg: "dolphin" },
+  birds: { pg: "parrot", nursery: "peacock", lkg: "sparrow", ukg: "eagle" },
+};
+
+const makeBigOrSmallItem = (classId, categoryId) => {
+  const catalog = bigOrSmallCatalogs[categoryId];
+  const anchor = catalog[bigOrSmallAnchors[categoryId][classId]];
+
+  // Matching sizes would leave the question with no answer, so the partner is always a
+  // different size — compared by size rather than by key, since some tie (car/taxi).
+  const partner = pick(Object.values(catalog).filter((item) => item.size !== anchor.size));
+
+  const ask = coinFlip() ? "big" : "small";
+  const anchorOnLeft = coinFlip();
+  const left = anchorOnLeft ? anchor : partner;
+  const right = anchorOnLeft ? partner : anchor;
+  const biggerSide = left.size > right.size ? "left" : "right";
+  const smallerSide = biggerSide === "left" ? "right" : "left";
+
+  return {
+    ask,
+    left: { emoji: left.emoji, name: left.name },
+    right: { emoji: right.emoji, name: right.name },
+    answer: ask === "big" ? biggerSide : smallerSide,
+  };
+};
+
+// Each mode's generator, so any round can be topped up for ever. Big or Small is the
+// one that also needs the chosen category.
+const questionMakers = {
+  compare: makeCompareItem,
+  series: makeSeriesItem,
+  identifyNumber: makeIdentifyNumberItem,
+  moreOrLess: makeMoreOrLessItem,
+  heavyOrLight: makeHeavyOrLightItem,
+  bigOrSmall: makeBigOrSmallItem,
+};
+
+// Earn a star every time this many questions have been tried.
+const starEvery = 10;
+
 // Turns a raw bank item into one shape the game screen can render for every mode.
 const buildQuestion = (modeId, item, classInfo) => {
   if (modeId === "compare") {
@@ -787,9 +1066,13 @@ const NumeracySkillsCognitiveSkill = () => {
         ? bigOrSmallBank[categoryId][selectedClass]
         : banks[modeId][selectedClass];
 
+    // A round opens with the hand-written questions in a fresh order, then carries
+    // on with generated ones for as long as the child keeps playing.
+    const seed = shuffle(items);
+
     setSelectedMode(modeId);
     setSelectedCategory(categoryId);
-    setQuestions(items.map((item) => buildQuestion(modeId, item, classInfo)));
+    setQuestions(seed.map((item) => buildQuestion(modeId, item, classInfo)));
     setCurrent(0);
     setScore(0);
     setSelected(null);
@@ -817,13 +1100,25 @@ const NumeracySkillsCognitiveSkill = () => {
   };
 
   const nextQuestion = () => {
-    if (current + 1 < questions.length) {
-      setCurrent((prev) => prev + 1);
-      setSelected(null);
-      setFeedback("");
-    } else {
-      setShowResult(true);
+    // Each mode tops itself up on the way past the last question, so the child
+    // decides when to stop rather than the length of the bank.
+    if (current + 1 >= questions.length) {
+      const classInfo = classes.find((cls) => cls.id === selectedClass);
+      const makeItem = questionMakers[selectedMode];
+
+      setQuestions((prev) => [
+        ...prev,
+        buildQuestion(
+          selectedMode,
+          makeItem(selectedClass, selectedCategory),
+          classInfo,
+        ),
+      ]);
     }
+
+    setCurrent((prev) => prev + 1);
+    setSelected(null);
+    setFeedback("");
   };
 
   const clearRound = () => {
@@ -967,10 +1262,14 @@ const NumeracySkillsCognitiveSkill = () => {
 
   const modeInfo = modes.find((mode) => mode.id === selectedMode);
   const categoryInfo = bigOrSmallCategories.find((cat) => cat.id === selectedCategory);
-  const progress = ((current + 1) / questions.length) * 100;
   // A question counts as tried the moment an option is picked, so the totals stay
   // correct for a child who walks away mid-round.
   const attempted = current + (selected ? 1 : 0);
+  // A round has no fixed total to fill up, so the bar tracks the walk to the next
+  // star instead.
+  const stars = Math.floor(attempted / starEvery);
+  const toNextStar = starEvery - (attempted % starEvery);
+  const progress = ((attempted % starEvery) / starEvery) * 100;
 
   // RESULT PAGE
   if (showResult) {
@@ -987,7 +1286,7 @@ const NumeracySkillsCognitiveSkill = () => {
           </p>
 
           <h2 className="text-2xl mt-4">
-            Score : {score} / {questions.length}
+            Score : {score} / {attempted}
           </h2>
 
           <div className="flex flex-col gap-3 mt-6">
@@ -1046,7 +1345,7 @@ const NumeracySkillsCognitiveSkill = () => {
             <div className="text-xs uppercase tracking-wide">Total Tried</div>
 
             <div className="text-lg font-bold">
-              {attempted} / {questions.length}
+              {attempted}
             </div>
           </div>
 
@@ -1062,6 +1361,11 @@ const NumeracySkillsCognitiveSkill = () => {
         <div className="w-full h-3 bg-gray-200 rounded-full mt-5 overflow-hidden">
           <div className="h-full bg-green-500" style={{ width: `${progress}%` }} />
         </div>
+
+        <p className="text-sm text-gray-500 mt-2">
+          {stars > 0 && `⭐ × ${stars} • `}
+          {toNextStar} more for the next star
+        </p>
 
         <div className="bg-teal-50 border-4 border-dashed border-teal-400 rounded-3xl p-6 mt-6">
           <h2 className="text-2xl font-bold">{question.prompt}</h2>
@@ -1162,17 +1466,28 @@ const NumeracySkillsCognitiveSkill = () => {
               onClick={nextQuestion}
               className="mt-6 bg-orange-500 text-white px-6 py-3 rounded-full"
             >
-              {current + 1 === questions.length ? "Finish ➜" : "Next ➜"}
+              Next ➜
             </button>
           )}
         </div>
 
-        <button
-          onClick={categoryInfo ? backToCategories : backToModes}
-          className="mt-6 bg-gray-100 text-gray-700 px-6 py-2 rounded-full"
-        >
-          {categoryInfo ? "⬅ Back To Categories" : "⬅ Back To Games"}
-        </button>
+        <div className="flex flex-wrap justify-center gap-3 mt-6">
+          {attempted > 0 && (
+            <button
+              onClick={() => setShowResult(true)}
+              className="bg-green-500 text-white px-6 py-2 rounded-full"
+            >
+              🏁 Finish & See Score
+            </button>
+          )}
+
+          <button
+            onClick={categoryInfo ? backToCategories : backToModes}
+            className="bg-gray-100 text-gray-700 px-6 py-2 rounded-full"
+          >
+            {categoryInfo ? "⬅ Back To Categories" : "⬅ Back To Games"}
+          </button>
+        </div>
       </div>
     </div>
   );

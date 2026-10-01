@@ -29,93 +29,134 @@ const modes = [
   },
 ];
 
+// Every round is generated fresh, so children never run out of new questions.
+const QUESTIONS_PER_ROUND = 10;
+
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const VOWELS = ["A", "E", "I", "O", "U"];
+const CONSONANTS = ALPHABET.filter((ch) => !VOWELS.includes(ch));
+
+const shuffle = (list) => {
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+};
+
+const pickRandom = (list, count) => shuffle(list).slice(0, count);
+
 // WHAT COMES AFTER A LETTER
-const letterAfterBank = {
-  pg: [
-    { letter: "A", answer: "B", wrong: ["D", "C"], hint: "A, B, C..." },
-    { letter: "B", answer: "C", wrong: ["A", "E"], hint: "A, B, C, D..." },
-    { letter: "C", answer: "D", wrong: ["B", "F"], hint: "B, C, D, E..." },
-    { letter: "D", answer: "E", wrong: ["C", "G"], hint: "C, D, E, F..." },
-    { letter: "E", answer: "F", wrong: ["D", "H"], hint: "D, E, F, G..." },
-    { letter: "F", answer: "G", wrong: ["E", "A"], hint: "E, F, G, H..." },
-  ],
-  nursery: [
-    { letter: "G", answer: "H", wrong: ["F", "J"], hint: "F, G, H, I..." },
-    { letter: "H", answer: "I", wrong: ["G", "K"], hint: "G, H, I, J..." },
-    { letter: "J", answer: "K", wrong: ["I", "M"], hint: "I, J, K, L..." },
-    { letter: "L", answer: "M", wrong: ["K", "N"], hint: "K, L, M, N..." },
-    { letter: "M", answer: "N", wrong: ["L", "P"], hint: "L, M, N, O..." },
-    { letter: "O", answer: "P", wrong: ["N", "R"], hint: "N, O, P, Q..." },
-    { letter: "Q", answer: "R", wrong: ["P", "S"], hint: "P, Q, R, S..." },
-    { letter: "S", answer: "T", wrong: ["R", "V"], hint: "R, S, T, U..." },
-  ],
-  lkg: [
-    { letter: "b", answer: "c", wrong: ["a", "d", "e"], hint: "a, b, c, d..." },
-    { letter: "e", answer: "f", wrong: ["d", "g", "h"], hint: "d, e, f, g..." },
-    { letter: "i", answer: "j", wrong: ["h", "k", "l"], hint: "h, i, j, k..." },
-    { letter: "l", answer: "m", wrong: ["k", "n", "o"], hint: "k, l, m, n..." },
-    { letter: "n", answer: "o", wrong: ["m", "p", "q"], hint: "m, n, o, p..." },
-    { letter: "p", answer: "q", wrong: ["o", "r", "s"], hint: "o, p, q, r..." },
-    { letter: "t", answer: "u", wrong: ["s", "v", "w"], hint: "s, t, u, v..." },
-    { letter: "w", answer: "x", wrong: ["v", "y", "z"], hint: "v, w, x, y..." },
-  ],
-  ukg: [
-    { letter: "r", answer: "s", wrong: ["q", "t", "u"], hint: "q, r, s, t..." },
-    { letter: "u", answer: "v", wrong: ["t", "w", "x"], hint: "t, u, v, w..." },
-    { letter: "x", answer: "y", wrong: ["w", "z", "v"], hint: "w, x, y, z..." },
-    { letter: "Y", answer: "Z", wrong: ["X", "W", "A"], hint: "X, Y, Z is the end." },
-    { letter: "K", answer: "L", wrong: ["J", "M", "N"], hint: "J, K, L, M..." },
-    { letter: "P", answer: "Q", wrong: ["O", "R", "S"], hint: "O, P, Q, R..." },
-    { letter: "G", answer: "H", wrong: ["F", "I", "J"], hint: "F, G, H, I..." },
-    { letter: "T", answer: "U", wrong: ["S", "V", "W"], hint: "S, T, U, V..." },
-  ],
+// Letters that can be asked (each has a next letter), by class.
+const letterAfterConfig = {
+  pg: { max: 10, wrongCount: 2, casing: "upper" },
+  nursery: { max: 25, wrongCount: 2, casing: "upper" },
+  lkg: { max: 25, wrongCount: 3, casing: "lower" },
+  ukg: { max: 25, wrongCount: 3, casing: "mixed" },
+};
+
+const generateLetterAfter = (classId) => {
+  const { max, wrongCount, casing } = letterAfterConfig[classId];
+  const indexes = pickRandom(
+    Array.from({ length: max }, (_, i) => i),
+    QUESTIONS_PER_ROUND
+  );
+
+  return indexes.map((idx) => {
+    const lower = casing === "lower" || (casing === "mixed" && Math.random() < 0.5);
+    const fmt = (ch) => (lower ? ch.toLowerCase() : ch);
+
+    const nearby = ALPHABET.filter(
+      (_, i) => i !== idx + 1 && i !== idx && Math.abs(i - (idx + 1)) <= 3
+    );
+    const wrong = pickRandom(nearby, wrongCount).map(fmt);
+
+    const hintLetters = ALPHABET.slice(Math.max(0, idx - 1), idx + 3).map(fmt);
+    const hint =
+      idx === 24
+        ? "X, Y, Z is the end."
+        : `${hintLetters.join(", ")}...`;
+
+    return {
+      letter: fmt(ALPHABET[idx]),
+      answer: fmt(ALPHABET[idx + 1]),
+      wrong,
+      hint,
+    };
+  });
 };
 
 // FILL THE BLANKS FOR A GIVEN WORD
-const wordBlankBank = {
-  pg: [
-    { word: "CAT", blank: 1, emoji: "🐱", answer: "A", wrong: ["O", "U"] },
-    { word: "SUN", blank: 1, emoji: "☀️", answer: "U", wrong: ["A", "E"] },
-    { word: "BUS", blank: 1, emoji: "🚌", answer: "U", wrong: ["I", "O"] },
-    { word: "DOG", blank: 1, emoji: "🐶", answer: "O", wrong: ["A", "I"] },
-    { word: "PEN", blank: 1, emoji: "🖊️", answer: "E", wrong: ["A", "O"] },
-    { word: "HAT", blank: 1, emoji: "🎩", answer: "A", wrong: ["E", "I"] },
-  ],
-  nursery: [
-    { word: "BAT", blank: 0, emoji: "🦇", answer: "B", wrong: ["D", "P"] },
-    { word: "CUP", blank: 2, emoji: "☕", answer: "P", wrong: ["T", "N"] },
-    { word: "FAN", blank: 2, emoji: "🪭", answer: "N", wrong: ["M", "T"] },
-    { word: "JAM", blank: 0, emoji: "🍓", answer: "J", wrong: ["G", "Y"] },
-    { word: "KEY", blank: 0, emoji: "🔑", answer: "K", wrong: ["C", "Q"] },
-    { word: "MAT", blank: 1, emoji: "🟫", answer: "A", wrong: ["E", "U"] },
-    { word: "NET", blank: 1, emoji: "🥅", answer: "E", wrong: ["A", "I"] },
-    { word: "PIG", blank: 1, emoji: "🐷", answer: "I", wrong: ["E", "O"] },
-  ],
-  lkg: [
-    { word: "BOOK", blank: 2, emoji: "📖", answer: "O", wrong: ["A", "E", "U"] },
-    { word: "CAKE", blank: 1, emoji: "🎂", answer: "A", wrong: ["O", "E", "I"] },
-    { word: "FISH", blank: 3, emoji: "🐟", answer: "H", wrong: ["T", "N", "D"] },
-    { word: "MOON", blank: 2, emoji: "🌙", answer: "O", wrong: ["A", "E", "U"] },
-    { word: "STAR", blank: 1, emoji: "⭐", answer: "T", wrong: ["P", "D", "K"] },
-    { word: "TREE", blank: 1, emoji: "🌳", answer: "R", wrong: ["L", "N", "W"] },
-    { word: "MILK", blank: 2, emoji: "🥛", answer: "L", wrong: ["R", "N", "D"] },
-    { word: "FROG", blank: 2, emoji: "🐸", answer: "O", wrong: ["A", "E", "I"] },
-  ],
-  ukg: [
-    { word: "APPLE", blank: 2, emoji: "🍎", answer: "P", wrong: ["B", "D", "T"] },
-    { word: "FLOWER", blank: 1, emoji: "🌸", answer: "L", wrong: ["R", "N", "T"] },
-    { word: "ORANGE", blank: 3, emoji: "🍊", answer: "N", wrong: ["M", "R", "L"] },
-    { word: "PENCIL", blank: 4, emoji: "✏️", answer: "I", wrong: ["E", "A", "O"] },
-    { word: "RABBIT", blank: 3, emoji: "🐰", answer: "B", wrong: ["D", "P", "T"] },
-    { word: "SCHOOL", blank: 2, emoji: "🏫", answer: "H", wrong: ["C", "K", "T"] },
-    { word: "BANANA", blank: 5, emoji: "🍌", answer: "A", wrong: ["O", "E", "I"] },
-    { word: "MONKEY", blank: 3, emoji: "🐵", answer: "K", wrong: ["C", "G", "T"] },
-  ],
+const threeLetterWords = [
+  ["CAT", "🐱"], ["SUN", "☀️"], ["BUS", "🚌"], ["DOG", "🐶"], ["PEN", "🖊️"],
+  ["HAT", "🎩"], ["BAT", "🦇"], ["PIG", "🐷"], ["CUP", "☕"], ["FAN", "🪭"],
+  ["NET", "🥅"], ["JAM", "🍓"], ["KEY", "🔑"], ["BED", "🛏️"], ["BEE", "🐝"],
+  ["COW", "🐮"], ["HEN", "🐔"], ["BOX", "📦"], ["CAR", "🚗"], ["EGG", "🥚"],
+  ["BAG", "🎒"], ["BUG", "🐛"], ["LEG", "🦵"], ["RAT", "🐀"], ["FOX", "🦊"],
+  ["PIE", "🥧"], ["MAP", "🗺️"], ["MAT", "🟫"],
+];
+
+const fourLetterWords = [
+  ["BOOK", "📖"], ["CAKE", "🎂"], ["FISH", "🐟"], ["MOON", "🌙"], ["STAR", "⭐"],
+  ["TREE", "🌳"], ["MILK", "🥛"], ["FROG", "🐸"], ["DUCK", "🦆"], ["BIRD", "🐦"],
+  ["LION", "🦁"], ["BEAR", "🐻"], ["SHIP", "🚢"], ["DRUM", "🥁"], ["KITE", "🪁"],
+  ["BELL", "🔔"], ["SOCK", "🧦"], ["HAND", "✋"], ["DOOR", "🚪"], ["CORN", "🌽"],
+  ["RING", "💍"], ["ROSE", "🌹"], ["CRAB", "🦀"], ["GOAT", "🐐"], ["WOLF", "🐺"],
+];
+
+const longWords = [
+  ["APPLE", "🍎"], ["FLOWER", "🌸"], ["ORANGE", "🍊"], ["PENCIL", "✏️"],
+  ["RABBIT", "🐰"], ["SCHOOL", "🏫"], ["BANANA", "🍌"], ["MONKEY", "🐵"],
+  ["TIGER", "🐯"], ["ZEBRA", "🦓"], ["GRAPE", "🍇"], ["HORSE", "🐴"],
+  ["PIZZA", "🍕"], ["CLOCK", "🕐"], ["MOUSE", "🐭"], ["SNAKE", "🐍"],
+  ["WHALE", "🐳"], ["LEMON", "🍋"], ["TRAIN", "🚆"], ["ROBOT", "🤖"],
+  ["HOUSE", "🏠"], ["SHEEP", "🐑"], ["BREAD", "🍞"], ["CHAIR", "🪑"],
+  ["PLANE", "✈️"], ["ELEPHANT", "🐘"],
+];
+
+const wordBlankConfig = {
+  pg: { words: threeLetterWords, blanks: "vowel", wrongCount: 2 },
+  nursery: { words: threeLetterWords, blanks: "consonant", wrongCount: 2 },
+  lkg: { words: fourLetterWords, blanks: "any", wrongCount: 3 },
+  ukg: { words: longWords, blanks: "any", wrongCount: 3 },
 };
 
-const banks = {
-  letterAfter: letterAfterBank,
-  wordBlank: wordBlankBank,
+const allWords = new Set(
+  [...threeLetterWords, ...fourLetterWords, ...longWords].map(([w]) => w)
+);
+
+const generateWordBlank = (classId) => {
+  const { words, blanks, wrongCount } = wordBlankConfig[classId];
+
+  return pickRandom(words, QUESTIONS_PER_ROUND).map(([word, emoji]) => {
+    const positions = word
+      .split("")
+      .map((ch, i) => i)
+      .filter((i) => {
+        const isVowel = VOWELS.includes(word[i]);
+        if (blanks === "vowel") return isVowel;
+        if (blanks === "consonant") return !isVowel;
+        return true;
+      });
+    const blank = pickRandom(positions, 1)[0];
+    const answer = word[blank];
+
+    // Wrong options match the answer's kind (vowel/consonant) and never spell another known word.
+    const pool = (VOWELS.includes(answer) ? VOWELS : CONSONANTS).filter((ch) => {
+      if (ch === answer) return false;
+      const attempt = word.slice(0, blank) + ch + word.slice(blank + 1);
+      return !allWords.has(attempt);
+    });
+    const wrong = pickRandom(pool, wrongCount);
+
+    return { word, blank, emoji, answer, wrong };
+  });
+};
+
+const generators = {
+  letterAfter: generateLetterAfter,
+  wordBlank: generateWordBlank,
 };
 
 const buildBlankWord = (word, blank) =>
@@ -139,9 +180,9 @@ const LiteracySkills = () => {
 
   // Options are shuffled once per round so a re-render never reshuffles them mid-question.
   const buildQuestions = (mode) =>
-    banks[mode][selectedClass].map((item) => ({
+    generators[mode](selectedClass).map((item) => ({
       ...item,
-      options: [item.answer, ...item.wrong].sort(() => Math.random() - 0.5),
+      options: shuffle([item.answer, ...item.wrong]),
     }));
 
   const startGame = (mode) => {
