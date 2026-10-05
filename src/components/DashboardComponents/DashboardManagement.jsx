@@ -40,6 +40,15 @@ const DashboardManagement = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Build Your Session Plan</h3>
           <p className="text-sm text-gray-500">Build and print a school term session plan.</p>
         </button>
+
+        <button
+          onClick={() => navigate('/user/management/sound-books')}
+          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
+        >
+          <div className="text-4xl mb-4">🔊</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Sound Book</h3>
+          <p className="text-sm text-gray-500">Open the phonics sound books for every class.</p>
+        </button>
       </div>
     </div>
   );

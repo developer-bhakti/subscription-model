@@ -29,8 +29,14 @@ const modes = [
   },
 ];
 
-// Every round is generated fresh, so children never run out of new questions.
-const QUESTIONS_PER_ROUND = 10;
+// Questions are generated in batches, and a fresh batch is added whenever the child
+// reaches the end of the last one, so a round only finishes when they decide it has.
+// Each batch draws without repeats, so every letter or word comes up once before any
+// of them comes round again.
+const QUESTIONS_PER_BATCH = 10;
+
+// Earn a star every time this many questions have been tried.
+const starEvery = 10;
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const VOWELS = ["A", "E", "I", "O", "U"];
@@ -60,7 +66,7 @@ const generateLetterAfter = (classId) => {
   const { max, wrongCount, casing } = letterAfterConfig[classId];
   const indexes = pickRandom(
     Array.from({ length: max }, (_, i) => i),
-    QUESTIONS_PER_ROUND
+    QUESTIONS_PER_BATCH
   );
 
   return indexes.map((idx) => {
@@ -129,7 +135,7 @@ const allWords = new Set(
 const generateWordBlank = (classId) => {
   const { words, blanks, wrongCount } = wordBlankConfig[classId];
 
-  return pickRandom(words, QUESTIONS_PER_ROUND).map(([word, emoji]) => {
+  return pickRandom(words, QUESTIONS_PER_BATCH).map(([word, emoji]) => {
     const positions = word
       .split("")
       .map((ch, i) => i)
@@ -178,7 +184,8 @@ const LiteracySkills = () => {
   const question = questions[current];
   const options = question ? question.options : [];
 
-  // Options are shuffled once per round so a re-render never reshuffles them mid-question.
+  // Options are shuffled as a batch is built, so a re-render never reshuffles them
+  // mid-question.
   const buildQuestions = (mode) =>
     generators[mode](selectedClass).map((item) => ({
       ...item,
@@ -219,13 +226,15 @@ const LiteracySkills = () => {
   };
 
   const nextQuestion = () => {
-    if (current + 1 < questions.length) {
-      setCurrent((prev) => prev + 1);
-      setSelected(null);
-      setFeedback("");
-    } else {
-      setShowResult(true);
+    // Running past the last question adds another batch, so the child decides when
+    // to stop rather than the length of the word list.
+    if (current + 1 >= questions.length) {
+      setQuestions((prev) => [...prev, ...buildQuestions(selectedMode)]);
     }
+
+    setCurrent((prev) => prev + 1);
+    setSelected(null);
+    setFeedback("");
   };
 
   const backToModes = () => {
@@ -313,10 +322,14 @@ const LiteracySkills = () => {
   }
 
   const modeInfo = modes.find((mode) => mode.id === selectedMode);
-  const progress = ((current + 1) / questions.length) * 100;
   // A question counts as tried the moment an option is picked, so the totals stay
   // correct for a child who walks away mid-round.
   const attempted = current + (selected ? 1 : 0);
+  // A round has no fixed total to fill up, so the bar tracks the walk to the next
+  // star instead.
+  const stars = Math.floor(attempted / starEvery);
+  const toNextStar = starEvery - (attempted % starEvery);
+  const progress = ((attempted % starEvery) / starEvery) * 100;
 
   // RESULT PAGE
   if (showResult) {
@@ -332,7 +345,7 @@ const LiteracySkills = () => {
           </p>
 
           <h2 className="text-2xl mt-4">
-            Score : {score} / {questions.length}
+            Score : {score} / {attempted}
           </h2>
 
           <div className="flex flex-col gap-3 mt-6">
@@ -378,9 +391,7 @@ const LiteracySkills = () => {
           <div className="flex-1 bg-teal-400 text-white p-3 rounded-2xl">
             <div className="text-xs uppercase tracking-wide">Total Tried</div>
 
-            <div className="text-lg font-bold">
-              {attempted} / {questions.length}
-            </div>
+            <div className="text-lg font-bold">{attempted}</div>
           </div>
 
           <div className="flex-1 bg-yellow-400 text-white p-3 rounded-2xl">
@@ -395,6 +406,11 @@ const LiteracySkills = () => {
         <div className="w-full h-3 bg-gray-200 rounded-full mt-5 overflow-hidden">
           <div className="h-full bg-green-500" style={{ width: `${progress}%` }} />
         </div>
+
+        <p className="text-sm text-gray-500 mt-2">
+          {stars > 0 && `⭐ × ${stars} • `}
+          {toNextStar} more for the next star
+        </p>
 
         <div className="bg-yellow-50 border-4 border-dashed border-yellow-400 rounded-3xl p-6 mt-6">
           {selectedMode === "letterAfter" ? (
@@ -459,17 +475,28 @@ const LiteracySkills = () => {
               onClick={nextQuestion}
               className="mt-6 bg-orange-500 text-white px-6 py-3 rounded-full"
             >
-              {current + 1 === questions.length ? "Finish ➜" : "Next ➜"}
+              Next ➜
             </button>
           )}
         </div>
 
-        <button
-          onClick={backToModes}
-          className="mt-6 bg-gray-100 text-gray-700 px-6 py-2 rounded-full"
-        >
-          ⬅ Back To Games
-        </button>
+        <div className="flex flex-wrap justify-center gap-3 mt-6">
+          {attempted > 0 && (
+            <button
+              onClick={() => setShowResult(true)}
+              className="bg-green-500 text-white px-6 py-2 rounded-full"
+            >
+              🏁 Finish & See Score
+            </button>
+          )}
+
+          <button
+            onClick={backToModes}
+            className="bg-gray-100 text-gray-700 px-6 py-2 rounded-full"
+          >
+            ⬅ Back To Games
+          </button>
+        </div>
       </div>
     </div>
   );

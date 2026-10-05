@@ -8,6 +8,7 @@ import DashboardOnlineGames from "../components/DashboardComponents/DashboardOnl
 import DashboardAssessment from "../components/DashboardComponents/DashboardAssessment";
 import DashboardTeacherSupport from "../components/DashboardComponents/DashboardTeacherSupport";
 import DashboardManagement from "../components/DashboardComponents/DashboardManagement";
+import DashboardAuditTools from "../components/DashboardComponents/DashboardAuditTools";
 import ClassWiseDiagnosticAssessment from "../components/AssessmentAndProgressTracking/ClassWiseDiagnosticAssessment";
 import MonthFormativeAssessment from "../components/AssessmentAndProgressTracking/MonthFormativeAssessment";
 import OnlineAssessmentLoader from "../components/AssessmentAndProgressTracking/OnlineAssessmentLoader";
@@ -27,6 +28,8 @@ import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
 import ColourThemeActivities from "../components/ClassroomActivity/ColourThemeActivities";
 import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
 import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
+import SoundBooks from "../components/SchoolOprationManagementTool.jsx/SoundBooks";
+import Toymaterial from "../components/AduitTools/Toymaterial";
 import ACTCurriculum from "../components/CurriculumAndAcademicResources/ACTCurriculum";
 import FormativeAssessmentGeneral from "../components/AssessmentAndProgressTracking/FormativeAssessmentGeneral";
 import AssessementForADHD from "../components/AssessmentAndProgressTracking/AssessementForADHD";
@@ -275,6 +278,21 @@ export default function User() {
           <Route
             path="management/admission-test"
             element={<SchoolAdmissionTest />}
+          />
+
+          <Route
+            path="management/sound-books"
+            element={<SoundBooks />}
+          />
+
+          <Route
+            path="audit-tools"
+            element={<DashboardAuditTools />}
+          />
+
+          <Route
+            path="audit-tools/toy-material"
+            element={<Toymaterial />}
           />
 
           <Route

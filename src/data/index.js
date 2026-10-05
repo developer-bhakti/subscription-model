@@ -6,6 +6,7 @@ export const sections = [
     { title: "Assessment And Progress Tracking Tools", path: "/user/assessment", icon: "📊" },
     { title: "Teacher Support And Training", path: "/user/teacher-support", icon: "👩‍🏫" },
     { title: "School Operations And Management Tools", path: "/user/management", icon: "🏫" },
+    { title: "Audit Tools", path: "/user/audit-tools", icon: "🧾" },
     { title: "Marketing And Parent Engagement Toolkit", path: "/user/marketing", icon: "📣" },
     { title: "School Newsletter App", path: "/user/school-newsletter-app", icon: "📰", premium: true },
   ];
