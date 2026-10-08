@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { sections } from "../data";
+import { sectionsFor } from "../data";
+import { getAccountType, ACCOUNT_TYPES } from "../services/auth";
+import TeacherOnlyRoute from "../components/TeacherOnlyRoute";
 import DashboardHome from "../components/DashboardComponents/DashboardHome";
 import DashboardCurriculum from "../components/DashboardComponents/DashboardCurriculum";
 import DashboardWorksheet from "../components/DashboardComponents/DashboardWorksheet";
@@ -67,6 +69,10 @@ export default function User() {
   const endDate = new Date(user.end_date);
   const isActive = today <= endDate;
 
+  // A parent account gets the five learning modules; a teacher account gets them all.
+  const accountType = getAccountType(user);
+  const visibleSections = sectionsFor(accountType);
+
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden relative print:h-auto print:overflow-visible print:block">
 
@@ -100,9 +106,17 @@ export default function User() {
       >
         <div className="overflow-y-auto">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-2xl font-bold text-indigo-600">
-              Dashboard
-            </h1>
+            <div>
+              <h1 className="text-2xl font-bold text-indigo-600">
+                Dashboard
+              </h1>
+
+              <span className="text-xs font-semibold text-gray-500">
+                {accountType === ACCOUNT_TYPES.PARENT
+                  ? "👨‍👩‍👧 Parent"
+                  : "👩‍🏫 Teacher"}
+              </span>
+            </div>
 
             <button
               onClick={() => setSidebarOpen(false)}
@@ -113,7 +127,7 @@ export default function User() {
           </div>
 
           <div className="space-y-2">
-            {sections.map((item, index) => (
+            {visibleSections.map((item, index) => (
               <div
                 key={index}
                 onClick={() => {
@@ -267,47 +281,83 @@ export default function User() {
 
           <Route
             path="management"
-            element={<DashboardManagement />}
+            element={
+              <TeacherOnlyRoute>
+                <DashboardManagement />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="management/admission-form"
-            element={<SchoolAdmissionForm />}
+            element={
+              <TeacherOnlyRoute>
+                <SchoolAdmissionForm />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="management/admission-test"
-            element={<SchoolAdmissionTest />}
+            element={
+              <TeacherOnlyRoute>
+                <SchoolAdmissionTest />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="management/sound-books"
-            element={<SoundBooks />}
+            element={
+              <TeacherOnlyRoute>
+                <SoundBooks />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="audit-tools"
-            element={<DashboardAuditTools />}
+            element={
+              <TeacherOnlyRoute>
+                <DashboardAuditTools />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="audit-tools/toy-material"
-            element={<Toymaterial />}
+            element={
+              <TeacherOnlyRoute>
+                <Toymaterial />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="marketing"
-            element={<DashboardMarketing />}
+            element={
+              <TeacherOnlyRoute>
+                <DashboardMarketing />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="marketing/admission-doc"
-            element={<AdmissionDocWizard />}
+            element={
+              <TeacherOnlyRoute>
+                <AdmissionDocWizard />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="marketing/outreach"
-            element={<OutreachDocWizard />}
+            element={
+              <TeacherOnlyRoute>
+                <OutreachDocWizard />
+              </TeacherOnlyRoute>
+            }
           />
 
           {/* <Route
@@ -317,12 +367,20 @@ export default function User() {
 
           <Route
             path="premium"
-            element={<DashboardPremium />}
+            element={
+              <TeacherOnlyRoute>
+                <DashboardPremium />
+              </TeacherOnlyRoute>
+            }
           />
 
           <Route
             path="school-newsletter-app"
-            element={<SchoolNewsletterApp />}
+            element={
+              <TeacherOnlyRoute>
+                <SchoolNewsletterApp />
+              </TeacherOnlyRoute>
+            }
           />
         </Routes>
       </div>

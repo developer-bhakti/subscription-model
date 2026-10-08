@@ -18,6 +18,23 @@ export const getCurrentUser = () => {
   }
 };
 
+// A subscriber is either a teacher or a parent. This is deliberately separate from
+// `role` so the existing superadmin / admin / user roles keep working untouched.
+export const ACCOUNT_TYPES = {
+  TEACHER: "teacher",
+  PARENT: "parent",
+};
+
+// Accounts created before parent logins existed carry no account_type. Those were
+// full-dashboard accounts, so teacher stays the default and only an explicit "parent"
+// narrows what someone can reach.
+export const getAccountType = (user) =>
+  user?.account_type === ACCOUNT_TYPES.PARENT
+    ? ACCOUNT_TYPES.PARENT
+    : ACCOUNT_TYPES.TEACHER;
+
+export const isParent = (user) => getAccountType(user) === ACCOUNT_TYPES.PARENT;
+
 export const isSuperAdmin = (user) => user?.role === ROLES.SUPER_ADMIN;
 
 export const isAnyAdmin = (user) => ADMIN_ROLES.includes(user?.role);

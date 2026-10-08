@@ -1,7 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../services/supabaseClient";
-import { ROLES, getCurrentUser, isSuperAdmin } from "../services/auth";
+import {
+  ROLES,
+  ACCOUNT_TYPES,
+  getCurrentUser,
+  isSuperAdmin,
+  getAccountType,
+} from "../services/auth";
 
 // Products an admin can be put in charge of. Add new modules to this list.
 const ASSIGNABLE_MODELS = ["Subscription Model"];
@@ -12,6 +18,7 @@ const emptyForm = {
   endDate: "",
   price: "",
   assignedModel: ASSIGNABLE_MODELS[0],
+  accountType: ACCOUNT_TYPES.TEACHER,
 };
 
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : "—");
@@ -125,6 +132,7 @@ export default function Admin() {
       endDate: record.end_date ? String(record.end_date).slice(0, 10) : "",
       price: record.price ?? "",
       assignedModel: record.assigned_model || ASSIGNABLE_MODELS[0],
+      accountType: getAccountType(record),
     });
     setShowModal(true);
   };
@@ -162,6 +170,10 @@ export default function Admin() {
 
       if (isAdminForm) {
         payload.assigned_model = form.assignedModel;
+      } else {
+        // Decides which dashboard the account lands on and which modules it can
+        // reach. Admin accounts have their own area, so it does not apply to them.
+        payload.account_type = form.accountType;
       }
 
       if (editingRecord) {
@@ -601,6 +613,28 @@ export default function Admin() {
                         {model}
                       </option>
                     ))}
+                  </select>
+                </div>
+              )}
+
+              {formRole !== ROLES.ADMIN && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Account Type
+                  </label>
+
+                  <select
+                    value={form.accountType}
+                    onChange={setField("accountType")}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
+                  >
+                    <option value={ACCOUNT_TYPES.TEACHER}>
+                      Teacher — full dashboard
+                    </option>
+
+                    <option value={ACCOUNT_TYPES.PARENT}>
+                      Parent — learning modules only
+                    </option>
                   </select>
                 </div>
               )}

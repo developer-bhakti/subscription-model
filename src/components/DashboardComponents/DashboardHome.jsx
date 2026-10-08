@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { sections } from "../../data";
+import { sectionsFor } from "../../data";
+import { getAccountType } from "../../services/auth";
 
 const DashboardHome = () => {
   const [user, setUser] = useState(null);
@@ -23,6 +24,9 @@ const DashboardHome = () => {
   const endDate = new Date(user.end_date);
   const isActive = today <= endDate;
   const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
+
+  // Same filtering as the sidebar, so the cards and the menu never disagree.
+  const visibleSections = sectionsFor(getAccountType(user));
 
   return (
     <div>
@@ -56,7 +60,7 @@ const DashboardHome = () => {
       </motion.div>
       {/* FEATURE CARDS */}
       <div className="grid md:grid-cols-3 gap-6">
-        {sections.map((item, index) => (
+        {visibleSections.map((item, index) => (
           <motion.div
             key={index}
             whileHover={{ scale: 1.03 }}
