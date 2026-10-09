@@ -1,4 +1,6 @@
 import React from "react";
+import { PageHero } from "../KidsUI";
+import { Star } from "../KidsArt";
 
 // Paste each audit sheet's link into its `pdf`. A card with an empty `pdf` shows as
 // "Coming Soon" rather than a dead button, so this page is safe to ship part-filled.
@@ -43,43 +45,39 @@ const toyMaterialAudits = [
 
 const Toymaterial = () => {
   return (
-    <section className="bg-slate-100 py-16 px-5">
+    <section>
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
-        <div className="text-center mb-14">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 leading-tight">
-            Toy & Material Audit
-          </h1>
-
-          <p className="text-slate-500 mt-3 text-base md:text-lg">
-            Check the toys and learning materials in every preschool classroom.
-          </p>
-        </div>
+        <PageHero
+          emoji="🧸"
+          title="Toy & Material Audit"
+          subtitle="Check the toys and learning materials in every preschool classroom."
+        />
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+        <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
           {toyMaterialAudits.map((audit, index) => (
             <div
               key={index}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
-              <div className="p-6 text-center">
+              <Star className="absolute right-4 top-4 h-6 w-6" />
+
+              <div className="flex flex-1 flex-col items-center p-6 text-center">
 
                 {/* Emoji */}
-                <div
-                  className={`w-20 h-20 mx-auto rounded-full ${audit.tint} flex items-center justify-center text-4xl mb-5`}
-                >
+                <div className="kid-chip mb-5 h-20 w-20 text-4xl">
                   {audit.emoji}
                 </div>
 
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">
+                <h2 className="text-xl font-semibold leading-snug text-kid-ink mb-2">
                   {audit.title}
                 </h2>
 
-                <p className="text-slate-400 text-sm mb-4">{audit.age}</p>
+                <span className="kid-pill mb-4">{audit.age}</span>
 
-                <p className="text-slate-500 text-[15px] leading-7 mb-6">
+                <p className="text-kid-soft text-[15px] font-medium leading-7 mb-6 flex-1">
                   {audit.description}
                 </p>
 
@@ -88,12 +86,12 @@ const Toymaterial = () => {
                     href={audit.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block px-6 py-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 text-white font-semibold text-sm shadow-md hover:from-orange-600 hover:to-amber-500 transition-all duration-300"
+                    className="kid-btn"
                   >
                     View & Download
                   </a>
                 ) : (
-                  <span className="inline-block px-6 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm cursor-not-allowed">
+                  <span className="inline-block rounded-full bg-white/70 px-6 py-2.5 text-sm font-semibold text-kid-soft cursor-not-allowed">
                     Coming Soon
                   </span>
                 )}

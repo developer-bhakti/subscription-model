@@ -661,17 +661,17 @@ export default function MonthWiseWorksheets() {
         />
 
         {/* Month Cards */}
-        <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-start">
+        <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           {months.map((month) => (
             <div
               key={month.id}
-              className={`kid-card kid-card-hover overflow-hidden ${
+              className={`kid-card kid-card-hover flex flex-col overflow-hidden ${
                 activeMonth === month.id ? "ring-4 ring-kid-green/40" : ""
               }`}
             >
               <Star className="absolute right-4 top-4 h-6 w-6" />
 
-              <div className="p-5">
+              <div className="flex flex-1 flex-col p-5">
                 <div className="kid-chip h-16 w-16 text-3xl mb-4">
                   {month.emoji}
                 </div>
@@ -680,7 +680,7 @@ export default function MonthWiseWorksheets() {
                   {month.title}
                 </h3>
 
-                <p className="text-kid-soft leading-7 mb-5 font-medium text-[15px]">
+                <p className="text-kid-soft leading-7 mb-5 flex-1 font-medium text-[15px]">
                   {month.description}
                 </p>
 

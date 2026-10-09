@@ -6,7 +6,9 @@ import { Star } from "./KidsArt";
 
 // The band at the top of an inner page: the dashboard banner's soft gradient, with a white
 // icon circle, the page title and a one-line subtitle.
-export function PageHero({ emoji, title, subtitle, as: Heading = "h1", children }) {
+export function PageHero({ emoji, title, subtitle, as = "h1", children }) {
+  const Heading = as;
+
   return (
     <div className="relative mb-8 overflow-hidden rounded-[28px] bg-gradient-to-r from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] px-5 py-6 sm:px-8">
       <span
@@ -17,7 +19,7 @@ export function PageHero({ emoji, title, subtitle, as: Heading = "h1", children 
       <Star className="pointer-events-none absolute bottom-4 right-24 hidden h-5 w-5 sm:block" />
 
       <div className="relative flex items-center gap-4">
-        {emoji && <span className="kid-chip h-14 w-14 text-3xl">{emoji}</span>}
+        {emoji && <span className="kid-chip h-14 w-14 text-3xl text-kid-deep">{emoji}</span>}
 
         <div className="min-w-0 pr-10">
           <Heading className="text-2xl font-semibold leading-tight text-kid-ink sm:text-3xl">
@@ -36,7 +38,9 @@ export function PageHero({ emoji, title, subtitle, as: Heading = "h1", children 
 }
 
 // A heading inside a page, marked with the same smiling star as the dashboard's sections.
-export function SectionTitle({ children, as: Heading = "h2", className = "" }) {
+export function SectionTitle({ children, as = "h2", className = "" }) {
+  const Heading = as;
+
   return (
     <Heading
       className={`flex items-center gap-2 text-2xl font-semibold text-kid-ink ${className}`}

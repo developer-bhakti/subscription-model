@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 import { PDFDocument } from "pdf-lib";
 import { Upload, FileDown, Check, Eye, Plus, X, ExternalLink } from "lucide-react";
+import { PageHero } from "../KidsUI";
 import { outreachWorksheets } from "../../data/outreachWorksheets";
 
 const months = [
@@ -18,12 +19,12 @@ const stepDefs = [
 ];
 
 const inputClass =
-  "w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#15803d]";
-const cardClass = "bg-white rounded-3xl shadow-lg p-8";
+  "kid-input";
+const cardClass = "kid-card tone-white p-6 md:p-8";
 const primaryBtn =
-  "inline-flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300";
+  "kid-btn px-8 py-3";
 const secondaryBtn =
-  "inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold transition duration-300";
+  "kid-btn kid-btn-soft px-8 py-3";
 
 function Stepper({ step, maxStepReached, onStepClick }) {
   return (
@@ -320,21 +321,20 @@ const OutreachDocWizard = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#f3faef] to-[#e7f6df] py-16 px-5 font-sans min-h-screen">
+    <section>
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-center text-4xl font-bold text-gray-900 mb-2">
-          Create Your Outreach
-        </h2>
-        <p className="text-center text-gray-500 mb-10">
-          {schoolName || "School"} {schoolName ? `| ${classLevel} | ${month}` : ""}
-        </p>
+        <PageHero
+          emoji="📣"
+          title="Create Your Outreach"
+          subtitle={`${schoolName || "School"} ${schoolName ? `| ${classLevel} | ${month}` : ""}`}
+        />
 
         <Stepper step={step} maxStepReached={maxStepReached} onStepClick={goToStep} />
 
         {/* STEP 1 — Details */}
         {step === 1 && (
           <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">School Details</h3>
+            <h3 className="text-2xl font-semibold text-kid-ink mb-6">School Details</h3>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -383,7 +383,7 @@ const OutreachDocWizard = () => {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   School Logo
                 </label>
-                <label className="flex items-center gap-3 border border-dashed border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:border-[#15803d] transition">
+                <label className="flex items-center gap-3 rounded-2xl border-2 border-dashed border-edge-mint bg-tone-mint/40 px-4 py-3 cursor-pointer hover:border-kid-green transition">
                   <Upload size={18} className="text-gray-500" />
                   <span className="text-sm text-gray-500">
                     {logo ? "Logo selected" : "Upload logo"}
@@ -420,7 +420,7 @@ const OutreachDocWizard = () => {
         {/* STEP 2 — Events (typed array + suggested occasions) */}
         {step === 2 && (
           <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-1">Event & Location Details</h3>
+            <h3 className="text-2xl font-semibold text-kid-ink mb-1">Event & Location Details</h3>
             <p className="text-sm text-gray-500 mb-6">
               For different age groups you may download different documents by selecting the month.
             </p>
@@ -499,7 +499,7 @@ const OutreachDocWizard = () => {
                   return (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-2 border border-gray-200 rounded-full px-4 py-1.5 text-sm font-medium text-gray-700"
+                      className="inline-flex items-center gap-2 rounded-full bg-tone-mint px-4 py-1.5 text-sm font-medium text-kid-ink"
                     >
                       {ev}
                       {pdfLink && (
@@ -539,7 +539,7 @@ const OutreachDocWizard = () => {
         {/* STEP 3 — Preview & Download */}
         {step === 3 && (
           <div className={cardClass}>
-            <h3 className="text-2xl font-bold text-gray-800 mb-1">Preview & Download</h3>
+            <h3 className="text-2xl font-semibold text-kid-ink mb-1">Preview & Download</h3>
             <p className="text-sm text-gray-500 mb-6">
               {schoolName} | {classLevel} | {month}
             </p>
@@ -552,7 +552,7 @@ const OutreachDocWizard = () => {
               <button
                 onClick={handleDownloadPdf}
                 disabled={isBuildingPdf}
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
+                className="kid-btn kid-btn-teal px-8 py-3"
               >
                 <FileDown size={18} />
                 {isBuildingPdf ? "Building..." : "Download PDF"}
@@ -560,14 +560,14 @@ const OutreachDocWizard = () => {
             </div>
 
             {isBuildingPdf && !previewUrl && (
-              <div className="border border-dashed border-gray-300 rounded-xl p-10 text-center text-sm text-gray-400">
+              <div className="rounded-2xl border-2 border-dashed border-edge-mint bg-tone-mint/40 p-10 text-center text-sm text-kid-soft">
                 Building your outreach document
                 {monthWorksheets.length > 0 ? " and attaching worksheet PDFs" : ""}...
               </div>
             )}
 
             {previewUrl && (
-              <div className="relative border border-gray-200 rounded-xl overflow-hidden">
+              <div className="relative overflow-hidden rounded-2xl border-2 border-edge-mint">
                 {isBuildingPdf && (
                   <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 text-sm font-medium text-gray-500">
                     Refreshing preview...

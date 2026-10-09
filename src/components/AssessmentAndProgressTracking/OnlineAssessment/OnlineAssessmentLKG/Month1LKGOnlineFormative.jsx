@@ -186,23 +186,23 @@ export default function FormativeAssessmentTool() {
   };
 
   return (
-    <div className="bg-[#f1faee] min-h-screen p-4 md:p-8 text-slate-800 font-playful">
+    <div className="rounded-[28px] bg-[#f1faee] min-h-screen p-4 md:p-8 text-kid-ink font-playful">
       {/* PRINT BUTTON */}
       <button
         onClick={printToPDF}
-        className="fixed top-5 right-5 z-50 px-7 py-3 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-bold shadow-lg hover:scale-105 transition"
+        className="kid-btn fixed right-5 top-5 z-50 px-7 py-3 font-bold"
       >
         🖨️ Print as PDF
       </button>
 
       <div className="max-w-[1400px] mx-auto">
         {/* TITLE */}
-        <h1 className="text-center text-4xl md:text-5xl font-bold text-slate-900 mb-10">
+        <h1 className="mb-8 rounded-[28px] bg-gradient-to-r from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] px-6 py-6 text-center text-3xl font-semibold text-kid-ink md:text-4xl">
           Formative Assessment Tool (LKG Month 1)
         </h1>
 
         {/* STUDENT INFO */}
-        <div className="bg-white rounded-[30px] p-8 mb-10 shadow-lg">
+        <div className="kid-card tone-white p-8 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
               <label className="block mb-3 font-semibold">Student Name</label>
@@ -211,7 +211,7 @@ export default function FormativeAssessmentTool() {
                 placeholder="Enter Student Name"
                 value={student.name}
                 onChange={(e) => setStudent({ ...student, name: e.target.value })}
-                className="w-full p-4 rounded-2xl border border-slate-200 bg-slate-50 outline-none"
+                className="kid-input"
               />
             </div>
 
@@ -222,7 +222,7 @@ export default function FormativeAssessmentTool() {
                 placeholder="Enter Class"
                 value={student.className}
                 onChange={(e) => setStudent({ ...student, className: e.target.value })}
-                className="w-full p-4 rounded-2xl border border-slate-200 bg-slate-50 outline-none"
+                className="kid-input"
               />
             </div>
 
@@ -233,7 +233,7 @@ export default function FormativeAssessmentTool() {
                 placeholder="Enter School Name"
                 value={student.school}
                 onChange={(e) => setStudent({ ...student, school: e.target.value })}
-                className="w-full p-4 rounded-2xl border border-slate-200 bg-slate-50 outline-none"
+                className="kid-input"
               />
             </div>
           </div>
@@ -241,8 +241,8 @@ export default function FormativeAssessmentTool() {
 
         {/* SKILL SECTIONS */}
         {Object.keys(skillData).map((skillKey) => (
-          <div key={skillKey} className="bg-white rounded-[30px] overflow-hidden mb-9 shadow-lg">
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 px-8 py-6 text-white">
+          <div key={skillKey} className="kid-card tone-white overflow-hidden mb-9">
+            <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-8 py-6 text-white">
               <h2 className="text-3xl font-bold">{skillData[skillKey].title}</h2>
             </div>
 
@@ -255,7 +255,7 @@ export default function FormativeAssessmentTool() {
               </div>
             ))}
 
-            <div className="m-6 bg-blue-50 p-5 rounded-3xl text-2xl font-bold text-blue-800">
+            <div className="m-6 rounded-3xl bg-tone-mint p-5 text-2xl font-semibold text-kid-deep">
               {skillData[skillKey].title.replace(/^\d+\.\s/, "").replace("Skill", "Score")} :
               <span className="ml-2">{getPercentage(skillKey)}%</span>
             </div>
@@ -263,17 +263,17 @@ export default function FormativeAssessmentTool() {
         ))}
 
         {/* BUTTON */}
-        <button className="w-full rounded-3xl bg-gradient-to-br from-blue-600 to-blue-700 text-white text-2xl font-bold py-5 mt-5">
+        <button className="kid-btn mt-5 w-full py-5 text-2xl">
           Calculate Final Score
         </button>
 
         {/* RESULT */}
-        <div className="mt-10 bg-white rounded-[30px] p-8 shadow-lg overflow-x-auto">
+        <div className="kid-card tone-white mt-10 overflow-x-auto p-8">
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="bg-blue-600 text-white p-5 text-xl">SKILL</th>
-                <th className="bg-blue-600 text-white p-5 text-xl">SCORE</th>
+                <th className="bg-kid-deep text-white p-5 text-xl">SKILL</th>
+                <th className="bg-kid-deep text-white p-5 text-xl">SCORE</th>
               </tr>
             </thead>
 

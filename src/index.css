@@ -152,6 +152,12 @@
     --edge: var(--color-edge-rose);
   }
 
+  /* A white card with the green edge, for play surfaces and forms where text needs the most contrast */
+  .tone-white {
+    --tone: #ffffff;
+    --edge: var(--color-edge-mint);
+  }
+
   /* ...or from its place in a grid, so a row of cards never repeats one colour */
   .tone-cycle > :nth-child(4n + 1) {
     --tone: var(--color-tone-mint);

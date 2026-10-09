@@ -1182,15 +1182,15 @@ const ColourThemeActivities = () => {
           subtitle="Classroom activity: colouring sheets sorted by theme."
         />
 
-        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {worksheetData.map((item) => (
             <div
               key={item.title}
-              className="kid-card kid-card-hover overflow-hidden"
+              className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
               <Star className="absolute right-4 top-4 h-6 w-6" />
 
-              <div className="p-7 text-center flex flex-col items-center">
+              <div className="p-7 text-center flex flex-1 flex-col items-center">
                 <span className="kid-chip mb-4 h-24 w-24 text-6xl" role="img" aria-hidden="true">
                   {item.icon}
                 </span>
@@ -1199,7 +1199,7 @@ const ColourThemeActivities = () => {
                   {item.title}
                 </h2>
 
-                <p className="text-kid-soft font-medium leading-6 text-sm mb-6">
+                <p className="text-kid-soft font-medium leading-6 text-sm mb-6 flex-1">
                   {item.description}
                 </p>
 

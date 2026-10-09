@@ -63,12 +63,12 @@ export default function OnlineAssessmentLoader() {
 
   if (error) {
     return (
-      <div className="p-8 text-center bg-white rounded-3xl shadow border border-gray-200 max-w-lg mx-auto mt-20">
+      <div className="kid-card tone-white p-8 text-center max-w-lg mx-auto mt-10">
         <h3 className="text-xl font-bold text-red-600 mb-4">Assessment Not Found</h3>
         <p className="text-gray-600 mb-6">The requested online formative assessment does not exist or hasn't been created yet.</p>
         <button
           onClick={() => navigate("/user/assessment/month-formative")}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition"
+          className="kid-btn"
         >
           Go Back
         </button>
@@ -78,8 +78,8 @@ export default function OnlineAssessmentLoader() {
 
   if (!Comp) {
     return (
-      <div className="flex items-center justify-center p-20 min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="flex items-center justify-center p-20 min-h-[50vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kid-green"></div>
         <span className="ml-3 text-gray-600 font-semibold">Loading Assessment...</span>
       </div>
     );

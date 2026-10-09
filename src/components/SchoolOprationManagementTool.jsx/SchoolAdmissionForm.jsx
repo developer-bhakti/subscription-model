@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Download, School, MapPin, Upload } from "lucide-react";
+import { PageHero } from "../KidsUI";
 
 const SchoolAdmissionForm = () => {
   const [schoolName, setSchoolName] = useState("");
@@ -23,30 +24,23 @@ const SchoolAdmissionForm = () => {
   };
 
   return (
-    <section className="min-h-screen bg-slate-100 py-10 px-4">
-      <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-10">
+    <section>
+      <div className="max-w-2xl mx-auto">
 
         {/* TITLE */}
-        <div className="text-center mb-8">
+        <PageHero
+          emoji={<School size={28} />}
+          title="School Admission Form"
+          subtitle="Fill in the school details and submit the admission form."
+        />
 
-          <div className="w-20 h-20 rounded-2xl bg-blue-100 flex items-center justify-center mx-auto mb-4">
-            <School className="text-blue-600" size={40} />
-          </div>
-
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800">
-            School Admission Form
-          </h1>
-
-          <p className="text-slate-500 mt-3">
-            Fill in the school details and submit the admission form.
-          </p>
-        </div>
+      <div className="kid-card tone-white p-6 md:p-10">
 
         {/* DOWNLOAD BUTTON */}
         <div className="mb-8 text-center">
           <button
             onClick={handleDownload}
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white px-6 py-3 rounded-xl font-semibold shadow-md"
+            className="kid-btn kid-btn-teal"
           >
             <Download size={18} />
             Download Admission Form PDF
@@ -58,13 +52,13 @@ const SchoolAdmissionForm = () => {
 
           {/* SCHOOL NAME */}
           <div>
-            <label className="block text-slate-700 font-semibold mb-2">
+            <label className="block text-kid-ink font-semibold mb-2">
               School Name
             </label>
 
             <div className="relative">
               <School
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-kid-soft"
                 size={20}
               />
 
@@ -73,20 +67,20 @@ const SchoolAdmissionForm = () => {
                 placeholder="Enter the school name"
                 value={schoolName}
                 onChange={(e) => setSchoolName(e.target.value)}
-                className="w-full border border-slate-300 rounded-2xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="kid-input py-3.5 pl-12"
               />
             </div>
           </div>
 
           {/* ADDRESS */}
           <div>
-            <label className="block text-slate-700 font-semibold mb-2">
+            <label className="block text-kid-ink font-semibold mb-2">
               School Address
             </label>
 
             <div className="relative">
               <MapPin
-                className="absolute left-4 top-5 text-slate-400"
+                className="absolute left-4 top-5 text-kid-soft"
                 size={20}
               />
 
@@ -95,26 +89,26 @@ const SchoolAdmissionForm = () => {
                 placeholder="Enter the school address"
                 value={schoolAddress}
                 onChange={(e) => setSchoolAddress(e.target.value)}
-                className="w-full border border-slate-300 rounded-2xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="kid-input py-3.5 pl-12 resize-none"
               />
             </div>
           </div>
 
           {/* LOGO */}
           <div>
-            <label className="block text-slate-700 font-semibold mb-2">
+            <label className="block text-kid-ink font-semibold mb-2">
               School Logo
             </label>
 
-            <label className="border-2 border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition">
+            <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-edge-mint bg-tone-mint/40 p-8 transition hover:border-kid-green hover:bg-tone-mint">
 
-              <Upload className="text-blue-600 mb-3" size={36} />
+              <Upload className="text-kid-deep mb-3" size={36} />
 
-              <p className="text-slate-600 font-medium">
+              <p className="text-kid-ink font-medium">
                 Click to upload school logo
               </p>
 
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-kid-soft mt-1">
                 PNG, JPG, JPEG
               </p>
 
@@ -136,7 +130,7 @@ const SchoolAdmissionForm = () => {
           {/* SUBMIT BUTTON */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.01] transition-all duration-300 text-white py-4 rounded-2xl font-bold text-lg shadow-lg"
+            className="kid-btn w-full py-4 text-lg"
           >
             Submit Form
           </button>
@@ -144,37 +138,37 @@ const SchoolAdmissionForm = () => {
 
         {/* SUBMITTED INFO */}
         {submitted && (
-          <div className="mt-10 bg-blue-50 border border-blue-100 rounded-3xl p-6">
+          <div className="kid-card tone-mint mt-10 p-6">
 
-            <h2 className="text-2xl font-bold text-slate-800 mb-5">
+            <h2 className="text-2xl font-semibold text-kid-ink mb-5">
               Submitted Information
             </h2>
 
             <div className="space-y-4">
 
               <div>
-                <p className="text-sm font-semibold text-slate-500">
+                <p className="text-sm font-semibold text-kid-soft">
                   School Name
                 </p>
 
-                <p className="text-lg font-bold text-slate-800">
+                <p className="text-lg font-bold text-kid-ink">
                   {schoolName}
                 </p>
               </div>
 
               <div>
-                <p className="text-sm font-semibold text-slate-500">
+                <p className="text-sm font-semibold text-kid-soft">
                   Address
                 </p>
 
-                <p className="text-slate-700">
+                <p className="text-kid-ink">
                   {schoolAddress}
                 </p>
               </div>
 
               {schoolLogo && (
                 <div>
-                  <p className="text-sm font-semibold text-slate-500 mb-2">
+                  <p className="text-sm font-semibold text-kid-soft mb-2">
                     Uploaded Logo
                   </p>
 
@@ -188,6 +182,7 @@ const SchoolAdmissionForm = () => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </section>
   );

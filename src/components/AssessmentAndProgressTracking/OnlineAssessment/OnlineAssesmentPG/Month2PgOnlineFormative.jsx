@@ -146,13 +146,13 @@ const Month2PgOnlineFormative = () => {
   ];
 
   return (
-    <div className="bg-[#f1faee] min-h-screen p-[30px] text-slate-800 font-playful">
+    <div className="rounded-[28px] bg-[#f1faee] min-h-screen p-[30px] text-kid-ink font-playful">
 
       {/* PRINT BUTTON */}
 
       <button
         onClick={printToPDF}
-        className="fixed top-5 right-5 z-50 px-7 py-3 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 text-white text-[16px] font-bold shadow-lg hover:scale-105 transition duration-300 print:hidden"
+        className="kid-btn fixed right-5 top-5 z-50 px-7 py-3 text-[16px] font-bold print:hidden"
       >
         🖨️ Print as PDF
       </button>
@@ -161,13 +161,13 @@ const Month2PgOnlineFormative = () => {
 
         {/* TITLE */}
 
-        <h1 className="text-center text-[48px] font-bold mb-10 text-slate-900">
+        <h1 className="mb-8 rounded-[28px] bg-gradient-to-r from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] px-6 py-6 text-center text-3xl font-semibold text-kid-ink md:text-4xl">
           Formative Assessment Tool
         </h1>
 
         {/* STUDENT INFO */}
 
-        <div className="bg-white rounded-[30px] p-[30px] mb-10 shadow-[0_10px_30px_rgba(0,0,0,0.07)]">
+        <div className="kid-card tone-white p-[30px] mb-10">
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
@@ -186,7 +186,7 @@ const Month2PgOnlineFormative = () => {
                     studentName: e.target.value,
                   })
                 }
-                className="w-full p-4 rounded-2xl border border-slate-300 bg-slate-50 outline-none"
+                className="kid-input"
               />
             </div>
 
@@ -205,7 +205,7 @@ const Month2PgOnlineFormative = () => {
                     className: e.target.value,
                   })
                 }
-                className="w-full p-4 rounded-2xl border border-slate-300 bg-slate-50 outline-none"
+                className="kid-input"
               />
             </div>
 
@@ -224,7 +224,7 @@ const Month2PgOnlineFormative = () => {
                     schoolName: e.target.value,
                   })
                 }
-                className="w-full p-4 rounded-2xl border border-slate-300 bg-slate-50 outline-none"
+                className="kid-input"
               />
             </div>
 
@@ -238,12 +238,12 @@ const Month2PgOnlineFormative = () => {
           ([skillKey, skill], skillIndex) => (
             <div
               key={skillKey}
-              className="bg-white rounded-[30px] overflow-hidden mb-[35px] shadow-[0_10px_30px_rgba(0,0,0,0.06)]"
+              className="kid-card tone-white overflow-hidden mb-[35px]"
             >
 
               {/* HEADER */}
 
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 px-[30px] py-6 text-white">
+              <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-[30px] py-6 text-white">
 
                 <h2 className="text-[30px] font-bold">
                   {skill.title}
@@ -393,7 +393,7 @@ const Month2PgOnlineFormative = () => {
 
               {/* SCORE */}
 
-              <div className="m-[25px] bg-blue-50 p-[22px] rounded-[20px] text-[22px] font-bold text-blue-800">
+              <div className="m-[25px] rounded-[20px] bg-tone-mint p-[22px] text-[22px] font-semibold text-kid-deep">
 
                 {skill.title.replace(/^\d+\.\s/, "")} Score :
 
@@ -409,13 +409,13 @@ const Month2PgOnlineFormative = () => {
 
         {/* BUTTON */}
 
-        <button className="w-full border-none p-[22px] rounded-[24px] bg-gradient-to-br from-blue-600 to-blue-700 text-white text-[22px] font-bold cursor-pointer mt-5">
+        <button className="kid-btn mt-5 w-full p-[22px] text-[22px]">
           Calculate Final Score
         </button>
 
         {/* RESULT */}
 
-        <div className="mt-10 bg-white rounded-[30px] p-[30px] shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-x-auto">
+        <div className="kid-card tone-white mt-10 overflow-x-auto p-[30px]">
 
           <table className="w-full border-collapse">
 
@@ -423,11 +423,11 @@ const Month2PgOnlineFormative = () => {
 
               <tr>
 
-                <th className="bg-blue-600 text-white p-[18px] text-[20px]">
+                <th className="bg-kid-deep text-white p-[18px] text-[20px]">
                   SKILL
                 </th>
 
-                <th className="bg-blue-600 text-white p-[18px] text-[20px]">
+                <th className="bg-kid-deep text-white p-[18px] text-[20px]">
                   SCORE
                 </th>
 

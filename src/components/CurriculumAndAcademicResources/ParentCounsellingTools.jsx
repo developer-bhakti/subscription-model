@@ -50,16 +50,16 @@ export default function ParentCounsellingTools() {
         />
 
         {/* Cards Grid */}
-        <div className="tone-cycle grid grid-cols-1 items-start gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="tone-cycle grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {counsellingTools.map((tool, index) => (
             <div
               key={index}
-              className="kid-card kid-card-hover overflow-hidden"
+              className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
               <Star className="absolute right-4 top-4 h-6 w-6" />
 
               {/* Content */}
-              <div className="p-6 text-center">
+              <div className="flex flex-1 flex-col items-center p-6 text-center">
 
                 {/* Emoji */}
                 <div className="kid-chip mx-auto mb-5 h-20 w-20 text-4xl">
@@ -70,7 +70,7 @@ export default function ParentCounsellingTools() {
                   {tool.title}
                 </h3>
 
-                <p className="mb-6 text-[15px] font-medium leading-7 text-kid-soft">
+                <p className="mb-6 flex-1 text-[15px] font-medium leading-7 text-kid-soft">
                   {tool.description}
                 </p>
 

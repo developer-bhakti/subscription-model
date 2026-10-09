@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PageHero, SectionTitle } from "../KidsUI";
 
 export default function FormativeAssessmentGeneral() {
   const navigate = useNavigate();
@@ -67,30 +68,30 @@ export default function FormativeAssessmentGeneral() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-16">
-      <div className="w-[90%] max-w-7xl mx-auto">
-        <h1 className="text-center text-2xl md:text-4xl font-bold text-slate-700 mb-16">
-          Formative Assessment (General Syllabus)
-        </h1>
+    <div>
+      <div className="max-w-7xl mx-auto">
+        <PageHero
+          emoji="📆"
+          title="Formative Assessment (General Syllabus)"
+          subtitle="Pick a class to open its first and second formative papers."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {classes.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition"
+              className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
-              <div className="p-6 text-center">
-                <div
-                  className={`w-20 h-20 mx-auto rounded-full ${item.tint} flex items-center justify-center text-4xl mb-5`}
-                >
+              <div className="flex flex-1 flex-col items-center p-6 text-center">
+                <div className="kid-chip mb-5 h-20 w-20 text-4xl">
                   {item.emoji}
                 </div>
 
-                <h2 className="text-4xl font-bold mb-5">{item.title}</h2>
+                <h2 className="text-3xl font-semibold text-kid-ink mb-5">{item.title}</h2>
 
                 <button
                   onClick={() => toggleSection(item.id)}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-semibold"
+                  className="kid-btn mt-auto px-8"
                 >
                   View Assessments
                 </button>
@@ -102,25 +103,23 @@ export default function FormativeAssessmentGeneral() {
         {classes.map(
           (item) =>
             activeSection === item.id && (
-              <div key={item.id} className="mt-16">
-                <h2 className="text-center text-3xl md:text-5xl font-bold mb-12">
+              <div key={item.id} className="mt-12">
+                <SectionTitle className="mb-6">
                   {item.title} Assessment
-                </h2>
+                </SectionTitle>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="tone-cycle grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {item.assessments.map((paper, index) => (
                     <div
                       key={index}
-                      className="bg-white rounded-3xl overflow-hidden shadow-lg"
+                      className="kid-card kid-card-hover overflow-hidden"
                     >
                       <div className="p-6 text-center">
-                        <div
-                          className={`w-24 h-24 mx-auto rounded-full ${item.tint} flex items-center justify-center text-5xl mb-6`}
-                        >
+                        <div className="kid-chip mx-auto mb-5 h-24 w-24 text-5xl">
                           {paper.emoji}
                         </div>
 
-                        <h3 className="text-3xl font-bold mb-6">
+                        <h3 className="text-2xl font-semibold text-kid-ink mb-5">
                           {paper.title}
                         </h3>
 
@@ -128,7 +127,7 @@ export default function FormativeAssessmentGeneral() {
                           href={paper.pdf}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-semibold"
+                          className="kid-btn px-8"
                         >
                           View & Download
                         </a>

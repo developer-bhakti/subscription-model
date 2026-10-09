@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { PageHero } from "../KidsUI";
 
 const assessments = [
   {
@@ -36,17 +37,19 @@ const AssessementForADHD = () => {
     const navigate = useNavigate();
     
   return (
-    <section className="py-16 px-4 bg-slate-50 min-h-screen">
+    <section>
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-center text-4xl font-bold text-slate-800 mb-12">
-          Assessment Tools
-        </h1>
+        <PageHero
+          emoji="🧠"
+          title="Assessment Tools"
+          subtitle="Screening tools you can open and use with parents."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 gap-6">
           {assessments.map((item, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+              className="kid-card kid-card-hover group relative flex flex-col overflow-hidden"
             >
               {/* Background Image */}
               <div
@@ -57,14 +60,14 @@ const AssessementForADHD = () => {
               />
 
               {/* Decorative Circle */}
-              <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-sky-100 group-hover:bg-sky-500 transition-all duration-500 opacity-30"></div>
+              <div className="absolute -right-24 -top-24 h-56 w-56 rounded-full bg-white/50 transition-all duration-500 group-hover:bg-white/80"></div>
 
-              <div className="relative p-8">
+              <div className="relative flex flex-1 flex-col p-7">
                 {/* Icon */}
-                <div className="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center mb-6">
+                <div className="kid-chip mb-5 h-16 w-16">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 text-sky-500"
+                    className="w-8 h-8 text-kid-deep"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -78,22 +81,24 @@ const AssessementForADHD = () => {
                   </svg>
                 </div>
 
-                <h3 className="text-2xl font-bold text-slate-800 group-hover:text-sky-600 transition-colors duration-300 mb-4">
+                <h3 className="text-2xl font-semibold text-kid-ink mb-3">
                   {item.title}
                 </h3>
 
-                <p className="text-slate-600 mb-6 leading-relaxed">
+                <p className="text-kid-soft font-medium mb-6 leading-relaxed flex-1">
                   {item.description}
                 </p>
 
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 text-white font-medium hover:scale-105 transition-transform duration-300"
-                >
-                  Read More
-                </a>
+                <div>
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="kid-btn"
+                  >
+                    Read More
+                  </a>
+                </div>
               </div>
             </div>
           ))}

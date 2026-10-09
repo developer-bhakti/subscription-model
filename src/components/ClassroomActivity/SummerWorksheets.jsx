@@ -109,15 +109,15 @@ export default function SummerWorksheets() {
         />
 
         {/* Category Cards */}
-        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((item) => (
             <div
               key={item.id}
-              className="kid-card kid-card-hover overflow-hidden"
+              className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
               <Star className="absolute right-5 top-5 h-7 w-7" />
 
-              <div className="p-6 sm:p-7 text-center">
+              <div className="flex flex-1 flex-col items-center p-6 sm:p-7 text-center">
                 <div className="kid-chip mx-auto h-20 w-20 text-4xl mb-5">
                   {item.emoji}
                 </div>
@@ -126,7 +126,7 @@ export default function SummerWorksheets() {
                   {item.title}
                 </h3>
 
-                <p className="text-kid-soft leading-7 text-[16px] mb-6 font-medium">
+                <p className="text-kid-soft leading-7 text-[16px] mb-6 flex-1 font-medium">
                   {item.description}
                 </p>
 

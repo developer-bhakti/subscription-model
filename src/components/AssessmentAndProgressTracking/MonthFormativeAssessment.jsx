@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CalendarCheck, FileText, Laptop } from "lucide-react";
+import { PageHero, SectionTitle } from "../KidsUI";
 
 const assessmentData = {
   pg: [
@@ -172,38 +173,39 @@ export default function MonthFormativeAssessment() {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-gradient-to-b from-[#f4fbf0] to-[#e7f6df] py-20 px-5 font-sans">
+    <section>
       <div className="max-w-7xl mx-auto">
 
         {/* TITLE */}
-        <div className="text-center mb-16">
-          <h2 className="flex items-center justify-center gap-3 text-3xl md:text-5xl font-bold text-[#15803d]">
-            <CalendarCheck size={42} />
-            Month Formative Assessment
-          </h2>
-        </div>
+        <PageHero
+          emoji={<CalendarCheck size={28} />}
+          title="Month Formative Assessment"
+          subtitle="Pick a class, then do a month's assessment online or download it."
+        />
 
         {/* LEVEL CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 
           {levels.map((level) => (
             <div
               key={level.id}
-              className="bg-white rounded-[28px] p-8 text-center shadow-xl hover:-translate-y-2 transition-all duration-300"
+              className="kid-card kid-card-hover flex flex-col p-6 text-center"
             >
-              <img
-                src={level.image}
-                alt={level.title}
-                className="w-[120px] h-[120px] object-contain mx-auto mb-6"
-              />
+              <div className="kid-chip mx-auto mb-5 h-32 w-32 p-5">
+                <img
+                  src={level.image}
+                  alt={level.title}
+                  className="h-full w-full object-contain"
+                />
+              </div>
 
-              <h3 className="text-3xl font-bold text-gray-800 mb-5">
+              <h3 className="text-2xl font-semibold text-kid-ink mb-5">
                 {level.title}
               </h3>
 
               <button
                 onClick={() => setActiveSection(level.id)}
-                className="bg-[#15803d] hover:bg-[#166534] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+                className="kid-btn mt-auto"
               >
                 View Assessments
               </button>
@@ -216,31 +218,33 @@ export default function MonthFormativeAssessment() {
         {activeSection && (
           <div className="animate-fadeIn">
 
-            <h2 className="text-center text-3xl md:text-5xl font-bold text-gray-800 mb-14">
+            <SectionTitle className="mb-6">
               {activeSection.toUpperCase()} Monthly Assessment
-            </h2>
+            </SectionTitle>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
               {assessmentData[activeSection].map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-[24px] p-8 text-center shadow-xl hover:-translate-y-2 transition-all duration-300"
+                  className="kid-card kid-card-hover flex flex-col p-6 text-center"
                 >
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png"
-                    alt="month"
-                    className="w-[90px] h-[90px] object-contain mx-auto mb-5"
-                  />
+                  <div className="kid-chip mx-auto mb-4 h-24 w-24 p-4">
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png"
+                      alt="month"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
 
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6 leading-snug">
+                  <h3 className="text-lg font-semibold leading-snug text-kid-ink mb-5 flex-1">
                     {item.month}
                   </h3>
 
                   <div className="flex flex-col gap-3">
                     <button
                       onClick={() => navigate(`/user/assessment/month-formative/online/${activeSection}/${index + 1}`)}
-                      className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 cursor-pointer"
+                      className="kid-btn kid-btn-teal"
                     >
                       <Laptop size={18} />
                       Do It Online
@@ -250,7 +254,7 @@ export default function MonthFormativeAssessment() {
                       href={item.pdf}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                      className="kid-btn"
                     >
                       <FileText size={18} />
                       View & Download

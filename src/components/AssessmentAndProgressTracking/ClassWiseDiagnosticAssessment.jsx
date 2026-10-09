@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FileText } from "lucide-react";
 import { classAssessments } from "../../data/classAssessments";
+import { PageHero, SectionTitle } from "../KidsUI";
 
 const levels = [
   {
@@ -33,20 +34,22 @@ export default function ClassWiseDiagnosticAssessment() {
   const [activeSection, setActiveSection] = useState(null);
 
   return (
-    <section className="bg-gradient-to-b from-[#f3faef] to-[#e7f6df] py-20 px-5 font-sans">
+    <section>
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-center text-4xl md:text-6xl font-bold text-gray-900 mb-16">
-          Diagnostic Assessment For Preschool
-        </h2>
+        <PageHero
+          emoji="🔎"
+          title="Diagnostic Assessment For Preschool"
+          subtitle="Pick a class to open its initial diagnostic assessments."
+        />
 
         {/* Level Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
+        <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
           {levels.map((level) => (
             <div
               key={level.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-300"
+              className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
-              <div className="w-full h-64 bg-gray-100 flex items-center justify-center p-3">
+              <div className="m-3 mb-0 flex items-center justify-center overflow-hidden rounded-[18px] bg-white h-56 p-3">
                 <img
                   src={level.image}
                   alt={level.title}
@@ -54,14 +57,14 @@ export default function ClassWiseDiagnosticAssessment() {
                 />
               </div>
 
-              <div className="p-8 text-center">
-                <h3 className="text-3xl font-bold text-gray-800 mb-5">
+              <div className="flex flex-1 flex-col items-center p-6 text-center">
+                <h3 className="text-2xl font-semibold text-kid-ink mb-5">
                   {level.title}
                 </h3>
 
                 <button
                   onClick={() => setActiveSection(level.id)}
-                  className="bg-[#15803d] hover:bg-[#166534] text-white px-7 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
+                  className="kid-btn mt-auto"
                 >
                   View Assessments
                 </button>
@@ -73,17 +76,17 @@ export default function ClassWiseDiagnosticAssessment() {
         {/* Assessment Section */}
         {activeSection && (
           <div className="animate-fadeIn">
-            <h2 className="text-center text-4xl md:text-5xl font-bold text-gray-900 mb-14 capitalize">
+            <SectionTitle className="mb-6 capitalize">
               {activeSection} Assessment
-            </h2>
+            </SectionTitle>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+            <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
               {classAssessments[activeSection].map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-300"
+                  className="kid-card kid-card-hover flex flex-col overflow-hidden"
                 >
-                  <div className="w-full h-60 bg-gray-100 flex items-center justify-center p-3">
+                  <div className="m-3 mb-0 flex items-center justify-center overflow-hidden rounded-[18px] bg-white h-52 p-3">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -91,22 +94,20 @@ export default function ClassWiseDiagnosticAssessment() {
                     />
                   </div>
 
-                  <div className="p-7 text-center">
-                    <h3 className="text-2xl font-bold text-gray-800 leading-relaxed min-h-[90px] mb-6">
+                  <div className="flex flex-1 flex-col items-center p-5 text-center">
+                    <h3 className="text-lg font-semibold leading-snug text-kid-ink mb-5 flex-1">
                       {item.title}
                     </h3>
 
-                    <div className="flex justify-center">
-                      <a
-                        href={item.pdf}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white px-6 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
-                      >
-                        <FileText size={18} />
-                        View & Download
-                      </a>
-                    </div>
+                    <a
+                      href={item.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="kid-btn"
+                    >
+                      <FileText size={18} />
+                      View & Download
+                    </a>
                   </div>
                 </div>
               ))}

@@ -162,45 +162,45 @@ const RhymingWords = () => {
   // LEVEL SELECTION PAGE
   if (!selectedLevel) {
     return (
-      <div className="min-h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 flex items-center justify-center p-6">
-        <div className="grid md:grid-cols-3 gap-8 w-full max-w-6xl">
+      <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex items-center justify-center p-6">
+        <div className="tone-cycle grid md:grid-cols-3 gap-8 w-full max-w-6xl">
           {/* Nursery */}
-          <div className="bg-white rounded-3xl p-8 text-center shadow-xl">
-            <div className="text-7xl">🧸</div>
-            <h1 className="text-3xl font-bold mt-4 text-pink-500">Nursery</h1>
-            <p className="mt-3 text-gray-600">Easy Rhyming Words</p>
+          <div className="kid-card kid-card-hover p-8 text-center">
+            <div className="kid-chip mx-auto h-28 w-28 text-6xl">🧸</div>
+            <h1 className="text-3xl font-bold mt-4 text-kid-ink">Nursery</h1>
+            <p className="mt-3 font-medium text-kid-soft">Easy Rhyming Words</p>
 
             <button
               onClick={() => startGame("nursery")}
-              className="mt-6 bg-pink-500 text-white px-6 py-3 rounded-full text-lg"
+              className="kid-btn mt-6 px-8 py-3 text-lg"
             >
               ▶ Play Now
             </button>
           </div>
 
           {/* LKG */}
-          <div className="bg-white rounded-3xl p-8 text-center shadow-xl">
-            <div className="text-7xl">📚</div>
-            <h1 className="text-3xl font-bold mt-4 text-green-500">LKG</h1>
-            <p className="mt-3 text-gray-600">Medium Rhyming Words</p>
+          <div className="kid-card kid-card-hover p-8 text-center">
+            <div className="kid-chip mx-auto h-28 w-28 text-6xl">📚</div>
+            <h1 className="text-3xl font-bold mt-4 text-kid-ink">LKG</h1>
+            <p className="mt-3 font-medium text-kid-soft">Medium Rhyming Words</p>
 
             <button
               onClick={() => startGame("lkg")}
-              className="mt-6 bg-green-500 text-white px-6 py-3 rounded-full text-lg"
+              className="kid-btn mt-6 px-8 py-3 text-lg"
             >
               ▶ Play Now
             </button>
           </div>
 
           {/* UKG */}
-          <div className="bg-white rounded-3xl p-8 text-center shadow-xl">
-            <div className="text-7xl">🎓</div>
-            <h1 className="text-3xl font-bold mt-4 text-blue-500">UKG</h1>
-            <p className="mt-3 text-gray-600">Advanced Rhyming Words</p>
+          <div className="kid-card kid-card-hover p-8 text-center">
+            <div className="kid-chip mx-auto h-28 w-28 text-6xl">🎓</div>
+            <h1 className="text-3xl font-bold mt-4 text-kid-ink">UKG</h1>
+            <p className="mt-3 font-medium text-kid-soft">Advanced Rhyming Words</p>
 
             <button
               onClick={() => startGame("ukg")}
-              className="mt-6 bg-blue-500 text-white px-6 py-3 rounded-full text-lg"
+              className="kid-btn mt-6 px-8 py-3 text-lg"
             >
               ▶ Play Now
             </button>
@@ -215,8 +215,8 @@ const RhymingWords = () => {
   // RESULT PAGE
   if (showResult) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 p-4">
-        <div className="bg-white rounded-3xl p-8 text-center shadow-xl w-full max-w-md">
+      <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex items-center justify-center p-4">
+        <div className="kid-card tone-white p-8 text-center w-full max-w-md">
           <div className="text-7xl">🏆</div>
 
           <h1 className="text-4xl font-bold text-green-600 mt-4">Wonderful!</h1>
@@ -227,7 +227,7 @@ const RhymingWords = () => {
 
           <button
             onClick={restartGame}
-            className="mt-6 bg-pink-500 text-white px-6 py-3 rounded-full text-lg"
+            className="kid-btn mt-6 px-8 py-3 text-lg"
           >
             🔄 Back To Levels
           </button>
@@ -238,18 +238,18 @@ const RhymingWords = () => {
 
   // GAME PAGE
   return (
-    <div className="min-h-screen flex justify-center items-center p-4 bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow-xl p-6 text-center">
-        <h1 className="text-3xl font-bold text-pink-500">
+    <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex justify-center items-center p-4">
+      <div className="kid-card tone-white w-full max-w-2xl p-6 text-center">
+        <h1 className="text-3xl font-bold text-kid-ink">
           🎵 Rhyming Words Adventure 🎵
         </h1>
 
         <div className="flex gap-3 mt-6">
-          <div className="flex-1 bg-teal-400 text-white p-3 rounded-2xl text-lg font-bold">
+          <div className="flex-1 rounded-2xl bg-tone-aqua p-3 text-lg font-bold text-kid-ink">
             ⭐ {score}
           </div>
 
-          <div className="flex-1 bg-yellow-400 text-white p-3 rounded-2xl text-lg font-bold">
+          <div className="flex-1 rounded-2xl bg-tone-butter p-3 text-lg font-bold text-kid-ink">
             🌟 {stars}
           </div>
         </div>
@@ -270,7 +270,7 @@ const RhymingWords = () => {
 
           <button
             onClick={speakWord}
-            className="mt-5 bg-blue-500 text-white px-5 py-2 rounded-full"
+            className="kid-btn kid-btn-teal mt-5"
           >
             🔊 Listen
           </button>
@@ -300,7 +300,7 @@ const RhymingWords = () => {
           {selected && (
             <button
               onClick={nextQuestion}
-              className="mt-6 bg-orange-500 text-white px-6 py-3 rounded-full"
+              className="kid-btn kid-btn-sun mt-6 px-8 py-3 text-lg"
             >
               Next ➜
             </button>

@@ -4,6 +4,7 @@ import {
   Calculator,
   Utensils,
 } from "lucide-react";
+import { PageHero } from "../KidsUI";
 
 const AssessmentForNutritional = () => {
   const [ageGroup, setAgeGroup] = useState("");
@@ -53,33 +54,28 @@ const AssessmentForNutritional = () => {
   };
 
   return (
-    <section className="bg-slate-50 py-12 px-4">
-      <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-10">
+    <section>
+      <div className="max-w-7xl mx-auto">
 
         {/* TITLE */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-800">
-            Nutritional Deficiency Assessment Tool
-          </h2>
-
-          <p className="text-slate-500 mt-4 text-base md:text-lg">
-            Calculate daily calorie needs and understand ideal nutritional
-            intake for children.
-          </p>
-        </div>
+        <PageHero
+          emoji="🍎"
+          title="Nutritional Deficiency Assessment Tool"
+          subtitle="Calculate daily calorie needs and understand ideal nutritional intake for children."
+        />
 
         {/* GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-6">
 
           {/* LEFT CARD */}
-          <div className="bg-blue-50 border border-blue-100 rounded-3xl p-6 md:p-8">
+          <div className="kid-card tone-mint p-6 md:p-8">
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-blue-600 text-white p-3 rounded-xl">
+              <div className="kid-chip h-12 w-12 text-kid-deep">
                 <User size={24} />
               </div>
 
-              <h3 className="text-2xl font-bold text-slate-800">
+              <h3 className="text-2xl font-semibold text-kid-ink">
                 Child Assessment
               </h3>
             </div>
@@ -93,7 +89,7 @@ const AssessmentForNutritional = () => {
               <select
                 value={ageGroup}
                 onChange={(e) => setAgeGroup(e.target.value)}
-                className="w-full border border-slate-300 rounded-2xl px-4 py-4 text-slate-700 outline-none focus:ring-2 focus:ring-blue-500"
+                className="kid-input py-3.5"
               >
                 <option value="">Select Age Group</option>
 
@@ -116,14 +112,14 @@ const AssessmentForNutritional = () => {
                 placeholder="Enter Weight in KG"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
-                className="w-full border border-slate-300 rounded-2xl px-4 py-4 text-slate-700 outline-none focus:ring-2 focus:ring-blue-500"
+                className="kid-input py-3.5"
               />
             </div>
 
             {/* BUTTON */}
             <button
               onClick={handleCalculate}
-              className="w-full bg-gradient-to-r from-blue-700 to-blue-500 hover:scale-[1.02] transition-all duration-300 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-lg shadow-lg"
+              className="kid-btn w-full py-3.5 text-lg"
             >
               <Calculator size={22} />
               Calculate Daily Calories
@@ -131,9 +127,9 @@ const AssessmentForNutritional = () => {
 
             {/* RESULT */}
             {result && (
-              <div className="mt-8 bg-white rounded-3xl p-6 border-l-[6px] border-blue-500 shadow-sm">
+              <div className="kid-card tone-white mt-8 p-6">
 
-                <h4 className="text-2xl font-bold text-blue-700 mb-5">
+                <h4 className="text-2xl font-semibold text-kid-deep mb-5">
                   Assessment Result
                 </h4>
 
@@ -170,7 +166,7 @@ const AssessmentForNutritional = () => {
                   ].map((item, index) => (
                     <span
                       key={index}
-                      className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold"
+                      className="rounded-full bg-tone-mint px-4 py-2 text-sm font-semibold text-kid-deep"
                     >
                       {item}
                     </span>
@@ -181,15 +177,15 @@ const AssessmentForNutritional = () => {
           </div>
 
           {/* RIGHT CARD */}
-          <div className="bg-blue-50 border border-blue-100 rounded-3xl p-6 md:p-8">
+          <div className="kid-card tone-aqua p-6 md:p-8">
 
             <div className="flex items-center gap-3 mb-6">
 
-              <div className="bg-blue-600 text-white p-3 rounded-xl">
+              <div className="kid-chip h-12 w-12 text-kid-deep">
                 <Utensils size={24} />
               </div>
 
-              <h3 className="text-2xl font-bold text-slate-800">
+              <h3 className="text-2xl font-semibold text-kid-ink">
                 Daily Nutritional Guide
               </h3>
             </div>
@@ -198,7 +194,7 @@ const AssessmentForNutritional = () => {
 
               <table className="w-full overflow-hidden rounded-2xl">
 
-                <thead className="bg-blue-700 text-white">
+                <thead className="bg-kid-deep text-white">
 
                   <tr>
                     <th className="px-4 py-4 text-left text-sm font-semibold">
@@ -282,7 +278,7 @@ const AssessmentForNutritional = () => {
                         {item.kcal}
                       </td>
 
-                      <td className="px-4 py-4 text-sm font-semibold text-blue-700">
+                      <td className="px-4 py-4 text-sm font-semibold text-kid-deep">
                         {item.percent}
                       </td>
                     </tr>

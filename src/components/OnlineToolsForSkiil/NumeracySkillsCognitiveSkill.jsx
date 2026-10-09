@@ -35,16 +35,6 @@ const classes = [
   },
 ];
 
-// Shared by the class cards and the Big or Small category cards. Tailwind only keeps
-// class names it can see in full, so these stay written out rather than built up.
-const cardStyles = {
-  orange: { text: "text-orange-500", bg: "bg-orange-500" },
-  pink: { text: "text-pink-500", bg: "bg-pink-500" },
-  green: { text: "text-green-500", bg: "bg-green-500" },
-  blue: { text: "text-blue-500", bg: "bg-blue-500" },
-  purple: { text: "text-purple-500", bg: "bg-purple-500" },
-};
-
 const modes = [
   {
     id: "compare",
@@ -1150,24 +1140,24 @@ const NumeracySkillsCognitiveSkill = () => {
   // CLASS SELECTION PAGE
   if (!selectedClass) {
     return (
-      <div className="min-h-screen bg-gradient-to-r from-sky-200 via-teal-200 to-green-200 flex flex-col items-center justify-center p-6">
-        <h1 className="text-4xl font-bold text-teal-700 mb-2 text-center">
+      <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex flex-col items-center justify-center p-6">
+        <h1 className="text-4xl font-bold text-kid-ink mb-2 text-center">
           🔢 Numeracy Skills 🔢
         </h1>
-        <p className="text-gray-700 mb-8 text-center">Choose your class to begin</p>
+        <p className="text-kid-soft font-medium mb-8 text-center">Choose your class to begin</p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+        <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
           {classes.map((cls) => (
-            <div key={cls.id} className="bg-white rounded-3xl p-8 text-center shadow-xl">
-              <div className="text-7xl">{cls.emoji}</div>
-              <h2 className={`text-3xl font-bold mt-4 ${cardStyles[cls.color].text}`}>
+            <div key={cls.id} className="kid-card kid-card-hover p-8 text-center">
+              <div className="kid-chip mx-auto h-28 w-28 text-6xl">{cls.emoji}</div>
+              <h2 className="text-3xl font-bold mt-4 text-kid-ink">
                 {cls.name}
               </h2>
-              <p className="mt-3 text-gray-600">{cls.desc}</p>
+              <p className="mt-3 font-medium text-kid-soft">{cls.desc}</p>
 
               <button
                 onClick={() => setSelectedClass(cls.id)}
-                className={`mt-6 ${cardStyles[cls.color].bg} text-white px-6 py-3 rounded-full text-lg`}
+                className="kid-btn mt-6 px-8 py-3 text-lg"
               >
                 ▶ Choose
               </button>
@@ -1183,24 +1173,24 @@ const NumeracySkillsCognitiveSkill = () => {
   // GAME SELECTION PAGE
   if (!selectedMode) {
     return (
-      <div className="min-h-screen bg-gradient-to-r from-sky-200 via-teal-200 to-green-200 flex flex-col items-center justify-center p-6">
-        <h1 className="text-4xl font-bold text-teal-700 mb-2 text-center">
+      <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex flex-col items-center justify-center p-6">
+        <h1 className="text-4xl font-bold text-kid-ink mb-2 text-center">
           {classInfo.emoji} {classInfo.name}
         </h1>
-        <p className="text-gray-700 mb-8 text-center">Which game do you want to play?</p>
+        <p className="text-kid-soft font-medium mb-8 text-center">Which game do you want to play?</p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+        <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
           {modes.map((mode) => (
-            <div key={mode.id} className="bg-white rounded-3xl p-6 text-center shadow-xl">
-              <div className="text-6xl">{mode.emoji}</div>
-              <h2 className="text-xl font-bold mt-4 text-teal-600">{mode.name}</h2>
-              <p className="mt-2 text-sm text-gray-600">{mode.desc}</p>
+            <div key={mode.id} className="kid-card kid-card-hover p-6 text-center">
+              <div className="kid-chip mx-auto h-24 w-24 text-5xl">{mode.emoji}</div>
+              <h2 className="text-xl font-bold mt-4 text-kid-ink">{mode.name}</h2>
+              <p className="mt-2 text-sm font-medium text-kid-soft">{mode.desc}</p>
 
               <button
                 onClick={() =>
                   mode.id === "bigOrSmall" ? setSelectedMode(mode.id) : startGame(mode.id)
                 }
-                className="mt-5 bg-teal-500 text-white px-6 py-3 rounded-full text-lg"
+                className="kid-btn mt-5 px-8 py-3 text-lg"
               >
                 {mode.id === "bigOrSmall" ? "▶ Choose Category" : "▶ Play Now"}
               </button>
@@ -1210,7 +1200,7 @@ const NumeracySkillsCognitiveSkill = () => {
 
         <button
           onClick={backToClasses}
-          className="mt-8 bg-white text-gray-700 px-6 py-3 rounded-full shadow"
+          className="kid-btn kid-btn-soft mt-8"
         >
           ⬅ Back To Classes
         </button>
@@ -1221,28 +1211,28 @@ const NumeracySkillsCognitiveSkill = () => {
   // CATEGORY SELECTION PAGE (Big or Small only)
   if (selectedMode === "bigOrSmall" && !selectedCategory) {
     return (
-      <div className="min-h-screen bg-gradient-to-r from-sky-200 via-teal-200 to-green-200 flex flex-col items-center justify-center p-6">
-        <h1 className="text-4xl font-bold text-teal-700 mb-2 text-center">
+      <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex flex-col items-center justify-center p-6">
+        <h1 className="text-4xl font-bold text-kid-ink mb-2 text-center">
           🐘 Big or Small 🐁
         </h1>
-        <p className="text-gray-700 mb-8 text-center">
+        <p className="text-kid-soft font-medium mb-8 text-center">
           {classInfo.emoji} {classInfo.name} • Which pictures do you want to play with?
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+        <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
           {bigOrSmallCategories.map((category) => (
-            <div key={category.id} className="bg-white rounded-3xl p-6 text-center shadow-xl">
-              <div className="text-7xl">{category.emoji}</div>
+            <div key={category.id} className="kid-card kid-card-hover p-6 text-center">
+              <div className="kid-chip mx-auto h-28 w-28 text-6xl">{category.emoji}</div>
 
-              <h2 className={`text-2xl font-bold mt-4 ${cardStyles[category.color].text}`}>
+              <h2 className="text-2xl font-bold mt-4 text-kid-ink">
                 {category.name}
               </h2>
 
-              <p className="mt-2 text-sm text-gray-600">{category.desc}</p>
+              <p className="mt-2 text-sm font-medium text-kid-soft">{category.desc}</p>
 
               <button
                 onClick={() => startGame("bigOrSmall", category.id)}
-                className={`mt-5 ${cardStyles[category.color].bg} text-white px-6 py-3 rounded-full text-lg`}
+                className="kid-btn mt-5 px-8 py-3 text-lg"
               >
                 ▶ Play Now
               </button>
@@ -1252,7 +1242,7 @@ const NumeracySkillsCognitiveSkill = () => {
 
         <button
           onClick={backToModes}
-          className="mt-8 bg-white text-gray-700 px-6 py-3 rounded-full shadow"
+          className="kid-btn kid-btn-soft mt-8"
         >
           ⬅ Back To Games
         </button>
@@ -1274,8 +1264,8 @@ const NumeracySkillsCognitiveSkill = () => {
   // RESULT PAGE
   if (showResult) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-200 via-teal-200 to-green-200 p-4">
-        <div className="bg-white rounded-3xl p-8 text-center shadow-xl w-full max-w-md">
+      <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex items-center justify-center p-4">
+        <div className="kid-card tone-white p-8 text-center w-full max-w-md">
           <div className="text-7xl">🏆</div>
 
           <h1 className="text-4xl font-bold text-green-600 mt-4">Wonderful!</h1>
@@ -1292,7 +1282,7 @@ const NumeracySkillsCognitiveSkill = () => {
           <div className="flex flex-col gap-3 mt-6">
             <button
               onClick={() => startGame(selectedMode, selectedCategory)}
-              className="bg-teal-500 text-white px-6 py-3 rounded-full text-lg"
+              className="kid-btn kid-btn-sun px-8 py-3 text-lg"
             >
               🔄 Play Again
             </button>
@@ -1300,7 +1290,7 @@ const NumeracySkillsCognitiveSkill = () => {
             {categoryInfo && (
               <button
                 onClick={backToCategories}
-                className="bg-indigo-500 text-white px-6 py-3 rounded-full text-lg"
+                className="kid-btn kid-btn-teal px-8 py-3 text-lg"
               >
                 🗂️ Choose Another Category
               </button>
@@ -1308,14 +1298,14 @@ const NumeracySkillsCognitiveSkill = () => {
 
             <button
               onClick={backToModes}
-              className="bg-purple-500 text-white px-6 py-3 rounded-full text-lg"
+              className="kid-btn px-8 py-3 text-lg"
             >
               🎮 Choose Another Game
             </button>
 
             <button
               onClick={backToClasses}
-              className="bg-gray-100 text-gray-700 px-6 py-3 rounded-full text-lg"
+              className="kid-btn kid-btn-soft px-8 py-3 text-lg"
             >
               ⬅ Back To Classes
             </button>
@@ -1329,9 +1319,9 @@ const NumeracySkillsCognitiveSkill = () => {
 
   // GAME PAGE
   return (
-    <div className="min-h-screen flex justify-center items-center p-4 bg-gradient-to-r from-sky-200 via-teal-200 to-green-200">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow-xl p-6 text-center">
-        <h1 className="text-2xl md:text-3xl font-bold text-teal-600">
+    <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex justify-center items-center p-4">
+      <div className="kid-card tone-white w-full max-w-2xl p-6 text-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-kid-ink">
           {modeInfo.emoji} {modeInfo.name}
         </h1>
 
@@ -1341,7 +1331,7 @@ const NumeracySkillsCognitiveSkill = () => {
         </p>
 
         <div className="flex gap-3 mt-6">
-          <div className="flex-1 bg-teal-400 text-white p-3 rounded-2xl">
+          <div className="flex-1 rounded-2xl bg-tone-aqua p-3 text-kid-ink">
             <div className="text-xs uppercase tracking-wide">Total Tried</div>
 
             <div className="text-lg font-bold">
@@ -1349,7 +1339,7 @@ const NumeracySkillsCognitiveSkill = () => {
             </div>
           </div>
 
-          <div className="flex-1 bg-yellow-400 text-white p-3 rounded-2xl">
+          <div className="flex-1 rounded-2xl bg-tone-butter p-3 text-kid-ink">
             <div className="text-xs uppercase tracking-wide">Scored</div>
 
             <div className="text-lg font-bold">
@@ -1427,7 +1417,7 @@ const NumeracySkillsCognitiveSkill = () => {
 
           <button
             onClick={speak}
-            className="mt-5 bg-blue-500 text-white px-5 py-2 rounded-full"
+            className="kid-btn kid-btn-teal mt-5"
           >
             🔊 Listen
           </button>
@@ -1464,7 +1454,7 @@ const NumeracySkillsCognitiveSkill = () => {
           {selected && (
             <button
               onClick={nextQuestion}
-              className="mt-6 bg-orange-500 text-white px-6 py-3 rounded-full"
+              className="kid-btn kid-btn-sun mt-6 px-8 py-3 text-lg"
             >
               Next ➜
             </button>
@@ -1475,7 +1465,7 @@ const NumeracySkillsCognitiveSkill = () => {
           {attempted > 0 && (
             <button
               onClick={() => setShowResult(true)}
-              className="bg-green-500 text-white px-6 py-2 rounded-full"
+              className="kid-btn"
             >
               🏁 Finish & See Score
             </button>
@@ -1483,7 +1473,7 @@ const NumeracySkillsCognitiveSkill = () => {
 
           <button
             onClick={categoryInfo ? backToCategories : backToModes}
-            className="bg-gray-100 text-gray-700 px-6 py-2 rounded-full"
+            className="kid-btn kid-btn-soft"
           >
             {categoryInfo ? "⬅ Back To Categories" : "⬅ Back To Games"}
           </button>
