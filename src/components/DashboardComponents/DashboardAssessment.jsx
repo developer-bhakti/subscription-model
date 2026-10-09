@@ -1,73 +1,61 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { PageHero, ModuleGrid, ModuleCard } from "../KidsUI";
 
 const DashboardAssessment = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800">Assessments</h2>
-          <p className="text-sm text-gray-500 mt-1">Open specific assessment tools below.</p>
-        </div>
-      </div>
+    <div>
+      <PageHero
+        emoji="📊"
+        title="Assessments"
+        subtitle="Open specific assessment tools below."
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <button
+      <ModuleGrid>
+        <ModuleCard
+          icon="🔎"
+          title="Class-wise Initial Diagnostic Assessment (Prime)"
+          description="Open diagnostic assessments for each class/level."
           onClick={() => navigate('/user/assessment/class-wise-diagnostic')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">🔎</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Class-wise Initial Diagnostic Assessment (Prime) </h3>
-          <p className="text-sm text-gray-500">Open diagnostic assessments for each class/level.</p>
-        </button>
+        />
 
-        <button
+        <ModuleCard
+          icon="📆"
+          title="Month Formative (Prime Syllabus)"
+          description="Open monthly formative assessment tools."
           onClick={() => navigate('/user/assessment/month-formative')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">📆</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Month Formative (Prime Syllabus)</h3>
-          <p className="text-sm text-gray-500">Open monthly formative assessment tools.</p>
-        </button>
+        />
 
-           <button
+        <ModuleCard
+          icon="📆"
+          title="Month Formative (General Syllabus)"
+          description="Open monthly formative assessment tools."
           onClick={() => navigate('/user/assessment/formative-general')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">📆</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Month Formative (General Syllabus)</h3>
-          <p className="text-sm text-gray-500">Open monthly formative assessment tools.</p>
-        </button>
+        />
 
-        <button
+        <ModuleCard
+          icon="📝"
+          title="Summative Assessment"
+          description="Open summative assessment resources."
           onClick={() => navigate('/user/assessment/sumative')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">📝</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Summative Assessment</h3>
-          <p className="text-sm text-gray-500">Open summative assessment resources.</p>
-        </button>
+        />
 
-        <button
+        <ModuleCard
+          icon="🍎"
+          title="Nutritional Assessment"
+          description="Open nutritional and health assessment tools."
           onClick={() => navigate('/user/assessment/nutritional')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">🍎</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Nutritional Assessment</h3>
-          <p className="text-sm text-gray-500">Open nutritional and health assessment tools.</p>
-        </button>
+        />
 
-         <button
+        <ModuleCard
+          icon="📝"
+          title="Assessment For ADHD"
+          description="Specialized assessment tools to help identify attention, behavioral patterns, and learning support requirements in children.."
           onClick={() => navigate('/user/assessment/assessement-adhd')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">📝</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2"> Assessment For ADHD</h3>
-          <p className="text-sm text-gray-500">Specialized assessment tools to help identify attention, behavioral patterns, and learning support requirements in children..</p>
-        </button>
-      </div>
+        />
+      </ModuleGrid>
     </div>
   );
 };

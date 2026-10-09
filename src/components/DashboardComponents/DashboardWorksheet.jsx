@@ -1,46 +1,40 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PageHero, ModuleGrid, ModuleCard } from '../KidsUI'
 
 const DashboardWorksheet = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800">Worksheets & Activities</h2>
-          <p className="text-sm text-gray-500 mt-1">Choose a worksheet collection below to open the content.</p>
-        </div>
-      </div>
+    <div>
+      <PageHero
+        emoji="📝"
+        title="Worksheets & Activities"
+        subtitle="Choose a worksheet collection below to open the content."
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <button
+      <ModuleGrid>
+        <ModuleCard
+          icon="📅"
+          title="Month-wise Worksheets"
+          description="Open month-wise worksheets and activities for the school year."
           onClick={() => navigate('/user/worksheet/month-wise')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">📅</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Month-wise Worksheets</h3>
-          <p className="text-sm text-gray-500">Open month-wise worksheets and activities for the school year.</p>
-        </button>
+        />
 
-        <button
+        <ModuleCard
+          icon="☀️"
+          title="Summer Worksheets"
+          description="Open summer worksheet packs for Nursery, LKG and UKG."
           onClick={() => navigate('/user/worksheet/summer-worksheets')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">☀️</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Summer Worksheets</h3>
-          <p className="text-sm text-gray-500">Open summer worksheet packs for Nursery, LKG and UKG.</p>
-        </button>
+        />
 
-        <button
+        <ModuleCard
+          icon="🎨"
+          title="Theme based colouring Worksheets for Your School"
+          description="Explore classroom-ready colouring sheets by theme for preschool and early learners."
           onClick={() => navigate('/user/worksheet/theme-based-colouring')}
-          className="text-left bg-white rounded-3xl shadow hover:shadow-lg transition p-6 border border-gray-200"
-        >
-          <div className="text-4xl mb-4">🎨</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Theme based colouring Worksheets for Your School</h3>
-          <p className="text-sm text-gray-500">Explore classroom-ready colouring sheets by theme for preschool and early learners.</p>
-        </button>
-      </div>
+        />
+      </ModuleGrid>
     </div>
   )
 }

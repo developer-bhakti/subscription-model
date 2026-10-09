@@ -131,6 +131,12 @@ export default function Login() {
 
       <CornerFlowers />
 
+      {/* The page title. It sits outside the card's wrapper below, because the form card is
+          positioned as a percentage of that wrapper and would shift if this lived inside it. */}
+      <h1 className="relative z-10 -mb-3 text-center text-4xl font-bold tracking-tight text-kid-ink sm:text-5xl">
+        ECCE <span className="text-kid-green">Tool</span>
+      </h1>
+
       <div className="relative z-10 w-full max-w-[980px]">
 
         {/* The big card with the green scene — large screens only */}
@@ -152,9 +158,9 @@ export default function Login() {
           />
 
           <div>
-          <h1 className="text-[1.7rem] font-bold leading-tight text-[#1c1c1c]">
+          <h2 className="text-[1.7rem] font-bold leading-tight text-[#1c1c1c]">
             Welcome Back
-          </h1>
+          </h2>
 
           <p className="mt-1 text-[13px] font-medium text-gray-500">
             Sign in to continue to your account

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { PageHero, SectionTitle, BackButton } from "../KidsUI";
+import { Star } from "../KidsArt";
 import { jsPDF } from "jspdf";
 
 const fruitWorksheets = [
@@ -1072,24 +1074,20 @@ const ColourThemeActivities = () => {
 
   if (activeGroup) {
     return (
-      <section className="min-h-screen bg-[#f2faee] py-12 px-4 font-playful">
+      <section>
         <div className="max-w-7xl mx-auto">
-          <button
-            onClick={() => setActiveGroup(null)}
-            className="mb-6 inline-flex items-center gap-2 text-[#15803d] hover:text-[#166534] font-bold transition-all duration-300"
-          >
-            ← Back to themes
-          </button>
+          <div className="mb-6">
+            <BackButton onClick={() => setActiveGroup(null)}>
+              ← Back to themes
+            </BackButton>
+          </div>
 
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
-              {/* <p className="text-xs uppercase tracking-[0.3em] text-[#15803d] font-bold mb-2">
-                Classroom Activity
-              </p> */}
-              <h1 className="text-3xl md:text-4xl font-bold text-[#15803d]">
+              <SectionTitle as="h1" className="text-3xl md:text-4xl">
                 {activeGroup.title}
-              </h1>
-              <p className="text-gray-500 mt-1">
+              </SectionTitle>
+              <p className="text-kid-soft font-medium mt-1">
                 {activeGroup.items.length} worksheets ready to print
               </p>
             </div>
@@ -1097,7 +1095,7 @@ const ColourThemeActivities = () => {
             <button
               onClick={() => handleDownloadAll(activeGroup)}
               disabled={downloadingAll || activeGroup.items.length === 0}
-              className="bg-[#16a34a] hover:bg-[#15803d] disabled:opacity-60 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
+              className="kid-btn"
             >
               {progress
                 ? `Preparing ${progress.current}/${progress.total}...`
@@ -1106,32 +1104,32 @@ const ColourThemeActivities = () => {
           </div>
 
           {bundleNote && (
-            <p className="mb-6 rounded-xl bg-indigo-50 border border-indigo-200 text-[#15803d] text-sm px-4 py-3 font-semibold">
+            <p className="mb-6 rounded-2xl bg-tone-mint border-2 border-edge-mint text-kid-deep text-sm px-4 py-3 font-semibold">
               {bundleNote}
             </p>
           )}
 
           {failedIndexes.length > 0 && (
-            <p className="mb-6 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm px-4 py-3">
+            <p className="mb-6 rounded-2xl bg-amber-50 border-2 border-amber-200 text-amber-800 text-sm px-4 py-3">
               {failedIndexes.length} worksheet(s) could not be turned into a
               PDF. Use “Open in new tab” to save those directly.
             </p>
           )}
 
           {activeGroup.items.length === 0 && (
-            <p className="rounded-2xl bg-white border border-indigo-100 text-gray-500 text-center px-6 py-12 font-semibold">
+            <p className="kid-card text-kid-soft text-center px-6 py-12 font-semibold">
               Worksheets for this theme are coming soon.
             </p>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {activeGroup.items.map((worksheet, index) => (
               <div
                 key={`${worksheet.title}-${index}`}
-                className="bg-white rounded-2xl overflow-hidden shadow-md hover:-translate-y-1 transition-all duration-300 border border-indigo-100 flex flex-col"
+                className="kid-card kid-card-hover overflow-hidden flex flex-col"
               >
                 {isPdf(worksheet.pdf) ? (
-                  <div className="w-full h-[240px] bg-indigo-50 flex items-center justify-center text-[#15803d] font-bold">
+                  <div className="m-3 mb-0 flex h-[220px] items-center justify-center rounded-[18px] bg-white font-semibold text-kid-deep">
                     PDF
                   </div>
                 ) : (
@@ -1139,12 +1137,12 @@ const ColourThemeActivities = () => {
                     src={worksheet.pdf}
                     alt={worksheet.title}
                     loading="lazy"
-                    className="w-full h-[240px] object-contain bg-white p-2"
+                    className="m-3 mb-0 h-[220px] w-[calc(100%-1.5rem)] rounded-[18px] bg-white object-contain p-2"
                   />
                 )}
 
-                <div className="p-4 flex flex-col gap-3 flex-1 border-t border-indigo-50">
-                  <p className="font-bold text-gray-800 capitalize flex-1">
+                <div className="p-4 flex flex-col gap-3 flex-1">
+                  <p className="font-semibold text-kid-ink capitalize flex-1">
                     {worksheet.title}
                   </p>
 
@@ -1153,7 +1151,7 @@ const ColourThemeActivities = () => {
                       href={worksheet.pdf}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full text-center bg-amber-500 hover:bg-amber-600 text-white px-4 py-2.5 rounded-xl font-bold transition-all duration-300"
+                      className="kid-btn kid-btn-sun w-full"
                     >
                       Open in new tab
                     </a>
@@ -1161,7 +1159,7 @@ const ColourThemeActivities = () => {
                     <button
                       onClick={() => handleDownloadOne(worksheet, index)}
                       disabled={busyIndex === index}
-                      className="w-full bg-[#16a34a] hover:bg-[#15803d] disabled:opacity-60 text-white px-4 py-2.5 rounded-xl font-bold transition-all duration-300"
+                      className="kid-btn w-full"
                     >
                       {busyIndex === index ? "Preparing..." : "Download PDF"}
                     </button>
@@ -1176,39 +1174,38 @@ const ColourThemeActivities = () => {
   }
 
   return (
-    <section className="bg-[#f2faee] py-16 px-4 font-playful">
+    <section>
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-[#15803d] font-bold mb-3">
-            Classroom Activity
-          </p>
-          <h1 className="text-3xl md:text-4xl font-bold text-[#15803d] leading-tight">
-            Theme based colouring Worksheets for Your School
-          </h1>
-        </div>
+        <PageHero
+          emoji="🎨"
+          title="Theme based colouring Worksheets for Your School"
+          subtitle="Classroom activity: colouring sheets sorted by theme."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
           {worksheetData.map((item) => (
             <div
               key={item.title}
-              className="bg-white rounded-[26px] overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-300 border border-indigo-100"
+              className="kid-card kid-card-hover overflow-hidden"
             >
-              <div className="p-8 text-center flex flex-col items-center">
-                <span className="text-6xl mb-4" role="img" aria-hidden="true">
+              <Star className="absolute right-4 top-4 h-6 w-6" />
+
+              <div className="p-7 text-center flex flex-col items-center">
+                <span className="kid-chip mb-4 h-24 w-24 text-6xl" role="img" aria-hidden="true">
                   {item.icon}
                 </span>
 
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                <h2 className="text-xl font-semibold text-kid-ink mb-2">
                   {item.title}
                 </h2>
 
-                <p className="text-gray-600 leading-6 text-sm mb-6">
+                <p className="text-kid-soft font-medium leading-6 text-sm mb-6">
                   {item.description}
                 </p>
 
                 <button
                   onClick={() => openGroup(item)}
-                  className="bg-[#16a34a] hover:bg-[#15803d] text-white px-10 py-3 rounded-full font-bold transition-all duration-300"
+                  className="kid-btn px-10"
                 >
                   View
                 </button>

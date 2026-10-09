@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { PageHero, SectionTitle, BackButton } from "../KidsUI";
+import { Star } from "../KidsArt";
 
 const ACTCurriculum = () => {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -223,43 +225,39 @@ const ACTCurriculum = () => {
   const months = selectedClass ? curriculumData[selectedClass] : [];
 
   return (
-    <div className="min-h-screen bg-[#f1faee]">
-      <div className="max-w-[1400px] mx-auto px-5 py-12">
+    <div>
+      <div className="max-w-[1400px] mx-auto">
 
         {/* TITLE */}
 
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-3">
-            ACT Curriculum
-          </h1>
-
-          <p className="text-gray-500 text-lg">
-            Preschool curriculum with weekly and skill based PDF learning
-          </p>
-        </div>
+        <PageHero
+          emoji="📘"
+          title="ACT Curriculum"
+          subtitle="Preschool curriculum with weekly and skill based PDF learning"
+        />
 
         {/* CLASS GRID */}
 
         {!selectedClass && (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
             {classes.map((item) => (
               <div
                 key={item.name}
-                className="bg-white rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition"
+                className="kid-card kid-card-hover overflow-hidden"
               >
-                <div className="p-7">
-                  <div
-                    className={`w-20 h-20 rounded-full ${item.tint} flex items-center justify-center text-4xl mb-5`}
-                  >
+                <Star className="absolute right-5 top-5 h-7 w-7" />
+
+                <div className="p-6 sm:p-7">
+                  <div className="kid-chip h-20 w-20 text-4xl mb-5">
                     {item.emoji}
                   </div>
 
-                  <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-3xl font-semibold text-kid-ink mb-3">
                     {item.name}
                   </h2>
 
-                  <p className="text-gray-500 leading-8 mb-6">
+                  <p className="text-kid-soft font-medium leading-7 mb-6">
                     {item.description}
                   </p>
 
@@ -271,7 +269,7 @@ const ACTCurriculum = () => {
                         behavior: "smooth",
                       });
                     }}
-                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold"
+                    className="kid-btn w-full py-3.5"
                   >
                     Explore Curriculum
                   </button>
@@ -285,41 +283,40 @@ const ACTCurriculum = () => {
 
         {selectedClass && (
           <>
-            <div className="flex flex-wrap justify-between items-center gap-4 mb-10">
-              <button
-                onClick={() => setSelectedClass(null)}
-                className="w-[180px] h-14 rounded-2xl bg-gray-900 text-white font-semibold"
-              >
+            <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
+              <BackButton onClick={() => setSelectedClass(null)}>
                 ← Back To Classes
-              </button>
+              </BackButton>
 
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              <SectionTitle as="h2" className="text-2xl md:text-3xl">
                 {selectedClass} Monthly Curriculum
-              </h2>
+              </SectionTitle>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="tone-cycle grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
 
               {months.map((month) => (
                 <div
                   key={month.id}
-                  className="bg-white rounded-[30px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+                  className="kid-card overflow-hidden"
                 >
-                  <div className="p-7">
+                  <Star className="absolute right-5 top-5 h-7 w-7" />
 
-                    <div className="w-16 h-16 rounded-full bg-indigo-50 flex items-center justify-center text-3xl mb-5">
+                  <div className="p-6 sm:p-7">
+
+                    <div className="kid-chip h-16 w-16 text-3xl mb-4">
                       🗓️
                     </div>
 
-                    <span className="inline-block px-5 py-2 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold mb-5">
+                    <span className="kid-pill mb-4">
                       MONTH {month.id}
                     </span>
 
-                    <h3 className="text-3xl font-bold mb-3">
+                    <h3 className="text-2xl font-semibold text-kid-ink mb-2">
                       {month.title}
                     </h3>
 
-                    <p className="text-gray-500 leading-8 mb-6">
+                    <p className="text-kid-soft font-medium leading-7 mb-6">
                       {month.description}
                     </p>
 
@@ -329,7 +326,7 @@ const ACTCurriculum = () => {
                       onClick={() =>
                         toggleDropdown(`weekly-${selectedClass}-${month.id}`)
                       }
-                      className="w-full h-14 rounded-2xl text-white font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 mb-4"
+                      className="kid-btn w-full py-3.5 mb-4"
                     >
                       📚 Weekly Curriculum
                     </button>
@@ -343,10 +340,10 @@ const ACTCurriculum = () => {
                             href={week.pdf}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex justify-between items-center p-4 rounded-2xl border bg-gray-50 hover:bg-indigo-600 hover:text-white transition"
+                            className="kid-row justify-between"
                           >
                             <div className="flex items-center gap-4">
-                              <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center text-xl">
+                              <div className="kid-chip h-12 w-12 text-xl">
                                 📄
                               </div>
 
@@ -373,7 +370,7 @@ const ACTCurriculum = () => {
                       onClick={() =>
                         toggleDropdown(`skills-${selectedClass}-${month.id}`)
                       }
-                      className="w-full h-14 rounded-2xl text-white font-bold bg-gradient-to-r from-emerald-600 to-emerald-500"
+                      className="kid-btn kid-btn-teal w-full py-3.5"
                     >
                       🎯 Skill Based Curriculum
                     </button>
@@ -387,10 +384,10 @@ const ACTCurriculum = () => {
                             href={skill.pdf}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex justify-between items-center p-4 rounded-2xl border bg-gray-50 hover:bg-indigo-600 hover:text-white transition"
+                            className="kid-row justify-between"
                           >
                             <div className="flex items-center gap-4">
-                              <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center text-xl">
+                              <div className="kid-chip h-12 w-12 text-xl">
                                 {skill.icon}
                               </div>
 

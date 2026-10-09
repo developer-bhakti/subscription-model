@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { PageHero, SectionTitle } from "../KidsUI";
+import { Star } from "../KidsArt";
 
 const categories = [
   {
@@ -96,33 +98,35 @@ export default function SummerWorksheets() {
   const [activeSection, setActiveSection] = useState(null);
 
   return (
-    <section className="bg-[#f2faee] py-20 px-5 font-playful">
+    <section>
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
-        <h2 className="text-center text-4xl md:text-5xl font-bold text-[#15803d] mb-16">
-          Summer Worksheets For Preschool
-        </h2>
+        <PageHero
+          emoji="☀️"
+          title="Summer Worksheets For Preschool"
+          subtitle="Math, language and EVS summer homework packs for every class."
+        />
 
         {/* Category Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9">
+        <div className="tone-cycle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
           {categories.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-[30px] overflow-hidden shadow-xl hover:-translate-y-2 transition-all duration-300"
+              className="kid-card kid-card-hover overflow-hidden"
             >
-              <div className="p-7 text-center">
-                <div
-                  className={`w-20 h-20 mx-auto rounded-full ${item.tint} flex items-center justify-center text-4xl mb-5`}
-                >
+              <Star className="absolute right-5 top-5 h-7 w-7" />
+
+              <div className="p-6 sm:p-7 text-center">
+                <div className="kid-chip mx-auto h-20 w-20 text-4xl mb-5">
                   {item.emoji}
                 </div>
 
-                <h3 className="text-3xl font-bold text-gray-800 mb-4">
+                <h3 className="text-2xl font-semibold text-kid-ink mb-3">
                   {item.title}
                 </h3>
 
-                <p className="text-gray-500 leading-7 text-[16px] mb-6 font-playful">
+                <p className="text-kid-soft leading-7 text-[16px] mb-6 font-medium">
                   {item.description}
                 </p>
 
@@ -132,7 +136,7 @@ export default function SummerWorksheets() {
                       activeSection === item.id ? null : item.id
                     )
                   }
-                  className="bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3 rounded-xl font-bold transition-all duration-300"
+                  className="kid-btn"
                 >
                   {activeSection === item.id
                     ? "Hide Worksheets"
@@ -145,25 +149,23 @@ export default function SummerWorksheets() {
 
         {/* Worksheets Section */}
         {activeSection && (
-          <div className="mt-24 animate-fadeIn">
+          <div className="mt-14 animate-fadeIn">
 
-            <h2 className="text-center text-3xl md:text-4xl font-bold text-[#15803d] mb-12">
+            <SectionTitle className="mb-6">
               {activeSection.toUpperCase()} Activities
-            </h2>
+            </SectionTitle>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {worksheetData[activeSection]?.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-3xl p-6 text-center shadow-lg hover:-translate-y-2 transition-all duration-300"
+                  className="kid-card kid-card-hover p-6 text-center"
                 >
-                  <div
-                    className={`w-20 h-20 mx-auto rounded-full ${item.tint} flex items-center justify-center text-4xl mb-6`}
-                  >
+                  <div className="kid-chip mx-auto h-20 w-20 text-4xl mb-5">
                     {item.emoji}
                   </div>
 
-                  <h3 className="text-2xl font-bold text-gray-800 mb-5">
+                  <h3 className="text-xl font-semibold text-kid-ink mb-5">
                     {item.title}
                   </h3>
 
@@ -171,7 +173,7 @@ export default function SummerWorksheets() {
                     href={item.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
+                    className="kid-btn"
                   >
                     View & Download
                   </a>

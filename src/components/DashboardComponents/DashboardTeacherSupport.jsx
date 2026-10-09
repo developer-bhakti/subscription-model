@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { PageHero } from "../KidsUI";
+import { Star } from "../KidsArt";
 
 const trainingData = [
   {
@@ -54,56 +56,65 @@ const trainingData = [
 
 export default function TeacherSupportTraining() {
   return (
-    <section className="bg-white py-16 px-5 font-playful">
-      <div className="max-w-5xl mx-auto">
+    <section>
+      <div className="mx-auto max-w-5xl">
 
         {/* Heading */}
-        <h2 className="text-center text-4xl md:text-5xl font-bold text-[#15803d] mb-14">
-          Teacher Support & Training
-        </h2>
+        <PageHero
+          emoji="👩‍🏫"
+          title="Teacher Support & Training"
+          subtitle="Courses, coupons and training documents for your teachers."
+        />
 
         {/* Cards */}
-        <div className="flex flex-col gap-6">
+        <div className="tone-cycle flex flex-col gap-5">
 
           {trainingData.map((item, index) => (
             <div
               key={index}
-              className="bg-[#f4fbf0] border-l-[6px] border-[#16a34a] p-6 md:p-8 rounded-[22px] shadow-[0_8px_18px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300"
+              className="kid-card kid-card-hover p-6 md:p-8"
             >
+              <Star className="absolute right-5 top-5 h-7 w-7" />
 
-              {/* Title */}
-              <h3 className="text-2xl md:text-[28px] font-bold text-gray-800 mb-4 leading-snug">
-                {index + 1}. {item.title}
-              </h3>
+              <div className="flex items-start gap-4">
+                <span className="kid-chip h-14 w-14 text-3xl">🎓</span>
 
-              {/* Description */}
-              <p className="text-[17px] leading-8 text-[#667085] mb-6 font-playful">
-                {item.description}
-              </p>
+                <div className="min-w-0 pr-8">
+                  {/* Title */}
+                  <h3 className="mb-3 text-xl font-semibold leading-snug text-kid-ink md:text-2xl">
+                    {index + 1}. {item.title}
+                  </h3>
 
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Description */}
+                  <p className="mb-6 text-base font-medium leading-7 text-kid-soft">
+                    {item.description}
+                  </p>
 
-                {/* Explore Button */}
-                <a
-                  href={item.explore}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#16a34a] hover:bg-[#15803d] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
-                >
-                  Explore Now
-                </a>
+                  {/* Buttons */}
+                  <div className="flex flex-col gap-4 sm:flex-row">
 
-                {/* Coupon Button */}
-                {item.couponRoute && (
-                  <Link
-                    to={item.couponRoute}
-                    className="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
-                  >
-                    Get Free Coupon Code
-                  </Link>
-                )}
+                    {/* Explore Button */}
+                    <a
+                      href={item.explore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="kid-btn"
+                    >
+                      Explore Now
+                    </a>
 
+                    {/* Coupon Button */}
+                    {item.couponRoute && (
+                      <Link
+                        to={item.couponRoute}
+                        className="kid-btn kid-btn-teal"
+                      >
+                        Get Free Coupon Code
+                      </Link>
+                    )}
+
+                  </div>
+                </div>
               </div>
             </div>
           ))}

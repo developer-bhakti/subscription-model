@@ -102,3 +102,212 @@
   --color-cyan-900: #042f2e;
   --color-cyan-950: #042f2e;
 }
+
+/*
+ * KIDS DESIGN LAYER
+ * The shared look of every inner page, taken from the dashboard home: soft pastel cards, white
+ * icon circles, green pill buttons and a lift on hover. Pages use these colours and classes (and
+ * the small components in components/KidsUI.jsx) instead of repeating long utility strings, so
+ * changing the look of the whole app means changing it here.
+ */
+@theme static {
+  --color-kid-ink: #14301f;
+  --color-kid-soft: #4b6b55;
+  --color-kid-green: #16a34a;
+  --color-kid-deep: #15803d;
+  --color-kid-sun: #ffd93d;
+
+  --color-tone-mint: #d9f3df;
+  --color-edge-mint: #bde5c7;
+  --color-tone-lime: #e9f6c4;
+  --color-edge-lime: #d3e8a2;
+  --color-tone-aqua: #d2eff0;
+  --color-edge-aqua: #b4dde0;
+  --color-tone-butter: #fff1b8;
+  --color-edge-butter: #f2de8c;
+  --color-tone-rose: #ffe3ea;
+  --color-edge-rose: #f6c5d1;
+}
+
+@layer components {
+  /* A card's colour comes from its tone... */
+  .tone-mint {
+    --tone: var(--color-tone-mint);
+    --edge: var(--color-edge-mint);
+  }
+  .tone-lime {
+    --tone: var(--color-tone-lime);
+    --edge: var(--color-edge-lime);
+  }
+  .tone-aqua {
+    --tone: var(--color-tone-aqua);
+    --edge: var(--color-edge-aqua);
+  }
+  .tone-butter {
+    --tone: var(--color-tone-butter);
+    --edge: var(--color-edge-butter);
+  }
+  .tone-rose {
+    --tone: var(--color-tone-rose);
+    --edge: var(--color-edge-rose);
+  }
+
+  /* ...or from its place in a grid, so a row of cards never repeats one colour */
+  .tone-cycle > :nth-child(4n + 1) {
+    --tone: var(--color-tone-mint);
+    --edge: var(--color-edge-mint);
+  }
+  .tone-cycle > :nth-child(4n + 2) {
+    --tone: var(--color-tone-lime);
+    --edge: var(--color-edge-lime);
+  }
+  .tone-cycle > :nth-child(4n + 3) {
+    --tone: var(--color-tone-aqua);
+    --edge: var(--color-edge-aqua);
+  }
+  .tone-cycle > :nth-child(4n + 4) {
+    --tone: var(--color-tone-butter);
+    --edge: var(--color-edge-butter);
+  }
+
+  .kid-card {
+    position: relative;
+    border: 2px solid var(--edge, var(--color-edge-mint));
+    border-radius: 24px;
+    background-color: var(--tone, var(--color-tone-mint));
+    color: var(--color-kid-ink);
+    box-shadow: 0 6px 16px rgba(20, 83, 45, 0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  .kid-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-kid-green);
+    box-shadow: 0 16px 30px rgba(20, 83, 45, 0.16);
+  }
+
+  /* The white circle that holds an icon or emoji */
+  .kid-chip {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 9999px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(20, 83, 45, 0.12);
+  }
+
+  /* A small label such as "MONTH 1" */
+  .kid-pill {
+    display: inline-block;
+    border-radius: 9999px;
+    background: #fff;
+    padding: 0.2rem 0.8rem;
+    color: var(--color-kid-deep);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  /* A link or button row inside a card, such as one week's PDF */
+  .kid-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 2px solid var(--edge-row, var(--color-edge-mint));
+    border-radius: 16px;
+    background: #fff;
+    padding: 0.65rem 1rem;
+    color: var(--color-kid-ink);
+    font-weight: 600;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .kid-row:hover {
+    transform: translateX(3px);
+    border-color: var(--color-kid-green);
+    background: #f6fcf3;
+  }
+
+  /* Buttons: a chunky green pill, like the Sign In button, in a few colours */
+  .kid-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-kid-green);
+    padding: 0.6rem 1.4rem;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #0f7a36;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+  .kid-btn:hover {
+    background: var(--color-kid-deep);
+  }
+  .kid-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #0f7a36;
+  }
+  .kid-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  .kid-btn-teal {
+    background: #0d9488;
+    box-shadow: 0 3px 0 #0b6f66;
+  }
+  .kid-btn-teal:hover {
+    background: #0f766e;
+  }
+  .kid-btn-teal:active {
+    box-shadow: 0 1px 0 #0b6f66;
+  }
+
+  .kid-btn-sun {
+    background: var(--color-kid-sun);
+    color: #14532d;
+    box-shadow: 0 3px 0 #d9a900;
+  }
+  .kid-btn-sun:hover {
+    background: #ffe36b;
+  }
+  .kid-btn-sun:active {
+    box-shadow: 0 1px 0 #d9a900;
+  }
+
+  /* The quieter button: white with a green edge, for Back and secondary actions */
+  .kid-btn-soft {
+    border: 2px solid var(--color-edge-mint);
+    background: #fff;
+    color: var(--color-kid-deep);
+    box-shadow: none;
+  }
+  .kid-btn-soft:hover {
+    background: #f1faee;
+    border-color: var(--color-kid-green);
+  }
+  .kid-btn-soft:active {
+    box-shadow: none;
+  }
+
+  /* Form fields */
+  .kid-input {
+    width: 100%;
+    border: 2px solid var(--color-edge-mint);
+    border-radius: 16px;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    color: var(--color-kid-ink);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .kid-input:focus {
+    border-color: var(--color-kid-green);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+  }
+}

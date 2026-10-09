@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { PageHero, SectionTitle } from "../KidsUI";
+import { Star } from "../KidsArt";
 
 const months = [
   {
@@ -648,39 +650,43 @@ export default function MonthWiseWorksheets() {
   const [activeMonth, setActiveMonth] = useState("january");
 
   return (
-    <section className="bg-[#f2faee] py-16 px-5 font-playful">
+    <section>
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
-        <h2 className="text-center text-3xl md:text-5xl font-bold text-[#15803d] mb-14">
-          Month Wise Worksheets & Activities
-        </h2>
+        <PageHero
+          emoji="📅"
+          title="Month Wise Worksheets & Activities"
+          subtitle="Pick a month to see its festival and awareness day worksheets."
+        />
 
         {/* Month Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-7">
+        <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-start">
           {months.map((month) => (
             <div
               key={month.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
+              className={`kid-card kid-card-hover overflow-hidden ${
+                activeMonth === month.id ? "ring-4 ring-kid-green/40" : ""
+              }`}
             >
-              <div className="p-6">
-                <div
-                  className={`w-20 h-20 rounded-full ${month.tint} flex items-center justify-center text-4xl mb-5`}
-                >
+              <Star className="absolute right-4 top-4 h-6 w-6" />
+
+              <div className="p-5">
+                <div className="kid-chip h-16 w-16 text-3xl mb-4">
                   {month.emoji}
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                <h3 className="text-xl font-semibold leading-snug text-kid-ink mb-2">
                   {month.title}
                 </h3>
 
-                <p className="text-gray-500 leading-7 mb-5 font-playful text-[15px]">
+                <p className="text-kid-soft leading-7 mb-5 font-medium text-[15px]">
                   {month.description}
                 </p>
 
                 <button
                   onClick={() => setActiveMonth(month.id)}
-                  className="w-full bg-[#16a34a] hover:bg-[#15803d] text-white py-3 rounded-xl font-semibold transition-all duration-300"
+                  className="kid-btn w-full"
                 >
                   View Activities
                 </button>
@@ -690,18 +696,18 @@ export default function MonthWiseWorksheets() {
         </div>
 
         {/* Activities Section */}
-        <div className="mt-20">
-          <h2 className="text-center text-3xl md:text-4xl font-bold text-[#15803d] mb-12">
+        <div className="mt-14">
+          <SectionTitle className="mb-6">
             {months.find((m) => m.id === activeMonth)?.title}
-          </h2>
+          </SectionTitle>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
+          <div className="tone-cycle grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {activitiesData[activeMonth]?.map((activity, index) => (
               <div
                 key={index}
-                className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
+                className="kid-card kid-card-hover overflow-hidden flex flex-col"
               >
-                <div className="w-full h-[240px] bg-[#f3faef] flex items-center justify-center overflow-hidden rounded-t-3xl">
+                <div className="m-3 mb-0 flex h-[220px] items-center justify-center overflow-hidden rounded-[18px] bg-white">
                   <img
                     src={activity.image}
                     alt={activity.title}
@@ -709,8 +715,8 @@ export default function MonthWiseWorksheets() {
                   />
                 </div>
 
-                <div className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-5">
+                <div className="p-5 text-center flex flex-1 flex-col">
+                  <h3 className="text-lg font-semibold text-kid-ink mb-4 flex-1">
                     {activity.title}
                   </h3>
 
@@ -718,7 +724,7 @@ export default function MonthWiseWorksheets() {
                     href={activity.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+                    className="kid-btn"
                   >
                     Open Worksheet
                   </a>

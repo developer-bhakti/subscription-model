@@ -1,4 +1,6 @@
 import React from "react";
+import { PageHero } from "../KidsUI";
+import { Star } from "../KidsArt";
 
 const counsellingTools = [
   {
@@ -37,38 +39,38 @@ const counsellingTools = [
 
 export default function ParentCounsellingTools() {
   return (
-    <section className="bg-[#f4fbf0] py-16 px-5">
+    <section>
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Heading */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-5xl font-bold text-[#222] leading-tight font-playful">
-            Parent Counselling Tools For Early Child Development
-          </h2>
-        </div>
+        <PageHero
+          emoji="👪"
+          title="Parent Counselling Tools For Early Child Development"
+          subtitle="Initial skill assessments to share with parents, class by class."
+        />
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7">
+        <div className="tone-cycle grid grid-cols-1 items-start gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {counsellingTools.map((tool, index) => (
             <div
               key={index}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
+              className="kid-card kid-card-hover overflow-hidden"
             >
+              <Star className="absolute right-4 top-4 h-6 w-6" />
+
               {/* Content */}
               <div className="p-6 text-center">
-                
+
                 {/* Emoji */}
-                <div
-                  className={`w-20 h-20 mx-auto rounded-full ${tool.tint} flex items-center justify-center text-4xl mb-5`}
-                >
+                <div className="kid-chip mx-auto mb-5 h-20 w-20 text-4xl">
                   {tool.emoji}
                 </div>
 
-                <h3 className="text-2xl font-bold text-[#222] mb-4 font-playful leading-snug">
+                <h3 className="mb-3 text-xl font-semibold leading-snug text-kid-ink">
                   {tool.title}
                 </h3>
 
-                <p className="text-gray-600 text-[15px] leading-7 mb-6 font-playful">
+                <p className="mb-6 text-[15px] font-medium leading-7 text-kid-soft">
                   {tool.description}
                 </p>
 
@@ -76,7 +78,7 @@ export default function ParentCounsellingTools() {
                   href={tool.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3 rounded-full text-base font-semibold transition-all duration-300"
+                  className="kid-btn"
                 >
                   View & Download
                 </a>
