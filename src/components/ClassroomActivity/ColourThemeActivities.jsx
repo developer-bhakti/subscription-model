@@ -1072,21 +1072,21 @@ const ColourThemeActivities = () => {
 
   if (activeGroup) {
     return (
-      <section className="min-h-screen bg-[#f5f7ff] py-12 px-4 font-[Baloo_2]">
+      <section className="min-h-screen bg-[#f2faee] py-12 px-4 font-playful">
         <div className="max-w-7xl mx-auto">
           <button
             onClick={() => setActiveGroup(null)}
-            className="mb-6 inline-flex items-center gap-2 text-[#5d5be3] hover:text-[#3f3ccc] font-bold transition-all duration-300"
+            className="mb-6 inline-flex items-center gap-2 text-[#15803d] hover:text-[#166534] font-bold transition-all duration-300"
           >
             ← Back to themes
           </button>
 
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
-              {/* <p className="text-xs uppercase tracking-[0.3em] text-[#5d5be3] font-bold mb-2">
+              {/* <p className="text-xs uppercase tracking-[0.3em] text-[#15803d] font-bold mb-2">
                 Classroom Activity
               </p> */}
-              <h1 className="text-3xl md:text-4xl font-extrabold text-[#5d5be3]">
+              <h1 className="text-3xl md:text-4xl font-bold text-[#15803d]">
                 {activeGroup.title}
               </h1>
               <p className="text-gray-500 mt-1">
@@ -1097,7 +1097,7 @@ const ColourThemeActivities = () => {
             <button
               onClick={() => handleDownloadAll(activeGroup)}
               disabled={downloadingAll || activeGroup.items.length === 0}
-              className="bg-[#6f6cf8] hover:bg-[#514df0] disabled:opacity-60 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
+              className="bg-[#16a34a] hover:bg-[#15803d] disabled:opacity-60 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
             >
               {progress
                 ? `Preparing ${progress.current}/${progress.total}...`
@@ -1106,7 +1106,7 @@ const ColourThemeActivities = () => {
           </div>
 
           {bundleNote && (
-            <p className="mb-6 rounded-xl bg-indigo-50 border border-indigo-200 text-[#5d5be3] text-sm px-4 py-3 font-semibold">
+            <p className="mb-6 rounded-xl bg-indigo-50 border border-indigo-200 text-[#15803d] text-sm px-4 py-3 font-semibold">
               {bundleNote}
             </p>
           )}
@@ -1131,7 +1131,7 @@ const ColourThemeActivities = () => {
                 className="bg-white rounded-2xl overflow-hidden shadow-md hover:-translate-y-1 transition-all duration-300 border border-indigo-100 flex flex-col"
               >
                 {isPdf(worksheet.pdf) ? (
-                  <div className="w-full h-[240px] bg-indigo-50 flex items-center justify-center text-[#5d5be3] font-bold">
+                  <div className="w-full h-[240px] bg-indigo-50 flex items-center justify-center text-[#15803d] font-bold">
                     PDF
                   </div>
                 ) : (
@@ -1161,7 +1161,7 @@ const ColourThemeActivities = () => {
                     <button
                       onClick={() => handleDownloadOne(worksheet, index)}
                       disabled={busyIndex === index}
-                      className="w-full bg-[#6f6cf8] hover:bg-[#514df0] disabled:opacity-60 text-white px-4 py-2.5 rounded-xl font-bold transition-all duration-300"
+                      className="w-full bg-[#16a34a] hover:bg-[#15803d] disabled:opacity-60 text-white px-4 py-2.5 rounded-xl font-bold transition-all duration-300"
                     >
                       {busyIndex === index ? "Preparing..." : "Download PDF"}
                     </button>
@@ -1176,13 +1176,13 @@ const ColourThemeActivities = () => {
   }
 
   return (
-    <section className="bg-[#f5f7ff] py-16 px-4 font-[Baloo_2]">
+    <section className="bg-[#f2faee] py-16 px-4 font-playful">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-[#5d5be3] font-bold mb-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#15803d] font-bold mb-3">
             Classroom Activity
           </p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#5d5be3] leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#15803d] leading-tight">
             Theme based colouring Worksheets for Your School
           </h1>
         </div>
@@ -1208,7 +1208,7 @@ const ColourThemeActivities = () => {
 
                 <button
                   onClick={() => openGroup(item)}
-                  className="bg-[#6f6cf8] hover:bg-[#514df0] text-white px-10 py-3 rounded-full font-bold transition-all duration-300"
+                  className="bg-[#16a34a] hover:bg-[#15803d] text-white px-10 py-3 rounded-full font-bold transition-all duration-300"
                 >
                   View
                 </button>

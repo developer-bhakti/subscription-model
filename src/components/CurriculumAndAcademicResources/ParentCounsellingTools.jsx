@@ -37,12 +37,12 @@ const counsellingTools = [
 
 export default function ParentCounsellingTools() {
   return (
-    <section className="bg-[#f8f9ff] py-16 px-5">
+    <section className="bg-[#f4fbf0] py-16 px-5">
       <div className="max-w-7xl mx-auto">
         
         {/* Heading */}
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-5xl font-bold text-[#222] leading-tight font-[Baloo_2]">
+          <h2 className="text-3xl md:text-5xl font-bold text-[#222] leading-tight font-playful">
             Parent Counselling Tools For Early Child Development
           </h2>
         </div>
@@ -64,11 +64,11 @@ export default function ParentCounsellingTools() {
                   {tool.emoji}
                 </div>
 
-                <h3 className="text-2xl font-bold text-[#222] mb-4 font-[Baloo_2] leading-snug">
+                <h3 className="text-2xl font-bold text-[#222] mb-4 font-playful leading-snug">
                   {tool.title}
                 </h3>
 
-                <p className="text-gray-600 text-[15px] leading-7 mb-6 font-[Poppins]">
+                <p className="text-gray-600 text-[15px] leading-7 mb-6 font-playful">
                   {tool.description}
                 </p>
 
@@ -76,7 +76,7 @@ export default function ParentCounsellingTools() {
                   href={tool.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-[#6c63ff] hover:bg-[#4f46e5] text-white px-7 py-3 rounded-full text-base font-semibold transition-all duration-300"
+                  className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3 rounded-full text-base font-semibold transition-all duration-300"
                 >
                   View & Download
                 </a>

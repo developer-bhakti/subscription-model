@@ -629,11 +629,11 @@ export default function Admin() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
                   >
                     <option value={ACCOUNT_TYPES.TEACHER}>
-                      Teacher — full dashboard
+                      School
                     </option>
 
                     <option value={ACCOUNT_TYPES.PARENT}>
-                      Parent — learning modules only
+                      Parent
                     </option>
                   </select>
                 </div>

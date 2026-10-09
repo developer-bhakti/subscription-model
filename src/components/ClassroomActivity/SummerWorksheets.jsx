@@ -96,11 +96,11 @@ export default function SummerWorksheets() {
   const [activeSection, setActiveSection] = useState(null);
 
   return (
-    <section className="bg-[#f5f7ff] py-20 px-5 font-[Baloo_2]">
+    <section className="bg-[#f2faee] py-20 px-5 font-playful">
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
-        <h2 className="text-center text-4xl md:text-5xl font-extrabold text-[#5d5be3] mb-16">
+        <h2 className="text-center text-4xl md:text-5xl font-bold text-[#15803d] mb-16">
           Summer Worksheets For Preschool
         </h2>
 
@@ -122,7 +122,7 @@ export default function SummerWorksheets() {
                   {item.title}
                 </h3>
 
-                <p className="text-gray-500 leading-7 text-[16px] mb-6 font-[Poppins]">
+                <p className="text-gray-500 leading-7 text-[16px] mb-6 font-playful">
                   {item.description}
                 </p>
 
@@ -132,7 +132,7 @@ export default function SummerWorksheets() {
                       activeSection === item.id ? null : item.id
                     )
                   }
-                  className="bg-[#6f6cf8] hover:bg-[#514df0] text-white px-7 py-3 rounded-xl font-bold transition-all duration-300"
+                  className="bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3 rounded-xl font-bold transition-all duration-300"
                 >
                   {activeSection === item.id
                     ? "Hide Worksheets"
@@ -147,7 +147,7 @@ export default function SummerWorksheets() {
         {activeSection && (
           <div className="mt-24 animate-fadeIn">
 
-            <h2 className="text-center text-3xl md:text-4xl font-extrabold text-[#5d5be3] mb-12">
+            <h2 className="text-center text-3xl md:text-4xl font-bold text-[#15803d] mb-12">
               {activeSection.toUpperCase()} Activities
             </h2>
 
@@ -171,7 +171,7 @@ export default function SummerWorksheets() {
                     href={item.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#6f6cf8] hover:bg-[#514df0] text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
+                    className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
                   >
                     View & Download
                   </a>

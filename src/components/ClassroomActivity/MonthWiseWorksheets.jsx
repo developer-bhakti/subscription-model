@@ -648,11 +648,11 @@ export default function MonthWiseWorksheets() {
   const [activeMonth, setActiveMonth] = useState("january");
 
   return (
-    <section className="bg-[#f5f7ff] py-16 px-5 font-[Baloo_2]">
+    <section className="bg-[#f2faee] py-16 px-5 font-playful">
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
-        <h2 className="text-center text-3xl md:text-5xl font-extrabold text-[#5d5be3] mb-14">
+        <h2 className="text-center text-3xl md:text-5xl font-bold text-[#15803d] mb-14">
           Month Wise Worksheets & Activities
         </h2>
 
@@ -674,13 +674,13 @@ export default function MonthWiseWorksheets() {
                   {month.title}
                 </h3>
 
-                <p className="text-gray-500 leading-7 mb-5 font-[Poppins] text-[15px]">
+                <p className="text-gray-500 leading-7 mb-5 font-playful text-[15px]">
                   {month.description}
                 </p>
 
                 <button
                   onClick={() => setActiveMonth(month.id)}
-                  className="w-full bg-[#6f6cf8] hover:bg-[#514df0] text-white py-3 rounded-xl font-semibold transition-all duration-300"
+                  className="w-full bg-[#16a34a] hover:bg-[#15803d] text-white py-3 rounded-xl font-semibold transition-all duration-300"
                 >
                   View Activities
                 </button>
@@ -691,7 +691,7 @@ export default function MonthWiseWorksheets() {
 
         {/* Activities Section */}
         <div className="mt-20">
-          <h2 className="text-center text-3xl md:text-4xl font-bold text-[#5d5be3] mb-12">
+          <h2 className="text-center text-3xl md:text-4xl font-bold text-[#15803d] mb-12">
             {months.find((m) => m.id === activeMonth)?.title}
           </h2>
 
@@ -701,7 +701,7 @@ export default function MonthWiseWorksheets() {
                 key={index}
                 className="bg-white rounded-3xl overflow-hidden shadow-lg hover:-translate-y-2 transition-all duration-300"
               >
-                <div className="w-full h-[240px] bg-[#f7f8ff] flex items-center justify-center overflow-hidden rounded-t-3xl">
+                <div className="w-full h-[240px] bg-[#f3faef] flex items-center justify-center overflow-hidden rounded-t-3xl">
                   <img
                     src={activity.image}
                     alt={activity.title}
@@ -718,7 +718,7 @@ export default function MonthWiseWorksheets() {
                     href={activity.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#6f6cf8] hover:bg-[#514df0] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+                    className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
                   >
                     Open Worksheet
                   </a>

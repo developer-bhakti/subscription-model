@@ -33,7 +33,7 @@ const SchoolAdmissionForm = () => {
             <School className="text-blue-600" size={40} />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-800">
             School Admission Form
           </h1>
 

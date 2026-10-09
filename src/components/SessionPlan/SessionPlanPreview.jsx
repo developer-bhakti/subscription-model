@@ -89,7 +89,7 @@ const SessionPlanPreview = () => {
               <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 print:text-[9px]">
                 Session Planning
               </p>
-              <h1 className="mt-1 text-2xl font-extrabold text-slate-900 sm:text-4xl print:mt-0 print:text-lg">
+              <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-4xl print:mt-0 print:text-lg">
                 {schoolInfo.name}
               </h1>
               <p className="mt-2 max-w-2xl text-sm text-slate-500 print:mt-0 print:text-[10px]">

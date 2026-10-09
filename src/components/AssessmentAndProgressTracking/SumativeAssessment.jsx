@@ -94,13 +94,13 @@ export default function SumativeAssessment() {
   const [activeSection, setActiveSection] = useState("");
 
   return (
-    <section className="bg-gradient-to-b from-[#f7f8ff] to-[#eef1ff] py-20 px-5">
+    <section className="bg-gradient-to-b from-[#f3faef] to-[#e7f6df] py-20 px-5">
       <div className="max-w-7xl mx-auto">
 
         {/* TITLE */}
         <div className="text-center mb-16">
-          <h2 className="flex items-center justify-center gap-3 text-4xl md:text-5xl font-extrabold text-gray-900">
-            <BookOpen className="text-[#5d5be3]" size={42} />
+          <h2 className="flex items-center justify-center gap-3 text-4xl md:text-5xl font-bold text-gray-900">
+            <BookOpen className="text-[#15803d]" size={42} />
             Summative Assessment
           </h2>
         </div>
@@ -126,7 +126,7 @@ export default function SumativeAssessment() {
 
                 <button
                   onClick={() => setActiveSection(level.id)}
-                  className="bg-[#5d5be3] hover:bg-[#4745c7] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                  className="bg-[#15803d] hover:bg-[#166534] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
                 >
                   View Assessments
                 </button>
@@ -140,7 +140,7 @@ export default function SumativeAssessment() {
         {activeSection && (
           <div className="animate-fadeIn">
 
-            <h2 className="text-center text-3xl md:text-5xl font-extrabold text-gray-900 mb-12">
+            <h2 className="text-center text-3xl md:text-5xl font-bold text-gray-900 mb-12">
               {activeSection.toUpperCase()} Assessment
             </h2>
 
@@ -166,7 +166,7 @@ export default function SumativeAssessment() {
                       href={item.pdf}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                      className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
                     >
                       <FileText size={18} />
                       View & Download

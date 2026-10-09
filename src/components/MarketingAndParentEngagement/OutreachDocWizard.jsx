@@ -18,10 +18,10 @@ const stepDefs = [
 ];
 
 const inputClass =
-  "w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#5d5be3]";
+  "w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#15803d]";
 const cardClass = "bg-white rounded-3xl shadow-lg p-8";
 const primaryBtn =
-  "inline-flex items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300";
+  "inline-flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300";
 const secondaryBtn =
   "inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold transition duration-300";
 
@@ -43,7 +43,7 @@ function Stepper({ step, maxStepReached, onStepClick }) {
               <span
                 className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${
                   isActive
-                    ? "bg-[#5d5be3] text-white"
+                    ? "bg-[#15803d] text-white"
                     : isCompleted
                     ? "bg-green-500 text-white"
                     : "bg-gray-200 text-gray-500"
@@ -53,7 +53,7 @@ function Stepper({ step, maxStepReached, onStepClick }) {
               </span>
               <span
                 className={`text-xs font-semibold whitespace-nowrap ${
-                  isActive ? "text-[#5d5be3]" : "text-gray-500"
+                  isActive ? "text-[#15803d]" : "text-gray-500"
                 }`}
               >
                 {s.label}
@@ -320,9 +320,9 @@ const OutreachDocWizard = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#f7f8ff] to-[#eef1ff] py-16 px-5 font-sans min-h-screen">
+    <section className="bg-gradient-to-b from-[#f3faef] to-[#e7f6df] py-16 px-5 font-sans min-h-screen">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-center text-4xl font-extrabold text-gray-900 mb-2">
+        <h2 className="text-center text-4xl font-bold text-gray-900 mb-2">
           Create Your Outreach
         </h2>
         <p className="text-center text-gray-500 mb-10">
@@ -383,7 +383,7 @@ const OutreachDocWizard = () => {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   School Logo
                 </label>
-                <label className="flex items-center gap-3 border border-dashed border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:border-[#5d5be3] transition">
+                <label className="flex items-center gap-3 border border-dashed border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:border-[#15803d] transition">
                   <Upload size={18} className="text-gray-500" />
                   <span className="text-sm text-gray-500">
                     {logo ? "Logo selected" : "Upload logo"}
@@ -451,7 +451,7 @@ const OutreachDocWizard = () => {
                         key={w.title}
                         type="button"
                         onClick={() => addEventName(w.title)}
-                        className="inline-flex items-center gap-1.5 border border-dashed border-[#5d5be3]/40 text-[#5d5be3] rounded-full px-4 py-1.5 text-sm font-medium hover:bg-[#5d5be3]/10 transition"
+                        className="inline-flex items-center gap-1.5 border border-dashed border-[#15803d]/40 text-[#15803d] rounded-full px-4 py-1.5 text-sm font-medium hover:bg-[#15803d]/10 transition"
                       >
                         <Plus size={14} />
                         {w.title}
@@ -508,7 +508,7 @@ const OutreachDocWizard = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="View worksheet PDF"
-                          className="text-[#5d5be3] hover:text-[#4745c7]"
+                          className="text-[#15803d] hover:text-[#166534]"
                         >
                           <ExternalLink size={14} />
                         </a>

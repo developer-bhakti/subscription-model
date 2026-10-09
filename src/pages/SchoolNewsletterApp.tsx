@@ -408,7 +408,7 @@ export default function App() {
    <header className="no-print sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200">
     <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
      <div className="flex items-center gap-3">
-      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold text-lg shadow">📰</div>
+      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow">📰</div>
       <div>
        <h1 className="font-display font-bold text-gray-900 text-lg leading-tight">School Newsletter</h1>
        <p className="text-xs text-gray-400">Monthly Generator</p>
@@ -439,7 +439,7 @@ export default function App() {
     {tab === "form" && (
      <AnimatedSection className="space-y-4">
       {/* School Info */}
-      <SectionCard title="School Information" icon="🏫" color="bg-gradient-to-r from-indigo-500 to-violet-600">
+      <SectionCard title="School Information" icon="🏫" color="bg-gradient-to-r from-indigo-500 to-teal-600">
        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Logo upload */}
         <div className="md:col-span-2 flex items-center gap-4">
@@ -558,7 +558,7 @@ export default function App() {
 
       <div className="flex justify-center pt-2">
        <button onClick={() => setTab("preview")}
-        className="bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-all hover:shadow-xl hover:scale-105 text-base">
+        className="bg-gradient-to-r from-indigo-500 to-teal-600 hover:from-indigo-600 hover:to-teal-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-all hover:shadow-xl hover:scale-105 text-base">
         Generate Newsletter →
        </button>
       </div>
@@ -597,7 +597,7 @@ export default function App() {
       )}
       <div ref={printRef} className="bg-white shadow-xl border border-gray-100 print-area">
        {/* Newsletter Header */}
-       <div className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700 px-8 py-8 text-white">
+       <div className="bg-gradient-to-r from-indigo-600 via-teal-600 to-purple-700 px-8 py-8 text-white">
         <div className="flex items-center gap-6">
          {logoUrl && <img src={logoUrl} alt="Logo" className="w-20 h-20 object-contain bg-white rounded-2xl p-1.5 shadow-lg flex-shrink-0" />}
          <div className="flex-1">
@@ -751,7 +751,7 @@ export default function App() {
     {tab === "calendar" && (
      <AnimatedSection>
       <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-       <div className="bg-gradient-to-r from-indigo-500 to-violet-600 px-6 py-4 text-white flex items-center justify-between">
+       <div className="bg-gradient-to-r from-indigo-500 to-teal-600 px-6 py-4 text-white flex items-center justify-between">
         <div>
          <h2 className="font-display text-2xl font-bold">{MONTHS[school.month]} {school.year}</h2>
          <p className="text-indigo-200 text-sm">Monthly Calendar</p>

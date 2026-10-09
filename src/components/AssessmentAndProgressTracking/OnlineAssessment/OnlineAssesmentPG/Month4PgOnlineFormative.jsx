@@ -191,7 +191,7 @@ export default function FormativeAssessmentTool() {
   };
 
   return (
-    <div className="bg-[#f4f8ff] min-h-screen p-4 md:p-8 text-slate-800 font-[Outfit]">
+    <div className="bg-[#f1faee] min-h-screen p-4 md:p-8 text-slate-800 font-playful">
 
       {/* PRINT BUTTON */}
 
@@ -206,7 +206,7 @@ export default function FormativeAssessmentTool() {
 
         {/* TITLE */}
 
-        <h1 className="text-center text-4xl md:text-5xl font-extrabold text-slate-900 mb-10">
+        <h1 className="text-center text-4xl md:text-5xl font-bold text-slate-900 mb-10">
           Formative Assessment Tool
         </h1>
 
@@ -424,7 +424,7 @@ export default function FormativeAssessmentTool() {
 
             </div>
 
-            <div className="w-[140px] h-[100px] border-[3px] border-slate-900 bg-white flex items-center justify-center text-4xl font-extrabold">
+            <div className="w-[140px] h-[100px] border-[3px] border-slate-900 bg-white flex items-center justify-center text-4xl font-bold">
               {overallScore}%
             </div>
 

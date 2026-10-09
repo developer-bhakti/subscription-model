@@ -172,12 +172,12 @@ export default function MonthFormativeAssessment() {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-gradient-to-b from-[#f8f9ff] to-[#eef2ff] py-20 px-5 font-sans">
+    <section className="bg-gradient-to-b from-[#f4fbf0] to-[#e7f6df] py-20 px-5 font-sans">
       <div className="max-w-7xl mx-auto">
 
         {/* TITLE */}
         <div className="text-center mb-16">
-          <h2 className="flex items-center justify-center gap-3 text-3xl md:text-5xl font-extrabold text-[#5d5be3]">
+          <h2 className="flex items-center justify-center gap-3 text-3xl md:text-5xl font-bold text-[#15803d]">
             <CalendarCheck size={42} />
             Month Formative Assessment
           </h2>
@@ -203,7 +203,7 @@ export default function MonthFormativeAssessment() {
 
               <button
                 onClick={() => setActiveSection(level.id)}
-                className="bg-[#5d5be3] hover:bg-[#4745c7] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+                className="bg-[#15803d] hover:bg-[#166534] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
               >
                 View Assessments
               </button>
@@ -216,7 +216,7 @@ export default function MonthFormativeAssessment() {
         {activeSection && (
           <div className="animate-fadeIn">
 
-            <h2 className="text-center text-3xl md:text-5xl font-extrabold text-gray-800 mb-14">
+            <h2 className="text-center text-3xl md:text-5xl font-bold text-gray-800 mb-14">
               {activeSection.toUpperCase()} Monthly Assessment
             </h2>
 
@@ -250,7 +250,7 @@ export default function MonthFormativeAssessment() {
                       href={item.pdf}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                      className="inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white px-5 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
                     >
                       <FileText size={18} />
                       View & Download

@@ -37,7 +37,7 @@ const pagePalette = [
   { page: "from-orange-400 via-amber-500 to-yellow-400", chip: "bg-orange-500" },
   { page: "from-lime-400 via-green-500 to-emerald-500", chip: "bg-green-500" },
   { page: "from-teal-400 via-cyan-500 to-sky-500", chip: "bg-cyan-500" },
-  { page: "from-blue-400 via-indigo-500 to-violet-500", chip: "bg-indigo-500" },
+  { page: "from-blue-400 via-indigo-500 to-teal-500", chip: "bg-indigo-500" },
   { page: "from-purple-400 via-fuchsia-500 to-pink-500", chip: "bg-purple-500" },
 ];
 
@@ -269,13 +269,13 @@ const SoundBooks = () => {
           {/* Progress */}
           <div className="mb-6">
             <div className="flex items-end justify-between mb-2">
-              <span className="text-base font-bold text-slate-700">
+              <span className="text-base font-semibold text-slate-700">
                 ⭐ {heard.length} of {total} heard
               </span>
 
               <button
                 onClick={closeBook}
-                className="text-slate-500 hover:text-indigo-600 font-bold text-sm bg-white/80 px-4 py-2 rounded-full shadow-sm"
+                className="text-slate-500 hover:text-indigo-600 font-semibold text-sm bg-white/80 px-4 py-2 rounded-full shadow-sm"
               >
                 ⬅ Back
               </button>
@@ -315,7 +315,7 @@ const SoundBooks = () => {
                   {/* Heard tick */}
                   {heard.includes(current.letter) && (
                     <motion.div
-                      className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/95 text-green-600 text-base font-extrabold flex items-center justify-center shadow-md"
+                      className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/95 text-green-600 text-base font-bold flex items-center justify-center shadow-md"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 400, damping: 14 }}
@@ -326,11 +326,11 @@ const SoundBooks = () => {
 
                   {/* Big and small letter together */}
                   <div className="flex items-baseline justify-center gap-3 text-white drop-shadow-lg leading-none">
-                    <span className="text-[4rem] sm:text-[5.5rem] font-extrabold">
+                    <span className="text-[4rem] sm:text-[5.5rem] font-bold">
                       {current.letter}
                     </span>
 
-                    <span className="text-[2.25rem] sm:text-[3rem] font-extrabold opacity-80">
+                    <span className="text-[2.25rem] sm:text-[3rem] font-bold opacity-80">
                       {current.letter.toLowerCase()}
                     </span>
                   </div>
@@ -348,7 +348,7 @@ const SoundBooks = () => {
                     {current.emoji}
                   </motion.div>
 
-                  <p className="mt-4 text-xl sm:text-3xl font-extrabold text-white drop-shadow-md">
+                  <p className="mt-4 text-xl sm:text-3xl font-bold text-white drop-shadow-md">
                     {current.letter} for {current.word}
                   </p>
 
@@ -357,7 +357,7 @@ const SoundBooks = () => {
                     onClick={() => speak(current.letter, current.word)}
                     whileHover={{ scale: 1.06 }}
                     whileTap={{ scale: 0.94 }}
-                    className="mt-5 inline-flex items-center gap-2 bg-white text-slate-800 px-6 py-2.5 rounded-full text-base sm:text-lg font-extrabold shadow-lg"
+                    className="mt-5 inline-flex items-center gap-2 bg-white text-slate-800 px-6 py-2.5 rounded-full text-base sm:text-lg font-bold shadow-lg"
                   >
                     <motion.span
                       animate={speaking ? { scale: [1, 1.25, 1] } : { scale: 1 }}
@@ -390,7 +390,7 @@ const SoundBooks = () => {
 
           {allHeard && (
             <motion.p
-              className="text-center text-xl font-extrabold text-green-600 mt-6"
+              className="text-center text-xl font-bold text-green-600 mt-6"
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 14 }}
@@ -407,7 +407,7 @@ const SoundBooks = () => {
                 onClick={() => goToPage(i, i > page ? 1 : -1)}
                 whileHover={{ scale: 1.18 }}
                 whileTap={{ scale: 0.9 }}
-                className={`h-8 w-8 rounded-lg text-sm font-extrabold shadow-sm transition-colors ${
+                className={`h-8 w-8 rounded-lg text-sm font-bold shadow-sm transition-colors ${
                   i === page
                     ? `${palette.chip} text-white`
                     : heard.includes(item.letter)
@@ -432,7 +432,7 @@ const SoundBooks = () => {
 
         {/* Heading */}
         <div className="text-center mb-14">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 leading-tight font-playful">
+          <h1 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight font-playful">
             Sound Books
           </h1>
 
@@ -459,7 +459,7 @@ const SoundBooks = () => {
                   {book.emoji}
                 </div>
 
-                <h2 className="text-2xl font-bold text-slate-800 mb-2 font-playful">
+                <h2 className="text-2xl font-semibold text-slate-800 mb-2 font-playful">
                   {book.title}
                 </h2>
 

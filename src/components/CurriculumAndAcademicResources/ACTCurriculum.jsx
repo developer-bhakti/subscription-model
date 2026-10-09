@@ -223,13 +223,13 @@ const ACTCurriculum = () => {
   const months = selectedClass ? curriculumData[selectedClass] : [];
 
   return (
-    <div className="min-h-screen bg-[#f4f7ff]">
+    <div className="min-h-screen bg-[#f1faee]">
       <div className="max-w-[1400px] mx-auto px-5 py-12">
 
         {/* TITLE */}
 
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-3">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-3">
             ACT Curriculum
           </h1>
 
@@ -293,7 +293,7 @@ const ACTCurriculum = () => {
                 ← Back To Classes
               </button>
 
-              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
                 {selectedClass} Monthly Curriculum
               </h2>
             </div>

@@ -37,7 +37,7 @@ const counsellingTools = [
 
 export default function ParentCounselling() {
   return (
-    <section className="bg-[#f8f9ff] py-16 px-5">
+    <section className="bg-[#f4fbf0] py-16 px-5">
       <div className="max-w-7xl mx-auto">
         
         {/* Heading */}
@@ -73,7 +73,7 @@ export default function ParentCounselling() {
                   href={tool.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-[#6c63ff] hover:bg-[#4f46e5] text-white text-base font-semibold px-7 py-3 rounded-full transition-all duration-300"
+                  className="inline-block bg-[#16a34a] hover:bg-[#15803d] text-white text-base font-semibold px-7 py-3 rounded-full transition-all duration-300"
                 >
                   View & Download 
                 </a>

@@ -37,7 +37,7 @@ const SessionPlanManageTerms = () => {
           </div>
         )}
         <div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
             Manage Terms
           </h1>
           {(schoolInfo.name || selectedClass) && (

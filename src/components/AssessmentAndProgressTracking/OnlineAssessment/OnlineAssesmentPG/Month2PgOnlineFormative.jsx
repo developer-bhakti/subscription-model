@@ -146,7 +146,7 @@ const Month2PgOnlineFormative = () => {
   ];
 
   return (
-    <div className="bg-[#f4f8ff] min-h-screen p-[30px] text-slate-800 font-[Outfit]">
+    <div className="bg-[#f1faee] min-h-screen p-[30px] text-slate-800 font-playful">
 
       {/* PRINT BUTTON */}
 
@@ -161,7 +161,7 @@ const Month2PgOnlineFormative = () => {
 
         {/* TITLE */}
 
-        <h1 className="text-center text-[48px] font-extrabold mb-10 text-slate-900">
+        <h1 className="text-center text-[48px] font-bold mb-10 text-slate-900">
           Formative Assessment Tool
         </h1>
 
@@ -517,7 +517,7 @@ const Month2PgOnlineFormative = () => {
 
             </div>
 
-            <div className="w-[140px] h-[100px] border-[3px] border-slate-900 bg-white flex items-center justify-center text-[34px] font-extrabold">
+            <div className="w-[140px] h-[100px] border-[3px] border-slate-900 bg-white flex items-center justify-center text-[34px] font-bold">
 
               {overallScore}%
 

@@ -280,14 +280,14 @@ const RhymingWords = () => {
               <button
                 key={option}
                 onClick={() => checkAnswer(option)}
-                className={`p-4 rounded-2xl text-white text-xl transition ${
+                className={`p-4 rounded-2xl text-xl transition ${
                   selected
                     ? option === question.answer
-                      ? "bg-green-500"
+                      ? "bg-green-500 text-white"
                       : option === selected
-                        ? "bg-red-500"
-                        : "bg-blue-400"
-                    : "bg-blue-400 hover:scale-105"
+                        ? "bg-red-500 text-white"
+                        : "bg-white text-green-800 opacity-70 ring-4 ring-green-100"
+                    : "bg-white text-green-800 ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
                 }`}
               >
                 {option}

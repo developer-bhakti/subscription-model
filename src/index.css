@@ -1,5 +1,104 @@
 @import "tailwindcss";
 
 @theme {
-  --font-playful: "Baloo 2", "Trebuchet MS", ui-rounded, system-ui, sans-serif;
+  --font-playful: "Nunito", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/*
+ * GREEN THEME
+ * The whole site is green because this is for children. Rather than editing every
+ * page, the palette Tailwind hands out is remapped here:
+ *   - blue, indigo, purple, fuchsia and cyan become shades of green (a step darker from
+ *     400 up, so white text on a button stays readable)
+ *   - slate and gray keep their lightness but pick up a soft mint tint
+ * Red, amber, yellow, pink, rose, orange, violet and sky are left alone: they carry
+ * meaning (wrong answers, the Newsletter's category colours) or act as warm accents.
+ * Delete this block to get the original colours back.
+ */
+@theme {
+  --color-slate-50: #f7fdf9;
+  --color-slate-100: #f0f9f3;
+  --color-slate-200: #dff3e6;
+  --color-slate-300: #c8e4d1;
+  --color-slate-400: #95b49f;
+  --color-slate-500: #648c71;
+  --color-slate-600: #496853;
+  --color-slate-700: #30593e;
+  --color-slate-800: #203b29;
+  --color-slate-900: #14261a;
+  --color-slate-950: #09110c;
+
+  --color-gray-50: #f7fdf9;
+  --color-gray-100: #f0f9f3;
+  --color-gray-200: #def2e5;
+  --color-gray-300: #c9e4d2;
+  --color-gray-400: #95b39f;
+  --color-gray-500: #628a6f;
+  --color-gray-600: #496653;
+  --color-gray-700: #30593e;
+  --color-gray-800: #1e3927;
+  --color-gray-900: #142419;
+  --color-gray-950: #070e09;
+
+  --color-blue-50: #f0fdf4;
+  --color-blue-100: #dcfce7;
+  --color-blue-200: #bbf7d0;
+  --color-blue-300: #86efac;
+  --color-blue-400: #22c55e;
+  --color-blue-500: #16a34a;
+  --color-blue-600: #15803d;
+  --color-blue-700: #166534;
+  --color-blue-800: #14532d;
+  --color-blue-900: #052e16;
+  --color-blue-950: #052e16;
+
+  --color-indigo-50: #ecfdf5;
+  --color-indigo-100: #d1fae5;
+  --color-indigo-200: #a7f3d0;
+  --color-indigo-300: #6ee7b7;
+  --color-indigo-400: #10b981;
+  --color-indigo-500: #059669;
+  --color-indigo-600: #047857;
+  --color-indigo-700: #065f46;
+  --color-indigo-800: #064e3b;
+  --color-indigo-900: #022c22;
+  --color-indigo-950: #022c22;
+
+  --color-purple-50: #f0fdfa;
+  --color-purple-100: #ccfbf1;
+  --color-purple-200: #99f6e4;
+  --color-purple-300: #5eead4;
+  --color-purple-400: #14b8a6;
+  --color-purple-500: #0d9488;
+  --color-purple-600: #0f766e;
+  --color-purple-700: #115e59;
+  --color-purple-800: #134e4a;
+  --color-purple-900: #042f2e;
+  --color-purple-950: #042f2e;
+
+  --color-fuchsia-50: #f7fee7;
+  --color-fuchsia-100: #ecfccb;
+  --color-fuchsia-200: #d9f99d;
+  --color-fuchsia-300: #bef264;
+  --color-fuchsia-400: #84cc16;
+  --color-fuchsia-500: #65a30d;
+  --color-fuchsia-600: #4d7c0f;
+  --color-fuchsia-700: #3f6212;
+  --color-fuchsia-800: #365314;
+  --color-fuchsia-900: #1a2e05;
+  --color-fuchsia-950: #1a2e05;
+
+  --color-cyan-50: #f0fdfa;
+  --color-cyan-100: #ccfbf1;
+  --color-cyan-200: #99f6e4;
+  --color-cyan-300: #5eead4;
+  --color-cyan-400: #14b8a6;
+  --color-cyan-500: #0d9488;
+  --color-cyan-600: #0f766e;
+  --color-cyan-700: #115e59;
+  --color-cyan-800: #134e4a;
+  --color-cyan-900: #042f2e;
+  --color-cyan-950: #042f2e;
 }

@@ -54,11 +54,11 @@ const trainingData = [
 
 export default function TeacherSupportTraining() {
   return (
-    <section className="bg-white py-16 px-5 font-[Baloo_2]">
+    <section className="bg-white py-16 px-5 font-playful">
       <div className="max-w-5xl mx-auto">
 
         {/* Heading */}
-        <h2 className="text-center text-4xl md:text-5xl font-extrabold text-[#5d5be3] mb-14">
+        <h2 className="text-center text-4xl md:text-5xl font-bold text-[#15803d] mb-14">
           Teacher Support & Training
         </h2>
 
@@ -68,7 +68,7 @@ export default function TeacherSupportTraining() {
           {trainingData.map((item, index) => (
             <div
               key={index}
-              className="bg-[#f8f9ff] border-l-[6px] border-[#6f6cf8] p-6 md:p-8 rounded-[22px] shadow-[0_8px_18px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300"
+              className="bg-[#f4fbf0] border-l-[6px] border-[#16a34a] p-6 md:p-8 rounded-[22px] shadow-[0_8px_18px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300"
             >
 
               {/* Title */}
@@ -77,7 +77,7 @@ export default function TeacherSupportTraining() {
               </h3>
 
               {/* Description */}
-              <p className="text-[17px] leading-8 text-[#667085] mb-6 font-[Poppins]">
+              <p className="text-[17px] leading-8 text-[#667085] mb-6 font-playful">
                 {item.description}
               </p>
 
@@ -89,7 +89,7 @@ export default function TeacherSupportTraining() {
                   href={item.explore}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#6f6cf8] hover:bg-[#514df0] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
+                  className="bg-[#16a34a] hover:bg-[#15803d] text-white px-6 py-3 rounded-xl text-[15px] font-semibold transition-all duration-300 text-center"
                 >
                   Explore Now
                 </a>

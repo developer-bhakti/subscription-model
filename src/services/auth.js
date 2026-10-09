@@ -18,22 +18,22 @@ export const getCurrentUser = () => {
   }
 };
 
-// A subscriber is either a teacher or a parent. This is deliberately separate from
+// A subscriber is either a school or a parent. (A school is stored as "teacher", the value
+// existing accounts already carry, so only the label people see says School.) This is
+// deliberately separate from
 // `role` so the existing superadmin / admin / user roles keep working untouched.
 export const ACCOUNT_TYPES = {
   TEACHER: "teacher",
   PARENT: "parent",
 };
 
-// Accounts created before parent logins existed carry no account_type. Those were
-// full-dashboard accounts, so teacher stays the default and only an explicit "parent"
-// narrows what someone can reach.
+// Accounts created before parent logins existed carry no account_type, so they count as
+// school accounts and only an explicit "parent" is treated as one. The type decides which
+// tile an account signs in with and how the dashboard greets it; both see the same modules.
 export const getAccountType = (user) =>
   user?.account_type === ACCOUNT_TYPES.PARENT
     ? ACCOUNT_TYPES.PARENT
     : ACCOUNT_TYPES.TEACHER;
-
-export const isParent = (user) => getAccountType(user) === ACCOUNT_TYPES.PARENT;
 
 export const isSuperAdmin = (user) => user?.role === ROLES.SUPER_ADMIN;
 

@@ -58,7 +58,7 @@ const AssessmentForNutritional = () => {
 
         {/* TITLE */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-800">
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-800">
             Nutritional Deficiency Assessment Tool
           </h2>
 

@@ -123,7 +123,7 @@ const SessionPlanSchoolInfo = () => {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-fuchsia-500 shadow-lg shadow-indigo-900/40">
               <School className="h-7 w-7 text-white" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
               School Information
             </h1>
             <p className="mt-1 text-sm text-white/60">

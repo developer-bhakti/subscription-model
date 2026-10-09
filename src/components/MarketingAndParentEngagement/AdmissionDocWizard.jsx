@@ -21,10 +21,10 @@ const stepDefs = [
 ];
 
 const inputClass =
-  "w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#5d5be3]";
+  "w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#15803d]";
 const cardClass = "bg-white rounded-3xl shadow-lg p-8";
 const primaryBtn =
-  "inline-flex items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300";
+  "inline-flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-semibold transition duration-300";
 const secondaryBtn =
   "inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold transition duration-300";
 
@@ -46,7 +46,7 @@ function Stepper({ step, maxStepReached, onStepClick }) {
               <span
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${
                   isActive
-                    ? "bg-[#5d5be3] text-white"
+                    ? "bg-[#15803d] text-white"
                     : isCompleted
                     ? "bg-green-500 text-white"
                     : "bg-gray-200 text-gray-500"
@@ -56,7 +56,7 @@ function Stepper({ step, maxStepReached, onStepClick }) {
               </span>
               <span
                 className={`text-xs font-semibold whitespace-nowrap ${
-                  isActive ? "text-[#5d5be3]" : "text-gray-500"
+                  isActive ? "text-[#15803d]" : "text-gray-500"
                 }`}
               >
                 {s.label}
@@ -495,9 +495,9 @@ const AdmissionDocWizard = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#f7f8ff] to-[#eef1ff] py-16 px-5 font-sans min-h-screen">
+    <section className="bg-gradient-to-b from-[#f3faef] to-[#e7f6df] py-16 px-5 font-sans min-h-screen">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-center text-4xl font-extrabold text-gray-900 mb-2">
+        <h2 className="text-center text-4xl font-bold text-gray-900 mb-2">
           Build Your Admission
         </h2>
         <p className="text-center text-gray-500 mb-10">
@@ -558,7 +558,7 @@ const AdmissionDocWizard = () => {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   School Logo
                 </label>
-                <label className="flex items-center gap-3 border border-dashed border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:border-[#5d5be3] transition">
+                <label className="flex items-center gap-3 border border-dashed border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:border-[#15803d] transition">
                   <Upload size={18} className="text-gray-500" />
                   <span className="text-sm text-gray-500">
                     {logo ? "Logo selected" : "Upload logo"}
@@ -602,7 +602,7 @@ const AdmissionDocWizard = () => {
                   <button
                     type="button"
                     onClick={() => setAllAssessmentsSelected(true)}
-                    className="text-[#5d5be3] hover:text-[#4745c7]"
+                    className="text-[#15803d] hover:text-[#166534]"
                   >
                     Select all
                   </button>
@@ -643,7 +643,7 @@ const AdmissionDocWizard = () => {
                       }}
                       className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 transition ${
                         selected
-                          ? "border-[#5d5be3] bg-[#5d5be3]/5"
+                          ? "border-[#15803d] bg-[#15803d]/5"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
@@ -651,7 +651,7 @@ const AdmissionDocWizard = () => {
                         <span
                           className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
                             selected
-                              ? "border-[#5d5be3] bg-[#5d5be3] text-white"
+                              ? "border-[#15803d] bg-[#15803d] text-white"
                               : "border-gray-300"
                           }`}
                         >
@@ -667,7 +667,7 @@ const AdmissionDocWizard = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-sm font-semibold text-[#5d5be3] hover:text-[#4745c7]"
+                          className="inline-flex items-center gap-1 text-sm font-semibold text-[#15803d] hover:text-[#166534]"
                         >
                           View <ExternalLink size={14} />
                         </a>
@@ -701,7 +701,7 @@ const AdmissionDocWizard = () => {
                   <button
                     type="button"
                     onClick={() => setAllWorksheetsSelected(true)}
-                    className="text-[#5d5be3] hover:text-[#4745c7]"
+                    className="text-[#15803d] hover:text-[#166534]"
                   >
                     Select all
                   </button>
@@ -742,7 +742,7 @@ const AdmissionDocWizard = () => {
                       }}
                       className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 transition ${
                         selected
-                          ? "border-[#5d5be3] bg-[#5d5be3]/5"
+                          ? "border-[#15803d] bg-[#15803d]/5"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
@@ -750,7 +750,7 @@ const AdmissionDocWizard = () => {
                         <span
                           className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
                             selected
-                              ? "border-[#5d5be3] bg-[#5d5be3] text-white"
+                              ? "border-[#15803d] bg-[#15803d] text-white"
                               : "border-gray-300"
                           }`}
                         >
@@ -764,7 +764,7 @@ const AdmissionDocWizard = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-sm font-semibold text-[#5d5be3] hover:text-[#4745c7]"
+                          className="inline-flex items-center gap-1 text-sm font-semibold text-[#15803d] hover:text-[#166534]"
                         >
                           View <ExternalLink size={14} />
                         </a>
@@ -821,7 +821,7 @@ const AdmissionDocWizard = () => {
 
             <div className="flex flex-col items-start gap-3 rounded-xl border border-dashed border-gray-300 p-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#5d5be3]/10 text-[#5d5be3]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#15803d]/10 text-[#15803d]">
                   <Newspaper size={20} />
                 </div>
                 <div>
@@ -837,7 +837,7 @@ const AdmissionDocWizard = () => {
                 href="/user/school-newsletter-app?from=admission-doc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex shrink-0 items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300"
+                className="inline-flex shrink-0 items-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300"
               >
                 <Newspaper size={16} />
                 Open Newsletter App
@@ -853,7 +853,7 @@ const AdmissionDocWizard = () => {
                   setNewsletterIncluded(checked);
                   if (!checked) setNewsletterImage(null);
                 }}
-                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#5d5be3] focus:ring-[#5d5be3]"
+                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#15803d] focus:ring-[#15803d]"
               />
               <span className="text-sm text-gray-700">
                 I've made a newsletter for this admission — note it in the final document.

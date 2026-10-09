@@ -33,9 +33,9 @@ export default function ClassWiseDiagnosticAssessment() {
   const [activeSection, setActiveSection] = useState(null);
 
   return (
-    <section className="bg-gradient-to-b from-[#f7f8ff] to-[#eef1ff] py-20 px-5 font-sans">
+    <section className="bg-gradient-to-b from-[#f3faef] to-[#e7f6df] py-20 px-5 font-sans">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-center text-4xl md:text-6xl font-extrabold text-gray-900 mb-16">
+        <h2 className="text-center text-4xl md:text-6xl font-bold text-gray-900 mb-16">
           Diagnostic Assessment For Preschool
         </h2>
 
@@ -61,7 +61,7 @@ export default function ClassWiseDiagnosticAssessment() {
 
                 <button
                   onClick={() => setActiveSection(level.id)}
-                  className="bg-[#5d5be3] hover:bg-[#4745c7] text-white px-7 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
+                  className="bg-[#15803d] hover:bg-[#166534] text-white px-7 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
                 >
                   View Assessments
                 </button>
@@ -73,7 +73,7 @@ export default function ClassWiseDiagnosticAssessment() {
         {/* Assessment Section */}
         {activeSection && (
           <div className="animate-fadeIn">
-            <h2 className="text-center text-4xl md:text-5xl font-extrabold text-gray-900 mb-14 capitalize">
+            <h2 className="text-center text-4xl md:text-5xl font-bold text-gray-900 mb-14 capitalize">
               {activeSection} Assessment
             </h2>
 
@@ -101,7 +101,7 @@ export default function ClassWiseDiagnosticAssessment() {
                         href={item.pdf}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#5d5be3] hover:bg-[#4745c7] text-white px-6 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white px-6 py-3 rounded-xl font-semibold transition duration-300 hover:scale-105"
                       >
                         <FileText size={18} />
                         View & Download

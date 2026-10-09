@@ -69,7 +69,7 @@ export default function FormativeAssessmentGeneral() {
   return (
     <div className="min-h-screen bg-slate-100 py-16">
       <div className="w-[90%] max-w-7xl mx-auto">
-        <h1 className="text-center text-2xl md:text-4xl font-extrabold text-slate-700 mb-16">
+        <h1 className="text-center text-2xl md:text-4xl font-bold text-slate-700 mb-16">
           Formative Assessment (General Syllabus)
         </h1>
 
@@ -103,7 +103,7 @@ export default function FormativeAssessmentGeneral() {
           (item) =>
             activeSection === item.id && (
               <div key={item.id} className="mt-16">
-                <h2 className="text-center text-3xl md:text-5xl font-extrabold mb-12">
+                <h2 className="text-center text-3xl md:text-5xl font-bold mb-12">
                   {item.title} Assessment
                 </h2>
 

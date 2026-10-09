@@ -93,7 +93,7 @@ export default function TeacherTrainingCoupon() {
 
   return (
 
-    <div className="min-h-screen bg-[#f4f6fb] py-14 px-4 font-[Outfit]">
+    <div className="min-h-screen bg-[#f1f8ee] py-14 px-4 font-playful">
 
       <div className="max-w-2xl mx-auto">
 
@@ -124,7 +124,7 @@ export default function TeacherTrainingCoupon() {
 
           {/* COUPON SECTION */}
 
-          <div className="bg-[#f8fbff] border-2 border-dashed border-indigo-500 rounded-[24px] p-6 text-center mb-8">
+          <div className="bg-[#f4fbf1] border-2 border-dashed border-indigo-500 rounded-[24px] p-6 text-center mb-8">
 
             <div className="text-sm text-gray-500 mb-4">
 
@@ -140,7 +140,7 @@ export default function TeacherTrainingCoupon() {
 
               </div>
 
-              <div className="text-white text-4xl md:text-5xl font-extrabold tracking-[6px] mb-5">
+              <div className="text-white text-4xl md:text-5xl font-bold tracking-[6px] mb-5">
 
                 {couponCode}
 
@@ -206,7 +206,7 @@ export default function TeacherTrainingCoupon() {
 
             {/* TIMER */}
 
-            <div className="text-3xl md:text-4xl font-extrabold text-red-600">
+            <div className="text-3xl md:text-4xl font-bold text-red-600">
 
               {timeLeft}
 
@@ -246,7 +246,7 @@ export default function TeacherTrainingCoupon() {
 
             {/* TITLE */}
 
-            <h3 className="text-3xl font-extrabold text-center text-gray-900 mb-5">
+            <h3 className="text-3xl font-bold text-center text-gray-900 mb-5">
 
               Unlock Premium Access
 
