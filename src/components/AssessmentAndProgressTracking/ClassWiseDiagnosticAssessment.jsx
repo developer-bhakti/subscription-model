@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { FileText } from "lucide-react";
+import React from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { FileText, Laptop } from "lucide-react";
 import { classAssessments } from "../../data/classAssessments";
+import { diagnosticSkillId } from "../../data/diagnosticOnlineAssessments";
 import { PageHero, SectionTitle } from "../KidsUI";
 
 const levels = [
@@ -31,7 +33,17 @@ const levels = [
 ];
 
 export default function ClassWiseDiagnosticAssessment() {
-  const [activeSection, setActiveSection] = useState(null);
+  const navigate = useNavigate();
+
+  // The class you opened lives in the address (?class=pg), so coming back from an online
+  // assessment lands on the same class instead of the bare list of classes.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedClass = searchParams.get("class");
+  const activeSection =
+    requestedClass && Object.hasOwn(classAssessments, requestedClass)
+      ? requestedClass
+      : null;
+  const setActiveSection = (id) => setSearchParams({ class: id }, { replace: true });
 
   return (
     <section>
@@ -99,15 +111,32 @@ export default function ClassWiseDiagnosticAssessment() {
                       {item.title}
                     </h3>
 
-                    <a
-                      href={item.pdf}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="kid-btn"
-                    >
-                      <FileText size={18} />
-                      View & Download
-                    </a>
+                    {/* Sized by the wider button, so both buttons are the same width and
+                        View & Download keeps the size it always had. */}
+                    <div className="inline-grid gap-3">
+                      <a
+                        href={item.pdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="kid-btn"
+                      >
+                        <FileText size={18} />
+                        View & Download
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          navigate(
+                            `/user/assessment/class-wise-diagnostic/online/${activeSection}/${diagnosticSkillId(item.title)}`
+                          )
+                        }
+                        className="kid-btn kid-btn-teal"
+                      >
+                        <Laptop size={18} />
+                        Do It Online
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

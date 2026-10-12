@@ -313,7 +313,6 @@ export default function SoundBookPlayer({ book }) {
             </motion.button>
           ))}
         </div>
-
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ import DashboardAuditTools from "../components/DashboardComponents/DashboardAudi
 import ClassWiseDiagnosticAssessment from "../components/AssessmentAndProgressTracking/ClassWiseDiagnosticAssessment";
 import MonthFormativeAssessment from "../components/AssessmentAndProgressTracking/MonthFormativeAssessment";
 import OnlineAssessmentLoader from "../components/AssessmentAndProgressTracking/OnlineAssessmentLoader";
+import OnlineDiagnosticAssessment from "../components/AssessmentAndProgressTracking/OnlineDiagnosticAssessment";
 import SumativeAssessment from "../components/AssessmentAndProgressTracking/SumativeAssessment";
 import AssessmentForNutritional from "../components/AssessmentAndProgressTracking/AssessmentForNutritional";
 import DashboardMarketing from "../components/DashboardComponents/DashboardMarketing";
@@ -407,6 +408,11 @@ export default function User() {
               <Route
                 path="assessment/class-wise-diagnostic"
                 element={<ClassWiseDiagnosticAssessment />}
+              />
+
+              <Route
+                path="assessment/class-wise-diagnostic/online/:level/:skill"
+                element={<OnlineDiagnosticAssessment />}
               />
 
               <Route
