@@ -54,7 +54,7 @@ function EntryCard({ children, onRemove, animate = true }) {
  return (
   <div className={`bg-gray-50 rounded-xl border border-gray-200 p-4 relative group ${animate ? "animate-fadeIn" : ""}`}>
    <button onClick={onRemove}
-    className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-all w-7 h-7 flex items-center justify-center rounded-full hover:bg-red-50">
+    className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 pointer-coarse:opacity-100 focus-visible:opacity-100 text-gray-400 hover:text-red-500 transition-all w-7 h-7 pointer-coarse:w-10 pointer-coarse:h-10 flex items-center justify-center rounded-full hover:bg-red-50">
     ✕
    </button>
    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">{children}</div>
@@ -406,15 +406,15 @@ export default function App() {
 
    {/* Header */}
    <header className="no-print sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200">
-    <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
+    <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
      <div className="flex items-center gap-3">
       <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow">📰</div>
       <div>
-       <h1 className="font-display font-bold text-gray-900 text-lg leading-tight">School Newsletter</h1>
+       <h1 className="font-display font-bold text-gray-900 text-base sm:text-lg leading-tight">School Newsletter</h1>
        <p className="text-xs text-gray-400">Monthly Generator</p>
       </div>
      </div>
-     <div className="flex items-center gap-2">
+     <div className="flex shrink-0 items-center gap-2">
       <button onClick={handlePrint}
        className="no-print flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm">
        🖨️ Print
@@ -597,8 +597,8 @@ export default function App() {
       )}
       <div ref={printRef} className="bg-white shadow-xl border border-gray-100 print-area">
        {/* Newsletter Header */}
-       <div className="bg-gradient-to-r from-indigo-600 via-teal-600 to-purple-700 px-8 py-8 text-white">
-        <div className="flex items-center gap-6">
+       <div className="bg-gradient-to-r from-indigo-600 via-teal-600 to-purple-700 px-5 py-6 sm:px-8 sm:py-8 text-white">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
          {logoUrl && <img src={logoUrl} alt="Logo" className="w-20 h-20 object-contain bg-white rounded-2xl p-1.5 shadow-lg flex-shrink-0" />}
          <div className="flex-1">
           <h1 className="font-display text-3xl font-bold leading-tight">{school.name || "School Name"}</h1>
@@ -609,8 +609,8 @@ export default function App() {
            {school.principal && <span>👤 Principal: {school.principal}</span>}
           </div>
          </div>
-         <div className="text-right flex-shrink-0">
-          <div className="text-4xl font-display font-bold leading-none">{MONTHS[school.month]}</div>
+         <div className="sm:text-right flex-shrink-0">
+          <div className="text-3xl sm:text-4xl font-display font-bold leading-none">{MONTHS[school.month]}</div>
           <div className="text-indigo-200 text-xl">{school.year}</div>
           <div className="mt-2 text-xs bg-white/20 rounded-full px-3 py-1 inline-block">Monthly Newsletter</div>
          </div>
@@ -620,7 +620,7 @@ export default function App() {
        {/* Decorative strip */}
        <div className="h-2 bg-gradient-to-r from-rose-400 via-amber-400 via-emerald-400 to-sky-400" />
 
-       <div className="p-8 space-y-8">
+       <div className="p-5 sm:p-8 space-y-8">
         {/* Legend */}
         <div className="flex flex-wrap gap-3">
          {Object.entries(COLORS).map(([k, v]) => (
@@ -786,23 +786,26 @@ export default function App() {
           const today = new Date();
           const isToday = today.getDate() === day && today.getMonth() === school.month && today.getFullYear() === school.year;
           return (
-           <div key={day} className={`min-h-[90px] p-1.5 rounded-xl border transition-all hover:shadow-md
+           <div key={day} className={`min-h-[64px] sm:min-h-[90px] p-1.5 rounded-xl border transition-all hover:shadow-md
             ${isToday ? "border-indigo-400 ring-2 ring-indigo-200 bg-indigo-50" :
              isWeekend ? "border-rose-100 bg-rose-50/50" :
              "border-gray-100 bg-white hover:bg-gray-50"}`}>
             <span className={`text-xs font-bold block mb-1 ${isToday ? "text-indigo-600" : isWeekend ? "text-rose-400" : "text-gray-600"}`}>
              {day}
             </span>
-            <div className="space-y-0.5">
+            <div className="flex flex-wrap items-center gap-0.5 sm:block sm:space-y-0.5">
              {items.slice(0, 3).map((item, j) => {
               const c = COLORS[item.type];
               return (
-               <div key={j} className={`text-[9px] leading-tight font-semibold px-1 py-0.5 rounded ${c.bg} ${c.text} truncate`} title={item.label}>
-                {item.label}
+               <div key={j} className="inline-block sm:block">
+                <span className="inline-block h-2 w-2 rounded-full sm:hidden" style={{ background: c.dot }} title={item.label} />
+                <div className={`hidden sm:block text-[9px] leading-tight font-semibold px-1 py-0.5 rounded ${c.bg} ${c.text} truncate`} title={item.label}>
+                 {item.label}
+                </div>
                </div>
               );
              })}
-             {items.length > 3 && <div className="text-[9px] text-gray-400 font-medium">+{items.length - 3} more</div>}
+             {items.length > 3 && <div className="text-[9px] text-gray-400 font-medium">+{items.length - 3}<span className="hidden sm:inline"> more</span></div>}
             </div>
            </div>
           );
@@ -833,7 +836,7 @@ export default function App() {
          <thead>
           <tr className="bg-gray-50 text-left">
            <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-500 w-28">Date</th>
-           <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-500 w-28">End Date</th>
+           <th className="hidden px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-500 w-28 md:table-cell">End Date</th>
            <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-500 w-28">Type</th>
            <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-500">Description</th>
           </tr>
@@ -846,8 +849,13 @@ export default function App() {
            const c = row.type !== "regular" ? COLORS[row.type] : null;
            return (
             <tr key={i} className="transition-colors hover:bg-gray-50">
-             <td className="px-4 py-3 font-semibold text-gray-700 whitespace-nowrap">{formatDate(row.startDate)}</td>
-             <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+             <td className="px-4 py-3 font-semibold text-gray-700 whitespace-nowrap">
+              {formatDate(row.startDate)}
+              {row.endDate && row.endDate !== row.startDate && (
+               <span className="block text-xs font-normal text-gray-500 md:hidden">to {formatDate(row.endDate)}</span>
+              )}
+             </td>
+             <td className="hidden px-4 py-3 text-gray-500 whitespace-nowrap md:table-cell">
               {row.endDate && row.endDate !== row.startDate ? formatDate(row.endDate) : "—"}
              </td>
              <td className="px-4 py-3">

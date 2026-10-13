@@ -9,6 +9,7 @@ import {
   ClipboardCheck,
   Megaphone,
   Newspaper,
+  Volume2,
 } from "lucide-react";
 
 // Line icon for each dashboard section, keyed by the section's id in ./index.js.
@@ -17,6 +18,7 @@ export const sectionIcons = {
   curriculum: BookOpen,
   worksheet: NotebookPen,
   "online-games": Gamepad2,
+  "sound-book": Volume2,
   assessment: ChartColumn,
   "teacher-support": GraduationCap,
   management: School,
@@ -32,6 +34,7 @@ export const sectionColors = {
   curriculum: "#0d9488",
   worksheet: "#d97706",
   "online-games": "#059669",
+  "sound-book": "#0891b2",
   assessment: "#4d7c0f",
   "teacher-support": "#0f766e",
   management: "#15803d",

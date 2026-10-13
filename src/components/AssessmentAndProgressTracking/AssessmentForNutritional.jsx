@@ -6,6 +6,45 @@ import {
 } from "lucide-react";
 import { PageHero } from "../KidsUI";
 
+// What a child should eat in a day, shown as a table on wide screens and as cards on phones.
+const guideRows = [
+                    {
+                      type: "Carbohydrates",
+                      food: "Wheat / Roti",
+                      portion: "1 Piece",
+                      kcal: "85 kcal",
+                      percent: "50%",
+                    },
+                    {
+                      type: "Protein",
+                      food: "Dal / Lentils",
+                      portion: "1 Bowl",
+                      kcal: "120 kcal",
+                      percent: "20%",
+                    },
+                    {
+                      type: "Healthy Fats",
+                      food: "Milk",
+                      portion: "1 Glass",
+                      kcal: "150 kcal",
+                      percent: "15%",
+                    },
+                    {
+                      type: "Vitamins",
+                      food: "Fruits",
+                      portion: "1 Serving",
+                      kcal: "80 kcal",
+                      percent: "10%",
+                    },
+                    {
+                      type: "Minerals",
+                      food: "Vegetables",
+                      portion: "1 Bowl",
+                      kcal: "60 kcal",
+                      percent: "5%",
+                    },
+];
+
 const AssessmentForNutritional = () => {
   const [ageGroup, setAgeGroup] = useState("");
   const [weight, setWeight] = useState("");
@@ -190,7 +229,24 @@ const AssessmentForNutritional = () => {
               </h3>
             </div>
 
-            <div className="overflow-x-auto rounded-2xl">
+            {/* Phones, and the two-column layout of tablets in landscape and small laptops (up to 1400px):
+                one small card per food, because five columns do not fit that narrow a card */}
+            <ul className="space-y-3 md:max-lg:hidden min-[1400px]:hidden">
+              {guideRows.map((item) => (
+                <li key={item.type} className="rounded-2xl bg-white p-4">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="font-semibold text-kid-ink">{item.type}</p>
+                    <p className="shrink-0 text-sm font-semibold text-kid-deep">{item.percent} of the day</p>
+                  </div>
+
+                  <p className="mt-1 text-sm text-slate-600">
+                    {item.food} · {item.portion} · {item.kcal}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="hidden overflow-x-auto rounded-2xl md:max-lg:block min-[1400px]:block">
 
               <table className="w-full overflow-hidden rounded-2xl">
 
@@ -221,43 +277,7 @@ const AssessmentForNutritional = () => {
 
                 <tbody className="bg-white">
 
-                  {[
-                    {
-                      type: "Carbohydrates",
-                      food: "Wheat / Roti",
-                      portion: "1 Piece",
-                      kcal: "85 kcal",
-                      percent: "50%",
-                    },
-                    {
-                      type: "Protein",
-                      food: "Dal / Lentils",
-                      portion: "1 Bowl",
-                      kcal: "120 kcal",
-                      percent: "20%",
-                    },
-                    {
-                      type: "Healthy Fats",
-                      food: "Milk",
-                      portion: "1 Glass",
-                      kcal: "150 kcal",
-                      percent: "15%",
-                    },
-                    {
-                      type: "Vitamins",
-                      food: "Fruits",
-                      portion: "1 Serving",
-                      kcal: "80 kcal",
-                      percent: "10%",
-                    },
-                    {
-                      type: "Minerals",
-                      food: "Vegetables",
-                      portion: "1 Bowl",
-                      kcal: "60 kcal",
-                      percent: "5%",
-                    },
-                  ].map((item, index) => (
+                  {guideRows.map((item, index) => (
                     <tr
                       key={index}
                       className="border-b border-slate-200 hover:bg-slate-50 transition"

@@ -141,7 +141,7 @@ export default function Login() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center gap-8 overflow-hidden bg-[#e6f5e1] px-4 py-8 font-playful sm:py-12">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center gap-8 overflow-hidden bg-[#e6f5e1] px-4 py-8 font-playful sm:py-12">
 
       <CornerFlowers />
 

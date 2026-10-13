@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Plus, Palmtree, Trash2, BookOpenCheck, Check } from "lucide-react";
 import { useSessionPlan } from "./context/sessionPlanContext";
 import generateSyllabusAndEvaluations from "./utils/generateSyllabusAndEvaluations";
@@ -76,7 +77,12 @@ const AddTermModal = ({ onClose }) => {
     onClose();
   };
 
-  return (
+  // Drawn inside the Session Plan wrapper instead of inside the terms card. That card has a blur
+  // effect, and a blurred ancestor makes "fixed" mean "fixed to the card", so on a phone the window
+  // was squashed into the card and sat underneath the page heading.
+  const host = document.querySelector(".session-plan-app") ?? document.body;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm animate-fade-in-up"
       onClick={onClose}
@@ -186,7 +192,7 @@ const AddTermModal = ({ onClose }) => {
               <button
                 type="button"
                 onClick={addVacation}
-                className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1.5 text-xs font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+                className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1.5 pointer-coarse:py-2.5 text-xs font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
               >
                 <Plus size={13} />
                 Add Vacation
@@ -204,24 +210,24 @@ const AddTermModal = ({ onClose }) => {
                     placeholder="Vacation Name"
                     value={vac.name}
                     onChange={(e) => updateVacation(index, "name", e.target.value)}
-                    className="w-full flex-1 rounded-lg bg-white/5 px-2.5 py-1.5 text-xs text-white placeholder-white/40 outline-none focus:ring-1 focus:ring-indigo-400/50"
+                    className="w-full flex-1 rounded-lg bg-white/5 px-2.5 py-1.5 pointer-coarse:py-2.5 text-xs text-white placeholder-white/40 outline-none focus:ring-1 focus:ring-indigo-400/50"
                   />
                   <input
                     type="date"
                     value={vac.start}
                     onChange={(e) => updateVacation(index, "start", e.target.value)}
-                    className="rounded-lg bg-white/5 px-2.5 py-1.5 text-xs text-white outline-none scheme-dark focus:ring-1 focus:ring-indigo-400/50"
+                    className="rounded-lg bg-white/5 px-2.5 py-1.5 pointer-coarse:py-2.5 text-xs text-white outline-none scheme-dark focus:ring-1 focus:ring-indigo-400/50"
                   />
                   <input
                     type="date"
                     value={vac.end}
                     onChange={(e) => updateVacation(index, "end", e.target.value)}
-                    className="rounded-lg bg-white/5 px-2.5 py-1.5 text-xs text-white outline-none scheme-dark focus:ring-1 focus:ring-indigo-400/50"
+                    className="rounded-lg bg-white/5 px-2.5 py-1.5 pointer-coarse:py-2.5 text-xs text-white outline-none scheme-dark focus:ring-1 focus:ring-indigo-400/50"
                   />
                   <button
                     type="button"
                     onClick={() => removeVacation(index)}
-                    className="self-end rounded-lg p-1.5 text-white/40 transition hover:bg-rose-500/20 hover:text-rose-300 sm:self-center"
+                    className="self-end rounded-lg p-1.5 pointer-coarse:p-3 text-white/40 transition hover:bg-rose-500/20 hover:text-rose-300 sm:self-center"
                   >
                     <Trash2 size={14} />
                   </button>
@@ -238,7 +244,8 @@ const AddTermModal = ({ onClose }) => {
           </button>
         </form>
       </div>
-    </div>
+    </div>,
+    host,
   );
 };
 

@@ -23,7 +23,7 @@ const Crumbs = ({ trail }) => (
           <button
             type="button"
             onClick={step.onClick}
-            className="rounded-full px-2 py-1 text-kid-deep transition-colors hover:bg-tone-mint"
+            className="rounded-full px-2 py-1.5 text-kid-deep transition-colors hover:bg-tone-mint"
           >
             {step.label}
           </button>

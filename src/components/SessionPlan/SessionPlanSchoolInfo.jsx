@@ -101,7 +101,7 @@ const SessionPlanSchoolInfo = () => {
         <div className="mb-4 flex items-center justify-between">
           <Link
             to="/user/curriculum/lem-core-curriculum"
-            className="inline-flex items-center gap-1.5 text-sm text-white/60 transition hover:text-white"
+            className="-my-2 inline-flex items-center gap-1.5 py-2 text-sm text-white/60 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Curriculum
@@ -111,7 +111,7 @@ const SessionPlanSchoolInfo = () => {
             type="button"
             onClick={handleStartFresh}
             title="Clear school info and terms to start a new plan"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-2.5 py-1.5 text-xs font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-2.5 py-1.5 pointer-coarse:py-2.5 text-xs font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Start Fresh
@@ -183,7 +183,7 @@ const SessionPlanSchoolInfo = () => {
                   <button
                     type="button"
                     onClick={removeLogo}
-                    className="rounded-full bg-white/10 p-1.5 text-white/70 transition hover:bg-rose-500/30 hover:text-rose-300"
+                    className="rounded-full bg-white/10 p-1.5 pointer-coarse:p-2.5 text-white/70 transition hover:bg-rose-500/30 hover:text-rose-300"
                   >
                     <X className="h-4 w-4" />
                   </button>

@@ -1,6 +1,17 @@
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { FileText, Laptop } from "lucide-react";
+import {
+  Backpack,
+  Baby,
+  Blocks,
+  Brain,
+  FileText,
+  GraduationCap,
+  HeartHandshake,
+  Laptop,
+  MessagesSquare,
+  PersonStanding,
+} from "lucide-react";
 import { classAssessments } from "../../data/classAssessments";
 import { diagnosticSkillId } from "../../data/diagnosticOnlineAssessments";
 import { PageHero, SectionTitle } from "../KidsUI";
@@ -9,28 +20,38 @@ const levels = [
   {
     id: "pg",
     title: "PG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-playgroup.jpg?v=1781242641",
+    icon: Baby,
   },
   {
     id: "nursery",
     title: "Nursery",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-nursery_bd5eeb3b-70ff-474e-9ea5-1cafc9634015.jpg?v=1781242527",
+    icon: Blocks,
   },
   {
     id: "lkg",
     title: "LKG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-lkg_1e3ca9cc-40fc-4dff-99e7-10ce980cb1f1.jpg?v=1781242526",
+    icon: Backpack,
   },
   {
     id: "ukg",
     title: "UKG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summetive-ukg.jpg?v=1781242526",
+    icon: GraduationCap,
   },
 ];
+
+// One icon for each of the four skills, the same on every class.
+const skillIcons = {
+  social: HeartHandshake,
+  language: MessagesSquare,
+  cognitive: Brain,
+  movement: PersonStanding,
+};
+
+function SkillIcon({ title }) {
+  const Icon = skillIcons[diagnosticSkillId(title)] ?? FileText;
+
+  return <Icon size={44} strokeWidth={1.75} aria-hidden="true" />;
+}
 
 export default function ClassWiseDiagnosticAssessment() {
   const navigate = useNavigate();
@@ -61,15 +82,11 @@ export default function ClassWiseDiagnosticAssessment() {
               key={level.id}
               className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
-              <div className="m-3 mb-0 flex items-center justify-center overflow-hidden rounded-[18px] bg-white h-56 p-3">
-                <img
-                  src={level.image}
-                  alt={level.title}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
               <div className="flex flex-1 flex-col items-center p-6 text-center">
+                <div className="kid-chip mb-5 h-24 w-24 text-kid-deep">
+                  <level.icon size={44} strokeWidth={1.75} aria-hidden="true" />
+                </div>
+
                 <h3 className="text-2xl font-semibold text-kid-ink mb-5">
                   {level.title}
                 </h3>
@@ -98,15 +115,11 @@ export default function ClassWiseDiagnosticAssessment() {
                   key={index}
                   className="kid-card kid-card-hover flex flex-col overflow-hidden"
                 >
-                  <div className="m-3 mb-0 flex items-center justify-center overflow-hidden rounded-[18px] bg-white h-52 p-3">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-
                   <div className="flex flex-1 flex-col items-center p-5 text-center">
+                    <div className="kid-chip mb-5 h-24 w-24 text-kid-deep">
+                      <SkillIcon title={item.title} />
+                    </div>
+
                     <h3 className="text-lg font-semibold leading-snug text-kid-ink mb-5 flex-1">
                       {item.title}
                     </h3>

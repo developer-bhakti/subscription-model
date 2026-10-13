@@ -17,7 +17,7 @@ const SessionPlanManageTerms = () => {
       <div className="relative z-10 mx-auto max-w-6xl px-4 pt-6 sm:px-6">
         <Link
           to="/user/curriculum/lem-core-curriculum"
-          className="inline-flex items-center gap-1.5 text-sm text-white/60 transition hover:text-white"
+          className="-my-2 inline-flex items-center gap-1.5 py-2 text-sm text-white/60 transition hover:text-white"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Curriculum

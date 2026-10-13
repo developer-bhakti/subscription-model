@@ -22,9 +22,9 @@ const inputClass =
   "kid-input";
 const cardClass = "kid-card tone-white p-6 md:p-8";
 const primaryBtn =
-  "kid-btn px-8 py-3";
+  "kid-btn px-6 sm:px-8 py-3";
 const secondaryBtn =
-  "kid-btn kid-btn-soft px-8 py-3";
+  "kid-btn kid-btn-soft px-6 sm:px-8 py-3";
 
 function Stepper({ step, maxStepReached, onStepClick }) {
   return (
@@ -515,7 +515,8 @@ const OutreachDocWizard = () => {
                       )}
                       <button
                         onClick={() => removeEvent(idx)}
-                        className="text-gray-400 hover:text-red-500"
+                        aria-label="Remove event"
+                        className="-m-1.5 p-1.5 pointer-coarse:-m-2.5 pointer-coarse:p-2.5 text-gray-400 hover:text-red-500"
                       >
                         <X size={14} />
                       </button>
@@ -525,7 +526,7 @@ const OutreachDocWizard = () => {
               </div>
             )}
 
-            <div className="mt-8 flex justify-between">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
               <button onClick={() => goToStep(1)} className={secondaryBtn}>
                 Back
               </button>

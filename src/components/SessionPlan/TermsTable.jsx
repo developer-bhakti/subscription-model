@@ -86,7 +86,7 @@ const TermsTable = () => {
                 </div>
                 <button
                   onClick={() => deleteTask(task.id)}
-                  className="rounded-full p-2 text-white/40 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/20 hover:text-rose-300"
+                  className="rounded-full p-2 text-white/40 opacity-0 transition group-hover:opacity-100 pointer-coarse:p-3 pointer-coarse:opacity-100 focus-visible:opacity-100 hover:bg-rose-500/20 hover:text-rose-300"
                   title="Delete term"
                 >
                   <Trash2 size={16} />
@@ -99,13 +99,13 @@ const TermsTable = () => {
                   return (
                     <div
                       key={index}
-                      className={`flex items-center justify-between rounded-lg border px-3 py-2 text-xs ${badge}`}
+                      className={`flex flex-col gap-1 rounded-lg border px-3 py-2 text-xs sm:flex-row sm:items-center sm:justify-between ${badge}`}
                     >
                       <span className="flex items-center gap-1.5 font-medium">
                         <Icon size={13} />
                         {segment.month}
                       </span>
-                      <span className="whitespace-nowrap opacity-80">
+                      <span className="opacity-80 sm:whitespace-nowrap">
                         {formatDate(segment.syllabusStart)} – {formatDate(segment.syllabusEnd)}
                       </span>
                     </div>

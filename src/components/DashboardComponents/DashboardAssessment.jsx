@@ -51,7 +51,7 @@ const DashboardAssessment = () => {
 
         <ModuleCard
           icon="📝"
-          title="Assessment For ADHD"
+          title="Skill Tracking and Other Assessments"
           description="Specialized assessment tools to help identify attention, behavioral patterns, and learning support requirements in children.."
           onClick={() => navigate('/user/assessment/assessement-adhd')}
         />

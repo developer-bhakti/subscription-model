@@ -25,9 +25,9 @@ const inputClass =
   "kid-input";
 const cardClass = "kid-card tone-white p-6 md:p-8";
 const primaryBtn =
-  "kid-btn px-8 py-3";
+  "kid-btn px-6 sm:px-8 py-3";
 const secondaryBtn =
-  "kid-btn kid-btn-soft px-8 py-3";
+  "kid-btn kid-btn-soft px-6 sm:px-8 py-3";
 
 function Stepper({ step, maxStepReached, onStepClick }) {
   return (
@@ -41,6 +41,8 @@ function Stepper({ step, maxStepReached, onStepClick }) {
             <button
               type="button"
               disabled={!isClickable}
+              aria-label={s.label}
+              aria-current={isActive ? "step" : undefined}
               onClick={() => onStepClick(s.id)}
               className="flex flex-col items-center gap-2 shrink-0 disabled:cursor-not-allowed"
             >
@@ -57,7 +59,7 @@ function Stepper({ step, maxStepReached, onStepClick }) {
               </span>
               <span
                 className={`text-xs font-semibold whitespace-nowrap ${
-                  isActive ? "text-[#15803d]" : "text-gray-500"
+                  isActive ? "text-[#15803d]" : "hidden text-gray-500 sm:block"
                 }`}
               >
                 {s.label}
@@ -65,7 +67,7 @@ function Stepper({ step, maxStepReached, onStepClick }) {
             </button>
             {idx < stepDefs.length - 1 && (
               <div
-                className={`flex-1 h-0.5 mx-2 mt-5 ${
+                className={`flex-1 h-0.5 mx-1 sm:mx-2 mt-5 ${
                   s.id < step ? "bg-green-500" : "bg-gray-200"
                 }`}
               />
@@ -595,21 +597,21 @@ const AdmissionDocWizard = () => {
         {/* STEP 2 — Initial Assessment (by class) */}
         {step === 2 && (
           <div className={cardClass}>
-            <div className="flex items-start justify-between gap-4 mb-1">
+            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-1">
               <h3 className="text-2xl font-semibold text-kid-ink">Initial Assessment</h3>
               {assessments.length > 0 && (
                 <div className="flex shrink-0 gap-3 pt-1 text-xs font-semibold">
                   <button
                     type="button"
                     onClick={() => setAllAssessmentsSelected(true)}
-                    className="text-[#15803d] hover:text-[#166534]"
+                    className="-mx-1 -my-2 px-1 py-2 text-[#15803d] hover:text-[#166534]"
                   >
                     Select all
                   </button>
                   <button
                     type="button"
                     onClick={() => setAllAssessmentsSelected(false)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="-mx-1 -my-2 px-1 py-2 text-gray-400 hover:text-gray-600"
                   >
                     Clear all
                   </button>
@@ -667,7 +669,7 @@ const AdmissionDocWizard = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-sm font-semibold text-[#15803d] hover:text-[#166534]"
+                          className="-ml-2 -my-2 inline-flex items-center gap-1 py-2 pl-2 text-sm font-semibold text-[#15803d] hover:text-[#166534]"
                         >
                           View <ExternalLink size={14} />
                         </a>
@@ -680,7 +682,7 @@ const AdmissionDocWizard = () => {
               </div>
             )}
 
-            <div className="mt-8 flex justify-between">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
               <button onClick={() => goToStep(1)} className={secondaryBtn}>
                 Back
               </button>
@@ -694,21 +696,21 @@ const AdmissionDocWizard = () => {
         {/* STEP 3 — Worksheets (by month + class) */}
         {step === 3 && (
           <div className={cardClass}>
-            <div className="flex items-start justify-between gap-4 mb-1">
+            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-1">
               <h3 className="text-2xl font-semibold text-kid-ink">Worksheets</h3>
               {monthWorksheets.length > 0 && (
                 <div className="flex shrink-0 gap-3 pt-1 text-xs font-semibold">
                   <button
                     type="button"
                     onClick={() => setAllWorksheetsSelected(true)}
-                    className="text-[#15803d] hover:text-[#166534]"
+                    className="-mx-1 -my-2 px-1 py-2 text-[#15803d] hover:text-[#166534]"
                   >
                     Select all
                   </button>
                   <button
                     type="button"
                     onClick={() => setAllWorksheetsSelected(false)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="-mx-1 -my-2 px-1 py-2 text-gray-400 hover:text-gray-600"
                   >
                     Clear all
                   </button>
@@ -764,7 +766,7 @@ const AdmissionDocWizard = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-sm font-semibold text-[#15803d] hover:text-[#166534]"
+                          className="-ml-2 -my-2 inline-flex items-center gap-1 py-2 pl-2 text-sm font-semibold text-[#15803d] hover:text-[#166534]"
                         >
                           View <ExternalLink size={14} />
                         </a>
@@ -777,7 +779,7 @@ const AdmissionDocWizard = () => {
               </div>
             )}
 
-            <div className="mt-8 flex justify-between">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
               <button onClick={() => goToStep(2)} className={secondaryBtn}>
                 Back
               </button>
@@ -881,11 +883,11 @@ const AdmissionDocWizard = () => {
               </div>
             )}
 
-            <div className="mt-8 flex justify-between">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
               <button onClick={() => goToStep(3)} className={secondaryBtn}>
                 Back
               </button>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => {
                     setNewsletterIncluded(false);
@@ -925,7 +927,7 @@ const AdmissionDocWizard = () => {
               <button
                 onClick={handleDownloadPdf}
                 disabled={isBuildingPdf}
-                className="kid-btn kid-btn-teal px-8 py-3"
+                className="kid-btn kid-btn-teal px-6 sm:px-8 py-3"
               >
                 <FileDown size={18} />
                 {isBuildingPdf ? "Building..." : "Download PDF"}

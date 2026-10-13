@@ -34,13 +34,6 @@ const DashboardManagement = () => {
           description="Build and print a school term session plan."
           onClick={() => navigate('/user/curriculum/lem-core-curriculum/session-plan')}
         />
-
-        <ModuleCard
-          icon="🔊"
-          title="Sound Book"
-          description="Open the phonics sound books for every class."
-          onClick={() => navigate('/user/management/sound-books')}
-        />
       </ModuleGrid>
     </div>
   );

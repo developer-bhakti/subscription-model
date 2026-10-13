@@ -1,31 +1,36 @@
 import React, { useState } from "react";
-import { BookOpen, FileText } from "lucide-react";
+import {
+  Backpack,
+  Baby,
+  Blocks,
+  BookOpen,
+  ClipboardCheck,
+  ClipboardList,
+  FileText,
+  GraduationCap,
+} from "lucide-react";
 import { PageHero, SectionTitle } from "../KidsUI";
 
 const levels = [
   {
     id: "pg",
     title: "PG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_26_24_PM.png?v=1781510355",
+    icon: Baby,
   },
   {
     id: "nursery",
     title: "Nursery",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_29_24_PM.png?v=1781510384",
+    icon: Blocks,
   },
   {
     id: "lkg",
     title: "LKG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_31_05_PM.png?v=1781510504",
+    icon: Backpack,
   },
   {
     id: "ukg",
     title: "UKG",
-    image:
-      "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/ChatGPT_Image_Jun_15_2026_01_32_16_PM.png?v=1781510552",
+    icon: GraduationCap,
   },
 ];
 
@@ -33,14 +38,12 @@ const assessmentData = {
   pg: [
     {
       title: "Mid Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-midterm.jpg?v=1779703403",
+      icon: ClipboardList,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Mid_term_PG.pdf?v=1779787401",
     },
     {
       title: "End Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summatie-pg-endterm.jpg?v=1779702344",
+      icon: ClipboardCheck,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/End_term_PG.pdf?v=1779787401",
     },
   ],
@@ -48,14 +51,12 @@ const assessmentData = {
   nursery: [
     {
       title: "Mid Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-midterm.jpg?v=1779703403",
+      icon: ClipboardList,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Mid_term_Nursery.pdf?v=1779787503",
     },
     {
       title: "End Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summatie-pg-endterm.jpg?v=1779702344",
+      icon: ClipboardCheck,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/End_term_Nursery.pdf?v=1779787504",
     },
   ],
@@ -63,14 +64,12 @@ const assessmentData = {
   lkg: [
     {
       title: "Mid Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-midterm.jpg?v=1779703403",
+      icon: ClipboardList,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Mid_term_LKG.pdf?v=1779787568",
     },
     {
       title: "End Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summatie-pg-endterm.jpg?v=1779702344",
+      icon: ClipboardCheck,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/End_term_lkg.pdf?v=1779787569",
     },
   ],
@@ -78,14 +77,12 @@ const assessmentData = {
   ukg: [
     {
       title: "Mid Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summative-midterm.jpg?v=1779703403",
+      icon: ClipboardList,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Mid_term_UKG.pdf?v=1779787618",
     },
     {
       title: "End Term Exam Paper",
-      image:
-        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/summatie-pg-endterm.jpg?v=1779702344",
+      icon: ClipboardCheck,
       pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/End_term_UKG.pdf?v=1779787618",
     },
   ],
@@ -113,15 +110,11 @@ export default function SumativeAssessment() {
               key={level.id}
               className="kid-card kid-card-hover flex flex-col overflow-hidden"
             >
-              <div className="m-3 mb-0 overflow-hidden rounded-[18px] bg-white">
-                <img
-                  src={level.image}
-                  alt={level.title}
-                  className="w-full h-56 object-cover"
-                />
-              </div>
-
               <div className="flex flex-1 flex-col items-center p-6 text-center">
+                <div className="kid-chip mb-5 h-24 w-24 text-kid-deep">
+                  <level.icon size={44} strokeWidth={1.75} aria-hidden="true" />
+                </div>
+
                 <h3 className="text-2xl font-semibold text-kid-ink mb-5">
                   {level.title}
                 </h3>
@@ -153,15 +146,11 @@ export default function SumativeAssessment() {
                   key={index}
                   className="kid-card kid-card-hover flex flex-col overflow-hidden w-full max-w-sm mx-auto"
                 >
-                  <div className="m-3 mb-0 overflow-hidden rounded-[18px] bg-white">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-56 object-cover"
-                    />
-                  </div>
-
                   <div className="flex flex-1 flex-col items-center p-6 text-center">
+                    <div className="kid-chip mb-5 h-24 w-24 text-kid-deep">
+                      <item.icon size={44} strokeWidth={1.75} aria-hidden="true" />
+                    </div>
+
                     <h3 className="text-xl font-semibold text-kid-ink mb-5 flex-1">
                       {item.title}
                     </h3>

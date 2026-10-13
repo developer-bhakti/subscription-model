@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import {
   ChevronLeft,
   ChevronRight,
@@ -55,7 +55,7 @@ import OutreachDocWizard from "../components/MarketingAndParentEngagement/Outrea
 
 export default function User() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const [user, setUser] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -94,7 +94,7 @@ export default function User() {
 
   if (!user) {
     return (
-      <div className="h-screen flex items-center justify-center">
+      <div className="h-dvh flex items-center justify-center">
         Loading...
       </div>
     );
@@ -121,7 +121,7 @@ export default function User() {
   const ringLength = 2 * Math.PI * 42;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-b from-[#1da655] to-[#127c3b] font-playful print:block print:h-auto print:overflow-visible print:bg-none print:bg-white">
+    <div className="flex h-dvh overflow-hidden bg-gradient-to-b from-[#1da655] to-[#127c3b] font-playful print:block print:h-auto print:overflow-visible print:bg-none print:bg-white">
 
       {/* MOBILE OVERLAY */}
       {sidebarOpen && (
@@ -465,9 +465,15 @@ export default function User() {
                 element={<SchoolAdmissionTest />}
               />
 
+              {/* Sound Book is its own dashboard module now; the old address still works */}
+              <Route
+                path="sound-books"
+                element={<SoundBooks />}
+              />
+
               <Route
                 path="management/sound-books"
-                element={<SoundBooks />}
+                element={<Navigate to={`/user/sound-books${search}`} replace />}
               />
 
               <Route

@@ -1431,7 +1431,7 @@ const NumeracySkillsCognitiveSkill = () => {
               <button
                 key={option.key}
                 onClick={() => checkAnswer(option.key)}
-                className={`p-4 rounded-2xl transition ${
+                className={`p-2 sm:p-4 rounded-2xl transition ${
                   selected
                     ? option.key === question.answer
                       ? "bg-green-500 text-white"
@@ -1441,7 +1441,7 @@ const NumeracySkillsCognitiveSkill = () => {
                     : "bg-white text-green-800 ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
                 }`}
               >
-                <div className="text-3xl md:text-4xl font-bold wrap-break-word">{option.main}</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold wrap-break-word">{option.main}</div>
                 {option.sub && <div className="text-xs mt-1">{option.sub}</div>}
               </button>
             ))}

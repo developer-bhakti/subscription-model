@@ -14,12 +14,12 @@ export default function FormativeAssessmentGeneral() {
       tint: "bg-rose-50",
       assessments: [
         {
-          title: "Nursery 1",
+          title: "FA1",
           emoji: "📝",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-1_Papers-Nursery.pdf?v=1781243406",
         },
         {
-          title: "Nursery 2",
+          title: "FA2",
           emoji: "📋",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-2_Papers-Nursery.pdf?v=1781243406",
         },
@@ -32,12 +32,12 @@ export default function FormativeAssessmentGeneral() {
       tint: "bg-amber-50",
       assessments: [
         {
-          title: "LKG 1",
+          title: "FA1",
           emoji: "📝",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-1_Papers-LKG.pdf?v=1781243406",
         },
         {
-          title: "LKG 2",
+          title: "FA2",
           emoji: "📋",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-2_Papers-LKG.pdf?v=1781243406",
         },
@@ -50,12 +50,12 @@ export default function FormativeAssessmentGeneral() {
       tint: "bg-indigo-50",
       assessments: [
         {
-          title: "UKG 1",
+          title: "FA1",
           emoji: "📝",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-1_Papers-UKG.pdf?v=1781243406",
         },
         {
-          title: "UKG 2",
+          title: "FA2",
           emoji: "📋",
           pdf: "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/FA-2_Papers-UKG.pdf?v=1781243406",
         },

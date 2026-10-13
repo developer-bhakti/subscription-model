@@ -239,7 +239,7 @@ export default function TeacherTrainingCoupon() {
 
             <button
               onClick={() => setShowPopup(false)}
-              className="absolute top-4 right-5 text-2xl text-gray-500"
+              className="absolute top-4 right-5 pointer-coarse:-m-2 pointer-coarse:p-2 text-2xl text-gray-500"
             >
               ✕
             </button>

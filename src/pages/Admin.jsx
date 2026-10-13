@@ -356,7 +356,64 @@ export default function Admin() {
               ) : admins.length === 0 ? (
                 <div className="p-6 text-center text-gray-500">No admins found</div>
               ) : (
-                <div className="overflow-x-auto">
+                <>
+                  {/* Phones: one card per admin, so Edit and Delete are never off the right-hand edge */}
+                  <ul className="divide-y divide-gray-100 md:hidden">
+                    {admins.map((admin) => (
+                      <li key={admin.id} className="space-y-3 p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="break-all font-semibold text-gray-900">{admin.username}</p>
+                            <p className="text-xs text-gray-500">ID {admin.id}</p>
+                          </div>
+
+                          <span className="shrink-0 rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-800">
+                            {admin.assigned_model || "Not assigned"}
+                          </span>
+                        </div>
+
+                        <dl className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <dt className="text-xs text-gray-500">Users created</dt>
+                            <dd className="font-medium text-gray-800">{countUsersOf(admin.id)}</dd>
+                          </div>
+
+                          <div>
+                            <dt className="text-xs text-gray-500">End date</dt>
+                            <dd className="font-medium text-gray-800">{formatDate(admin.end_date)}</dd>
+                          </div>
+                        </dl>
+
+                        <div className="grid grid-cols-3 gap-2">
+                          <button
+                            onClick={() => {
+                              setOwnerFilter(String(admin.id));
+                              setView("users");
+                            }}
+                            className="rounded-lg bg-gray-600 px-2 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-700"
+                          >
+                            View Users
+                          </button>
+
+                          <button
+                            onClick={() => openEditForm(admin)}
+                            className="rounded-lg bg-blue-500 px-2 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-600"
+                          >
+                            Edit
+                          </button>
+
+                          <button
+                            onClick={() => deleteRecord(admin)}
+                            className="rounded-lg bg-red-500 px-2 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+
+                <div className="hidden overflow-x-auto md:block">
                   <table className="min-w-full">
 
                     <thead className="bg-gray-100 border-b border-gray-200">
@@ -435,6 +492,7 @@ export default function Admin() {
 
                   </table>
                 </div>
+                </>
               )}
             </div>
           )}
@@ -482,7 +540,56 @@ export default function Admin() {
               ) : visibleUsers.length === 0 ? (
                 <div className="p-6 text-center text-gray-500">No users found</div>
               ) : (
-                <div className="overflow-x-auto">
+                <>
+                  {/* Phones: one card per user, so Edit and Delete are never off the right-hand edge */}
+                  <ul className="divide-y divide-gray-100 md:hidden">
+                    {visibleUsers.map((user) => (
+                      <li key={user.id} className="space-y-3 p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="break-all font-semibold text-gray-900">{user.username}</p>
+                            <p className="text-xs text-gray-500">ID {user.id}</p>
+                          </div>
+
+                          {superAdmin && (
+                            <span className="max-w-[45%] shrink-0 truncate rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+                              {ownerName(user.created_by)}
+                            </span>
+                          )}
+                        </div>
+
+                        <dl className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <dt className="text-xs text-gray-500">End date</dt>
+                            <dd className="font-medium text-gray-800">{formatDate(user.end_date)}</dd>
+                          </div>
+
+                          <div>
+                            <dt className="text-xs text-gray-500">Price</dt>
+                            <dd className="font-medium text-gray-800">₹{user.price}</dd>
+                          </div>
+                        </dl>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => openEditForm(user)}
+                            className="rounded-lg bg-blue-500 px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-600"
+                          >
+                            Edit
+                          </button>
+
+                          <button
+                            onClick={() => deleteRecord(user)}
+                            className="rounded-lg bg-red-500 px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+
+                <div className="hidden overflow-x-auto md:block">
                   <table className="min-w-full">
 
                     <thead className="bg-gray-100 border-b border-gray-200">
@@ -551,6 +658,7 @@ export default function Admin() {
 
                   </table>
                 </div>
+                </>
               )}
             </div>
           )}
