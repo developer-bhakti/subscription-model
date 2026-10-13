@@ -148,7 +148,7 @@ export default function Login() {
       {/* The page title. It sits outside the card's wrapper below, because the form card is
           positioned as a percentage of that wrapper and would shift if this lived inside it. */}
       <h1 className="relative z-10 -mb-3 text-center text-4xl font-bold tracking-tight text-kid-ink sm:text-5xl">
-        ECCE <span className="text-kid-green">Tool</span>
+        ECCE 360 <span className="text-kid-green">Tool</span>
       </h1>
 
       <div className="relative z-10 w-full max-w-[980px]">
