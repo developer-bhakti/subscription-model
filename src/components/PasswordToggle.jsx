@@ -40,7 +40,7 @@ export function PasswordInput({ className = "", ...inputProps }) {
       <PasswordToggle
         shown={shown}
         onToggle={() => setShown((value) => !value)}
-        className="absolute right-1.5 top-1/2 -translate-y-1/2 text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+        className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[#3a3a3a] hover:bg-[#e8f7df]"
       />
     </div>
   );
