@@ -204,7 +204,7 @@ export default function FormativeAssessmentTool() {
 
       <button
         onClick={printToPDF}
-        className="kid-btn fixed right-5 top-5 z-50 px-7 py-3 font-bold"
+        className="kid-btn mb-5 ml-auto flex w-fit px-7 py-3 font-bold lg:fixed lg:right-5 lg:top-5 lg:z-50 lg:mb-0 lg:ml-0"
       >
         🖨️ Print as PDF
       </button>
@@ -219,7 +219,7 @@ export default function FormativeAssessmentTool() {
 
         {/* STUDENT INFO */}
 
-        <div className="kid-card tone-white p-8 mb-10">
+        <div className="kid-card tone-white p-5 sm:p-8 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             <div>
@@ -290,7 +290,7 @@ export default function FormativeAssessmentTool() {
             className="kid-card tone-white overflow-hidden mb-9"
           >
 
-            <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-8 py-6 text-white">
+            <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-5 sm:px-8 py-6 text-white">
               <h2 className="text-3xl font-bold">
                 {skillData[skillKey].title}
               </h2>
@@ -300,7 +300,7 @@ export default function FormativeAssessmentTool() {
               (question, index) => (
                 <div
                   key={index}
-                  className="p-8 border-b border-slate-100"
+                  className="p-5 sm:p-8 border-b border-slate-100"
                 >
 
                   <div className="text-[18px] font-semibold leading-8 mb-6">
@@ -335,16 +335,16 @@ export default function FormativeAssessmentTool() {
 
         {/* RESULT */}
 
-        <div className="kid-card tone-white mt-10 overflow-x-auto p-8">
+        <div className="kid-card tone-white mt-10 overflow-x-auto p-5 sm:p-8">
 
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="bg-kid-deep text-white p-5 text-xl">
+                <th className="bg-kid-deep text-white p-3 sm:p-5 text-lg sm:text-xl">
                   SKILL
                 </th>
 
-                <th className="bg-kid-deep text-white p-5 text-xl">
+                <th className="bg-kid-deep text-white p-3 sm:p-5 text-lg sm:text-xl">
                   SCORE
                 </th>
               </tr>
@@ -353,51 +353,51 @@ export default function FormativeAssessmentTool() {
             <tbody>
 
               <tr>
-                <td className="border border-slate-200 p-5 font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 font-semibold">
                   Language & Communication Skill
                 </td>
 
-                <td className="border border-slate-200 p-5 text-center font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 text-center font-semibold">
                   {language}%
                 </td>
               </tr>
 
               <tr>
-                <td className="border border-slate-200 p-5 font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 font-semibold">
                   Cognitive Skill
                 </td>
 
-                <td className="border border-slate-200 p-5 text-center font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 text-center font-semibold">
                   {cognitive}%
                 </td>
               </tr>
 
               <tr>
-                <td className="border border-slate-200 p-5 font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 font-semibold">
                   Social and Emotional Skill
                 </td>
 
-                <td className="border border-slate-200 p-5 text-center font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 text-center font-semibold">
                   {social}%
                 </td>
               </tr>
 
               <tr>
-                <td className="border border-slate-200 p-5 font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 font-semibold">
                   Environmental Skill
                 </td>
 
-                <td className="border border-slate-200 p-5 text-center font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 text-center font-semibold">
                   {environment}%
                 </td>
               </tr>
 
               <tr>
-                <td className="border border-slate-200 p-5 font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 font-semibold">
                   Movement and Physical Skill
                 </td>
 
-                <td className="border border-slate-200 p-5 text-center font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 text-center font-semibold">
                   {movement}%
                 </td>
               </tr>
@@ -407,9 +407,9 @@ export default function FormativeAssessmentTool() {
 
           {/* FINAL SCORE */}
 
-          <div className="mt-10 bg-pink-50 border-2 border-pink-200 rounded-[35px] p-8 flex flex-wrap items-center justify-between gap-5">
+          <div className="mt-10 bg-pink-50 border-2 border-pink-200 rounded-[35px] p-5 sm:p-8 flex flex-wrap items-center justify-between gap-5">
 
-            <div className="text-3xl font-bold flex flex-wrap items-center gap-4">
+            <div className="text-2xl sm:text-3xl font-bold flex flex-wrap items-center gap-4">
 
               <span>
                 My Child's Score this month =

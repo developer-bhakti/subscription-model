@@ -146,13 +146,13 @@ const Month2PgOnlineFormative = () => {
   ];
 
   return (
-    <div className="rounded-[28px] bg-[#f1faee] min-h-screen p-[30px] text-kid-ink font-playful">
+    <div className="rounded-[28px] bg-[#f1faee] min-h-screen p-4 sm:p-[30px] text-kid-ink font-playful">
 
       {/* PRINT BUTTON */}
 
       <button
         onClick={printToPDF}
-        className="kid-btn fixed right-5 top-5 z-50 px-7 py-3 text-[16px] font-bold print:hidden"
+        className="kid-btn mb-5 ml-auto flex w-fit px-7 py-3 text-[16px] font-bold lg:fixed lg:right-5 lg:top-5 lg:z-50 lg:mb-0 lg:ml-0 print:hidden"
       >
         🖨️ Print as PDF
       </button>
@@ -167,7 +167,7 @@ const Month2PgOnlineFormative = () => {
 
         {/* STUDENT INFO */}
 
-        <div className="kid-card tone-white p-[30px] mb-10">
+        <div className="kid-card tone-white p-5 sm:p-[30px] mb-10">
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
@@ -243,9 +243,9 @@ const Month2PgOnlineFormative = () => {
 
               {/* HEADER */}
 
-              <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-[30px] py-6 text-white">
+              <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-5 sm:px-[30px] py-6 text-white">
 
-                <h2 className="text-[30px] font-bold">
+                <h2 className="text-[24px] sm:text-[30px] font-bold">
                   {skill.title}
                 </h2>
 
@@ -257,7 +257,7 @@ const Month2PgOnlineFormative = () => {
                 (question, questionIndex) => (
                   <div
                     key={questionIndex}
-                    className="p-[30px] border-b border-slate-100"
+                    className="p-5 sm:p-[30px] border-b border-slate-100"
                   >
 
                     <div className="text-[18px] font-semibold leading-[1.8] mb-[25px]">
@@ -415,7 +415,7 @@ const Month2PgOnlineFormative = () => {
 
         {/* RESULT */}
 
-        <div className="kid-card tone-white mt-10 overflow-x-auto p-[30px]">
+        <div className="kid-card tone-white mt-10 overflow-x-auto p-5 sm:p-[30px]">
 
           <table className="w-full border-collapse">
 
@@ -423,11 +423,11 @@ const Month2PgOnlineFormative = () => {
 
               <tr>
 
-                <th className="bg-kid-deep text-white p-[18px] text-[20px]">
+                <th className="bg-kid-deep text-white p-3 sm:p-[18px] text-[17px] sm:text-[20px]">
                   SKILL
                 </th>
 
-                <th className="bg-kid-deep text-white p-[18px] text-[20px]">
+                <th className="bg-kid-deep text-white p-3 sm:p-[18px] text-[17px] sm:text-[20px]">
                   SCORE
                 </th>
 
@@ -438,51 +438,51 @@ const Month2PgOnlineFormative = () => {
             <tbody>
 
               <tr>
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold">
                   Language & Communication Skill
                 </td>
 
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
                   {languageScore}%
                 </td>
               </tr>
 
               <tr>
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold">
                   Cognitive Skill
                 </td>
 
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
                   {cognitiveScore}%
                 </td>
               </tr>
 
               <tr>
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold">
                   Social and Emotional Skill
                 </td>
 
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
                   {socialScore}%
                 </td>
               </tr>
 
               <tr>
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold">
                   Environmental Skill
                 </td>
 
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
                   {environmentScore}%
                 </td>
               </tr>
 
               <tr>
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold">
                   Movement and Physical Skill
                 </td>
 
-                <td className="p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
+                <td className="p-3 sm:p-[18px] border border-slate-300 text-[17px] font-semibold text-center">
                   {movementScore}%
                 </td>
               </tr>
@@ -493,9 +493,9 @@ const Month2PgOnlineFormative = () => {
 
           {/* FINAL SCORE */}
 
-          <div className="mt-10 bg-pink-50 border-2 border-pink-200 rounded-[35px] p-[35px] flex justify-between items-center gap-5 flex-wrap">
+          <div className="mt-10 bg-pink-50 border-2 border-pink-200 rounded-[35px] p-5 sm:p-[35px] flex justify-between items-center gap-5 flex-wrap">
 
-            <div className="text-[30px] font-bold flex items-center gap-[15px] flex-wrap">
+            <div className="text-[24px] sm:text-[30px] font-bold flex items-center gap-[15px] flex-wrap">
 
               <span>
                 My Child's Score this month =

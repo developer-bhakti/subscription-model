@@ -141,7 +141,7 @@ export default function ACTCurriculumFreeCoupon() {
 
               </div>
 
-              <div className="text-white text-4xl md:text-5xl font-bold tracking-[6px] mb-5">
+              <div className="text-white text-3xl md:text-5xl font-bold tracking-[4px] md:tracking-[6px] mb-5 break-words">
 
                 {couponCode}
 

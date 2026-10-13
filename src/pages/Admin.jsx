@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../services/supabaseClient";
+import { PasswordInput } from "../components/PasswordToggle";
 import {
   ROLES,
   ACCOUNT_TYPES,
@@ -588,12 +589,11 @@ export default function Admin() {
                   Password
                 </label>
 
-                <input
-                  type="password"
+                <PasswordInput
                   placeholder="Enter password"
                   value={form.password}
                   onChange={setField("password")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
+                  className="w-full py-3 pl-4 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
                 />
               </div>
 

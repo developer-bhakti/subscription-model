@@ -3,6 +3,7 @@ import { supabase } from "../services/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { User, Lock } from "lucide-react";
 import { isAnyAdmin, getAccountType, ACCOUNT_TYPES } from "../services/auth";
+import { PasswordToggle } from "../components/PasswordToggle";
 import {
   CornerFlowers,
   LoginScene,
@@ -18,8 +19,12 @@ const loginOptions = [
   { type: ACCOUNT_TYPES.TEACHER, label: "School", icon: SchoolIcon },
 ];
 
-const Field = ({ icon, ...inputProps }) => {
+const Field = ({ icon, type, ...inputProps }) => {
   const FieldIcon = icon;
+
+  // A password field gets an eye at its right-hand end to show or hide what was typed.
+  const isPassword = type === "password";
+  const [shown, setShown] = useState(false);
 
   return (
     <label className="flex h-[54px] items-center gap-3 rounded-2xl border-2 border-[#bfe6c6] bg-white px-4 shadow-[0_4px_0_#9fd8aa] transition-colors focus-within:border-[#3fb95a]">
@@ -27,8 +32,17 @@ const Field = ({ icon, ...inputProps }) => {
 
       <input
         {...inputProps}
-        className="w-full bg-transparent text-[15px] font-medium text-[#2b2b2b] outline-none placeholder:text-[#5c5c5c]"
+        type={isPassword && shown ? "text" : type}
+        className="w-full min-w-0 bg-transparent text-[15px] font-medium text-[#2b2b2b] outline-none placeholder:text-[#5c5c5c]"
       />
+
+      {isPassword && (
+        <PasswordToggle
+          shown={shown}
+          onToggle={() => setShown((value) => !value)}
+          className="-mr-2 text-[#3a3a3a] hover:bg-[#e8f7df]"
+        />
+      )}
     </label>
   );
 };

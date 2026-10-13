@@ -201,7 +201,7 @@ function DiagnosticChecklist({ assessment }) {
 
       <button
         onClick={printToPDF}
-        className="kid-btn fixed right-5 top-5 z-50 px-7 py-3 font-bold print:hidden"
+        className="kid-btn mb-5 ml-auto flex w-fit px-7 py-3 font-bold lg:fixed lg:right-5 lg:top-5 lg:z-50 lg:mb-0 lg:ml-0 print:hidden"
       >
         🖨️ Print as PDF
       </button>
@@ -216,7 +216,7 @@ function DiagnosticChecklist({ assessment }) {
 
         {/* STUDENT INFO */}
 
-        <div className="kid-card tone-white p-8 mb-10">
+        <div className="kid-card tone-white p-5 sm:p-8 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             <div>
@@ -286,7 +286,7 @@ function DiagnosticChecklist({ assessment }) {
 
         <div className="kid-card tone-white overflow-hidden mb-9">
 
-          <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-8 py-6 text-white">
+          <div className="bg-gradient-to-r from-[#1da655] to-[#16a34a] px-5 sm:px-8 py-6 text-white">
             <h2 className="text-3xl font-bold">
               {skill.title}
             </h2>
@@ -301,7 +301,7 @@ function DiagnosticChecklist({ assessment }) {
                 ref={(element) => {
                   questionRefs.current[index] = element;
                 }}
-                className={`p-8 border-b border-slate-100 ${
+                className={`p-5 sm:p-8 border-b border-slate-100 ${
                   missing ? "bg-red-50" : ""
                 }`}
               >
@@ -360,17 +360,17 @@ function DiagnosticChecklist({ assessment }) {
 
         <div
           ref={resultRef}
-          className="kid-card tone-white mt-10 overflow-x-auto p-8"
+          className="kid-card tone-white mt-10 overflow-x-auto p-5 sm:p-8"
         >
 
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="bg-kid-deep text-white p-5 text-xl">
+                <th className="bg-kid-deep text-white p-3 sm:p-5 text-lg sm:text-xl">
                   SKILL
                 </th>
 
-                <th className="bg-kid-deep text-white p-5 text-xl">
+                <th className="bg-kid-deep text-white p-3 sm:p-5 text-lg sm:text-xl">
                   SCORE
                 </th>
               </tr>
@@ -379,11 +379,11 @@ function DiagnosticChecklist({ assessment }) {
             <tbody>
 
               <tr>
-                <td className="border border-slate-200 p-5 font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 font-semibold">
                   {skill.title}
                 </td>
 
-                <td className="border border-slate-200 p-5 text-center font-semibold">
+                <td className="border border-slate-200 p-3 sm:p-5 text-center font-semibold">
                   {shownPercent}%
                 </td>
               </tr>
@@ -393,9 +393,9 @@ function DiagnosticChecklist({ assessment }) {
 
           {/* FINAL SCORE */}
 
-          <div className="mt-10 bg-pink-50 border-2 border-pink-200 rounded-[35px] p-8 flex flex-wrap items-center justify-between gap-5">
+          <div className="mt-10 bg-pink-50 border-2 border-pink-200 rounded-[35px] p-5 sm:p-8 flex flex-wrap items-center justify-between gap-5">
 
-            <div className="text-3xl font-bold flex flex-wrap items-center gap-4">
+            <div className="text-2xl sm:text-3xl font-bold flex flex-wrap items-center gap-4">
 
               <span>
                 My Child's {skill.short} skill Score =
