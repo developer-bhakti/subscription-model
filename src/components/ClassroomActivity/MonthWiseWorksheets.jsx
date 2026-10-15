@@ -73,6 +73,22 @@ const months = [
     description:
       "Teachers' Day, Ganesh Chaturthi and fun learning worksheets.",
   },
+   {
+    id: "october",
+    title: "October Activities",
+    emoji: "📚",
+    tint: "bg-pink-50",
+    description:
+      "Mahatma Gandhi Jayanti, Dassera and fun learning worksheets.",
+  },
+  {
+    id: "november",
+    title: "November Activities",
+    emoji: "📚",
+    tint: "bg-pink-50",
+    description:
+      "Diwali, Children's Day and fun learning worksheets.",
+  },
 ];
 
 const activitiesData = {
@@ -645,6 +661,167 @@ const activitiesData = {
         "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_River_Day-LKG.pdf?v=1790155728",
     },
   ],
+
+  october: [
+     {
+      title: "Mahatma Gandhi Jayanti",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Mahatma_Gadhi_Jayanti.jpg?v=1790664428",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Mahatma_Gandhiji_Jayanti.pdf?v=1790664434",
+    },
+     {
+      title: "Lalbahadur Shastri Jayanti",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Lalbahadur_Shastri_Jayanti.jpg?v=1790664432",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Lalbahadur_Shastri_Jayanti.pdf?v=1790664433",
+    },
+     {
+      title: "World Smile Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Smile_Day.jpg?v=1790834558",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Smile_Day.pdf?v=1790834560",
+    },
+     {
+      title: "World Animal Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Animal_Day_febb5b2d-9b2a-4f9f-a3a7-5656c5aba9a0.jpg?v=1790834563",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Animal_Day.pdf?v=1790834562",
+    },
+     {
+      title: "World Cotton Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Cotton_Day.jpg?v=1791192771",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Cotton_Day.pdf?v=1791192775",
+    },
+     {
+      title: "Indian Airforce Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Indian_Airforce_Day.jpg?v=1791192775",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Airforce_Day.pdf?v=1791192775",
+    },
+     {
+      title: "World Post Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Post_Day.jpg?v=1791435134",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Post_Day_Activity_60c626a8-a07b-4ba7-910a-cc267c83c43c.pdf?v=1791435136",
+    },
+     {
+      title: "Ghatasthapana",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Ghatsthapana.jpg?v=1791435136",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Ghatsthapana.pdf?v=1791435136",
+    },
+     {
+      title: "Global Hand Washing Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Global_Handwashing_Day.jpg?v=1791630284",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Handwashing_Day_Activity.pdf?v=1791630284",
+    },
+    {
+      title: "World Food Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Food_Day_a368ae9d-3c2d-4cdb-8318-a7e7b3560208.jpg?v=1791630285",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Food_Day.pdf?v=1791630284",
+    },
+    {
+      title: "Maa Saraswati Pujan",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Maa_Sarswati_Pujan.jpg?v=1791967208",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Maa_Saraswati_Pujan.pdf?v=1791967221",
+    },
+    {
+      title: "Dassera",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Dassera.jpg?v=1791967212",
+      pdf:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Dussehra_Activity_-_Nursery.pdf?v=1791967231",
+    },
+    {
+      title: "National Unity Day",
+      image:
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Unity_Day_10096218-2cc1-43cc-afd9-5dbaa88d180f.jpg?v=1792045298",
+      pdf:
+        "",
+    },
+
+  ],
+  
+  november: [
+      {
+      title: "Recreation Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "Diwali",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "World Science Day For Peace And Development",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "National Kindness Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "National Education Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "World Origami Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "Children's Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "World Television Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+    {
+      title: "Thanks Giving Day",
+      image:
+        "",
+      pdf:
+        "",
+    },
+  ]
 };
 export default function MonthWiseWorksheets() {
   const [activeMonth, setActiveMonth] = useState("january");
