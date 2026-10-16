@@ -84,7 +84,7 @@ const months = [
   {
     id: "november",
     title: "November Activities",
-    emoji: "📚",
+    emoji: "🎉",
     tint: "bg-pink-50",
     description:
       "Diwali, Children's Day and fun learning worksheets.",
@@ -758,68 +758,61 @@ const activitiesData = {
   ],
   
   november: [
-      {
-      title: "Recreation Day",
-      image:
-        "",
-      pdf:
-        "",
-    },
     {
       title: "Diwali",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Diwali.jpg?v=1792057671",
       pdf:
         "",
     },
     {
       title: "World Science Day For Peace And Development",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Science_day_for_Peace_Development.jpg?v=1792057672",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Science_Day_for_Peace_Development.pdf?v=1792057681",
     },
     {
       title: "National Kindness Day",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Kindness_Day_f7b02389-399d-4707-bc07-0a3dd363ff3b.jpg?v=1792057675",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Kindness_Day.pdf?v=1792057679",
     },
     {
       title: "National Education Day",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Education_Day.jpg?v=1792057670",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/National_Education_Day.pdf?v=1792057681",
     },
     {
       title: "World Origami Day",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Origami_Day.jpg?v=1792057669",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Origami_Day.pdf?v=1792057681",
     },
     {
       title: "Children's Day",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Childrens_Day_8d9c5fb6-7c6b-4129-8cc2-ee853994fa25.jpg?v=1792057674",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Childrens_Day.pdf?v=1792057679",
     },
     {
       title: "World Television Day",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/World_Televison_Day.jpg?v=1763369877",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Television_Day_Activity.pdf?v=1788028328",
     },
     {
       title: "Thanks Giving Day",
       image:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Thanks_giving_Day_9c918968-72c7-491c-96d7-af5923e6b4e3.jpg?v=1792057674",
       pdf:
-        "",
+        "https://cdn.shopify.com/s/files/1/0632/7307/4847/files/Thanks_Giving_Day_ef60ac53-3efb-4c7d-8ca1-8e1d6649c818.pdf?v=1792057681",
     },
   ]
 };

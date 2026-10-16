@@ -1,95 +1,92 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   User,
   Calculator,
-  Utensils,
+  Salad,
+  BookOpen,
 } from "lucide-react";
 import { PageHero } from "../KidsUI";
+import FoodCalorieCalculator from "./FoodCalorieCalculator";
+import NutritionGuide from "./NutritionGuide";
+import { bandForMonths } from "../../data/nutritionGuide";
 
-// What a child should eat in a day, shown as a table on wide screens and as cards on phones.
-const guideRows = [
-                    {
-                      type: "Carbohydrates",
-                      food: "Wheat / Roti",
-                      portion: "1 Piece",
-                      kcal: "85 kcal",
-                      percent: "50%",
-                    },
-                    {
-                      type: "Protein",
-                      food: "Dal / Lentils",
-                      portion: "1 Bowl",
-                      kcal: "120 kcal",
-                      percent: "20%",
-                    },
-                    {
-                      type: "Healthy Fats",
-                      food: "Milk",
-                      portion: "1 Glass",
-                      kcal: "150 kcal",
-                      percent: "15%",
-                    },
-                    {
-                      type: "Vitamins",
-                      food: "Fruits",
-                      portion: "1 Serving",
-                      kcal: "80 kcal",
-                      percent: "10%",
-                    },
-                    {
-                      type: "Minerals",
-                      food: "Vegetables",
-                      portion: "1 Bowl",
-                      kcal: "60 kcal",
-                      percent: "5%",
-                    },
+// The two tabs on the right: the calculator that adds up the foods eaten, and the guide of set amounts by age.
+const TABS = [
+  { id: "calculator", label: "Calorie Calculator", Icon: Salad },
+  { id: "guide", label: "Predefined Calorie Guide", Icon: BookOpen },
 ];
 
+// Calories a child needs per kg of body weight per day, by completed years of age. These are the
+// rates the page has always used: under 1 year, 1 to 3, 4 to 6, 7 to 9 and 10 to 12 years.
+const CALORIES_PER_KG = [
+  { fromYears: 0, perKg: 100 },
+  { fromYears: 1, perKg: 95 },
+  { fromYears: 4, perKg: 85 },
+  { fromYears: 7, perKg: 70 },
+  { fromYears: 10, perKg: 55 },
+];
+
+const perKgForAge = (months) => {
+  const years = Math.floor(months / 12);
+
+  return CALORIES_PER_KG.filter((band) => years >= band.fromYears).pop().perKg;
+};
+
+// "6 months", "1 year", "1 year 6 months", "2 years"...
+const ageLabel = (months) => {
+  if (months === 0) return "Under 6 months";
+
+  const years = Math.floor(months / 12);
+  const rest = months % 12;
+
+  return [
+    years ? `${years} ${years === 1 ? "year" : "years"}` : "",
+    rest ? `${rest} months` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+};
+
+// The ages to choose from: every six months, from under 6 months up to 12 years 6 months.
+const AGE_OPTIONS = Array.from({ length: 26 }, (_, index) => index * 6);
+
 const AssessmentForNutritional = () => {
-  const [ageGroup, setAgeGroup] = useState("");
+  const [ageMonths, setAgeMonths] = useState("");
   const [weight, setWeight] = useState("");
   const [result, setResult] = useState(null);
 
-  const ageOptions = [
-    {
-      label: "Infants (Up to 1 Year)",
-      value: 100,
-    },
-    {
-      label: "Children (1 to 3 Years)",
-      value: 95,
-    },
-    {
-      label: "Children (4 to 6 Years)",
-      value: 85,
-    },
-    {
-      label: "Children (7 to 9 Years)",
-      value: 70,
-    },
-    {
-      label: "Children (10 to 12 Years)",
-      value: 55,
-    },
-  ];
+  const [tab, setTab] = useState("calculator");
+  const tabRefs = useRef({});
+
+  // Left and right arrows move between the tabs.
+  const handleTabKeyDown = (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+
+    if (!step) return;
+
+    e.preventDefault();
+
+    const index = TABS.findIndex((item) => item.id === tab);
+    const next = TABS[(index + step + TABS.length) % TABS.length];
+
+    setTab(next.id);
+    tabRefs.current[next.id]?.focus();
+  };
+
+  // The guide's daily amounts follow the age chosen in the form, unless an age group is tapped in the guide.
+  const [pickedBand, setPickedBand] = useState(null);
+  const monthsChosen = ageMonths === "" ? null : Number(ageMonths);
+  const guideBand = pickedBand ?? (monthsChosen === null ? null : bandForMonths(monthsChosen));
 
   const handleCalculate = () => {
-    if (!ageGroup || !weight) {
-      alert("Please select age group and enter weight");
+    const kg = Number(weight);
+
+    if (ageMonths === "" || !(kg > 0)) {
+      alert("Please select the child's age and enter a weight");
       return;
     }
 
-    const calories = Number(ageGroup) * Number(weight);
-
-    const selected = ageOptions.find(
-      (item) => item.value === Number(ageGroup)
-    );
-
-    setResult({
-      ageLabel: selected.label,
-      perKg: ageGroup,
-      totalCalories: calories,
-    });
+    setResult(Math.round(perKgForAge(Number(ageMonths)) * kg));
   };
 
   return (
@@ -104,7 +101,8 @@ const AssessmentForNutritional = () => {
         />
 
         {/* GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-6">
+        {/* The right side holds tables, so it gets the wider share */}
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
 
           {/* LEFT CARD */}
           <div className="kid-card tone-mint p-6 md:p-8">
@@ -119,22 +117,30 @@ const AssessmentForNutritional = () => {
               </h3>
             </div>
 
-            {/* AGE GROUP */}
+            {/* AGE */}
             <div className="mb-6">
-              <label className="block mb-2 font-semibold text-slate-700">
-                Age Group of the Child
+              <label
+                htmlFor="child-age"
+                className="block mb-2 font-semibold text-slate-700"
+              >
+                Age of the Child
               </label>
 
               <select
-                value={ageGroup}
-                onChange={(e) => setAgeGroup(e.target.value)}
+                id="child-age"
+                value={ageMonths}
+                onChange={(e) => {
+                  setAgeMonths(e.target.value);
+                  setResult(null);
+                  setPickedBand(null);
+                }}
                 className="kid-input py-3.5"
               >
-                <option value="">Select Age Group</option>
+                <option value="">Select Age</option>
 
-                {ageOptions.map((item, index) => (
-                  <option key={index} value={item.value}>
-                    {item.label} - {item.value} kcal/kg/day
+                {AGE_OPTIONS.map((months) => (
+                  <option key={months} value={months}>
+                    {ageLabel(months)}
                   </option>
                 ))}
               </select>
@@ -142,15 +148,22 @@ const AssessmentForNutritional = () => {
 
             {/* WEIGHT */}
             <div className="mb-6">
-              <label className="block mb-2 font-semibold text-slate-700">
+              <label
+                htmlFor="child-weight"
+                className="block mb-2 font-semibold text-slate-700"
+              >
                 Weight of the Child (kg)
               </label>
 
               <input
+                id="child-weight"
                 type="number"
                 placeholder="Enter Weight in KG"
                 value={weight}
-                onChange={(e) => setWeight(e.target.value)}
+                onChange={(e) => {
+                  setWeight(e.target.value);
+                  setResult(null);
+                }}
                 className="kid-input py-3.5"
               />
             </div>
@@ -165,52 +178,13 @@ const AssessmentForNutritional = () => {
             </button>
 
             {/* RESULT */}
-            {result && (
-              <div className="kid-card tone-white mt-8 p-6">
-
-                <h4 className="text-2xl font-semibold text-kid-deep mb-5">
-                  Assessment Result
-                </h4>
-
-                <div className="space-y-3 text-slate-700">
-
-                  <div className="text-base">
-                    <span className="font-semibold">
-                      Selected Age Group:
-                    </span>{" "}
-                    {result.ageLabel}
-                  </div>
-
-                  <div className="text-base">
-                    <span className="font-semibold">
-                      Calories Per KG:
-                    </span>{" "}
-                    {result.perKg} kcal/kg/day
-                  </div>
-
-                  <div className="text-lg font-bold text-slate-900">
-                    Total Daily Calories Needed:{" "}
-                    {result.totalCalories} kcal/day
-                  </div>
-                </div>
-
-                {/* BADGES */}
-                <div className="flex flex-wrap gap-3 mt-6">
-
-                  {[
-                    "Carbohydrates",
-                    "Proteins",
-                    "Fats",
-                    "Micronutrients",
-                  ].map((item, index) => (
-                    <span
-                      key={index}
-                      className="rounded-full bg-tone-mint px-4 py-2 text-sm font-semibold text-kid-deep"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
+            {result !== null && (
+              <div
+                role="status"
+                className="kid-card tone-white mt-8 p-6 text-xl font-bold text-slate-900"
+              >
+                Total Daily Calories Needed:{" "}
+                <span className="whitespace-nowrap">{result} kcal/day</span>
               </div>
             )}
           </div>
@@ -218,94 +192,65 @@ const AssessmentForNutritional = () => {
           {/* RIGHT CARD */}
           <div className="kid-card tone-aqua p-6 md:p-8">
 
-            <div className="flex items-center gap-3 mb-6">
+            {/* TABS */}
+            <div
+              role="tablist"
+              aria-label="Nutrition tools"
+              onKeyDown={handleTabKeyDown}
+              className="mb-6 grid grid-cols-2 gap-2 rounded-full bg-white/70 p-1.5"
+            >
+              {TABS.map((item) => {
+                const { id, label, Icon } = item;
+                const selected = id === tab;
 
-              <div className="kid-chip h-12 w-12 text-kid-deep">
-                <Utensils size={24} />
-              </div>
-
-              <h3 className="text-2xl font-semibold text-kid-ink">
-                Daily Nutritional Guide
-              </h3>
+                return (
+                  <button
+                    key={id}
+                    ref={(node) => {
+                      tabRefs.current[id] = node;
+                    }}
+                    id={`nutrition-tab-${id}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={selected}
+                    aria-controls={`nutrition-panel-${id}`}
+                    tabIndex={selected ? 0 : -1}
+                    onClick={() => setTab(id)}
+                    className={`flex min-h-12 items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-semibold leading-tight transition-colors sm:text-base ${
+                      selected
+                        ? "bg-kid-deep text-white shadow-sm"
+                        : "text-kid-deep hover:bg-white"
+                    }`}
+                  >
+                    <Icon size={20} aria-hidden="true" className="shrink-0" />
+                    {label}
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Phones, and the two-column layout of tablets in landscape and small laptops (up to 1400px):
-                one small card per food, because five columns do not fit that narrow a card */}
-            <ul className="space-y-3 md:max-lg:hidden min-[1400px]:hidden">
-              {guideRows.map((item) => (
-                <li key={item.type} className="rounded-2xl bg-white p-4">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <p className="font-semibold text-kid-ink">{item.type}</p>
-                    <p className="shrink-0 text-sm font-semibold text-kid-deep">{item.percent} of the day</p>
-                  </div>
+            {/* Both panels stay mounted so the foods added and the groups opened are kept when switching */}
+            <div
+              role="tabpanel"
+              id="nutrition-panel-calculator"
+              aria-labelledby="nutrition-tab-calculator"
+              hidden={tab !== "calculator"}
+            >
+              <FoodCalorieCalculator neededKcal={result} />
+            </div>
 
-                  <p className="mt-1 text-sm text-slate-600">
-                    {item.food} · {item.portion} · {item.kcal}
-                  </p>
-                </li>
-              ))}
-            </ul>
-
-            <div className="hidden overflow-x-auto rounded-2xl md:max-lg:block min-[1400px]:block">
-
-              <table className="w-full overflow-hidden rounded-2xl">
-
-                <thead className="bg-kid-deep text-white">
-
-                  <tr>
-                    <th className="px-4 py-4 text-left text-sm font-semibold">
-                      Micronutrient Type
-                    </th>
-
-                    <th className="px-4 py-4 text-left text-sm font-semibold">
-                      Food Item
-                    </th>
-
-                    <th className="px-4 py-4 text-left text-sm font-semibold">
-                      Portion
-                    </th>
-
-                    <th className="px-4 py-4 text-left text-sm font-semibold">
-                      Approx kcal
-                    </th>
-
-                    <th className="px-4 py-4 text-left text-sm font-semibold">
-                      Ideal Daily %
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="bg-white">
-
-                  {guideRows.map((item, index) => (
-                    <tr
-                      key={index}
-                      className="border-b border-slate-200 hover:bg-slate-50 transition"
-                    >
-                      <td className="px-4 py-4 text-sm text-slate-700 font-medium">
-                        {item.type}
-                      </td>
-
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {item.food}
-                      </td>
-
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {item.portion}
-                      </td>
-
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {item.kcal}
-                      </td>
-
-                      <td className="px-4 py-4 text-sm font-semibold text-kid-deep">
-                        {item.percent}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-
-              </table>
+            <div
+              role="tabpanel"
+              id="nutrition-panel-guide"
+              aria-labelledby="nutrition-tab-guide"
+              hidden={tab !== "guide"}
+            >
+              <NutritionGuide
+                bandId={guideBand}
+                months={pickedBand ? null : monthsChosen}
+                underSix={pickedBand === null && monthsChosen !== null && monthsChosen < 6}
+                onBandChange={setPickedBand}
+              />
             </div>
           </div>
         </div>
