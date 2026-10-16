@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { Search, X } from "lucide-react";
 import { supabase } from "../services/supabaseClient";
 import { PasswordInput } from "../components/PasswordToggle";
 import {
@@ -35,6 +36,7 @@ export default function Admin() {
   const [staff, setStaff] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [ownerFilter, setOwnerFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [formRole, setFormRole] = useState(ROLES.USER);
@@ -105,7 +107,7 @@ export default function Admin() {
   const countUsersOf = (adminId) =>
     users.filter((user) => user.created_by === adminId).length;
 
-  const visibleUsers =
+  const ownedUsers =
     superAdmin && ownerFilter !== "all"
       ? users.filter((user) =>
           ownerFilter === "none"
@@ -113,6 +115,27 @@ export default function Admin() {
             : String(user.created_by) === ownerFilter
         )
       : users;
+
+  // The search looks at what the list shows (ID, username and, for the Super Admin, the
+  // admin who owns the user). Every word typed has to match, in any order and any case.
+  const searchTerms = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
+
+  const visibleUsers = searchTerms.length
+    ? ownedUsers.filter((user) => {
+        const haystack = [user.id, user.username, superAdmin ? ownerName(user.created_by) : ""]
+          .join(" ")
+          .toLowerCase();
+
+        return searchTerms.every((term) => haystack.includes(term));
+      })
+    : ownedUsers;
+
+  // "View Users" on an admin starts from that admin's full list, not a leftover search.
+  const showUsersOf = (adminId) => {
+    setOwnerFilter(String(adminId));
+    setSearch("");
+    setView("users");
+  };
 
   const setField = (key) => (event) =>
     setForm((prev) => ({ ...prev, [key]: event.target.value }));
@@ -386,10 +409,7 @@ export default function Admin() {
 
                         <div className="grid grid-cols-3 gap-2">
                           <button
-                            onClick={() => {
-                              setOwnerFilter(String(admin.id));
-                              setView("users");
-                            }}
+                            onClick={() => showUsersOf(admin.id)}
                             className="rounded-lg bg-gray-600 px-2 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-700"
                           >
                             View Users
@@ -461,10 +481,7 @@ export default function Admin() {
                             <div className="flex flex-wrap gap-2">
 
                               <button
-                                onClick={() => {
-                                  setOwnerFilter(String(admin.id));
-                                  setView("users");
-                                }}
+                                onClick={() => showUsersOf(admin.id)}
                                 className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700 transition-colors text-xs font-medium"
                               >
                                 View Users
@@ -501,7 +518,7 @@ export default function Admin() {
           {view === "users" && (
             <div className="bg-white rounded-xl shadow overflow-hidden">
 
-              <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
 
                 <div>
                   <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
@@ -515,30 +532,93 @@ export default function Admin() {
                   </p>
                 </div>
 
-                {superAdmin && (
-                  <select
-                    value={ownerFilter}
-                    onChange={(event) => setOwnerFilter(event.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-sm w-full sm:w-auto"
-                  >
-                    <option value="all">All admins</option>
+                <div className="flex flex-col sm:flex-row gap-3">
 
-                    {admins.map((admin) => (
-                      <option key={admin.id} value={String(admin.id)}>
-                        {admin.username}
-                      </option>
-                    ))}
+                  <div role="search" className="relative w-full sm:w-72">
+                    <Search
+                      size={18}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
 
-                    <option value="none">Super Admin (legacy)</option>
-                  </select>
-                )}
+                    <input
+                      type="text"
+                      value={search}
+                      onChange={(event) => setSearch(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Escape") setSearch("");
+                      }}
+                      placeholder={superAdmin ? "Search by username, ID or admin" : "Search by username or ID"}
+                      aria-label="Search users"
+                      autoComplete="off"
+                      className="w-full py-2 pl-10 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+
+                    {search && (
+                      <button
+                        type="button"
+                        onClick={() => setSearch("")}
+                        aria-label="Clear search"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                      >
+                        <X size={16} aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
+
+                  {superAdmin && (
+                    <select
+                      value={ownerFilter}
+                      onChange={(event) => setOwnerFilter(event.target.value)}
+                      className="px-4 py-2 border border-gray-300 rounded-lg text-sm w-full sm:w-auto"
+                    >
+                      <option value="all">All admins</option>
+
+                      {admins.map((admin) => (
+                        <option key={admin.id} value={String(admin.id)}>
+                          {admin.username}
+                        </option>
+                      ))}
+
+                      <option value="none">Super Admin (legacy)</option>
+                    </select>
+                  )}
+
+                </div>
 
               </div>
+
+              {!loadingList && users.length > 0 && (
+                <p
+                  role="status"
+                  className="px-4 sm:px-6 py-2 text-xs text-gray-500 border-b border-gray-100"
+                >
+                  {visibleUsers.length === users.length
+                    ? `${users.length} ${users.length === 1 ? "user" : "users"}`
+                    : `Showing ${visibleUsers.length} of ${users.length} users`}
+                </p>
+              )}
 
               {loadingList ? (
                 <div className="p-6 text-center text-gray-500">Loading users...</div>
               ) : visibleUsers.length === 0 ? (
-                <div className="p-6 text-center text-gray-500">No users found</div>
+                <div className="p-6 text-center text-gray-500">
+                  {searchTerms.length ? (
+                    <>
+                      <p>No users match “{search.trim()}”</p>
+
+                      <button
+                        type="button"
+                        onClick={() => setSearch("")}
+                        className="mt-3 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
+                      >
+                        Clear search
+                      </button>
+                    </>
+                  ) : (
+                    "No users found"
+                  )}
+                </div>
               ) : (
                 <>
                   {/* Phones: one card per user, so Edit and Delete are never off the right-hand edge */}
