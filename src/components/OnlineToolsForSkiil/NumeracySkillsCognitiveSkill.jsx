@@ -21,7 +21,7 @@ const classes = [
     id: "lkg",
     name: "LKG",
     emoji: "📚",
-    desc: "Numbers 1 to 20",
+    desc: "Numbers 1 to 50",
     color: "green",
     objectEmoji: null,
   },
@@ -29,7 +29,7 @@ const classes = [
     id: "ukg",
     name: "UKG",
     emoji: "🎓",
-    desc: "Numbers up to 100",
+    desc: "Numbers up to 200",
     color: "blue",
     objectEmoji: null,
   },
@@ -181,7 +181,7 @@ const seriesBank = {
     { series: [4, 5, 6, 7], blank: 2, wrong: [8, 4] },
     { series: [6, 7, 8, 9], blank: 1, wrong: [5, 9] },
     { series: [1, 2, 3, 4, 5], blank: 3, wrong: [6, 2] },
-    { series: [7, 8, 9, 10], blank: 3, wrong: [11, 8] },
+    { series: [7, 8, 9, 10], blank: 3, wrong: [6, 8] },
     { series: [2, 3, 4, 5], blank: 0, wrong: [1, 6] },
     { series: [5, 6, 7, 8], blank: 2, wrong: [9, 5] },
   ],
@@ -679,8 +679,7 @@ const seriesRules = {
   ukg: { max: 100, steps: [1, 2, 5, 10], lengths: [4, 5] },
 };
 
-const makeSeriesItem = (classId) => {
-  const rule = seriesRules[classId];
+const makeSeriesFromRule = (rule, clamp = false) => {
   const step = pick(rule.steps);
 
   // A stepped series starts on a multiple of its step, so it reads 5, 10, 15, 20
@@ -705,11 +704,22 @@ const makeSeriesItem = (classId) => {
   // numbers either side. A couple always survive, so there are never too few options.
   const nearMisses = [answer + step, answer - step, answer + 1, answer - 1, answer + 2 * step];
   const wrong = shuffle([
-    ...new Set(nearMisses.filter((num) => num > 0 && num !== answer)),
+    ...new Set(
+      nearMisses.filter((num) => num > 0 && num !== answer && (!clamp || num <= rule.max)),
+    ),
   ]).slice(0, 2);
+
+  // Near a tight range's edge a neighbour can fall outside it, so top up from inside it.
+  while (clamp && wrong.length < 2) {
+    const num = randomInt(1, rule.max);
+
+    if (num !== answer && !wrong.includes(num)) wrong.push(num);
+  }
 
   return { series, blank, wrong };
 };
+
+const makeSeriesItem = (classId) => makeSeriesFromRule(seriesRules[classId], true);
 
 // 3. COUNT & IDENTIFY THE NUMBER
 const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
@@ -910,6 +920,505 @@ const questionMakers = {
   bigOrSmall: makeBigOrSmallItem,
 };
 
+/* ---------------------- GAMES THAT BELONG TO ONE CLASS --------------------- */
+/* Nursery, LKG and UKG each have their own list of games (PG keeps the six above).
+   A game either reuses one of the modes above with that class's questions (`base`),
+   or builds its finished questions itself (`make`).                                 */
+
+// The right number plus two wrong ones a child could really reach for: a neighbour, the
+// same digits the other way round, or the number ten away.
+const numberChoices = (answer, min, max) => {
+  const reversed = answer >= 10 ? Number(String(answer).split("").reverse().join("")) : null;
+  const pool = [
+    reversed,
+    answer + 1,
+    answer - 1,
+    answer + 2,
+    answer - 2,
+    answer + 10,
+    answer - 10,
+  ].filter((num) => num !== null && num >= min && num <= max && num !== answer);
+  const wrong = shuffle([...new Set(pool)]).slice(0, 2);
+
+  while (wrong.length < 2) {
+    const num = randomInt(min, max);
+
+    if (num !== answer && !wrong.includes(num)) wrong.push(num);
+  }
+
+  return shuffle([answer, ...wrong]);
+};
+
+const numberOptions = (values, small = false) =>
+  values.map((value) => ({
+    key: String(value),
+    main: String(value),
+    small,
+  }));
+
+// Number name -> number: "Thirty Four" -> 34.
+const makeIdentifyNumbers = ({ min, max, prompt, speech }) => () => {
+  const number = randomInt(min, max);
+  const words = numberToWords(number);
+
+  return {
+    prompt,
+    visual: { kind: "words", text: words },
+    options: numberOptions(numberChoices(number, min, max)),
+    columns: 3,
+    answer: String(number),
+    explanation: `${words} is written as ${number}`,
+    speech: `${speech} ${words}`,
+  };
+};
+
+// Number -> number name: 47 -> "Forty Seven".
+const makeNumberNames = ({ min, max }) => () => {
+  const number = randomInt(min, max);
+
+  return {
+    prompt: "What is the name of this number?",
+    visual: { kind: "words", text: String(number) },
+    options: numberChoices(number, min, max).map((value) => ({
+      key: String(value),
+      main: numberToWords(value),
+      small: true,
+    })),
+    columns: 3,
+    answer: String(number),
+    explanation: `${number} is written as ${numberToWords(number)}`,
+    speech: `What is the name of the number ${number}?`,
+  };
+};
+
+// Count one kind of shape among a mix of three.
+const shapeKinds = [
+  { emoji: "🔴", name: "circle" },
+  { emoji: "🟦", name: "square" },
+  { emoji: "🔺", name: "triangle" },
+  { emoji: "⭐", name: "star" },
+];
+
+const makeCountShapes = () => {
+  const kinds = shuffle(shapeKinds).slice(0, 3);
+  const counts = kinds.map(() => randomInt(1, 5));
+  const target = randomInt(0, kinds.length - 1);
+  const shapes = shuffle(kinds.flatMap((kind, index) => Array(counts[index]).fill(kind.emoji)));
+  const answer = counts[target];
+  const prompt = `How many ${kinds[target].name}s do you see?`;
+
+  return {
+    prompt,
+    visual: { kind: "shapes", shapes },
+    options: numberOptions(numberChoices(answer, 1, 10)),
+    columns: 3,
+    answer: String(answer),
+    explanation: `There are ${answer} ${kinds[target].emoji} ${kinds[target].name}s`,
+    speech: prompt,
+  };
+};
+
+// Tap each object to count it, then click the number.
+const makeTapCount = ({ min, max }) => () => {
+  const count = randomInt(min, max);
+  const emoji = pick(countingEmojis);
+
+  return {
+    prompt: "Tap each object to count it, then click the number",
+    visual: { kind: "tapObjects", emoji, count },
+    options: numberOptions(numberChoices(count, 1, max)),
+    columns: 3,
+    answer: String(count),
+    explanation: `There are ${count} ${emoji}`,
+    speech: "How many do you see? Tap each object to count it.",
+  };
+};
+
+// A series with one number missing, counting up.
+const makeSeriesGame = (rule) => () => buildQuestion("series", makeSeriesFromRule(rule, true), null);
+
+// Counting down, with one number missing: 12, 11, ?, 9.
+const makeBackward = ({ max, steps, lengths }) => () => {
+  const step = pick(steps);
+  const fits = lengths.filter((len) => (step === 1 ? len <= max : Math.floor(max / step) >= len));
+  const length = pick(fits.length ? fits : [lengths[0]]);
+
+  // A stepped countdown starts on a multiple of its step, so it reads 50, 40, 30, 20.
+  const top =
+    step === 1 ? randomInt(length, max) : step * randomInt(length, Math.floor(max / step));
+  const series = Array.from({ length }, (_, i) => top - i * step);
+  const blank = randomInt(0, length - 1);
+  const answer = series[blank];
+
+  const pool = [answer - step, answer + step, answer - 1, answer + 1].filter(
+    (num) => num >= 1 && num <= max && num !== answer,
+  );
+  const wrong = shuffle([...new Set(pool)]).slice(0, 2);
+
+  while (wrong.length < 2) {
+    const num = randomInt(1, max);
+
+    if (num !== answer && !wrong.includes(num)) wrong.push(num);
+  }
+
+  return {
+    prompt: "Count backward. Which number is missing?",
+    visual: {
+      kind: "series",
+      parts: series.map((num, i) => (i === blank ? "?" : String(num))),
+    },
+    options: numberOptions(shuffle([answer, ...wrong])),
+    columns: 3,
+    answer: String(answer),
+    explanation: `Counting backward: ${series.join(", ")}`,
+    speech: `Count backward. Which number is missing in ${series
+      .map((num, i) => (i === blank ? "blank" : num))
+      .join(", ")}`,
+  };
+};
+
+// A series with two blanks, answered with the pair of missing numbers in order.
+const makeTwoBlanks = ({ max, steps, lengths }) => () => {
+  const step = pick(steps);
+  const minStart = step === 1 ? 1 : step;
+  const fits = lengths.filter((len) => minStart + step * (len - 1) <= max);
+  const length = pick(fits.length ? fits : [lengths[0]]);
+  const maxStart = max - step * (length - 1);
+  const start =
+    step === 1
+      ? randomInt(minStart, maxStart)
+      : step * randomInt(1, Math.floor(maxStart / step));
+  const series = Array.from({ length }, (_, i) => start + i * step);
+
+  // Never two blanks side by side, so each one can be worked out from its neighbours.
+  let first;
+  let second;
+
+  do {
+    first = randomInt(0, length - 1);
+    second = randomInt(0, length - 1);
+  } while (second - first < 2);
+
+  const a = series[first];
+  const b = series[second];
+  const answer = `${a}, ${b}`;
+
+  const pool = [
+    [a + step, b],
+    [a, b + step],
+    [a - step, b],
+    [a, b - step],
+    [b, a],
+    [a + 1, b + 1],
+  ]
+    .filter(([x, y]) => x >= 1 && y >= 1 && x <= max && y <= max)
+    .map(([x, y]) => `${x}, ${y}`)
+    .filter((pair) => pair !== answer);
+  const wrong = shuffle([...new Set(pool)]).slice(0, 2);
+
+  while (wrong.length < 2) {
+    const pair = `${randomInt(1, max)}, ${randomInt(1, max)}`;
+
+    if (pair !== answer && !wrong.includes(pair)) wrong.push(pair);
+  }
+
+  return {
+    prompt: "Fill in the two blanks",
+    visual: {
+      kind: "series",
+      parts: series.map((num, i) => (i === first || i === second ? "?" : String(num))),
+    },
+    options: shuffle([answer, ...wrong]).map((value) => ({ key: value, main: value, small: true })),
+    columns: 3,
+    answer,
+    explanation: `The series is ${series.join(", ")}`,
+    speech: `Fill in the two blanks in ${series
+      .map((num, i) => (i === first || i === second ? "blank" : num))
+      .join(", ")}`,
+  };
+};
+
+// What comes after, before or between.
+const makeBeforeAfterBetween = ({ max }) => () => {
+  const type = pick(["after", "before", "between"]);
+  let answer;
+  let parts;
+  let prompt;
+  let explanation;
+
+  if (type === "after") {
+    const number = randomInt(1, max - 1);
+
+    answer = number + 1;
+    parts = [String(number), "?"];
+    prompt = `What comes after ${number}?`;
+    explanation = `${answer} comes right after ${number}`;
+  } else if (type === "before") {
+    const number = randomInt(2, max);
+
+    answer = number - 1;
+    parts = ["?", String(number)];
+    prompt = `What comes before ${number}?`;
+    explanation = `${answer} comes right before ${number}`;
+  } else {
+    const low = randomInt(1, max - 2);
+
+    answer = low + 1;
+    parts = [String(low), "?", String(low + 2)];
+    prompt = `What comes between ${low} and ${low + 2}?`;
+    explanation = `${answer} comes between ${low} and ${low + 2}`;
+  }
+
+  return {
+    prompt,
+    visual: { kind: "series", parts },
+    options: numberOptions(numberChoices(answer, 1, max)),
+    columns: 3,
+    answer: String(answer),
+    explanation,
+    speech: prompt,
+  };
+};
+
+// Two numbers: which is greater, or which is smaller?
+const makeGreaterOrSmaller = ({ min, max }) => () => {
+  const left = randomInt(min, max);
+  let right = randomInt(min, max);
+
+  while (right === left) right = randomInt(min, max);
+
+  const wantsGreater = coinFlip();
+  const leftWins = wantsGreater ? left > right : left < right;
+  const winner = leftWins ? left : right;
+  const other = leftWins ? right : left;
+  const prompt = wantsGreater ? "Which number is greater?" : "Which number is smaller?";
+
+  return {
+    prompt,
+    visual: null,
+    options: [
+      { key: "left", main: String(left), small: false },
+      { key: "right", main: String(right), small: false },
+    ],
+    columns: 2,
+    answer: leftWins ? "left" : "right",
+    explanation: `${winner} is ${wantsGreater ? "greater" : "smaller"} than ${other}`,
+    speech: prompt,
+  };
+};
+
+// Addition and subtraction inside 20.
+const makeSum = (isAddition) => () => {
+  let first;
+  let second;
+  let answer;
+
+  if (isAddition) {
+    first = randomInt(1, 10);
+    second = randomInt(1, Math.min(10, 20 - first));
+    answer = first + second;
+  } else {
+    first = randomInt(2, 20);
+    second = randomInt(1, first - 1);
+    answer = first - second;
+  }
+
+  const sign = isAddition ? "+" : "−";
+
+  return {
+    prompt: isAddition ? "Add the numbers" : "Subtract the numbers",
+    visual: { kind: "equation", parts: [String(first), sign, String(second), "=", "?"] },
+    options: numberOptions(numberChoices(answer, 0, 20)),
+    columns: 3,
+    answer: String(answer),
+    explanation: `${first} ${sign} ${second} = ${answer}`,
+    speech: isAddition
+      ? `What is ${first} plus ${second}?`
+      : `What is ${first} minus ${second}?`,
+  };
+};
+
+// The games each class shows, in this order.
+const classGames = {
+  nursery: [
+    {
+      id: "nursery-identify",
+      name: "Identify the Numbers",
+      emoji: "🔢",
+      desc: "Listen to the number name, then click the number.",
+      make: makeIdentifyNumbers({
+        min: 1,
+        max: 10,
+        prompt: "Listen and click the number",
+        speech: "Click the number",
+      }),
+    },
+    {
+      id: "nursery-shapes",
+      name: "Count the Shapes",
+      emoji: "🔺",
+      desc: "Count one kind of shape in the picture.",
+      make: makeCountShapes,
+    },
+    {
+      id: "nursery-missing",
+      name: "Fill in the Missing Number",
+      emoji: "🔗",
+      desc: "Find the missing number, from 1 to 10.",
+      base: "series",
+    },
+    {
+      id: "nursery-count",
+      name: "Count and Click the Objects",
+      emoji: "👆",
+      desc: "Tap each object to count it, then click the number.",
+      make: makeTapCount({ min: 1, max: 10 }),
+    },
+    {
+      id: "nursery-moreless",
+      name: "More or Less",
+      emoji: "🧮",
+      desc: "Pick the side that has more or less.",
+      base: "moreOrLess",
+    },
+  ],
+
+  lkg: [
+    {
+      id: "lkg-match",
+      name: "Match the Numbers (1–50)",
+      emoji: "🔗",
+      desc: "Match each number name with its number.",
+      make: makeIdentifyNumbers({
+        min: 1,
+        max: 50,
+        prompt: "Match the number name with its number",
+        speech: "Match the number",
+      }),
+    },
+    {
+      id: "lkg-sequence",
+      name: "Fill the Sequence (1–50)",
+      emoji: "🪜",
+      desc: "Complete the counting pattern, counting by 1s, 2s, 5s and 10s.",
+      make: makeSeriesGame({ max: 50, steps: [1, 2, 5, 10], lengths: [4, 5] }),
+    },
+    {
+      id: "lkg-count",
+      name: "Count & Click (1–20)",
+      emoji: "👆",
+      desc: "Tap each object to count it, then click the number.",
+      make: makeTapCount({ min: 1, max: 20 }),
+    },
+    {
+      id: "lkg-backward",
+      name: "Backward Numbers (1–30)",
+      emoji: "⏪",
+      desc: "Count backward and find the missing number.",
+      make: makeBackward({ max: 30, steps: [1], lengths: [4, 5] }),
+    },
+    {
+      id: "lkg-missing",
+      name: "Missing Numbers (1–30)",
+      emoji: "❓",
+      desc: "Find the number that is missing from the row.",
+      make: makeSeriesGame({ max: 30, steps: [1], lengths: [4, 5] }),
+    },
+    {
+      id: "lkg-greater",
+      name: "Which Number Is Greater or Smaller? (1–30)",
+      emoji: "⚖️",
+      desc: "Pick the greater or the smaller number.",
+      make: makeGreaterOrSmaller({ min: 1, max: 30 }),
+    },
+  ],
+
+  ukg: [
+    {
+      id: "ukg-missing",
+      name: "Missing Numbers (1–200)",
+      emoji: "❓",
+      desc: "Find the number that is missing from the row.",
+      make: makeSeriesGame({ max: 200, steps: [1], lengths: [4, 5] }),
+    },
+    {
+      id: "ukg-names",
+      name: "Number Names (1–100)",
+      emoji: "🔤",
+      desc: "Choose the right name for the number.",
+      make: makeNumberNames({ min: 1, max: 100 }),
+    },
+    {
+      id: "ukg-backward",
+      name: "Backward Numbers",
+      emoji: "⏪",
+      desc: "Count backward, up to 100, and find the missing number.",
+      make: makeBackward({ max: 100, steps: [1, 2, 5, 10], lengths: [4, 5] }),
+    },
+    {
+      id: "ukg-blanks",
+      name: "Fill in the Blanks (1–50)",
+      emoji: "✍️",
+      desc: "Two numbers are missing. Choose both.",
+      make: makeTwoBlanks({ max: 50, steps: [1, 2, 5, 10], lengths: [5, 6] }),
+    },
+    {
+      id: "ukg-compare",
+      name: "Greater Than, Less Than, or Equal To (1–100)",
+      emoji: "⚖️",
+      desc: "Compare two numbers and choose =, > or <.",
+      base: "compare",
+    },
+    {
+      id: "ukg-between",
+      name: "Before, After, and Between",
+      emoji: "↔️",
+      desc: "Which number comes before, after or between?",
+      make: makeBeforeAfterBetween({ max: 100 }),
+    },
+    {
+      id: "ukg-addition",
+      name: "Addition",
+      emoji: "➕",
+      desc: "Add two numbers. The answer is never more than 20.",
+      make: makeSum(true),
+    },
+    {
+      id: "ukg-subtraction",
+      name: "Subtraction",
+      emoji: "➖",
+      desc: "Take one number away from another, up to 20.",
+      make: makeSum(false),
+    },
+  ],
+};
+
+// PG keeps the six modes it always had.
+const gamesFor = (classId) => classGames[classId] ?? modes;
+const findGame = (id) =>
+  modes.find((mode) => mode.id === id) ??
+  Object.values(classGames)
+    .flat()
+    .find((game) => game.id === id);
+
+// A round opens with a handful of different questions, not the same one twice.
+const makeFreshQuestions = (make, count) => {
+  const seen = new Set();
+  const questions = [];
+
+  for (let tries = 0; questions.length < count && tries < count * 20; tries += 1) {
+    const question = make();
+    const key = JSON.stringify([question.prompt, question.visual]);
+
+    if (!seen.has(key)) {
+      seen.add(key);
+      questions.push(question);
+    }
+  }
+
+  return questions;
+};
+
 // Earn a star every time this many questions have been tried.
 const starEvery = 10;
 
@@ -1035,6 +1544,68 @@ const buildQuestion = (modeId, item, classInfo) => {
   };
 };
 
+// The objects of Count & Click: tap each one to count it, and a number marks the order.
+const TapObjects = ({ emoji, count }) => {
+  const [order, setOrder] = useState([]);
+
+  const tap = (index) =>
+    setOrder((previous) => (previous.includes(index) ? previous : [...previous, index]));
+
+  return (
+    <div className="mt-6">
+      <div
+        role="group"
+        aria-label={`${count} objects to count`}
+        className="flex flex-wrap items-center justify-center gap-2"
+      >
+        {Array.from({ length: count }, (_, index) => {
+          const counted = order.indexOf(index);
+
+          return (
+            <button
+              key={index}
+              type="button"
+              onClick={() => tap(index)}
+              aria-label={
+                counted >= 0
+                  ? `Object ${index + 1}, counted as ${counted + 1}`
+                  : `Object ${index + 1}, tap to count`
+              }
+              className={`relative h-14 w-14 rounded-2xl text-3xl transition ${
+                counted >= 0
+                  ? "bg-teal-100 ring-4 ring-teal-400"
+                  : "bg-white ring-2 ring-teal-200 hover:scale-105"
+              }`}
+            >
+              {emoji}
+
+              {counted >= 0 && (
+                <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-orange-500 text-xs font-bold text-white">
+                  {counted + 1}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <p className="mt-3 text-sm text-gray-500" aria-live="polite">
+        {order.length ? `You counted ${order.length}` : "Tap an object to start counting"}
+      </p>
+
+      {order.length > 0 && (
+        <button
+          type="button"
+          onClick={() => setOrder([])}
+          className="mt-1 px-2 py-2 text-sm font-semibold text-teal-700 underline"
+        >
+          Start again
+        </button>
+      )}
+    </div>
+  );
+};
+
 const NumeracySkillsCognitiveSkill = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
@@ -1051,18 +1622,29 @@ const NumeracySkillsCognitiveSkill = () => {
   // Big or Small is the one mode that picks its questions by category as well as class.
   const startGame = (modeId, categoryId = null) => {
     const classInfo = classes.find((cls) => cls.id === selectedClass);
-    const items =
-      modeId === "bigOrSmall"
-        ? bigOrSmallBank[categoryId][selectedClass]
-        : banks[modeId][selectedClass];
+    const game = findGame(modeId);
 
-    // A round opens with the hand-written questions in a fresh order, then carries
-    // on with generated ones for as long as the child keeps playing.
-    const seed = shuffle(items);
+    // A game either reuses one of the shared modes (with this class's questions) or
+    // builds its own.
+    const base = game.base ?? game.id;
+    let opening;
+
+    if (game.make) {
+      opening = makeFreshQuestions(game.make, 8);
+    } else {
+      const items =
+        base === "bigOrSmall"
+          ? bigOrSmallBank[categoryId][selectedClass]
+          : banks[base][selectedClass];
+
+      // A round opens with the hand-written questions in a fresh order, then carries
+      // on with generated ones for as long as the child keeps playing.
+      opening = shuffle(items).map((item) => buildQuestion(base, item, classInfo));
+    }
 
     setSelectedMode(modeId);
     setSelectedCategory(categoryId);
-    setQuestions(seed.map((item) => buildQuestion(modeId, item, classInfo)));
+    setQuestions(opening);
     setCurrent(0);
     setScore(0);
     setSelected(null);
@@ -1094,15 +1676,18 @@ const NumeracySkillsCognitiveSkill = () => {
     // decides when to stop rather than the length of the bank.
     if (current + 1 >= questions.length) {
       const classInfo = classes.find((cls) => cls.id === selectedClass);
-      const makeItem = questionMakers[selectedMode];
+      const game = findGame(selectedMode);
+      const base = game.base ?? game.id;
 
       setQuestions((prev) => [
         ...prev,
-        buildQuestion(
-          selectedMode,
-          makeItem(selectedClass, selectedCategory),
-          classInfo,
-        ),
+        game.make
+          ? game.make()
+          : buildQuestion(
+              base,
+              questionMakers[base](selectedClass, selectedCategory),
+              classInfo,
+            ),
       ]);
     }
 
@@ -1180,7 +1765,7 @@ const NumeracySkillsCognitiveSkill = () => {
         <p className="text-kid-soft font-medium mb-8 text-center">Which game do you want to play?</p>
 
         <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-          {modes.map((mode) => (
+          {gamesFor(selectedClass).map((mode) => (
             <div key={mode.id} className="kid-card kid-card-hover p-6 text-center">
               <div className="kid-chip mx-auto h-24 w-24 text-5xl">{mode.emoji}</div>
               <h2 className="text-xl font-bold mt-4 text-kid-ink">{mode.name}</h2>
@@ -1250,7 +1835,7 @@ const NumeracySkillsCognitiveSkill = () => {
     );
   }
 
-  const modeInfo = modes.find((mode) => mode.id === selectedMode);
+  const modeInfo = findGame(selectedMode);
   const categoryInfo = bigOrSmallCategories.find((cat) => cat.id === selectedCategory);
   // A question counts as tried the moment an option is picked, so the totals stay
   // correct for a child who walks away mid-round.
@@ -1399,6 +1984,47 @@ const NumeracySkillsCognitiveSkill = () => {
                       : "bg-teal-100 text-teal-700"
                   }`}
                 >
+                  {part === "?"
+                    ? (selected &&
+                        selected.split(", ")[
+                          visual.parts.slice(0, index).filter((item) => item === "?").length
+                        ]) ||
+                      "?"
+                    : part}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {visual && visual.kind === "shapes" && (
+            <div
+              role="img"
+              aria-label="Shapes to count"
+              className="flex flex-wrap items-center justify-center gap-3 text-4xl mt-6"
+            >
+              {visual.shapes.map((shape, index) => (
+                <span key={index}>{shape}</span>
+              ))}
+            </div>
+          )}
+
+          {visual && visual.kind === "tapObjects" && (
+            <TapObjects key={current} emoji={visual.emoji} count={visual.count} />
+          )}
+
+          {visual && visual.kind === "equation" && (
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+              {visual.parts.map((part, index) => (
+                <div
+                  key={index}
+                  className={
+                    part === "?"
+                      ? "w-16 h-16 flex items-center justify-center rounded-2xl border-4 border-dashed border-orange-400 bg-white text-3xl font-bold text-orange-500"
+                      : /^\d+$/.test(part)
+                        ? "w-16 h-16 flex items-center justify-center rounded-2xl bg-teal-100 text-3xl font-bold text-teal-700"
+                        : "text-4xl font-bold text-teal-600"
+                  }
+                >
                   {part === "?" ? selected || "?" : part}
                 </div>
               ))}
@@ -1441,7 +2067,15 @@ const NumeracySkillsCognitiveSkill = () => {
                     : "bg-white text-green-800 ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
                 }`}
               >
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold wrap-break-word">{option.main}</div>
+                <div
+                  className={`font-bold wrap-break-word ${
+                    option.small
+                      ? "text-lg sm:text-xl md:text-2xl"
+                      : "text-2xl sm:text-3xl md:text-4xl"
+                  }`}
+                >
+                  {option.main}
+                </div>
                 {option.sub && <div className="text-xs mt-1">{option.sub}</div>}
               </button>
             ))}
