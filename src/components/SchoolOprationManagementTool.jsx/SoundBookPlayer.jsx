@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Star } from "../KidsArt";
 import useSoundSpeaker from "./useSoundSpeaker";
@@ -7,6 +7,24 @@ import useSoundSpeaker from "./useSoundSpeaker";
 // the number or the name) on the left, and the picture itself on the right. Tapping either
 // card, pressing Listen or turning the page reads the item aloud with the shared voice in
 // useSoundSpeaker.
+//
+// A book has no last page: Next on the final page goes back to the first. "Keep playing"
+// goes round it on its own, reading a page, leaving a moment for the child to say it back,
+// then turning the page, for as long as the child wants, until they press Stop.
+
+// Some pages have other versions (the letter A also has "A for Ant"). Each time round the
+// book shows the next version, so the same pages keep feeling new.
+const pageFor = (item, lap) => {
+  const versions = [item, ...(item.variants ?? [])];
+
+  return { ...item, ...versions[lap % versions.length] };
+};
+
+// How long to leave after a page has been read before the next one starts.
+const KEEP_PLAYING_PAUSE_MS = 2000;
+
+// If the browser never says a sound has finished, turn the page anyway after this long.
+const KEEP_PLAYING_STUCK_MS = 12000;
 
 // Tailwind only keeps class names it can see in full, so each colour is written out here
 // rather than built up from pieces. Both cards move on one step with every page, so
@@ -47,18 +65,22 @@ const countSize = (count) => {
   if (count === 3) return "text-[4.5rem]";
   if (count <= 6) return "text-[3.75rem]";
   if (count <= 8) return "text-[3.25rem]";
-  return "text-[2.75rem]";
+  if (count <= 10) return "text-[2.75rem]";
+  if (count <= 15) return "text-[2.25rem]";
+  return "text-[1.9rem]";
 };
 
 export default function SoundBookPlayer({ book }) {
-  const { speak, speaking, supported } = useSoundSpeaker();
+  const { speak, stop, speaking, supported } = useSoundSpeaker();
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(1);
   const [heard, setHeard] = useState([]);
+  const [keepPlaying, setKeepPlaying] = useState(false);
+  const [lap, setLap] = useState(0);
 
   const items = book.items;
   const total = items.length;
-  const current = items[page];
+  const current = pageFor(items[page], lap);
   const isHeard = heard.includes(current.id);
   const allHeard = heard.length === total;
 
@@ -75,9 +97,46 @@ export default function SoundBookPlayer({ book }) {
 
   // Hearing an item counts however it was triggered: a tap on either card, the Listen
   // button, or turning to its page.
-  const play = (item) => {
-    setHeard((prev) => (prev.includes(item.id) ? prev : [...prev, item.id]));
-    speak(item.speech);
+  const play = useCallback(
+    (item) => {
+      setHeard((prev) => (prev.includes(item.id) ? prev : [...prev, item.id]));
+      speak(item.speech);
+    },
+    [speak],
+  );
+
+  // Keep playing: once a page has been read (or the browser has gone quiet for too long) and
+  // the child has had a moment to say it back, turn to the next page and read that. From the
+  // last page it goes round to the first again, and a new round begins.
+  useEffect(() => {
+    if (!keepPlaying) return undefined;
+
+    const timer = setTimeout(
+      () => {
+        const target = (page + 1) % total;
+        const nextLap = target === 0 ? lap + 1 : lap;
+
+        setLap(nextLap);
+        setDirection(1);
+        setPage(target);
+        play(pageFor(items[target], nextLap));
+      },
+      speaking ? KEEP_PLAYING_STUCK_MS : KEEP_PLAYING_PAUSE_MS,
+    );
+
+    return () => clearTimeout(timer);
+  }, [keepPlaying, speaking, page, lap, total, items, play]);
+
+  const toggleKeepPlaying = () => {
+    if (keepPlaying) {
+      // Stopping is immediate: no more words, no more turning.
+      setKeepPlaying(false);
+      stop();
+      return;
+    }
+
+    setKeepPlaying(true);
+    play(current);
   };
 
   // Turning a page is itself the child's tap, so reading the new item straight away keeps
@@ -85,9 +144,13 @@ export default function SoundBookPlayer({ book }) {
   const goToPage = (next, dir) => {
     const target = (next + total) % total;
 
+    // Past the last page starts the next time round; back past the first returns to the one before.
+    const nextLap = next >= total ? lap + 1 : next < 0 ? Math.max(lap - 1, 0) : lap;
+
     setDirection(dir);
     setPage(target);
-    play(items[target]);
+    setLap(nextLap);
+    play(pageFor(items[target], nextLap));
   };
 
   return (
@@ -271,6 +334,24 @@ export default function SoundBookPlayer({ book }) {
           >
             ›
           </motion.button>
+        </div>
+
+        {/* Goes round and round the book until the child stops it */}
+        <div className="mt-4 flex flex-col items-center gap-1.5">
+          <button
+            type="button"
+            onClick={toggleKeepPlaying}
+            aria-pressed={keepPlaying}
+            className={`kid-btn px-7 py-3 text-lg ${keepPlaying ? "kid-btn-soft" : "kid-btn-teal"}`}
+          >
+            {keepPlaying ? "⏹ Stop" : "♾️ Keep playing"}
+          </button>
+
+          {keepPlaying && (
+            <p className="text-center text-sm font-semibold text-kid-soft">
+              🔁 Round {lap + 1}. Reading page after page. Press Stop whenever you like.
+            </p>
+          )}
         </div>
 
         {!supported && (

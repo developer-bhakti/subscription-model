@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { girlVoice, pitchFor } from "../../services/speech";
 
 // The Sound Book's voice, shared by every book so they all sound exactly the same.
@@ -9,6 +9,10 @@ import { girlVoice, pitchFor } from "../../services/speech";
 export default function useSoundSpeaker() {
   const [speaking, setSpeaking] = useState(false);
   const timerRef = useRef(null);
+
+  // Which request is the latest. A browser reports a cancelled sound as ended after the next
+  // one has begun, and that late report must not clear "speaking" for the sound now playing.
+  const runRef = useRef(0);
 
   const supported = typeof window !== "undefined" && "speechSynthesis" in window;
 
@@ -31,9 +35,12 @@ export default function useSoundSpeaker() {
     };
   }, [supported]);
 
-  // `parts` is what to say, one entry per utterance.
-  const speak = (parts) => {
+  // `parts` is what to say, one entry per utterance. Stable between renders, so the player
+  // can depend on it.
+  const speak = useCallback((parts) => {
     if (!supported) return;
+
+    const run = ++runRef.current;
 
     const synth = window.speechSynthesis;
 
@@ -64,20 +71,25 @@ export default function useSoundSpeaker() {
         }
 
         if (index === parts.length - 1) {
-          utterance.onend = () => setSpeaking(false);
-          utterance.onerror = () => setSpeaking(false);
+          const finished = () => {
+            if (runRef.current === run) setSpeaking(false);
+          };
+
+          utterance.onend = finished;
+          utterance.onerror = finished;
         }
 
         synth.speak(utterance);
       });
     }, 80);
-  };
+  }, [supported]);
 
-  const stop = () => {
+  const stop = useCallback(() => {
+    runRef.current += 1;
     if (supported) window.speechSynthesis.cancel();
     if (timerRef.current) clearTimeout(timerRef.current);
     setSpeaking(false);
-  };
+  }, [supported]);
 
   return { speak, stop, speaking, supported };
 }
