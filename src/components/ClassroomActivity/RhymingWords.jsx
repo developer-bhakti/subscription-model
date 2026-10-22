@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { speakAsGirl } from "../../services/speech";
 
 const levels = {
   nursery: [
@@ -119,9 +120,7 @@ const RhymingWords = () => {
   };
 
   const speakWord = () => {
-    const speech = new SpeechSynthesisUtterance(question.word);
-    speech.rate = 0.8;
-    window.speechSynthesis.speak(speech);
+    speakAsGirl(question.word, { rate: 0.8 });
   };
 
   const checkAnswer = (option) => {

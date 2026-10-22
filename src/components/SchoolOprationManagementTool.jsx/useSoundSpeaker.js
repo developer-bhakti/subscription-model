@@ -1,30 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { girlVoice, pitchFor } from "../../services/speech";
 
 // The Sound Book's voice, shared by every book so they all sound exactly the same.
-// This is the voice code the Alphabet book has always used, moved here unchanged: the
-// same voice choice, speed, pitch, pause and tap handling. Only the words it is given to
-// read now come from the caller.
-
-// Read at call time rather than cached at module load: browsers fill the voice list
-// asynchronously, so a list grabbed too early is empty and the first tap would fall
-// back to whatever language the browser defaults to.
-const pickEnglishVoice = () => {
-  const voices = window.speechSynthesis.getVoices();
-  if (!voices.length) return null;
-
-  // Prefer a local voice — a network voice can arrive late and sound clipped.
-  const byLang = (lang) =>
-    voices.find((v) => v.lang === lang && v.localService) ||
-    voices.find((v) => v.lang === lang);
-
-  return (
-    byLang("en-IN") ||
-    byLang("en-GB") ||
-    byLang("en-US") ||
-    voices.find((v) => v.lang && v.lang.startsWith("en")) ||
-    null
-  );
-};
+// The speed, pause and tap handling are the ones the Alphabet book has always used; the
+// voice is the app's one girl's voice (see services/speech.js), looked up at call time
+// because browsers fill the voice list asynchronously.
 
 export default function useSoundSpeaker() {
   const [speaking, setSpeaking] = useState(false);
@@ -65,7 +45,7 @@ export default function useSoundSpeaker() {
 
     // Chrome drops an utterance queued in the same tick as cancel(), so start just after.
     timerRef.current = setTimeout(() => {
-      const voice = pickEnglishVoice();
+      const voice = girlVoice();
 
       // Separate utterances, not one string: the break between them gives a real pause,
       // so the first part lands on its own before the next one follows.
@@ -73,7 +53,7 @@ export default function useSoundSpeaker() {
         const utterance = new SpeechSynthesisUtterance(text);
 
         utterance.rate = 0.7; // slow enough for a two year old to follow
-        utterance.pitch = 1.1; // slightly bright, friendlier for children
+        utterance.pitch = pitchFor(voice, 1.1); // slightly bright, friendlier for children
         utterance.volume = 1;
 
         if (voice) {

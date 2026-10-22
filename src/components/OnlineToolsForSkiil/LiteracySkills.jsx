@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { speakAsGirl } from "../../services/speech";
 
 const classes = [
   { id: "pg", name: "PG", emoji: "🍼", desc: "Starter Letters", color: "orange" },
@@ -200,9 +201,7 @@ const LiteracySkills = () => {
       selectedMode === "wordBlank"
         ? question.word
         : `What comes after ${question.letter}`;
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.rate = 0.8;
-    window.speechSynthesis.speak(speech);
+    speakAsGirl(text, { rate: 0.8 });
   };
 
   const checkAnswer = (option) => {

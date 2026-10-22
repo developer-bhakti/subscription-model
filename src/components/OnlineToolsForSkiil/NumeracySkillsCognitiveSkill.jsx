@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { speakAsGirl } from "../../services/speech";
 
 const classes = [
   {
@@ -984,7 +985,7 @@ const makeNumberNames = ({ min, max }) => () => {
       main: numberToWords(value),
       small: true,
     })),
-    columns: 3,
+    columns: 1,
     answer: String(number),
     explanation: `${number} is written as ${numberToWords(number)}`,
     speech: `What is the name of the number ${number}?`,
@@ -1129,7 +1130,7 @@ const makeTwoBlanks = ({ max, steps, lengths }) => () => {
       parts: series.map((num, i) => (i === first || i === second ? "?" : String(num))),
     },
     options: shuffle([answer, ...wrong]).map((value) => ({ key: value, main: value, small: true })),
-    columns: 3,
+    columns: 1,
     answer,
     explanation: `The series is ${series.join(", ")}`,
     speech: `Fill in the two blanks in ${series
@@ -1544,6 +1545,19 @@ const buildQuestion = (modeId, item, classInfo) => {
   };
 };
 
+// A game's name with its number range, like (1–50), kept together on one line.
+const GameTitle = ({ name }) => {
+  const match = name.match(/^(.*?)(\s*\(\d+[–-]\d+\))$/);
+
+  if (!match) return name;
+
+  return (
+    <>
+      {match[1]} <span className="whitespace-nowrap">{match[2].trim()}</span>
+    </>
+  );
+};
+
 // The objects of Count & Click: tap each one to count it, and a number marks the order.
 const TapObjects = ({ emoji, count }) => {
   const [order, setOrder] = useState([]);
@@ -1653,9 +1667,7 @@ const NumeracySkillsCognitiveSkill = () => {
   };
 
   const speak = () => {
-    const speech = new SpeechSynthesisUtterance(question.speech);
-    speech.rate = 0.8;
-    window.speechSynthesis.speak(speech);
+    speakAsGirl(question.speech, { rate: 0.8 });
   };
 
   const checkAnswer = (key) => {
@@ -1766,19 +1778,24 @@ const NumeracySkillsCognitiveSkill = () => {
 
         <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
           {gamesFor(selectedClass).map((mode) => (
-            <div key={mode.id} className="kid-card kid-card-hover p-6 text-center">
+            <div key={mode.id} className="kid-card kid-card-hover flex flex-col p-6 text-center">
               <div className="kid-chip mx-auto h-24 w-24 text-5xl">{mode.emoji}</div>
-              <h2 className="text-xl font-bold mt-4 text-kid-ink">{mode.name}</h2>
+              <h2 className="text-xl font-bold mt-4 text-kid-ink">
+                <GameTitle name={mode.name} />
+              </h2>
               <p className="mt-2 text-sm font-medium text-kid-soft">{mode.desc}</p>
 
-              <button
-                onClick={() =>
-                  mode.id === "bigOrSmall" ? setSelectedMode(mode.id) : startGame(mode.id)
-                }
-                className="kid-btn mt-5 px-8 py-3 text-lg"
-              >
-                {mode.id === "bigOrSmall" ? "▶ Choose Category" : "▶ Play Now"}
-              </button>
+              {/* Pinned to the bottom, so the buttons line up whatever the title's length */}
+              <div className="mt-auto pt-5">
+                <button
+                  onClick={() =>
+                    mode.id === "bigOrSmall" ? setSelectedMode(mode.id) : startGame(mode.id)
+                  }
+                  className="kid-btn px-8 py-3 text-lg"
+                >
+                  {mode.id === "bigOrSmall" ? "▶ Choose Category" : "▶ Play Now"}
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -1907,7 +1924,7 @@ const NumeracySkillsCognitiveSkill = () => {
     <div className="min-h-[calc(100vh-9rem)] rounded-[28px] bg-gradient-to-br from-[#d9f3df] via-[#e4f5e6] to-[#eef9d2] flex justify-center items-center p-4">
       <div className="kid-card tone-white w-full max-w-2xl p-6 text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-kid-ink">
-          {modeInfo.emoji} {modeInfo.name}
+          {modeInfo.emoji} <GameTitle name={modeInfo.name} />
         </h1>
 
         <p className="text-gray-500 mt-1">
@@ -2013,16 +2030,16 @@ const NumeracySkillsCognitiveSkill = () => {
           )}
 
           {visual && visual.kind === "equation" && (
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-6">
               {visual.parts.map((part, index) => (
                 <div
                   key={index}
                   className={
                     part === "?"
-                      ? "w-16 h-16 flex items-center justify-center rounded-2xl border-4 border-dashed border-orange-400 bg-white text-3xl font-bold text-orange-500"
+                      ? "w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border-4 border-dashed border-orange-400 bg-white text-2xl sm:text-3xl font-bold text-orange-500"
                       : /^\d+$/.test(part)
-                        ? "w-16 h-16 flex items-center justify-center rounded-2xl bg-teal-100 text-3xl font-bold text-teal-700"
-                        : "text-4xl font-bold text-teal-600"
+                        ? "w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl bg-teal-100 text-2xl sm:text-3xl font-bold text-teal-700"
+                        : "text-3xl sm:text-4xl font-bold text-teal-600"
                   }
                 >
                   {part === "?" ? selected || "?" : part}
@@ -2050,7 +2067,11 @@ const NumeracySkillsCognitiveSkill = () => {
 
           <div
             className={`grid gap-4 mt-6 ${
-              question.columns === 2 ? "grid-cols-2" : "grid-cols-3"
+              question.columns === 2
+                ? "grid-cols-2"
+                : question.columns === 1
+                  ? "grid-cols-1 sm:grid-cols-3"
+                  : "grid-cols-3"
             }`}
           >
             {question.options.map((option) => (
