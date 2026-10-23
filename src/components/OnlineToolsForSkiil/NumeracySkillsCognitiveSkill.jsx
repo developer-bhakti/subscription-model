@@ -9,6 +9,8 @@ const classes = [
     desc: "Numbers 1 to 5",
     color: "orange",
     objectEmoji: null,
+    // Not offered in the class picker; its games are kept in case PG is switched back on.
+    notApplicable: true,
   },
   {
     id: "nursery",
@@ -22,7 +24,7 @@ const classes = [
     id: "lkg",
     name: "LKG",
     emoji: "📚",
-    desc: "Numbers 1 to 50",
+    desc: "Numbers 1 to 30",
     color: "green",
     objectEmoji: null,
   },
@@ -30,7 +32,7 @@ const classes = [
     id: "ukg",
     name: "UKG",
     emoji: "🎓",
-    desc: "Numbers up to 200",
+    desc: "Numbers up to 100",
     color: "blue",
     objectEmoji: null,
   },
@@ -683,9 +685,12 @@ const seriesRules = {
 const makeSeriesFromRule = (rule, clamp = false) => {
   const step = pick(rule.steps);
 
+  // The lowest number a series may use: 1, unless the rule starts higher (50 to 100).
+  const low = rule.min ?? 1;
+
   // A stepped series starts on a multiple of its step, so it reads 5, 10, 15, 20
   // rather than 3, 8, 13, 18.
-  const minStart = step === 1 ? 1 : step;
+  const minStart = step === 1 ? low : step * Math.ceil(Math.max(low, step) / step);
 
   // Only the lengths that still finish inside this class's range.
   const fits = rule.lengths.filter((len) => minStart + step * (len - 1) <= rule.max);
@@ -695,7 +700,7 @@ const makeSeriesFromRule = (rule, clamp = false) => {
   const start =
     step === 1
       ? minStart + Math.floor(Math.random() * (maxStart - minStart + 1))
-      : step * (1 + Math.floor(Math.random() * Math.floor(maxStart / step)));
+      : step * randomInt(minStart / step, Math.floor(maxStart / step));
 
   const series = Array.from({ length }, (_, i) => start + i * step);
   const blank = Math.floor(Math.random() * length);
@@ -706,13 +711,13 @@ const makeSeriesFromRule = (rule, clamp = false) => {
   const nearMisses = [answer + step, answer - step, answer + 1, answer - 1, answer + 2 * step];
   const wrong = shuffle([
     ...new Set(
-      nearMisses.filter((num) => num > 0 && num !== answer && (!clamp || num <= rule.max)),
+      nearMisses.filter((num) => num >= low && num !== answer && (!clamp || num <= rule.max)),
     ),
   ]).slice(0, 2);
 
   // Near a tight range's edge a neighbour can fall outside it, so top up from inside it.
   while (clamp && wrong.length < 2) {
-    const num = randomInt(1, rule.max);
+    const num = randomInt(low, rule.max);
 
     if (num !== answer && !wrong.includes(num)) wrong.push(num);
   }
@@ -973,25 +978,6 @@ const makeIdentifyNumbers = ({ min, max, prompt, speech }) => () => {
   };
 };
 
-// Number -> number name: 47 -> "Forty Seven".
-const makeNumberNames = ({ min, max }) => () => {
-  const number = randomInt(min, max);
-
-  return {
-    prompt: "What is the name of this number?",
-    visual: { kind: "words", text: String(number) },
-    options: numberChoices(number, min, max).map((value) => ({
-      key: String(value),
-      main: numberToWords(value),
-      small: true,
-    })),
-    columns: 1,
-    answer: String(number),
-    explanation: `${number} is written as ${numberToWords(number)}`,
-    speech: `What is the name of the number ${number}?`,
-  };
-};
-
 // Count one kind of shape among a mix of three.
 const shapeKinds = [
   { emoji: "🔴", name: "circle" },
@@ -1035,8 +1021,48 @@ const makeTapCount = ({ min, max }) => () => {
   };
 };
 
+// The two wrong options of a missing-number game: near the answer and counted in the same
+// steps (so a 2s pattern gets even wrong options), but never a number already in the row.
+const missingNumberChoices = ({ series, answer, step, min, max }) => {
+  const shown = new Set(series);
+  const near = [];
+
+  for (let gap = 1; gap <= 12 && near.length < 4; gap += 1) {
+    [answer + gap * step, answer - gap * step].forEach((num) => {
+      if (num >= min && num <= max && !shown.has(num)) near.push(num);
+    });
+  }
+
+  const wrong = shuffle(near).slice(0, 2);
+
+  while (wrong.length < 2) {
+    const num = randomInt(min, max);
+
+    if (!shown.has(num) && !wrong.includes(num)) wrong.push(num);
+  }
+
+  return wrong;
+};
+
 // A series with one number missing, counting up.
-const makeSeriesGame = (rule) => () => buildQuestion("series", makeSeriesFromRule(rule, true), null);
+const makeSeriesGame = (rule) => () => {
+  const item = makeSeriesFromRule(rule, true);
+
+  return buildQuestion(
+    "series",
+    {
+      ...item,
+      wrong: missingNumberChoices({
+        series: item.series,
+        answer: item.series[item.blank],
+        step: item.series[1] - item.series[0],
+        min: rule.min ?? 1,
+        max: rule.max,
+      }),
+    },
+    null,
+  );
+};
 
 // Counting down, with one number missing: 12, 11, ?, 9.
 const makeBackward = ({ max, steps, lengths }) => () => {
@@ -1051,16 +1077,7 @@ const makeBackward = ({ max, steps, lengths }) => () => {
   const blank = randomInt(0, length - 1);
   const answer = series[blank];
 
-  const pool = [answer - step, answer + step, answer - 1, answer + 1].filter(
-    (num) => num >= 1 && num <= max && num !== answer,
-  );
-  const wrong = shuffle([...new Set(pool)]).slice(0, 2);
-
-  while (wrong.length < 2) {
-    const num = randomInt(1, max);
-
-    if (num !== answer && !wrong.includes(num)) wrong.push(num);
-  }
+  const wrong = missingNumberChoices({ series, answer, step, min: 1, max });
 
   return {
     prompt: "Count backward. Which number is missing?",
@@ -1075,109 +1092,6 @@ const makeBackward = ({ max, steps, lengths }) => () => {
     speech: `Count backward. Which number is missing in ${series
       .map((num, i) => (i === blank ? "blank" : num))
       .join(", ")}`,
-  };
-};
-
-// A series with two blanks, answered with the pair of missing numbers in order.
-const makeTwoBlanks = ({ max, steps, lengths }) => () => {
-  const step = pick(steps);
-  const minStart = step === 1 ? 1 : step;
-  const fits = lengths.filter((len) => minStart + step * (len - 1) <= max);
-  const length = pick(fits.length ? fits : [lengths[0]]);
-  const maxStart = max - step * (length - 1);
-  const start =
-    step === 1
-      ? randomInt(minStart, maxStart)
-      : step * randomInt(1, Math.floor(maxStart / step));
-  const series = Array.from({ length }, (_, i) => start + i * step);
-
-  // Never two blanks side by side, so each one can be worked out from its neighbours.
-  let first;
-  let second;
-
-  do {
-    first = randomInt(0, length - 1);
-    second = randomInt(0, length - 1);
-  } while (second - first < 2);
-
-  const a = series[first];
-  const b = series[second];
-  const answer = `${a}, ${b}`;
-
-  const pool = [
-    [a + step, b],
-    [a, b + step],
-    [a - step, b],
-    [a, b - step],
-    [b, a],
-    [a + 1, b + 1],
-  ]
-    .filter(([x, y]) => x >= 1 && y >= 1 && x <= max && y <= max)
-    .map(([x, y]) => `${x}, ${y}`)
-    .filter((pair) => pair !== answer);
-  const wrong = shuffle([...new Set(pool)]).slice(0, 2);
-
-  while (wrong.length < 2) {
-    const pair = `${randomInt(1, max)}, ${randomInt(1, max)}`;
-
-    if (pair !== answer && !wrong.includes(pair)) wrong.push(pair);
-  }
-
-  return {
-    prompt: "Fill in the two blanks",
-    visual: {
-      kind: "series",
-      parts: series.map((num, i) => (i === first || i === second ? "?" : String(num))),
-    },
-    options: shuffle([answer, ...wrong]).map((value) => ({ key: value, main: value, small: true })),
-    columns: 1,
-    answer,
-    explanation: `The series is ${series.join(", ")}`,
-    speech: `Fill in the two blanks in ${series
-      .map((num, i) => (i === first || i === second ? "blank" : num))
-      .join(", ")}`,
-  };
-};
-
-// What comes after, before or between.
-const makeBeforeAfterBetween = ({ max }) => () => {
-  const type = pick(["after", "before", "between"]);
-  let answer;
-  let parts;
-  let prompt;
-  let explanation;
-
-  if (type === "after") {
-    const number = randomInt(1, max - 1);
-
-    answer = number + 1;
-    parts = [String(number), "?"];
-    prompt = `What comes after ${number}?`;
-    explanation = `${answer} comes right after ${number}`;
-  } else if (type === "before") {
-    const number = randomInt(2, max);
-
-    answer = number - 1;
-    parts = ["?", String(number)];
-    prompt = `What comes before ${number}?`;
-    explanation = `${answer} comes right before ${number}`;
-  } else {
-    const low = randomInt(1, max - 2);
-
-    answer = low + 1;
-    parts = [String(low), "?", String(low + 2)];
-    prompt = `What comes between ${low} and ${low + 2}?`;
-    explanation = `${answer} comes between ${low} and ${low + 2}`;
-  }
-
-  return {
-    prompt,
-    visual: { kind: "series", parts },
-    options: numberOptions(numberChoices(answer, 1, max)),
-    columns: 3,
-    answer: String(answer),
-    explanation,
-    speech: prompt,
   };
 };
 
@@ -1208,28 +1122,17 @@ const makeGreaterOrSmaller = ({ min, max }) => () => {
   };
 };
 
-// Addition and subtraction inside 20.
-const makeSum = (isAddition) => () => {
-  let first;
-  let second;
-  let answer;
-
-  if (isAddition) {
-    first = randomInt(1, 10);
-    second = randomInt(1, Math.min(10, 20 - first));
-    answer = first + second;
-  } else {
-    first = randomInt(2, 20);
-    second = randomInt(1, first - 1);
-    answer = first - second;
-  }
-
+// Addition and subtraction. `pickNumbers` gives the two numbers to work with, and `range` is
+// where the answer and its wrong options may fall.
+const makeSum = ({ isAddition, pickNumbers, range }) => () => {
+  const [first, second] = pickNumbers();
+  const answer = isAddition ? first + second : first - second;
   const sign = isAddition ? "+" : "−";
 
   return {
     prompt: isAddition ? "Add the numbers" : "Subtract the numbers",
     visual: { kind: "equation", parts: [String(first), sign, String(second), "=", "?"] },
-    options: numberOptions(numberChoices(answer, 0, 20)),
+    options: numberOptions(numberChoices(answer, range.min, range.max)),
     columns: 3,
     answer: String(answer),
     explanation: `${first} ${sign} ${second} = ${answer}`,
@@ -1237,6 +1140,58 @@ const makeSum = (isAddition) => () => {
       ? `What is ${first} plus ${second}?`
       : `What is ${first} minus ${second}?`,
   };
+};
+
+// Two single-digit numbers, 1 to 9.
+const singleDigitPair = () => [randomInt(1, 9), randomInt(1, 9)];
+
+// Two double-digit numbers that add up without carrying, like 23 + 14 (tens with tens, ones
+// with ones) and never 28 + 17, so the sum stays below 100.
+const doubleDigitPair = () => {
+  const tensA = randomInt(1, 8);
+  const onesA = randomInt(0, 9);
+
+  return [tensA * 10 + onesA, randomInt(1, 9 - tensA) * 10 + randomInt(0, 9 - onesA)];
+};
+
+// A single-digit number and a smaller or equal one to take away, so the answer is never
+// below 0.
+const singleDigitTakeAway = () => {
+  const first = randomInt(2, 9);
+
+  return [first, randomInt(1, first)];
+};
+
+// A number, and three groups of objects: pick the group that has that many.
+const makeMatchQuantity = ({ min, max }) => () => {
+  const count = randomInt(min, max);
+  const emoji = pick(countingEmojis);
+
+  return {
+    prompt: "Match the number with the right group",
+    visual: { kind: "words", text: String(count) },
+    options: numberChoices(count, min, max).map((value) => ({
+      key: String(value),
+      main: emoji.repeat(value),
+      small: true,
+    })),
+    columns: 1,
+    answer: String(count),
+    explanation: `${count} matches the group of ${count} ${emoji}`,
+    speech: `Match the number. Which group has ${count} objects?`,
+  };
+};
+
+// Match the number: with a group of objects that has that many, or with its number name.
+const makeMatchNumber = ({ quantity, names }) => {
+  const matchQuantity = makeMatchQuantity(quantity);
+  const matchName = makeIdentifyNumbers({
+    ...names,
+    prompt: "Match the number name with its number",
+    speech: "Match the number",
+  });
+
+  return () => (coinFlip() ? matchQuantity() : matchName());
 };
 
 // The games each class shows, in this order.
@@ -1286,68 +1241,66 @@ const classGames = {
 
   lkg: [
     {
-      id: "lkg-match",
-      name: "Match the Numbers (1–50)",
-      emoji: "🔗",
-      desc: "Match each number name with its number.",
-      make: makeIdentifyNumbers({
-        min: 1,
-        max: 50,
-        prompt: "Match the number name with its number",
-        speech: "Match the number",
-      }),
+      id: "lkg-missing",
+      name: "Missing Numbers – Level 1 (1 to 30)",
+      emoji: "❓",
+      desc: "Find the number that is missing from the row, from 1 to 30.",
+      make: makeSeriesGame({ max: 30, steps: [1], lengths: [4, 5] }),
     },
     {
       id: "lkg-sequence",
-      name: "Fill the Sequence (1–50)",
+      name: "Fill in the Sequence (2s)",
       emoji: "🪜",
-      desc: "Complete the counting pattern, counting by 1s, 2s, 5s and 10s.",
-      make: makeSeriesGame({ max: 50, steps: [1, 2, 5, 10], lengths: [4, 5] }),
+      desc: "Fill the gap, counting by 2s.",
+      make: makeSeriesGame({ max: 30, steps: [2], lengths: [4, 5] }),
     },
     {
       id: "lkg-count",
-      name: "Count & Click (1–20)",
+      name: "Count & Click",
       emoji: "👆",
       desc: "Tap each object to count it, then click the number.",
       make: makeTapCount({ min: 1, max: 20 }),
     },
     {
       id: "lkg-backward",
-      name: "Backward Numbers (1–30)",
+      name: "Backward Number",
       emoji: "⏪",
       desc: "Count backward and find the missing number.",
       make: makeBackward({ max: 30, steps: [1], lengths: [4, 5] }),
     },
     {
-      id: "lkg-missing",
-      name: "Missing Numbers (1–30)",
-      emoji: "❓",
-      desc: "Find the number that is missing from the row.",
-      make: makeSeriesGame({ max: 30, steps: [1], lengths: [4, 5] }),
-    },
-    {
       id: "lkg-greater",
-      name: "Which Number Is Greater or Smaller? (1–30)",
+      name: "Greater or Smaller",
       emoji: "⚖️",
       desc: "Pick the greater or the smaller number.",
       make: makeGreaterOrSmaller({ min: 1, max: 30 }),
+    },
+    {
+      id: "lkg-match",
+      name: "Match the Number",
+      emoji: "🔗",
+      desc: "Match each number with its group of objects or its number name.",
+      make: makeMatchNumber({
+        quantity: { min: 1, max: 10 },
+        names: { min: 1, max: 20 },
+      }),
     },
   ],
 
   ukg: [
     {
-      id: "ukg-missing",
-      name: "Missing Numbers (1–200)",
+      id: "ukg-missing-1",
+      name: "Missing Numbers – Level 1 (1 to 50)",
       emoji: "❓",
-      desc: "Find the number that is missing from the row.",
-      make: makeSeriesGame({ max: 200, steps: [1], lengths: [4, 5] }),
+      desc: "Find the number that is missing from the row, from 1 to 50.",
+      make: makeSeriesGame({ max: 50, steps: [1], lengths: [4, 5] }),
     },
     {
-      id: "ukg-names",
-      name: "Number Names (1–100)",
-      emoji: "🔤",
-      desc: "Choose the right name for the number.",
-      make: makeNumberNames({ min: 1, max: 100 }),
+      id: "ukg-missing-2",
+      name: "Missing Numbers – Level 2 (50 to 100)",
+      emoji: "🔎",
+      desc: "Find the number that is missing from the row, from 50 to 100.",
+      make: makeSeriesGame({ min: 50, max: 100, steps: [1], lengths: [4, 5] }),
     },
     {
       id: "ukg-backward",
@@ -1357,39 +1310,58 @@ const classGames = {
       make: makeBackward({ max: 100, steps: [1, 2, 5, 10], lengths: [4, 5] }),
     },
     {
-      id: "ukg-blanks",
-      name: "Fill in the Blanks (1–50)",
-      emoji: "✍️",
-      desc: "Two numbers are missing. Choose both.",
-      make: makeTwoBlanks({ max: 50, steps: [1, 2, 5, 10], lengths: [5, 6] }),
+      id: "ukg-sequence-1",
+      name: "Fill in the Sequence – Level 1 (2s)",
+      emoji: "🪜",
+      desc: "Fill the gap, counting by 2s.",
+      make: makeSeriesGame({ max: 100, steps: [2], lengths: [4, 5] }),
     },
     {
-      id: "ukg-compare",
-      name: "Greater Than, Less Than, or Equal To (1–100)",
-      emoji: "⚖️",
-      desc: "Compare two numbers and choose =, > or <.",
-      base: "compare",
+      id: "ukg-sequence-2",
+      name: "Fill in the Sequence – Level 2 (3s)",
+      emoji: "🧩",
+      desc: "Fill the gap, counting by 3s.",
+      make: makeSeriesGame({ max: 100, steps: [3], lengths: [4, 5] }),
     },
     {
-      id: "ukg-between",
-      name: "Before, After, and Between",
-      emoji: "↔️",
-      desc: "Which number comes before, after or between?",
-      make: makeBeforeAfterBetween({ max: 100 }),
+      id: "ukg-sequence-3",
+      name: "Fill in the Sequence – Level 3 (5s)",
+      emoji: "🚀",
+      desc: "Fill the gap, counting by 5s.",
+      make: makeSeriesGame({ max: 100, steps: [5], lengths: [4, 5] }),
     },
     {
-      id: "ukg-addition",
-      name: "Addition",
+      id: "ukg-addition-1",
+      name: "Addition – Level 1 (Single Digit)",
       emoji: "➕",
-      desc: "Add two numbers. The answer is never more than 20.",
-      make: makeSum(true),
+      desc: "Add two single-digit numbers.",
+      make: makeSum({
+        isAddition: true,
+        pickNumbers: singleDigitPair,
+        range: { min: 1, max: 18 },
+      }),
+    },
+    {
+      id: "ukg-addition-2",
+      name: "Addition – Level 2 (Double Digit)",
+      emoji: "🧮",
+      desc: "Add two double-digit numbers, tens with tens and ones with ones.",
+      make: makeSum({
+        isAddition: true,
+        pickNumbers: doubleDigitPair,
+        range: { min: 10, max: 99 },
+      }),
     },
     {
       id: "ukg-subtraction",
-      name: "Subtraction",
+      name: "Subtraction (Single Digit Only)",
       emoji: "➖",
-      desc: "Take one number away from another, up to 20.",
-      make: makeSum(false),
+      desc: "Take one single-digit number away from another.",
+      make: makeSum({
+        isAddition: false,
+        pickNumbers: singleDigitTakeAway,
+        range: { min: 0, max: 9 },
+      }),
     },
   ],
 };
@@ -1545,18 +1517,18 @@ const buildQuestion = (modeId, item, classInfo) => {
   };
 };
 
-// A game's name with its number range, like (1–50), kept together on one line.
-const GameTitle = ({ name }) => {
-  const match = name.match(/^(.*?)(\s*\(\d+[–-]\d+\))$/);
-
-  if (!match) return name;
-
-  return (
-    <>
-      {match[1]} <span className="whitespace-nowrap">{match[2].trim()}</span>
-    </>
+// A game's name with "Level 1" and any brackets, like (1 to 50) or (Single Digit), each kept
+// whole, so a narrow screen moves them to the next line rather than splitting them.
+const GameTitle = ({ name }) =>
+  name.split(/(Level \d|\([^()]+\))/).map((part, index) =>
+    index % 2 ? (
+      <span key={index} className="inline-block">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
   );
-};
 
 // The objects of Count & Click: tap each one to count it, and a number marks the order.
 const TapObjects = ({ emoji, count }) => {
@@ -1745,19 +1717,36 @@ const NumeracySkillsCognitiveSkill = () => {
 
         <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
           {classes.map((cls) => (
-            <div key={cls.id} className="kid-card kid-card-hover p-8 text-center">
+            <div
+              key={cls.id}
+              className={`kid-card p-8 text-center ${cls.notApplicable ? "" : "kid-card-hover"}`}
+            >
               <div className="kid-chip mx-auto h-28 w-28 text-6xl">{cls.emoji}</div>
               <h2 className="text-3xl font-bold mt-4 text-kid-ink">
                 {cls.name}
               </h2>
               <p className="mt-3 font-medium text-kid-soft">{cls.desc}</p>
 
-              <button
-                onClick={() => setSelectedClass(cls.id)}
-                className="kid-btn mt-6 px-8 py-3 text-lg"
-              >
-                ▶ Choose
-              </button>
+              {cls.notApplicable ? (
+                // This game is not for this class: a greyed button that does nothing.
+                <div className="mt-6 flex cursor-not-allowed justify-center">
+                  <button
+                    type="button"
+                    disabled
+                    // (a soft button has a 2px border, so 2px less padding keeps it the height of a normal one)
+                    className="kid-btn kid-btn-soft pointer-events-none px-8 py-2.5 text-lg"
+                  >
+                    Not applicable
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setSelectedClass(cls.id)}
+                  className="kid-btn mt-6 px-8 py-3 text-lg"
+                >
+                  ▶ Choose
+                </button>
+              )}
             </div>
           ))}
         </div>

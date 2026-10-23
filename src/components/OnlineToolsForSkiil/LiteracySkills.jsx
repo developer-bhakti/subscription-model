@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { speakAsGirl } from "../../services/speech";
 
 const classes = [
-  { id: "pg", name: "PG", emoji: "🍼", desc: "Starter Letters", color: "orange" },
+  { id: "pg", name: "PG", emoji: "🍼", desc: "Starter Letters", color: "orange", notApplicable: true },
   { id: "nursery", name: "Nursery", emoji: "🧸", desc: "Easy Letters", color: "pink" },
   { id: "lkg", name: "LKG", emoji: "📚", desc: "Medium Letters", color: "green" },
   { id: "ukg", name: "UKG", emoji: "🎓", desc: "Advanced Letters", color: "blue" },
@@ -255,19 +255,36 @@ const LiteracySkills = () => {
 
         <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
           {classes.map((cls) => (
-            <div key={cls.id} className="kid-card kid-card-hover p-8 text-center">
+            <div
+              key={cls.id}
+              className={`kid-card p-8 text-center ${cls.notApplicable ? "" : "kid-card-hover"}`}
+            >
               <div className="kid-chip mx-auto h-28 w-28 text-6xl">{cls.emoji}</div>
               <h2 className="text-3xl font-bold mt-4 text-kid-ink">
                 {cls.name}
               </h2>
               <p className="mt-3 font-medium text-kid-soft">{cls.desc}</p>
 
-              <button
-                onClick={() => setSelectedClass(cls.id)}
-                className="kid-btn mt-6 px-8 py-3 text-lg"
-              >
-                ▶ Choose
-              </button>
+              {cls.notApplicable ? (
+                // This game is not for this class: a greyed button that does nothing.
+                <div className="mt-6 flex cursor-not-allowed justify-center">
+                  <button
+                    type="button"
+                    disabled
+                    // (a soft button has a 2px border, so 2px less padding keeps it the height of a normal one)
+                    className="kid-btn kid-btn-soft pointer-events-none px-8 py-2.5 text-lg"
+                  >
+                    Not applicable
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setSelectedClass(cls.id)}
+                  className="kid-btn mt-6 px-8 py-3 text-lg"
+                >
+                  ▶ Choose
+                </button>
+              )}
             </div>
           ))}
         </div>
