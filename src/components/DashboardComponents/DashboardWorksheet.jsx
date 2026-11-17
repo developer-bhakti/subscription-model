@@ -34,6 +34,13 @@ const DashboardWorksheet = () => {
           description="Explore classroom-ready colouring sheets by theme for preschool and early learners."
           onClick={() => navigate('/user/worksheet/theme-based-colouring')}
         />
+
+        <ModuleCard
+          icon="🔤"
+          title="Phonics Skills"
+          description="Four fun levels: letters, sounds, stories and rhyming words."
+          onClick={() => navigate('/user/worksheet/phonics-skills')}
+        />
       </ModuleGrid>
     </div>
   )
