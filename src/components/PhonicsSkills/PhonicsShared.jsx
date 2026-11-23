@@ -2,10 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackButton, PageHero } from "../KidsUI";
 import { PHONICS_HUB_PATH, PHONICS_LEVELS } from "../../data/phonicsData";
+import { getLetterPage } from "../../data/phonicsFiles";
 import { FRAME, emojiOf } from "../../data/phonicsLessons";
-import { PAGE_RATIO, say, speechSupported, starsFor, stopSpeaking, stripBox, stripCellFor } from "./phonicsUtils";
+import {
+  PAGE_RATIO,
+  pageRatio,
+  say,
+  sheetRowBox,
+  speechSupported,
+  starsFor,
+  stopSpeaking,
+  stripBox,
+  stripCellFor,
+} from "./phonicsUtils";
 
-// Building blocks shared by the four Phonics level pages: the page frame with its activity tabs,
+// Building blocks shared by the Phonics level pages: the page frame with its activity tabs,
 // pictures, a multiple-choice game, a "tap them all" game, the end-of-game card and the
 // letter-by-letter "sound it out" panel. Colours and shapes come from the kids design layer in
 // index.css.
@@ -14,8 +25,9 @@ import { PAGE_RATIO, say, speechSupported, starsFor, stopSpeaking, stripBox, str
 
 // Shows one part of a worksheet image (`box` is [x0, y0, x1, y1] as fractions of the page) by
 // sliding the image behind a window of the right shape. Set the width with a class; the height
-// follows from the shape of the part.
-export function PageCrop({ src, box, label = "", className = "" }) {
+// follows from the shape of the part. `ratio` is the page's width over its height (Levels 5 and 6
+// have wider pages than Levels 1 to 4).
+export function PageCrop({ src, box, label = "", className = "", ratio = PAGE_RATIO }) {
   const [x0, y0, x1, y1] = box;
   const w = x1 - x0;
   const h = y1 - y0;
@@ -26,7 +38,7 @@ export function PageCrop({ src, box, label = "", className = "" }) {
       aria-label={label}
       className={className}
       style={{
-        aspectRatio: (w * PAGE_RATIO) / h,
+        aspectRatio: (w * ratio) / h,
         backgroundImage: `url("${src}")`,
         backgroundRepeat: "no-repeat",
         backgroundSize: `${100 / w}% auto`,
@@ -65,6 +77,35 @@ export function Picture({ word, size = "md", className = "" }) {
     <span aria-hidden="true" className={`${emojiSize} leading-none ${className}`}>
       {emoji ?? FRAME}
     </span>
+  );
+}
+
+const SHEET_PICTURE_SIZES = {
+  sm: "w-20",
+  md: "w-28",
+  lg: "w-32 sm:w-36",
+  xl: "w-44 sm:w-56",
+};
+
+// The picture a Level 5 or Level 6 worksheet shows for a word, cut out of the page exactly as printed (the picture
+// with its name under it). `row` is the word's row on the page of `letter`, 0 to 3, top to bottom. If that page
+// is missing, or its rows were never measured, the word's emoji (or a plain frame) is shown instead.
+export function SheetPicture({ level, letter, row, word, size = "lg", className = "" }) {
+  const page = getLetterPage(level, letter);
+  const box = sheetRowBox(level, letter, row);
+
+  if (!page || !box) {
+    return <Picture word={word} size={size === "xl" ? "xl" : "lg"} className={className} />;
+  }
+
+  return (
+    <PageCrop
+      src={page.image}
+      box={box}
+      ratio={pageRatio(level)}
+      label={word}
+      className={`${SHEET_PICTURE_SIZES[size]} shrink-0 rounded-xl bg-white ${className}`}
+    />
   );
 }
 
@@ -243,7 +284,8 @@ export function SoundOutPanel({ word, active, onPlay }) {
 // "colour the pictures that ..." lines on the worksheets. `makeRounds()` returns a fresh list:
 //   { key, prompt, display?, speak?, items: [{ id, word, correct }] }
 // Tapping a right picture turns it green; a wrong one turns red for a moment. A round ends when
-// every right picture has been found.
+// every right picture has been found. An item can carry `crop: { src, box, ratio }` to show a part of a
+// worksheet instead of its emoji.
 export function PickAllGame({ makeRounds }) {
   const [rounds, setRounds] = useState(() => makeRounds());
   const [index, setIndex] = useState(0);
@@ -357,6 +399,7 @@ export function PickAllGame({ makeRounds }) {
                   <PageCrop
                     src={item.crop.src}
                     box={item.crop.box}
+                    ratio={item.crop.ratio}
                     className="w-full max-w-36 rounded-xl bg-white"
                   />
                 ) : (

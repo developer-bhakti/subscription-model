@@ -9,14 +9,14 @@ import PhonicsWorksheets from "../PhonicsSkills/PhonicsWorksheets";
 // The "Phonics Worksheets" page of the dashboard. The flow:
 //
 //   Worksheets (DashboardWorksheet.jsx)          the card "Phonics Worksheets" is here
-//     -> Phonics Worksheets (this page)          the four levels as cards: /user/worksheet/phonics-worksheets
-//       -> one level (?level=1 to 4)             that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
+//     -> Phonics Worksheets (this page)          the six levels as cards: /user/worksheet/phonics-worksheets
+//       -> one level (?level=1 to 6)             that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
 //
-// It lists the four Phonics levels as cards, the same way the theme-based colouring worksheets list
-// their themes, and a level opens to its printable pages. The pages are not copied: they are the very ones in Phonics Skills, read from the
-// same files (getPhonicsFiles) and shown by the same component (PhonicsWorksheets), so a page added
-// to a level's folder appears in both places. The chosen level lives in the address (?level=2), so
-// the browser's Back button returns to the levels.
+// It lists the Phonics levels as cards, the same way the theme-based colouring worksheets list their
+// themes, and a level opens to its printable pages. The pages are not copied: they are the very ones
+// in Phonics Skills, read from the same files (getPhonicsFiles) and shown by the same component
+// (PhonicsWorksheets), so a page added to a level's folder appears in both places. The chosen level
+// lives in the address (?level=2), so the browser's Back button returns to the levels.
 
 const worksheetCount = (level) => getPhonicsFiles(level).pages.length;
 
@@ -24,7 +24,7 @@ export default function DashboardPhonicsWorksheets() {
   const [params, setParams] = useSearchParams();
   const topRef = useRef(null);
 
-  // Anything that is not one of the four levels in the address shows the list of levels.
+  // Anything that is not one of the levels in the address shows the list of levels.
   const active = PHONICS_LEVELS.find((item) => String(item.level) === params.get("level"));
 
   // Each screen starts at its top, wherever the last one was scrolled to.
@@ -67,7 +67,7 @@ export default function DashboardPhonicsWorksheets() {
           subtitle="Classroom activity: printable phonics worksheets, level by level."
         />
 
-        <div className="tone-cycle grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="tone-cycle grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {PHONICS_LEVELS.map((item) => {
             const { workbook } = getPhonicsFiles(item.level);
             const count = worksheetCount(item.level);
@@ -85,7 +85,7 @@ export default function DashboardPhonicsWorksheets() {
 
                   <h2 className="mb-2 text-xl font-semibold text-kid-ink">{item.title}</h2>
 
-                  <p className="mb-4 flex-1 text-sm font-medium leading-6 text-kid-soft">
+                  <p className="mb-4 flex-1 text-balance text-sm font-medium leading-6 text-kid-soft">
                     {item.description}
                   </p>
 

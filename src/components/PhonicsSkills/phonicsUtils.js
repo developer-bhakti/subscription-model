@@ -1,8 +1,18 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { speakAsGirl } from "../../services/speech";
-import { LETTERS, SAME_SOUND_GROUPS, SOUND_SAY } from "../../data/phonicsData";
+import {
+  CONSONANT_PAIRS,
+  LETTERS,
+  PHONICS_LEVELS,
+  SAME_SOUND_GROUPS,
+  SOUND_SAY,
+  VOWEL_PAIRS,
+  soundKey,
+  soundsOverlap,
+} from "../../data/phonicsData";
 import { getLetterPage } from "../../data/phonicsFiles";
 import { L1_PAGES, emojiOf } from "../../data/phonicsLessons";
+import { SHEET_CELL, SHEET_ROWS } from "../../data/phonicsSheetRows";
 
 /* ------------------------- pictures cut from the worksheets ------------------------- */
 
@@ -40,6 +50,32 @@ export const stripCellFor = (word) => {
 // True when a word can be shown as a picture: it has an emoji, or it is on a Level 1 worksheet.
 export const hasPicture = (word) => Boolean(emojiOf(word) || stripCellFor(word));
 
+// Width / height of a Level's pages (Levels 5 and 6 are a little wider than the first four).
+export const pageRatio = (level) => {
+  const [width, height] = PHONICS_LEVELS[level - 1].pageSize;
+
+  return width / height;
+};
+
+// The part of a Level 5 or Level 6 page holding one row's picture and its name, as [x0, y0, x1, y1] fractions of
+// the page, or null if that page's rows have not been measured (see data/phonicsSheetRows.js). `row` is 0 to 3,
+// top to bottom.
+export const sheetRowBox = (level, letter, row) => {
+  const rows = SHEET_ROWS[level]?.[letter];
+  const cell = SHEET_CELL[level];
+
+  if (!rows || !cell || rows[row * 2] === undefined) return null;
+
+  const [width, height] = PHONICS_LEVELS[level - 1].pageSize;
+
+  return [
+    cell.x[0] / width,
+    (rows[row * 2] + cell.inset) / height,
+    cell.x[1] / width,
+    (rows[row * 2 + 1] - cell.inset + 1) / height,
+  ];
+};
+
 // 1 to 3 stars for a score out of a total.
 export const starsFor = (score, total) => {
   const share = total ? score / total : 0;
@@ -61,6 +97,36 @@ export const shuffle = (list) => {
 };
 
 export const pickRandom = (list, count) => shuffle(list).slice(0, count);
+
+// Wrong answers for a question about sounds: `count` sounds that do not sound like (or overlap with) any in `avoid`,
+// one of each of the `kinds` in turn (so for a word of consonant, vowel, consonant the wrong answers are a consonant,
+// a vowel and a consonant). When a kind has nothing left, any single letter will do.
+const FOIL_POOLS = {
+  vowel: ["a", "e", "i", "o", "u"],
+  consonant: [..."bcdfghjklmnprstvwxyz"],
+  vowelPair: VOWEL_PAIRS,
+  consonantPair: CONSONANT_PAIRS,
+};
+
+export const pickFoils = (avoid, kinds, count) => {
+  const blocked = new Set(avoid.map(soundKey));
+  const foils = [];
+
+  while (foils.length < count) {
+    const kind = kinds[foils.length % kinds.length];
+    const open = (pool) =>
+      pool.filter((unit) => ![...blocked].some((key) => soundsOverlap(key, soundKey(unit))));
+    const choices = open(FOIL_POOLS[kind]).length
+      ? open(FOIL_POOLS[kind])
+      : open([...FOIL_POOLS.consonant, ...FOIL_POOLS.vowel]);
+    const [unit] = pickRandom(choices, 1);
+
+    blocked.add(soundKey(unit));
+    foils.push(unit);
+  }
+
+  return foils;
+};
 
 // Picks `count` letters other than `letter`, never one that makes the same sound as `letter` or
 // as a letter already picked (c, k and q all say /k/, so only one of them may appear in a question).
@@ -150,6 +216,111 @@ export const soundOutParts = (word) => {
 
   return [...letters.map((l) => SOUND_SAY[l] || l), word];
 };
+
+/* ---------------------------------- clapping ---------------------------------- */
+
+// A short clap, made on the spot (a burst of noise that dies away fast). Where the browser has no Web Audio it
+// stays silent, and the hands still light up.
+let audio = null;
+
+export const playClap = () => {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContext) return;
+
+    audio ??= new AudioContext();
+
+    if (audio.state === "suspended") audio.resume();
+
+    const length = Math.floor(audio.sampleRate * 0.12);
+    const buffer = audio.createBuffer(1, length, audio.sampleRate);
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < length; i += 1) data[i] = (Math.random() * 2 - 1) * (1 - i / length) ** 3;
+
+    const source = audio.createBufferSource();
+    const filter = audio.createBiquadFilter();
+    const gain = audio.createGain();
+
+    source.buffer = buffer;
+    filter.type = "bandpass";
+    filter.frequency.value = 1800;
+    filter.Q.value = 0.8;
+    gain.gain.value = 0.9;
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(audio.destination);
+    source.start();
+  } catch {
+    // no sound, but nothing breaks
+  }
+};
+
+// How long between one clap and the next.
+export const CLAP_GAP_MS = 700;
+
+// Clapping a word out: the word is said, then a hand lights up (with a clap) for each syllable, then the count
+// is said. `state.key` is the word being clapped (whatever the page calls it) and `state.hands` how many hands
+// have clapped so far.
+export function useClapOut() {
+  const [state, setState] = useState({ key: null, hands: 0 });
+  const pending = useRef([]);
+
+  const clear = useCallback(() => {
+    pending.current.forEach(clearTimeout);
+    pending.current = [];
+  }, []);
+
+  const stop = useCallback(() => {
+    clear();
+    stopSpeaking();
+    setState({ key: null, hands: 0 });
+  }, [clear]);
+
+  const play = useCallback(
+    (key, word, count) => {
+      clear();
+      setState({ key, hands: 0 });
+
+      let started = false;
+
+      const clapAlong = () => {
+        if (started) return;
+
+        started = true;
+
+        for (let i = 0; i < count; i += 1) {
+          pending.current.push(
+            setTimeout(() => {
+              playClap();
+              setState({ key, hands: i + 1 });
+            }, i * CLAP_GAP_MS),
+          );
+        }
+
+        pending.current.push(
+          setTimeout(() => {
+            setState({ key: null, hands: 0 });
+            say(`${word} has ${count} ${count === 1 ? "syllable" : "syllables"}.`);
+          }, count * CLAP_GAP_MS + 300),
+        );
+      };
+
+      // The claps begin when the word has been said. If the browser never says it has finished, they begin anyway.
+      saySequence([word], (step) => {
+        if (step === -1) clapAlong();
+      });
+      pending.current.push(setTimeout(clapAlong, 2500));
+    },
+    [clear],
+  );
+
+  // Leaving the page stops the claps (the page frame stops the voice).
+  useEffect(() => clear, [clear]);
+
+  return { state, play, stop };
+}
 
 // For sounding a word out: `active` is the position being spoken (a letter, then the whole word
 // at the end), or -1 when nothing is being said.

@@ -45,6 +45,8 @@ import PhonicsLevel1 from "../components/PhonicsSkills/PhonicsLevel1";
 import PhonicsLevel2 from "../components/PhonicsSkills/PhonicsLevel2";
 import PhonicsLevel3 from "../components/PhonicsSkills/PhonicsLevel3";
 import PhonicsLevel4 from "../components/PhonicsSkills/PhonicsLevel4";
+import PhonicsLevel5 from "../components/PhonicsSkills/PhonicsLevel5";
+import PhonicsLevel6 from "../components/PhonicsSkills/PhonicsLevel6";
 import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
 import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
 import SoundBooks from "../components/SchoolOprationManagementTool.jsx/SoundBooks";
@@ -451,6 +453,16 @@ export default function User() {
               <Route
                 path="phonics-skills/level-4"
                 element={<PhonicsLevel4 />}
+              />
+
+              <Route
+                path="phonics-skills/level-5"
+                element={<PhonicsLevel5 />}
+              />
+
+              <Route
+                path="phonics-skills/level-6"
+                element={<PhonicsLevel6 />}
               />
 
               <Route

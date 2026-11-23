@@ -186,7 +186,9 @@ export default function PhonicsWorksheets({ level }) {
                 alt={`${meta.title}: letter ${page.letter}`}
                 loading="lazy"
                 decoding="async"
-                className="aspect-[1055/1491] w-full object-cover object-top"
+                // Every page of a level has the same shape, but not every level has the same one
+                style={{ aspectRatio: `${meta.pageSize[0]} / ${meta.pageSize[1]}` }}
+                className="w-full object-cover object-top"
               />
             </button>
 

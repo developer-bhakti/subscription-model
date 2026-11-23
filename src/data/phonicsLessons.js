@@ -7,6 +7,8 @@
 //                                           and the six pictures in "begin with the ... sound"
 //   Level 3  Phonics story posters        - the three-line story and the words it is about
 //   Level 4  "Rhyming Words" sheets       - each word and the picture(s) that rhyme with it
+//   Level 5  "Syllable Recognition" sheets - each word, split into the syllables you clap
+//   Level 6  "Sound Segmentation" sheets  - each word, split into the sounds written in the boxes
 //
 // Level 4 only has pages for A to G so far. When more pages are added, add their rows to L4_ROWS.
 
@@ -232,3 +234,118 @@ export const L4_ROWS = [
 
 // The letters that have a Rhyming Words sheet.
 export const L4_LETTERS = [...new Set(L4_ROWS.map((row) => row.letter))];
+
+/* -------------------------------- Level 5: syllable recognition -------------------------------- */
+
+// A word and its syllables: syl("apple", "ap", "ple"), or just syl("ant") for a word of one syllable. The
+// parts put together spell the word, and `count` is how many syllables there are.
+const syl = (word, ...parts) => {
+  const syllables = parts.length ? parts : [word.toLowerCase()];
+
+  return { word, parts: syllables, count: syllables.length };
+};
+
+// Every page has four rows, top to bottom, and `L5_PAGES` lists them in that order, because a row's place is
+// what finds its picture on the page. Where the sheets and this list differ:
+//  - The clapping hands drawn on the sheets do not always match the split written beside them: they are drawn
+//    as 3 for alligator (al-li-ga-tor is 4), 3 for firetruck, monkey, quokka and sandwich (all 2) and 4 for
+//    xylophone (3). The written split is right each time, so that is what is used here.
+//  - Vegetable is left out (`skip`): the sheet writes four parts (ve-ge-ta-ble) but draws three claps, and it
+//    is said "veg-ta-ble", so there is no one right answer to give a child.
+//  - Pineapple is split pine-ap-ple. The sheet writes "Pi - ne - apple", which is also 3 syllables.
+export const L5_PAGES = {
+  A: [syl("apple", "ap", "ple"), syl("ant"), syl("acorn", "a", "corn"), syl("alligator", "al", "li", "ga", "tor")],
+  B: [syl("ball"), syl("banana", "ba", "na", "na"), syl("bag"), syl("butterfly", "but", "ter", "fly")],
+  C: [syl("cat"), syl("car"), syl("carrot", "car", "rot"), syl("caterpillar", "ca", "ter", "pil", "lar")],
+  D: [syl("dog"), syl("duck"), syl("drum"), syl("dolphin", "dol", "phin")],
+  E: [syl("elephant", "e", "le", "phant"), syl("egg"), syl("envelope", "en", "ve", "lope"), syl("ear")],
+  F: [syl("fish"), syl("flower", "flow", "er"), syl("fruit"), syl("firetruck", "fire", "truck")],
+  G: [syl("grapes"), syl("goat"), syl("gorilla", "go", "ril", "la"), syl("gift")],
+  H: [syl("house"), syl("hat"), syl("hammer", "ham", "mer"), syl("helicopter", "he", "li", "cop", "ter")],
+  I: [syl("igloo", "i", "gloo"), syl("iguana", "i", "gua", "na"), syl("ice cream", "ice", "cream"), syl("ink")],
+  J: [syl("jam"), syl("jug"), syl("jacket", "jack", "et"), syl("jungle", "jun", "gle")],
+  K: [syl("kite"), syl("kettle", "ket", "tle"), syl("kangaroo", "kan", "ga", "roo"), syl("kiwi", "ki", "wi")],
+  L: [syl("lion", "li", "on"), syl("lemon", "lem", "on"), syl("ladder", "lad", "der"), syl("ladybug", "la", "dy", "bug")],
+  M: [syl("monkey", "mon", "key"), syl("mango", "man", "go"), syl("mushroom", "mush", "room"), syl("mountain", "moun", "tain")],
+  N: [syl("nest"), syl("nuts"), syl("nurse"), syl("narwhal", "nar", "whal")],
+  O: [syl("orange", "or", "ange"), syl("owl"), syl("octopus", "oc", "to", "pus"), syl("otter", "ot", "ter")],
+  P: [syl("pig"), syl("pineapple", "pine", "ap", "ple"), syl("parrot", "par", "rot"), syl("pumpkin", "pump", "kin")],
+  Q: [syl("queen"), syl("quilt"), syl("quail"), syl("quokka", "quok", "ka")],
+  R: [syl("rabbit", "rab", "bit"), syl("rainbow", "rain", "bow"), syl("rocket", "rock", "et"), syl("raincoat", "rain", "coat")],
+  S: [syl("sun"), syl("sandwich", "sand", "wich"), syl("squirrel", "squir", "rel"), syl("sunflower", "sun", "flow", "er")],
+  T: [syl("tiger", "ti", "ger"), syl("tomato", "to", "ma", "to"), syl("train"), syl("turtle", "tur", "tle")],
+  U: [syl("umbrella", "um", "brel", "la"), syl("unicorn", "u", "ni", "corn"), syl("utensil", "u", "ten", "sil"), syl("uniform", "u", "ni", "form")],
+  V: [syl("van"), { word: "vegetable", skip: true }, syl("volcano", "vol", "ca", "no"), syl("vest")],
+  W: [syl("whale"), syl("watermelon", "wa", "ter", "mel", "on"), syl("window", "win", "dow"), syl("watch")],
+  X: [syl("xylophone", "xy", "lo", "phone"), syl("x-ray", "x", "ray"), syl("X-mas tree", "x", "mas", "tree"), syl("xerox", "xe", "rox")],
+  Y: [syl("yogurt", "yo", "gurt"), syl("yarn"), syl("yacht"), syl("yolk")],
+  Z: [syl("zebra", "ze", "bra"), syl("zipper", "zip", "per"), syl("zoo"), syl("zero", "ze", "ro")],
+};
+
+// Every word the games can use, with the letter of its page and its row (0 to 3).
+export const L5_WORDS = Object.entries(L5_PAGES).flatMap(([letter, rows]) =>
+  rows.flatMap((row, index) => (row.skip ? [] : [{ ...row, letter, row: index }])),
+);
+
+/* -------------------------------- Level 6: sound segmentation -------------------------------- */
+
+// A word and its sounds, as the letters written in the Beginning, Middle and Ending boxes: snd("cat", "c", "a",
+// "t"). A sound can take more than one letter: duck is d, u, ck. A word of two sounds has two boxes, as the
+// sheet's owl row does.
+const snd = (word, ...sounds) => ({ word, sounds });
+
+// A word the sheet shows but the games leave out, because its sounds do not fit boxes of letters one for one.
+const noSounds = (word) => ({ word, sounds: null });
+
+// Every page has four rows, top to bottom, and `L6_PAGES` lists them in that order, because a row's place is
+// what finds its picture on the page. The rows left out (`noSounds`) are:
+//  - a letter that is not a sound of its own, or a silent e: axe, ice, kite, vase, use
+//  - more than three sounds: acorn, igloo, jump, oven, quilt, quiet, ufo, x-ray, yo-yo, zebra, zero
+//  - a vowel followed by r, which is taught later: arm, car, urn
+//  - a word not said the way it is written: key
+//  - hom (the honey jar on H): it is not a word, so there is nothing to say
+// Words that appear on two pages (bed, hen, pen, net) are in the list twice, once for each page's picture.
+export const L6_PAGES = {
+  A: [snd("ant", "a", "n", "t"), noSounds("axe"), noSounds("arm"), noSounds("acorn")],
+  B: [snd("bat", "b", "a", "t"), snd("bed", "b", "e", "d"), snd("bin", "b", "i", "n"), snd("bug", "b", "u", "g")],
+  C: [snd("cat", "c", "a", "t"), snd("cap", "c", "a", "p"), noSounds("car"), snd("cup", "c", "u", "p")],
+  D: [snd("dog", "d", "o", "g"), snd("dad", "d", "a", "d"), snd("duck", "d", "u", "ck"), snd("dig", "d", "i", "g")],
+  E: [snd("bed", "b", "e", "d"), snd("hen", "h", "e", "n"), snd("pen", "p", "e", "n"), snd("net", "n", "e", "t")],
+  F: [snd("fan", "f", "a", "n"), snd("fog", "f", "o", "g"), snd("fig", "f", "i", "g"), snd("fin", "f", "i", "n")],
+  G: [snd("goat", "g", "oa", "t"), snd("gum", "g", "u", "m"), snd("gap", "g", "a", "p"), snd("gig", "g", "i", "g")],
+  H: [snd("hat", "h", "a", "t"), snd("hen", "h", "e", "n"), noSounds("hom"), snd("hop", "h", "o", "p")],
+  I: [snd("ink", "i", "n", "k"), noSounds("ice"), noSounds("igloo"), snd("inch", "i", "n", "ch")],
+  J: [snd("jam", "j", "a", "m"), snd("jug", "j", "u", "g"), snd("jet", "j", "e", "t"), noSounds("jump")],
+  K: [noSounds("key"), snd("kid", "k", "i", "d"), noSounds("kite"), snd("king", "k", "i", "ng")],
+  L: [snd("leg", "l", "e", "g"), snd("lip", "l", "i", "p"), snd("log", "l", "o", "g"), snd("lid", "l", "i", "d")],
+  M: [snd("mug", "m", "u", "g"), snd("mat", "m", "a", "t"), snd("mop", "m", "o", "p"), snd("map", "m", "a", "p")],
+  N: [snd("nod", "n", "o", "d"), snd("net", "n", "e", "t"), snd("nail", "n", "ai", "l"), snd("nut", "n", "u", "t")],
+  O: [snd("out", "ou", "t"), snd("owl", "ow", "l"), snd("ox", "o", "x"), noSounds("oven")],
+  P: [snd("pan", "p", "a", "n"), snd("pig", "p", "i", "g"), snd("pen", "p", "e", "n"), snd("pot", "p", "o", "t")],
+  Q: [snd("queen", "qu", "ee", "n"), snd("quail", "qu", "ai", "l"), noSounds("quilt"), noSounds("quiet")],
+  R: [snd("rat", "r", "a", "t"), snd("ring", "r", "i", "ng"), snd("rug", "r", "u", "g"), snd("red", "r", "e", "d")],
+  S: [snd("sun", "s", "u", "n"), snd("seal", "s", "ea", "l"), snd("soap", "s", "oa", "p"), snd("sock", "s", "o", "ck")],
+  T: [snd("tag", "t", "a", "g"), snd("top", "t", "o", "p"), snd("tap", "t", "a", "p"), snd("tin", "t", "i", "n")],
+  U: [noSounds("use"), snd("up", "u", "p"), noSounds("urn"), noSounds("ufo")],
+  V: [snd("van", "v", "a", "n"), noSounds("vase"), snd("veg", "v", "e", "g"), snd("vet", "v", "e", "t")],
+  W: [snd("win", "w", "i", "n"), snd("web", "w", "e", "b"), snd("wig", "w", "i", "g"), snd("wet", "w", "e", "t")],
+  X: [noSounds("x-ray"), snd("box", "b", "o", "x"), noSounds("axe"), snd("fox", "f", "o", "x")],
+  Y: [noSounds("yo-yo"), snd("yam", "y", "a", "m"), snd("yap", "y", "a", "p"), snd("yak", "y", "a", "k")],
+  Z: [noSounds("zebra"), snd("zoo", "z", "oo"), snd("zip", "z", "i", "p"), noSounds("zero")],
+};
+
+// Every word the games can use, once each (bed, hen, pen and net are on two pages): with the letter of its page
+// and its row (0 to 3).
+export const L6_WORDS = (() => {
+  const seen = new Set();
+
+  return Object.entries(L6_PAGES).flatMap(([letter, rows]) =>
+    rows.flatMap((row, index) => {
+      if (!row.sounds || seen.has(row.word)) return [];
+
+      seen.add(row.word);
+
+      return [{ ...row, letter, row: index }];
+    }),
+  );
+})();

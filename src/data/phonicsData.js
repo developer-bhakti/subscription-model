@@ -1,7 +1,13 @@
-// Shared details of the Phonics Skills section of Worksheets & Activities: the four levels, in the
+// Shared details of the Phonics Skills section of Worksheets & Activities: the six levels, in the
 // order a child learns them, and how the browser's voice says each letter's sound.
 // What is actually taught (the words, sounds, stories and rhymes) comes from the school's own
 // pages and lives in phonicsLessons.js.
+//
+// To add a level: list it below (`pageSize` is the width and height in pixels of its printed
+// pages), put its pages in src/assets/img/Level_N_<name>/ (see phonicsFiles.js), add a
+// PhonicsLevelN.jsx page in components/PhonicsSkills, and add its route in pages/User.jsx. The
+// Phonics Skills page, the Phonics Worksheets page and the level-to-level buttons pick it up
+// from this list.
 
 export const PHONICS_HUB_PATH = "/user/phonics-skills";
 
@@ -15,6 +21,7 @@ export const PHONICS_LEVELS = [
     preview: "A  B  C",
     description:
       "Activities to help children identify and recognize English alphabets (A–Z).",
+    pageSize: [1055, 1491],
   },
   {
     level: 2,
@@ -25,6 +32,7 @@ export const PHONICS_LEVELS = [
     preview: "/b/  /k/  /s/",
     description:
       "Activities to help children understand and learn the phonetic sounds of each letter.",
+    pageSize: [1055, 1491],
   },
   {
     level: 3,
@@ -35,6 +43,7 @@ export const PHONICS_LEVELS = [
     preview: "🐻 ⚽ 🚌",
     description:
       "Interactive phonics-based stories that help children connect letter sounds with words through storytelling.",
+    pageSize: [1055, 1491],
   },
   {
     level: 4,
@@ -45,6 +54,29 @@ export const PHONICS_LEVELS = [
     preview: "cat · hat · bat",
     description:
       "Activities to help children identify, understand, and match rhyming words.",
+    pageSize: [1055, 1491],
+  },
+  {
+    level: 5,
+    path: `${PHONICS_HUB_PATH}/level-5`,
+    icon: "👏",
+    title: "Syllable Recognition",
+    shortTitle: "Syllables",
+    preview: "ap · ple",
+    description:
+      "Activities to help children clap the beats in a word and count its syllables.",
+    pageSize: [1089, 1445],
+  },
+  {
+    level: 6,
+    path: `${PHONICS_HUB_PATH}/level-6`,
+    icon: "🧩",
+    title: "Sound Segmentation",
+    shortTitle: "Segmenting",
+    preview: "c · a · t",
+    description:
+      "Activities to help children break a word into its beginning, middle and ending sounds.",
+    pageSize: [1089, 1445],
   },
 ];
 
@@ -71,3 +103,44 @@ export const SOUND_SAY = Object.fromEntries(
 // Letters that make the same sound. A question never offers two of them together, because the
 // child could not tell which one the question means.
 export const SAME_SOUND_GROUPS = [["C", "K", "Q"]];
+
+/* ----------------------------- sounds written with more than one letter ----------------------------- */
+// Level 6 splits a word into the sounds a child writes in boxes, and a sound can take two letters: duck is
+// d, u, ck and goat is g, oa, t.
+
+// Two letters that stand for one sound: vowel pairs, and consonant pairs.
+export const VOWEL_PAIRS = ["oa", "ai", "ea", "ee", "oo", "ou", "ow"];
+export const CONSONANT_PAIRS = ["ck", "ng", "ch", "sh", "th", "qu"];
+
+// How to speak a pair's sound ("ck" says "kuh"). One letter's sound is in SOUND_SAY above.
+const PAIR_SAY = {
+  ck: "kuh", ng: "ing", ch: "chuh", sh: "shh", th: "thuh", qu: "kwuh",
+  oa: "oh", ai: "ay", ea: "ee", ee: "ee", oo: "oo", ou: "ow", ow: "ow",
+};
+
+// What to say for a sound, whether it takes one letter or two.
+export const soundSay = (unit) => SOUND_SAY[unit] ?? PAIR_SAY[unit] ?? unit;
+
+// Written differently, said the same: c and ck say /k/ like k does, ea says /ee/ like ee, and ow says /ou/.
+const SAME_AS = { c: "k", ck: "k", ea: "ee", ow: "ou" };
+
+// A sound's name for comparing: two sounds with the same key are the same sound, so a question never offers
+// both of them (they would both be right).
+export const soundKey = (unit) => SAME_AS[unit] ?? unit;
+
+// Sounds that share a part with each other, by key: qu says /kw/ (it starts with /k/ and has a /w/), x says /ks/, and
+// ng sits between n and g. They are different sounds, but a child could fairly take one for the other, so a question
+// never offers one of them as a wrong answer to the other.
+const OVERLAPS = [["k", "qu"], ["w", "qu"], ["k", "x"], ["s", "x"], ["n", "ng"], ["g", "ng"], ["t", "ch"]];
+
+// True when two sounds (by key) are the same or overlap.
+export const soundsOverlap = (a, b) =>
+  a === b || OVERLAPS.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
+
+// What kind of sound it is: a wrong answer is drawn from sounds of the same kind, so a child cannot tell the
+// right one by its looks.
+export const unitKind = (unit) => {
+  if (unit.length === 1) return "aeiou".includes(unit) ? "vowel" : "consonant";
+
+  return VOWEL_PAIRS.includes(unit) ? "vowelPair" : "consonantPair";
+};
