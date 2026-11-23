@@ -54,6 +54,8 @@ import AssessementForADHD from "../components/AssessmentAndProgressTracking/Asse
 import RhymingWords from "../components/ClassroomActivity/RhymingWords";
 import LiteracySkills from "../components/OnlineToolsForSkiil/LiteracySkills";
 import NumeracySkillsCognitiveSkill from "../components/OnlineToolsForSkiil/NumeracySkillsCognitiveSkill";
+import OnlinePhonicsSkills from "../components/OnlineToolsForSkiil/OnlinePhonicsSkills";
+import CognitiveSkills from "../components/OnlineToolsForSkiil/CognitiveSkills";
 import AdmissionDocWizard from "../components/MarketingAndParentEngagement/AdmissionDocWizard";
 import OutreachDocWizard from "../components/MarketingAndParentEngagement/OutreachDocWizard";
 //import AdmissionStrategyTool from "../components/MarketingAndParentEngagement/AdmissionStrategyTool";
@@ -381,6 +383,21 @@ export default function User() {
               />
 
               <Route
+                path="online-games/phonics-skills"
+                element={<OnlinePhonicsSkills />}
+              />
+
+              <Route
+                path="online-games/phonics-skills/rhyming-words"
+                element={<RhymingWords />}
+              />
+
+              <Route
+                path="online-games/cognitive-skills"
+                element={<CognitiveSkills />}
+              />
+
+              <Route
                 path="curriculum/parent-counselling-tools"
                 element={<ParentCounsellingTools />}
               />
@@ -406,27 +423,27 @@ export default function User() {
               />
 
               <Route
-                path="worksheet/phonics-skills"
+                path="phonics-skills"
                 element={<PhonicsSkills />}
               />
 
               <Route
-                path="worksheet/phonics-skills/level-1"
+                path="phonics-skills/level-1"
                 element={<PhonicsLevel1 />}
               />
 
               <Route
-                path="worksheet/phonics-skills/level-2"
+                path="phonics-skills/level-2"
                 element={<PhonicsLevel2 />}
               />
 
               <Route
-                path="worksheet/phonics-skills/level-3"
+                path="phonics-skills/level-3"
                 element={<PhonicsLevel3 />}
               />
 
               <Route
-                path="worksheet/phonics-skills/level-4"
+                path="phonics-skills/level-4"
                 element={<PhonicsLevel4 />}
               />
 

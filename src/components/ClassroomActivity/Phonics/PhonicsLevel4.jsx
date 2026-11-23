@@ -311,7 +311,7 @@ const ACTIVITIES = [
     emoji: "🕵️",
     render: () => <QuizGame makeQuestions={makeOddOneOut} optionTextClass="text-2xl sm:text-3xl" />,
   },
-  { id: "pages", label: "Download Pages", emoji: "📥", render: () => <PhonicsWorksheets level={4} /> },
+  { id: "pages", label: "Download Worksheets", emoji: "📥", render: () => <PhonicsWorksheets level={4} /> },
 ];
 
 export default function PhonicsLevel4() {

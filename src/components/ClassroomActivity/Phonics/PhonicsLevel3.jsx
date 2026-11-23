@@ -326,7 +326,7 @@ function SoundItOut() {
 const ACTIVITIES = [
   { id: "stories", label: "Story Time", emoji: "📚", render: () => <StoryTime /> },
   { id: "sound-out", label: "Sound It Out", emoji: "🧩", render: () => <SoundItOut /> },
-  { id: "pages", label: "Download Pages", emoji: "📥", render: () => <PhonicsWorksheets level={3} /> },
+  { id: "pages", label: "Download Worksheets", emoji: "📥", render: () => <PhonicsWorksheets level={3} /> },
 ];
 
 export default function PhonicsLevel3() {

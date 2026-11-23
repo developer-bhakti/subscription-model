@@ -15,10 +15,10 @@ const DashboardOnlineGames = () => {
 
       <ModuleGrid>
         <ModuleCard
-          icon="🎵"
-          title="Rhyming Words Adventure"
-          description="Choose the word that rhymes with the teacher's word."
-          onClick={() => navigate('/user/online-games/rhyming-words')}
+          icon="🗣️"
+          title="Phonics Skills"
+          description="Phonics games to play with your class, starting with Rhyming Words."
+          onClick={() => navigate('/user/online-games/phonics-skills')}
         />
 
         <ModuleCard
@@ -33,6 +33,13 @@ const DashboardOnlineGames = () => {
           title="Numeracy Skills"
           description="Build cognitive skills with number and counting activities."
           onClick={() => navigate('/user/online-games/numeracy-skills')}
+        />
+
+        <ModuleCard
+          icon="🧠"
+          title="Cognitive Skill"
+          description="Cognitive skill games for your class."
+          onClick={() => navigate('/user/online-games/cognitive-skills')}
         />
       </ModuleGrid>
     </div>

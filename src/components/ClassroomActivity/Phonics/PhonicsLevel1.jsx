@@ -291,7 +291,7 @@ const ACTIVITIES = [
   },
   { id: "hunt", label: "Letter Hunt", emoji: "🔍", render: () => <LetterHunt /> },
   { id: "pictures", label: "Picture Hunt", emoji: "🖼️", render: () => <PickAllGame makeRounds={makePictureRounds} /> },
-  { id: "pages", label: "Download Pages", emoji: "📥", render: () => <PhonicsWorksheets level={1} /> },
+  { id: "pages", label: "Download Worksheets", emoji: "📥", render: () => <PhonicsWorksheets level={1} /> },
 ];
 
 export default function PhonicsLevel1() {

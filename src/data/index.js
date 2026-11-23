@@ -5,6 +5,7 @@ export const sections = [
     { id: "home", short: "Home", title: "Home", path: "/user", icon: "🏠" },
     { id: "curriculum", short: "Curriculum", title: " Curriculum & Academic Resources", path: "/user/curriculum", icon: "📘" },
     { id: "worksheet", short: "Worksheets", title: "Classroom Activity And Worksheet Library", path: "/user/worksheet", icon: "📝" },
+    { id: "phonics-skills", short: "Phonics Skills", title: "Phonics Skills", path: "/user/phonics-skills", icon: "🔤" },
     { id: "online-games", short: "Online Tools", title: "Online Tools for Skill Development", path: "/user/online-games", icon: "🎮" },
     { id: "sound-book", short: "Sound Book", title: "Sound Book", path: "/user/sound-books", icon: "🔊" },
     { id: "assessment", short: "Assessments", title: "Assessment And Progress Tracking Tools", path: "/user/assessment", icon: "📊" },

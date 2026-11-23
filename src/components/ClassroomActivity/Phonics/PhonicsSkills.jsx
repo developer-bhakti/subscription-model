@@ -10,7 +10,7 @@ export default function PhonicsSkills() {
   return (
     <section className="mx-auto max-w-7xl">
       <div className="mb-4">
-        <BackButton onClick={() => navigate("/user/worksheet")}>← Worksheets</BackButton>
+        <BackButton onClick={() => navigate("/user")}>← Dashboard</BackButton>
       </div>
 
       <PageHero

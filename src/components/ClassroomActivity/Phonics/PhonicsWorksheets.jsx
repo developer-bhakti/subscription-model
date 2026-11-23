@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { PHONICS_LEVELS } from "../../../data/phonicsData";
 import { getPhonicsFiles } from "../../../data/phonicsFiles";
 
-// The "Download Pages" tab of a Phonics level: every printable page the school has added for that
+// The "Download Worksheets" tab of a Phonics level: every printable page the school has added for that
 // level as a thumbnail with a Download button, a larger preview when a page is tapped, and the
 // level's full PDF workbook when there is one.
 

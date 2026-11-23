@@ -3,7 +3,7 @@
 // What is actually taught (the words, sounds, stories and rhymes) comes from the school's own
 // pages and lives in phonicsLessons.js.
 
-export const PHONICS_HUB_PATH = "/user/worksheet/phonics-skills";
+export const PHONICS_HUB_PATH = "/user/phonics-skills";
 
 export const PHONICS_LEVELS = [
   {

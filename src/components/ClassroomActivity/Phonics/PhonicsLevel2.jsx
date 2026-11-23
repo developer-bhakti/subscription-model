@@ -198,7 +198,7 @@ const ACTIVITIES = [
     emoji: "✏️",
     render: () => <QuizGame makeQuestions={makeMissingLetter} />,
   },
-  { id: "pages", label: "Download Pages", emoji: "📥", render: () => <PhonicsWorksheets level={2} /> },
+  { id: "pages", label: "Download Worksheets", emoji: "📥", render: () => <PhonicsWorksheets level={2} /> },
 ];
 
 export default function PhonicsLevel2() {
