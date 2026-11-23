@@ -40,6 +40,7 @@ import MonthWiseWorksheets from "../components/ClassroomActivity/MonthWiseWorksh
 import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
 import ColourThemeActivities from "../components/ClassroomActivity/ColourThemeActivities";
 import PhonicsSkills from "../components/ClassroomActivity/Phonics/PhonicsSkills";
+import PhonicsWorksheetsHub from "../components/ClassroomActivity/Phonics/PhonicsWorksheetsHub";
 import PhonicsLevel1 from "../components/ClassroomActivity/Phonics/PhonicsLevel1";
 import PhonicsLevel2 from "../components/ClassroomActivity/Phonics/PhonicsLevel2";
 import PhonicsLevel3 from "../components/ClassroomActivity/Phonics/PhonicsLevel3";
@@ -420,6 +421,11 @@ export default function User() {
               <Route
                 path="worksheet/theme-based-colouring"
                 element={<ColourThemeActivities />}
+              />
+
+              <Route
+                path="worksheet/phonics-worksheets"
+                element={<PhonicsWorksheetsHub />}
               />
 
               <Route

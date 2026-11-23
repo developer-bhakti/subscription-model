@@ -34,6 +34,13 @@ const DashboardWorksheet = () => {
           description="Explore classroom-ready colouring sheets by theme for preschool and early learners."
           onClick={() => navigate('/user/worksheet/theme-based-colouring')}
         />
+
+        <ModuleCard
+          icon="🔤"
+          title="Phonics Worksheets"
+          description="Printable phonics worksheets for all four levels, from identifying letters to rhyming words."
+          onClick={() => navigate('/user/worksheet/phonics-worksheets')}
+        />
       </ModuleGrid>
     </div>
   )
