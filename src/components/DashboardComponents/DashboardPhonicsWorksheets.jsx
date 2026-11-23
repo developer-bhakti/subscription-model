@@ -1,21 +1,26 @@
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { BackButton, PageHero, SectionTitle } from "../../KidsUI";
-import { Star } from "../../KidsArt";
-import { PHONICS_LEVELS } from "../../../data/phonicsData";
-import { getPhonicsFiles } from "../../../data/phonicsFiles";
-import PhonicsWorksheets from "./PhonicsWorksheets";
+import { BackButton, PageHero, SectionTitle } from "../KidsUI";
+import { Star } from "../KidsArt";
+import { PHONICS_LEVELS } from "../../data/phonicsData";
+import { getPhonicsFiles } from "../../data/phonicsFiles";
+import PhonicsWorksheets from "../PhonicsSkills/PhonicsWorksheets";
 
-// "Phonics Worksheets" in Worksheets & Activities. It lists the four Phonics levels as cards, the
-// same way the theme-based colouring worksheets list their themes, and a level opens to its
-// printable pages. The pages are not copied: they are the very ones in Phonics Skills, read from the
+// The "Phonics Worksheets" page of the dashboard. The flow:
+//
+//   Worksheets (DashboardWorksheet.jsx)          the card "Phonics Worksheets" is here
+//     -> Phonics Worksheets (this page)          the four levels as cards: /user/worksheet/phonics-worksheets
+//       -> one level (?level=1 to 4)             that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
+//
+// It lists the four Phonics levels as cards, the same way the theme-based colouring worksheets list
+// their themes, and a level opens to its printable pages. The pages are not copied: they are the very ones in Phonics Skills, read from the
 // same files (getPhonicsFiles) and shown by the same component (PhonicsWorksheets), so a page added
 // to a level's folder appears in both places. The chosen level lives in the address (?level=2), so
 // the browser's Back button returns to the levels.
 
 const worksheetCount = (level) => getPhonicsFiles(level).pages.length;
 
-export default function PhonicsWorksheetsHub() {
+export default function DashboardPhonicsWorksheets() {
   const [params, setParams] = useSearchParams();
   const topRef = useRef(null);
 

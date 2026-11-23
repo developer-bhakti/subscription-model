@@ -16,6 +16,8 @@ import { getAccountType, ACCOUNT_TYPES } from "../services/auth";
 import DashboardHome from "../components/DashboardComponents/DashboardHome";
 import DashboardCurriculum from "../components/DashboardComponents/DashboardCurriculum";
 import DashboardWorksheet from "../components/DashboardComponents/DashboardWorksheet";
+import DashboardPhonicsSkills from "../components/DashboardComponents/DashboardPhonicsSkills";
+import DashboardPhonicsWorksheets from "../components/DashboardComponents/DashboardPhonicsWorksheets";
 import DashboardOnlineGames from "../components/DashboardComponents/DashboardOnlineGames";
 import DashboardAssessment from "../components/DashboardComponents/DashboardAssessment";
 import DashboardTeacherSupport from "../components/DashboardComponents/DashboardTeacherSupport";
@@ -39,12 +41,10 @@ import SessionPlanPreview from "../components/SessionPlan/SessionPlanPreview";
 import MonthWiseWorksheets from "../components/ClassroomActivity/MonthWiseWorksheets";
 import SummerWorksheets from "../components/ClassroomActivity/SummerWorksheets";
 import ColourThemeActivities from "../components/ClassroomActivity/ColourThemeActivities";
-import PhonicsSkills from "../components/ClassroomActivity/Phonics/PhonicsSkills";
-import PhonicsWorksheetsHub from "../components/ClassroomActivity/Phonics/PhonicsWorksheetsHub";
-import PhonicsLevel1 from "../components/ClassroomActivity/Phonics/PhonicsLevel1";
-import PhonicsLevel2 from "../components/ClassroomActivity/Phonics/PhonicsLevel2";
-import PhonicsLevel3 from "../components/ClassroomActivity/Phonics/PhonicsLevel3";
-import PhonicsLevel4 from "../components/ClassroomActivity/Phonics/PhonicsLevel4";
+import PhonicsLevel1 from "../components/PhonicsSkills/PhonicsLevel1";
+import PhonicsLevel2 from "../components/PhonicsSkills/PhonicsLevel2";
+import PhonicsLevel3 from "../components/PhonicsSkills/PhonicsLevel3";
+import PhonicsLevel4 from "../components/PhonicsSkills/PhonicsLevel4";
 import SchoolAdmissionForm from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionForm";
 import SchoolAdmissionTest from "../components/SchoolOprationManagementTool.jsx/SchoolAdmissionTest";
 import SoundBooks from "../components/SchoolOprationManagementTool.jsx/SoundBooks";
@@ -425,12 +425,12 @@ export default function User() {
 
               <Route
                 path="worksheet/phonics-worksheets"
-                element={<PhonicsWorksheetsHub />}
+                element={<DashboardPhonicsWorksheets />}
               />
 
               <Route
                 path="phonics-skills"
-                element={<PhonicsSkills />}
+                element={<DashboardPhonicsSkills />}
               />
 
               <Route

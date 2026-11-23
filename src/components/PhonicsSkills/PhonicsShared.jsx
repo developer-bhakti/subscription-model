@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BackButton, PageHero } from "../../KidsUI";
-import { PHONICS_HUB_PATH, PHONICS_LEVELS } from "../../../data/phonicsData";
-import { FRAME, emojiOf } from "../../../data/phonicsLessons";
+import { BackButton, PageHero } from "../KidsUI";
+import { PHONICS_HUB_PATH, PHONICS_LEVELS } from "../../data/phonicsData";
+import { FRAME, emojiOf } from "../../data/phonicsLessons";
 import { PAGE_RATIO, say, speechSupported, starsFor, stopSpeaking, stripBox, stripCellFor } from "./phonicsUtils";
 
 // Building blocks shared by the four Phonics level pages: the page frame with its activity tabs,

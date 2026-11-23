@@ -1,10 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { BackButton, ModuleGrid, PageHero } from "../../KidsUI";
-import { Star } from "../../KidsArt";
-import { PHONICS_LEVELS } from "../../../data/phonicsData";
+import { BackButton, ModuleGrid, PageHero } from "../KidsUI";
+import { Star } from "../KidsArt";
+import { PHONICS_LEVELS } from "../../data/phonicsData";
 
-// The Phonics Skills landing page: the four levels as cards, in the order a child learns them.
-export default function PhonicsSkills() {
+// The Phonics Skills page of the dashboard: the four levels as cards, in the order a child learns
+// them. The flow:
+//
+//   Phonics Skills (the sidebar)  ->  this page: the four levels   /user/phonics-skills
+//     -> one level (PhonicsSkills/PhonicsLevel1.jsx to PhonicsLevel4.jsx)   /user/phonics-skills/level-1 to 4
+//
+// All the pages behind it live in the PhonicsSkills folder.
+export default function DashboardPhonicsSkills() {
   const navigate = useNavigate();
 
   return (

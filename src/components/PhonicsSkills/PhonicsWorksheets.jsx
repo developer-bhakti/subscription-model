@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { PHONICS_LEVELS } from "../../../data/phonicsData";
-import { getPhonicsFiles } from "../../../data/phonicsFiles";
+import { PHONICS_LEVELS } from "../../data/phonicsData";
+import { getPhonicsFiles } from "../../data/phonicsFiles";
 
 // The "Download Worksheets" tab of a Phonics level: every printable page the school has added for that
 // level as a thumbnail with a Download button, a larger preview when a page is tapped, and the

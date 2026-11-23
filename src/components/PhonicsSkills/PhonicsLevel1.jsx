@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { LETTERS } from "../../../data/phonicsData";
-import { getLetterPage } from "../../../data/phonicsFiles";
-import { L1_PAGES } from "../../../data/phonicsLessons";
+import { LETTERS } from "../../data/phonicsData";
+import { getLetterPage } from "../../data/phonicsFiles";
+import { L1_PAGES } from "../../data/phonicsLessons";
 import { ListenButton, PhonicsLevelLayout, Picture, PickAllGame, QuizGame, ResultCard } from "./PhonicsShared";
 import PhonicsWorksheets, { WorksheetButton } from "./PhonicsWorksheets";
 import { pickRandom, say, shuffle, starsFor, stripBox } from "./phonicsUtils";

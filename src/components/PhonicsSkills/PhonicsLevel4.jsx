@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { L4_LETTERS, L4_ROWS } from "../../../data/phonicsLessons";
+import { L4_LETTERS, L4_ROWS } from "../../data/phonicsLessons";
 import { ListenButton, PhonicsLevelLayout, Picture, QuizGame, ResultCard } from "./PhonicsShared";
 import PhonicsWorksheets, { WorksheetButton } from "./PhonicsWorksheets";
 import { pickRandom, say, shuffle } from "./phonicsUtils";

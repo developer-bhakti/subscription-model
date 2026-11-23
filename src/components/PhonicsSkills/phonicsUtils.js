@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { speakAsGirl } from "../../../services/speech";
-import { LETTERS, SAME_SOUND_GROUPS, SOUND_SAY } from "../../../data/phonicsData";
-import { getLetterPage } from "../../../data/phonicsFiles";
-import { L1_PAGES, emojiOf } from "../../../data/phonicsLessons";
+import { speakAsGirl } from "../../services/speech";
+import { LETTERS, SAME_SOUND_GROUPS, SOUND_SAY } from "../../data/phonicsData";
+import { getLetterPage } from "../../data/phonicsFiles";
+import { L1_PAGES, emojiOf } from "../../data/phonicsLessons";
 
 /* ------------------------- pictures cut from the worksheets ------------------------- */
 
