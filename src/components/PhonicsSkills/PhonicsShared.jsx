@@ -6,7 +6,9 @@ import { getLetterPage } from "../../data/phonicsFiles";
 import { FRAME, emojiOf } from "../../data/phonicsLessons";
 import {
   PAGE_RATIO,
+  cvcCellFor,
   pageRatio,
+  rhymeCellFor,
   say,
   sheetRowBox,
   speechSupported,
@@ -56,18 +58,31 @@ const PICTURE_SIZES = {
 };
 
 // The picture for a word: its emoji if it has a good one, otherwise the real picture from the
-// Level 1 worksheet, otherwise a plain picture frame. Always decorative: the word is written
-// wherever a picture is shown, or is the answer being asked for.
+// Level 1 worksheet, otherwise the one from the Level 4 sheet, otherwise a plain picture frame.
+// Always decorative: the word is written wherever a picture is shown, or is the answer being
+// asked for.
 export function Picture({ word, size = "md", className = "" }) {
   const { emoji: emojiSize, crop: cropSize } = PICTURE_SIZES[size];
   const emoji = emojiOf(word);
   const cell = emoji ? null : stripCellFor(word);
+  const sheet = emoji || cell ? null : rhymeCellFor(word);
 
   if (cell) {
     return (
       <PageCrop
         src={cell.src}
         box={stripBox(cell.column, false)}
+        className={`${cropSize} shrink-0 rounded-xl bg-white ${className}`}
+      />
+    );
+  }
+
+  if (sheet) {
+    return (
+      <PageCrop
+        src={sheet.src}
+        box={sheet.box}
+        ratio={sheet.ratio}
         className={`${cropSize} shrink-0 rounded-xl bg-white ${className}`}
       />
     );
@@ -103,6 +118,24 @@ export function SheetPicture({ level, letter, row, word, size = "lg", className 
       src={page.image}
       box={box}
       ratio={pageRatio(level)}
+      label={word}
+      className={`${SHEET_PICTURE_SIZES[size]} shrink-0 rounded-xl bg-white ${className}`}
+    />
+  );
+}
+
+// The picture a Level 8 worksheet shows for a CVC word (cat, dog, sun...), cut out of the page as printed. If the word
+// has none, its emoji (or a plain frame) is shown instead.
+export function CvcPicture({ word, size = "lg", className = "" }) {
+  const cell = cvcCellFor(word);
+
+  if (!cell) return <Picture word={word} size={size === "xl" ? "xl" : "lg"} className={className} />;
+
+  return (
+    <PageCrop
+      src={cell.src}
+      box={cell.box}
+      ratio={cell.ratio}
       label={word}
       className={`${SHEET_PICTURE_SIZES[size]} shrink-0 rounded-xl bg-white ${className}`}
     />
@@ -442,10 +475,11 @@ export function PickAllGame({ makeRounds }) {
 
 // `makeQuestions()` returns a fresh list of questions each time it is called:
 //   { prompt, display?, speak?, explain?, options: [{ value, label, icon?, emoji? }], answer }
+// With `hideLabels` an option shows only its picture until the child has answered (a screen reader still reads it).
 // `display` is the big thing shown under the prompt (a letter or a picture), `speak` is read aloud
 // when the question appears, and `explain` is read after the child answers. An option can carry
 // a picture: `icon` (any element, such as <Picture/>) or just an `emoji`.
-export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5xl" }) {
+export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5xl", hideLabels = false }) {
   const [questions, setQuestions] = useState(() => makeQuestions());
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -560,7 +594,7 @@ export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5x
                 className={`flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl p-3 font-bold transition active:scale-95 disabled:cursor-default ${optionTextClass} ${style}`}
               >
                 {option.icon ?? (option.emoji && <span aria-hidden="true">{option.emoji}</span>)}
-                <span>
+                <span className={hideLabels && !answered ? "sr-only" : undefined}>
                   {option.label}
                   {answered && isAnswer && <span aria-label="correct"> ✔</span>}
                   {answered && isPicked && !isAnswer && <span aria-label="not correct"> ✖</span>}
@@ -577,6 +611,168 @@ export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5x
         {answered && (
           <button type="button" onClick={goNext} className="kid-btn kid-btn-sun mt-4 px-8 py-3 text-lg">
             {index + 1 < questions.length ? "Next ➜" : "See my stars ⭐"}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------------- build-the-word game --------------------------------- */
+
+// A round shows a picture and a row of empty boxes, and the child taps the tiles in order to fill them: the sounds of a
+// word, or its letters. `makeRounds()` returns a fresh list:
+//   { key, word, parts: ["c", "a", "t"], tiles: [{ id, text }] (in the order to show them), picture? }
+// A tile whose text is the next part goes into the next box and is said aloud (`sayTile(text)`, if given); any other tile
+// turns red for a moment. When every box is full the word is said. Tiles with the same text are the same tile.
+export function TileBuildGame({
+  makeRounds,
+  heading = "Tap the tiles in order to build the word",
+  sayTile,
+  unit = "tile",
+}) {
+  const [rounds, setRounds] = useState(() => makeRounds());
+  const [index, setIndex] = useState(0);
+  const [placed, setPlaced] = useState([]);
+  const [wrongId, setWrongId] = useState(null);
+  const [mistakes, setMistakes] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const wrongTimer = useRef(null);
+
+  const round = rounds[index];
+  const done = placed.length === round.parts.length;
+
+  useEffect(() => () => clearTimeout(wrongTimer.current), []);
+
+  // Say the word when each round begins.
+  useEffect(() => {
+    if (!finished) say(round.word);
+  }, [round, finished]);
+
+  const tap = (tile) => {
+    if (done || placed.includes(tile.id)) return;
+
+    if (tile.text === round.parts[placed.length]) {
+      const next = [...placed, tile.id];
+
+      setPlaced(next);
+
+      if (next.length === round.parts.length) say(round.word);
+      else if (sayTile) say(sayTile(tile.text));
+    } else {
+      setMistakes((m) => m + 1);
+      setWrongId(tile.id);
+      clearTimeout(wrongTimer.current);
+      wrongTimer.current = setTimeout(() => setWrongId(null), 700);
+    }
+  };
+
+  const goNext = () => {
+    if (index + 1 < rounds.length) {
+      setIndex(index + 1);
+      setPlaced([]);
+      setWrongId(null);
+    } else {
+      stopSpeaking();
+      setFinished(true);
+    }
+  };
+
+  const replay = () => {
+    setRounds(makeRounds());
+    setIndex(0);
+    setPlaced([]);
+    setWrongId(null);
+    setMistakes(0);
+    setFinished(false);
+  };
+
+  if (finished) {
+    return (
+      <ResultCard
+        stars={mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1}
+        message={mistakes === 0 ? "Every word built first time!" : `You built all ${rounds.length} words!`}
+        onReplay={replay}
+      />
+    );
+  }
+
+  return (
+    <div className="kid-card tone-white mx-auto w-full max-w-3xl p-4 text-center sm:p-6">
+      <div className="flex items-center justify-between gap-3 text-sm font-bold text-kid-soft sm:text-base">
+        <span>
+          Word {index + 1} of {rounds.length}
+        </span>
+
+        <span className="rounded-full bg-tone-butter px-3 py-1 text-kid-ink">
+          Built {placed.length} / {round.parts.length}
+        </span>
+      </div>
+
+      <div className="mt-4 rounded-3xl border-4 border-dashed border-yellow-400 bg-yellow-50 p-4 sm:p-6">
+        <h3 className="text-xl font-bold text-kid-ink sm:text-2xl">{heading}</h3>
+
+        {round.picture && <div className="mt-4 flex justify-center">{round.picture}</div>}
+
+        <ListenButton onClick={() => say(round.word)} className="mt-3">
+          Hear it
+        </ListenButton>
+
+        {/* the word as it is built: a box for every tile */}
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {round.parts.map((part, i) => {
+            const filled = i < placed.length;
+
+            return (
+              <span
+                key={i}
+                role="img"
+                aria-label={filled ? `Box ${i + 1}: ${part}` : `Box ${i + 1}: empty`}
+                className={`grid min-h-16 min-w-16 place-items-center rounded-2xl px-3 text-3xl font-bold sm:text-4xl ${
+                  filled
+                    ? "bg-green-500 text-white ring-4 ring-green-600"
+                    : "border-4 border-dashed border-orange-400 bg-white text-orange-500"
+                }`}
+              >
+                {filled ? part : "?"}
+              </span>
+            );
+          })}
+        </div>
+
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          {round.tiles.map((tile) => {
+            const used = placed.includes(tile.id);
+            const isWrong = wrongId === tile.id;
+
+            return (
+              <button
+                key={tile.id}
+                type="button"
+                disabled={used}
+                onClick={() => tap(tile)}
+                aria-label={`The ${unit} ${tile.text}`}
+                className={`min-h-16 min-w-16 rounded-2xl px-4 py-3 text-3xl font-bold transition active:scale-95 disabled:cursor-default sm:text-4xl ${
+                  used
+                    ? "bg-white text-green-800 opacity-30 ring-4 ring-green-100"
+                    : isWrong
+                      ? "bg-red-500 text-white ring-4 ring-red-600"
+                      : "bg-white text-green-800 ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
+                }`}
+              >
+                {tile.text}
+              </button>
+            );
+          })}
+        </div>
+
+        <p aria-live="polite" className="mt-5 min-h-8 text-xl font-bold text-kid-ink sm:text-2xl">
+          {done ? `🎉 You built ${round.word}!` : wrongId !== null ? "😊 Not that one, try again!" : ""}
+        </p>
+
+        {done && (
+          <button type="button" onClick={goNext} className="kid-btn kid-btn-sun mt-4 px-8 py-3 text-lg">
+            {index + 1 < rounds.length ? "Next ➜" : "See my stars ⭐"}
           </button>
         )}
       </div>

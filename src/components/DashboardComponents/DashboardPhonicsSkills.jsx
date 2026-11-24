@@ -3,11 +3,11 @@ import { BackButton, ModuleGrid, PageHero } from "../KidsUI";
 import { Star } from "../KidsArt";
 import { PHONICS_LEVELS } from "../../data/phonicsData";
 
-// The Phonics Skills page of the dashboard: the six levels as cards, in the order a child learns
+// The Phonics Skills page of the dashboard: the eight levels as cards, in the order a child learns
 // them. The flow:
 //
-//   Phonics Skills (the sidebar)  ->  this page: the six levels   /user/phonics-skills
-//     -> one level (PhonicsSkills/PhonicsLevel1.jsx to PhonicsLevel6.jsx)   /user/phonics-skills/level-1 to 6
+//   Phonics Skills (the sidebar)  ->  this page: the eight levels   /user/phonics-skills
+//     -> one level (PhonicsSkills/PhonicsLevel1.jsx to PhonicsLevel8.jsx)   /user/phonics-skills/level-1 to 8
 //
 // All the pages behind it live in the PhonicsSkills folder.
 export default function DashboardPhonicsSkills() {
@@ -22,10 +22,10 @@ export default function DashboardPhonicsSkills() {
       <PageHero
         emoji="🔤"
         title="Phonics Skills"
-        subtitle="Six steps from knowing the letters to splitting words into their sounds. Start at Level 1 and climb up!"
+        subtitle="Eight steps from knowing the letters to reading whole words. Start at Level 1 and climb up!"
       />
 
-      <ModuleGrid columns="sm:grid-cols-2 xl:grid-cols-3">
+      <ModuleGrid columns="sm:grid-cols-2 xl:grid-cols-4">
         {PHONICS_LEVELS.map((level) => (
           <button
             key={level.level}
@@ -56,15 +56,16 @@ export default function DashboardPhonicsSkills() {
               <p className="mt-1.5 text-sm font-medium leading-relaxed text-kid-soft">{level.description}</p>
 
               <div className="mt-4 flex items-center justify-between gap-3">
+                {/* The bars share the room left beside the arrow, so any number of levels fits a card */}
                 <span
-                  className="flex items-center gap-1.5"
+                  className="flex min-w-0 flex-1 items-center gap-1"
                   role="img"
                   aria-label={`Step ${level.level} of ${PHONICS_LEVELS.length}`}
                 >
                   {PHONICS_LEVELS.map((l) => (
                     <span
                       key={l.level}
-                      className={`h-2.5 w-6 rounded-full ${l.level <= level.level ? "bg-kid-green" : "bg-white/80"}`}
+                      className={`h-2.5 max-w-6 min-w-0 flex-1 rounded-full ${l.level <= level.level ? "bg-kid-green" : "bg-white/80"}`}
                     />
                   ))}
                 </span>

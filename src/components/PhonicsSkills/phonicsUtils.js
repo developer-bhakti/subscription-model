@@ -11,8 +11,8 @@ import {
   soundsOverlap,
 } from "../../data/phonicsData";
 import { getLetterPage } from "../../data/phonicsFiles";
-import { L1_PAGES, emojiOf } from "../../data/phonicsLessons";
-import { SHEET_CELL, SHEET_ROWS } from "../../data/phonicsSheetRows";
+import { L1_PAGES, L4_PICTURES, emojiOf } from "../../data/phonicsLessons";
+import { L8_PAGE_SIZE, L8_PICTURES, SHEET_CELL, SHEET_ROWS } from "../../data/phonicsSheetRows";
 
 /* ------------------------- pictures cut from the worksheets ------------------------- */
 
@@ -47,6 +47,19 @@ export const stripCellFor = (word) => {
   return null;
 };
 
+// The Level 4 sheet picture of a word that has no emoji and is not on a Level 1 page: { src, box, ratio }, or null.
+export const rhymeCellFor = (word) => {
+  const cell = L4_PICTURES[word.toLowerCase()];
+  const file = cell ? getLetterPage(4, cell.letter) : undefined;
+
+  if (!file) return null;
+
+  const [width, height] = cell.page;
+  const [x0, y0, x1, y1] = cell.box;
+
+  return { src: file.image, box: [x0 / width, y0 / height, x1 / width, y1 / height], ratio: width / height };
+};
+
 // True when a word can be shown as a picture: it has an emoji, or it is on a Level 1 worksheet.
 export const hasPicture = (word) => Boolean(emojiOf(word) || stripCellFor(word));
 
@@ -57,23 +70,37 @@ export const pageRatio = (level) => {
   return width / height;
 };
 
-// The part of a Level 5 or Level 6 page holding one row's picture and its name, as [x0, y0, x1, y1] fractions of
-// the page, or null if that page's rows have not been measured (see data/phonicsSheetRows.js). `row` is 0 to 3,
-// top to bottom.
+// The part of a Level 5, 6 or 7 page holding one row's picture, as [x0, y0, x1, y1] fractions of the page, or null if
+// that page's rows have not been measured (see data/phonicsSheetRows.js). `letter` is the page's key (a letter, or
+// "A3" on Level 7) and `row` is 0 to 3, top to bottom.
 export const sheetRowBox = (level, letter, row) => {
   const rows = SHEET_ROWS[level]?.[letter];
   const cell = SHEET_CELL[level];
+  const x = Array.isArray(cell?.x) ? cell.x : cell?.x?.[letter];
 
-  if (!rows || !cell || rows[row * 2] === undefined) return null;
+  if (!rows || !x || rows[row * 2] === undefined) return null;
 
   const [width, height] = PHONICS_LEVELS[level - 1].pageSize;
 
   return [
-    cell.x[0] / width,
+    x[0] / width,
     (rows[row * 2] + cell.inset) / height,
-    cell.x[1] / width,
+    x[1] / width,
     (rows[row * 2 + 1] - cell.inset + 1) / height,
   ];
+};
+
+// The Level 8 sheet picture of a word: { src, box, ratio } with the box as fractions of the page, or null.
+export const cvcCellFor = (word) => {
+  const cell = L8_PICTURES[word.toLowerCase()];
+  const file = cell ? getLetterPage(8, String(cell.page)) : undefined;
+
+  if (!file) return null;
+
+  const [width, height] = L8_PAGE_SIZE;
+  const [x0, y0, x1, y1] = cell.box;
+
+  return { src: file.image, box: [x0 / width, y0 / height, x1 / width, y1 / height], ratio: width / height };
 };
 
 // 1 to 3 stars for a score out of a total.

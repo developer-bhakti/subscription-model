@@ -1,14 +1,15 @@
-// Where the four rows of every Level 5 and Level 6 worksheet page sit, so a game can show the picture the
-// school printed for a word (see SheetPicture in components/PhonicsSkills/PhonicsShared.jsx).
+// Where the pictures are on the Level 5, 6, 7 and 8 worksheet pages, so a game can show the picture the school
+// printed for a word (see SheetPicture and CvcPicture in components/PhonicsSkills/PhonicsShared.jsx).
 //
-// Each page has four rows, top to bottom. A row is a purple frame with the picture and its name in a cell at
-// the left. The numbers below are measured from the pages: for each letter, the pixel row just INSIDE the
-// top and bottom of each row's frame, `[top1, bottom1, top2, bottom2, top3, bottom3, top4, bottom4]`, on the
-// pages' 1089 x 1445 pixels. The rows are not in exactly the same place on every page, which is why each
-// page has its own numbers.
+// LEVELS 5, 6 AND 7. Each page has four rows, top to bottom. A row is a frame with the picture in a cell inside it.
+// The numbers below are measured from the pages: for each page, the pixel row just INSIDE the top and bottom of
+// each row's frame, `[top1, bottom1, top2, bottom2, top3, bottom3, top4, bottom4]`. The rows are not in exactly the
+// same place on every page, which is why each page has its own numbers. Levels 5 and 6 have a page for each
+// letter (A to Z) on 1089 x 1445 pixels; Level 7 has a page for each vowel and number of sounds ("A2" is vowel A,
+// two sounds; "E4" is vowel E, four sounds) on 1052 x 1494 pixels.
 //
-// If a page is replaced by one whose rows sit somewhere else, change that letter's numbers. A letter with
-// no numbers here simply shows its words with an emoji (or a plain frame) instead of the printed picture.
+// If a page is replaced by one whose rows sit somewhere else, change that page's numbers. A page with no numbers
+// here simply shows its words with an emoji (or a plain frame) instead of the printed picture.
 
 export const SHEET_ROWS = {
   5: {
@@ -67,12 +68,80 @@ export const SHEET_ROWS = {
     Y: [362, 623, 640, 893, 908, 1149, 1168, 1424],
     Z: [361, 624, 641, 894, 907, 1150, 1168, 1425],
   },
+  7: {
+    A2: [435, 674, 692, 920, 937, 1160, 1179, 1409],
+    A3: [450, 673, 694, 909, 927, 1141, 1160, 1393],
+    A4: [448, 669, 688, 899, 922, 1132, 1156, 1375],
+    E2: [418, 661, 681, 917, 935, 1165, 1185, 1427],
+    E3: [415, 661, 683, 911, 933, 1160, 1184, 1417],
+    E4: [423, 665, 686, 918, 937, 1172, 1194, 1434],
+    I2: [414, 658, 681, 917, 936, 1166, 1188, 1428],
+    I3: [421, 664, 683, 914, 933, 1164, 1185, 1422],
+    I4: [422, 664, 684, 917, 934, 1167, 1187, 1425],
+    O2: [416, 662, 682, 916, 935, 1163, 1182, 1420],
+    O3: [416, 661, 682, 911, 932, 1161, 1183, 1417],
+    O4: [414, 659, 682, 911, 934, 1161, 1183, 1418],
+    U2: [416, 662, 682, 912, 932, 1162, 1182, 1417],
+    U3: [417, 664, 683, 913, 932, 1162, 1182, 1415],
+    U4: [417, 662, 682, 913, 933, 1162, 1182, 1416],
+  },
 };
 
 // The picture cell inside a row: its left and right edge in pixels of the page, and how many pixels are trimmed
 // from the top and bottom of the row. The row's frame has rounded corners that reach into the cell, so the cell
-// is cut a little inside its edges to leave no piece of the frame in the picture.
+// is cut a little inside its edges to leave no piece of the frame in the picture. On Level 7 the cell is not in
+// the same place on every page (the sound tiles are wider on the four-sound pages), so each page has its own.
 export const SHEET_CELL = {
   5: { x: [28, 316], inset: 4 },
   6: { x: [32, 366], inset: 4 },
+  7: {
+    inset: 6,
+    x: {
+      A2: [748, 1015],
+      A3: [782, 1010],
+      A4: [807, 1010],
+      E2: [733, 1013],
+      E3: [765, 1012],
+      E4: [785, 1015],
+      I2: [735, 1010],
+      I3: [766, 1012],
+      I4: [789, 1011],
+      O2: [724, 1008],
+      O3: [763, 1010],
+      O4: [789, 1010],
+      U2: [721, 1010],
+      U3: [759, 1009],
+      U4: [789, 1009],
+    },
+  },
+};
+
+/* ----------------------------------------- Level 8 pictures ----------------------------------------- */
+// Level 8's pages are all different (a pattern page, matching pages, spelling pages...), so each picture has its own
+// box instead of a row. `page` is the number in the file's name (3 is "3_CVC Words Worksheet.jpg") and `box` is
+// [left, top, right, bottom] in pixels of a page that is 1052 wide and 1494 tall. Some of the files are bigger
+// (2079 x 2953) but they have the same shape, so the same box fits. Each box holds just the picture, without the
+// word printed with it. A word is on several pages, and the page chosen for it is one where its picture is clear.
+export const L8_PAGE_SIZE = [1052, 1494];
+
+export const L8_PICTURES = {
+  cat: { page: 7, box: [131, 358, 370, 589] },
+  dog: { page: 7, box: [646, 358, 888, 590] },
+  bed: { page: 7, box: [119, 744, 412, 940] },
+  sun: { page: 7, box: [664, 744, 900, 941] },
+  cap: { page: 7, box: [124, 1098, 408, 1290] },
+  mug: { page: 7, box: [672, 1108, 918, 1290] },
+  pig: { page: 8, box: [107, 358, 421, 575] },
+  hen: { page: 8, box: [653, 358, 891, 592] },
+  fan: { page: 8, box: [165, 742, 376, 944] },
+  mop: { page: 8, box: [653, 738, 887, 948] },
+  bug: { page: 8, box: [150, 1107, 410, 1294] },
+  log: { page: 8, box: [621, 1100, 936, 1296] },
+  bat: { page: 1, box: [50, 740, 238, 940] },
+  mat: { page: 1, box: [34, 1023, 261, 1131] },
+  hat: { page: 1, box: [34, 1247, 261, 1393] },
+  pot: { page: 4, box: [790, 1172, 1010, 1333] },
+  van: { page: 5, box: [75, 1287, 343, 1430] },
+  pin: { page: 11, box: [210, 735, 331, 852] },
+  map: { page: 11, box: [665, 350, 905, 478] },
 };

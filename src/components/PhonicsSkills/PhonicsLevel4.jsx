@@ -6,21 +6,23 @@ import { pickRandom, say, shuffle } from "./phonicsUtils";
 
 // LEVEL 4: Phonics Rhyming Words
 // Follows the "Rhyming Words" worksheets: a picture at the left of each row, and the picture that
-// rhymes with it to be found among the others. Every row on the pages is used here.
+// rhymes with it to be found among the others. Every row on the pages is used here, except the few
+// where no picture really rhymes (they are listed in data/phonicsLessons.js).
 
-// Safe words to fill a row that has fewer than two non-rhyming pictures on its sheet. None of them
-// rhymes with any word on the sheets.
+const lastTwo = (word) => word.toLowerCase().slice(-2);
+
+// Words to fill a row that has fewer than two non-rhyming pictures on its sheet. A filler is only used on a
+// row where it does not end like any of the row's words (car rhymes with star and jar, sun with bun).
 const FILLERS = ["sun", "ball", "cup", "car"];
 
 // The non-rhyming pictures for a row: its own from the sheet, topped up from FILLERS to `count`.
 const distractorsFor = (row, count) => {
   const own = pickRandom(row.others, count);
-  const spare = FILLERS.filter((w) => !own.includes(w) && !row.rhymes.includes(w) && w !== row.word);
+  const endings = [row.word, ...row.rhymes].map(lastTwo);
+  const spare = FILLERS.filter((w) => !own.includes(w) && !endings.includes(lastTwo(w)));
 
   return [...own, ...pickRandom(spare, count - own.length)];
 };
-
-const lastTwo = (word) => word.slice(-2);
 
 // A word and its picture, as a tile.
 function WordTile({ word, onClick, className = "" }) {

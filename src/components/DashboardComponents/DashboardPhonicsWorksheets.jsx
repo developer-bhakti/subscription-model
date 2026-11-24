@@ -9,8 +9,8 @@ import PhonicsWorksheets from "../PhonicsSkills/PhonicsWorksheets";
 // The "Phonics Worksheets" page of the dashboard. The flow:
 //
 //   Worksheets (DashboardWorksheet.jsx)          the card "Phonics Worksheets" is here
-//     -> Phonics Worksheets (this page)          the six levels as cards: /user/worksheet/phonics-worksheets
-//       -> one level (?level=1 to 6)             that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
+//     -> Phonics Worksheets (this page)          the eight levels as cards: /user/worksheet/phonics-worksheets
+//       -> one level (?level=1 to 8)             that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
 //
 // It lists the Phonics levels as cards, the same way the theme-based colouring worksheets list their
 // themes, and a level opens to its printable pages. The pages are not copied: they are the very ones
@@ -67,7 +67,7 @@ export default function DashboardPhonicsWorksheets() {
           subtitle="Classroom activity: printable phonics worksheets, level by level."
         />
 
-        <div className="tone-cycle grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="tone-cycle grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
           {PHONICS_LEVELS.map((item) => {
             const { workbook } = getPhonicsFiles(item.level);
             const count = worksheetCount(item.level);

@@ -38,7 +38,7 @@ const DashboardWorksheet = () => {
         <ModuleCard
           icon="🔤"
           title="Phonics Worksheets"
-          description="Printable phonics worksheets for all six levels, from identifying letters to splitting words into sounds."
+          description="Printable phonics worksheets for all eight levels, from identifying letters to reading CVC words."
           onClick={() => navigate('/user/worksheet/phonics-worksheets')}
         />
       </ModuleGrid>

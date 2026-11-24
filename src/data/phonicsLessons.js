@@ -9,8 +9,10 @@
 //   Level 4  "Rhyming Words" sheets       - each word and the picture(s) that rhyme with it
 //   Level 5  "Syllable Recognition" sheets - each word, split into the syllables you clap
 //   Level 6  "Sound Segmentation" sheets  - each word, split into the sounds written in the boxes
+//   Level 7  "Sound Blending" sheets      - the sounds of a word, to be blended into the word
+//   Level 8  "CVC Words" sheets           - three-letter words: reading, matching, spelling and changing them
 //
-// Level 4 only has pages for A to G so far. When more pages are added, add their rows to L4_ROWS.
+// Level 4 has a page for every letter, A to Z. If its pages are ever replaced, update the rows in L4_ROWS.
 
 /* ------------------------------------ pictures ------------------------------------ */
 
@@ -71,6 +73,12 @@ const PICTURES = {
   zebra: "🦓", zipper: null, zoo: null, zucchini: "🥒", zookeeper: null,
   // other words in the rhyming rows (the closest emoji; the word is always written underneath)
   bend: "↪️",
+  hen: "🐔", fly: "🪰", sink: "🚰", ham: "🍖", night: "🌃", spoon: "🥄", wool: "🧶", camp: "⛺", beef: "🥩",
+  lock: "🔒", book: "📖", tune: "🎵", mop: "🧹", rope: "🪢", vest: "🦺", nose: "👃", pet: "🐕", nut: "🥜",
+  hut: "🛖", ox: "🐂", pan: "🍳", pot: "🍲", dot: "🔴", green: "🟢", hill: "⛰️", rat: "🐀", bag: "🎒",
+  bun: "🍞", tea: "🍵", tub: "🛁", ten: "🔟", corn: "🌽", turn: "↩️", viper: "🐍", wet: "💦", shell: "🐚",
+  phone: "📱", hay: "🌾", knee: "🦵", "xmas tree": "🎄", xerox: "🖨️", socks: "🧦", yarn: "🧶", yawn: "🥱",
+  fawn: "🦌", shoe: "👟", flag: "🚩", ship: "🚢", lip: "👄", glue: "🧴", pump: "⛽",
 };
 
 export const FRAME = "🖼️";
@@ -194,9 +202,26 @@ export const SOUND_OUT_WORDS = [
 // and the other pictures on the row that do not. Where a row has two pictures that both rhyme
 // (bear: chair and pear), both are listed.
 //
-// Left out on purpose, because the pictures do not rhyme when said aloud:
-//   E  ear -> bear    (ear rhymes with deer; bear rhymes with chair)
-//   C  cow -> bow     (the picture is a ribbon bow, said "boh", which rhymes with go)
+// Where a row offers more than one picture that rhymes (key: tree and bee; zip: ship and lip), they are all
+// listed. A word that only almost rhymes with the row's word is never offered as a wrong answer either (shoe
+// with igloo, which ends in the same -oo as glue), so a child is never marked wrong for a rhyme.
+//
+// Left out on purpose, because no picture on the row rhymes when said aloud:
+//   E  ear -> bear       (ear rhymes with deer; bear rhymes with chair)
+//   C  cow -> bow        (the picture is a ribbon bow, said "boh", which rhymes with go)
+//   H  honey -> monkey   (-unny and -unkey are close, but they are not a rhyme)
+//   I  insect -> nest    (insect ends -ect, nest ends -est)
+//   O  orange -> range   (nothing rhymes with orange; range is only close)
+//   O  owl -> bowl       (owl rhymes with howl; bowl rhymes with roll)
+//   O  onion -> lion     (they only share the last little sound)
+//   Q  question -> puzzle (none of puzzle, apple and ball rhymes with it)
+//   U  umbrella -> ...   (the row offers a bear, a second umbrella and an apple)
+//   U  uniform -> ...    (drum, station and ball: none rhymes with it)
+//   V  vase -> case      (vase is said "vahz" by many people, which does not rhyme with case)
+//   W  watch -> match    (watch says "wotch", match says "match")
+//   Y  yacht -> patch    (yacht says "yot")
+//   Y  yogurt -> court   (they do not rhyme)
+//   Z  zebra -> ...      (umbrella, zipper and leaf: none rhymes with it)
 export const L4_ROWS = [
   { letter: "A", word: "ant", rhymes: ["plant"], others: ["cap", "sun"] },
   { letter: "A", word: "ape", rhymes: ["grape"], others: ["bell", "dog"] },
@@ -230,10 +255,113 @@ export const L4_ROWS = [
   { letter: "G", word: "goat", rhymes: ["boat"], others: ["tree", "jet"] },
   { letter: "G", word: "grass", rhymes: ["glass"], others: ["cap", "bed"] },
   { letter: "G", word: "gift", rhymes: ["lift"], others: ["cat", "sun"] },
+
+  { letter: "H", word: "hat", rhymes: ["bat"], others: ["cup", "sun"] },
+  { letter: "H", word: "hen", rhymes: ["pen"], others: ["fox", "ball"] },
+  { letter: "H", word: "house", rhymes: ["mouse"], others: ["tree", "cake"] },
+
+  { letter: "I", word: "igloo", rhymes: ["glue"], others: ["fly"] },
+  { letter: "I", word: "ink", rhymes: ["sink"], others: ["bell", "tree"] },
+  { letter: "I", word: "iguana", rhymes: ["banana"], others: ["fan", "drum"] },
+
+  { letter: "J", word: "jam", rhymes: ["ham"], others: ["bell", "hat"] },
+  { letter: "J", word: "jug", rhymes: ["mug"], others: ["sun", "tree"] },
+  { letter: "J", word: "jet", rhymes: ["net"], others: ["dog", "bus"] },
+  { letter: "J", word: "jump", rhymes: ["pump"], others: ["lamp", "duck"] },
+
+  { letter: "K", word: "kite", rhymes: ["night"], others: ["ball", "cow"] },
+  { letter: "K", word: "key", rhymes: ["tree", "bee"], others: ["car"] },
+  { letter: "K", word: "king", rhymes: ["ring"], others: ["pen", "fish"] },
+  { letter: "K", word: "kangaroo", rhymes: ["zoo"], others: ["spoon", "wool"] },
+
+  { letter: "L", word: "lamp", rhymes: ["camp"], others: ["dog", "sun"] },
+  { letter: "L", word: "leaf", rhymes: ["beef"], others: ["ball", "cup"] },
+  { letter: "L", word: "lock", rhymes: ["sock"], others: ["fish", "tree"] },
+  { letter: "L", word: "leg", rhymes: ["peg"], others: ["car", "book"] },
+
+  { letter: "M", word: "mouse", rhymes: ["house"], others: ["tree", "star"] },
+  { letter: "M", word: "moon", rhymes: ["spoon", "tune"], others: ["book"] },
+  { letter: "M", word: "map", rhymes: ["cap"], others: ["bus", "sun"] },
+  { letter: "M", word: "mop", rhymes: ["top"], others: ["drum", "rope"] },
+
+  { letter: "N", word: "nest", rhymes: ["vest"], others: ["bell", "cat"] },
+  { letter: "N", word: "nose", rhymes: ["rose"], others: ["tree", "ball"] },
+  { letter: "N", word: "net", rhymes: ["pet"], others: ["cup", "sun"] },
+  { letter: "N", word: "nut", rhymes: ["hut"], others: ["bus", "fish"] },
+
+  { letter: "O", word: "ox", rhymes: ["box"], others: ["pen", "sun"] },
+
+  { letter: "P", word: "pig", rhymes: ["wig"], others: ["tree", "ball"] },
+  { letter: "P", word: "pan", rhymes: ["van"], others: ["cat", "sun"] },
+  { letter: "P", word: "pen", rhymes: ["hen"], others: ["cup", "star"] },
+  { letter: "P", word: "pot", rhymes: ["dot"], others: ["fish", "moon"] },
+
+  { letter: "Q", word: "queen", rhymes: ["green"], others: ["duck", "car"] },
+  { letter: "Q", word: "quill", rhymes: ["hill"], others: ["bell", "tree"] },
+  { letter: "Q", word: "quilt", rhymes: ["tilt"], others: ["kite", "drum"] },
+
+  { letter: "R", word: "rat", rhymes: ["hat"], others: ["tree", "sun"] },
+  { letter: "R", word: "ring", rhymes: ["king"], others: ["car", "ball"] },
+  { letter: "R", word: "rug", rhymes: ["mug"], others: ["fish", "book"] },
+  { letter: "R", word: "rag", rhymes: ["bag"], others: ["tree", "duck"] },
+
+  { letter: "S", word: "sun", rhymes: ["bun"], others: ["tree", "car"] },
+  { letter: "S", word: "sock", rhymes: ["lock"], others: ["cap", "ball"] },
+  { letter: "S", word: "star", rhymes: ["jar"], others: ["book", "leaf"] },
+  { letter: "S", word: "snake", rhymes: ["rake"], others: ["cup", "drum"] },
+
+  { letter: "T", word: "top", rhymes: ["mop"], others: ["tree", "sun"] },
+  { letter: "T", word: "tea", rhymes: ["key", "tree"], others: ["car"] },
+  { letter: "T", word: "tub", rhymes: ["sub"], others: ["bus", "hat"] },
+  { letter: "T", word: "ten", rhymes: ["pen"], others: ["bed", "car"] },
+
+  { letter: "U", word: "unicorn", rhymes: ["corn"], others: ["tree", "fish"] },
+  { letter: "U", word: "urn", rhymes: ["turn"], others: ["car", "bed"] },
+
+  { letter: "V", word: "van", rhymes: ["fan"], others: ["cup", "tree"] },
+  { letter: "V", word: "vest", rhymes: ["nest"], others: ["bag", "hat"] },
+  { letter: "V", word: "viper", rhymes: ["diaper"], others: ["ball", "bed"] },
+
+  { letter: "W", word: "whale", rhymes: ["nail"], others: ["dog", "tree"] },
+  { letter: "W", word: "wet", rhymes: ["net"], others: ["cup", "hat"] },
+  { letter: "W", word: "well", rhymes: ["shell"], others: ["ball", "leaf"] },
+
+  { letter: "X", word: "xylophone", rhymes: ["phone"], others: ["rock", "lion"] },
+  { letter: "X", word: "x-ray", rhymes: ["hay", "tray"], others: ["car"] },
+  { letter: "X", word: "Xmas tree", rhymes: ["bee", "key", "knee"], others: [] },
+  { letter: "X", word: "Xerox", rhymes: ["box", "socks"], others: ["ball"] },
+
+  { letter: "Y", word: "yarn", rhymes: ["barn"], others: ["fan", "tree"] },
+  { letter: "Y", word: "yawn", rhymes: ["fawn"], others: ["sun", "pig"] },
+
+  { letter: "Z", word: "zoo", rhymes: ["shoe"], others: ["key", "cup"] },
+  { letter: "Z", word: "zigzag", rhymes: ["flag"], others: ["fan", "dog"] },
+  { letter: "Z", word: "zip", rhymes: ["ship", "lip"], others: ["sun"] },
 ];
 
 // The letters that have a Rhyming Words sheet.
 export const L4_LETTERS = [...new Set(L4_ROWS.map((row) => row.letter))];
+
+// A picture for a word that has no emoji and is not on a Level 1 page (top, peg, wig...): the picture as the Level 4
+// sheet draws it, without its printed name. `letter` is the sheet, `box` is [left, top, right, bottom] in pixels and
+// `page` is the width and height in pixels of the sheet the box was measured on. If a sheet is replaced by one
+// laid out differently, measure the box again; the word then shows a plain picture frame until it is fixed.
+export const L4_PICTURES = {
+  top: { letter: "M", box: [331, 1192, 527, 1363], page: [1054, 1492] },
+  peg: { letter: "L", box: [330, 1193, 527, 1354], page: [1054, 1492] },
+  wig: { letter: "P", box: [331, 403, 553, 580], page: [1089, 1444] },
+  tilt: { letter: "Q", box: [335, 950, 554, 1116], page: [1089, 1445] },
+  rug: { letter: "R", box: [27, 961, 298, 1103], page: [1089, 1445] },
+  rag: { letter: "R", box: [27, 1206, 299, 1363], page: [1089, 1445] },
+  rake: { letter: "S", box: [344, 1195, 537, 1357], page: [1089, 1445] },
+  sub: { letter: "T", box: [334, 948, 547, 1103], page: [1089, 1445] },
+  diaper: { letter: "V", box: [338, 947, 544, 1108], page: [1089, 1445] },
+  well: { letter: "W", box: [51, 2460, 571, 2772], page: [2079, 2953] },
+  tray: { letter: "X", box: [580, 677, 820, 826], page: [1089, 1445] },
+  barn: { letter: "Y", box: [332, 402, 547, 585], page: [1089, 1445] },
+  zigzag: { letter: "Z", box: [27, 957, 298, 1075], page: [1089, 1445] },
+  zip: { letter: "Z", box: [27, 1204, 299, 1359], page: [1089, 1445] },
+};
 
 /* -------------------------------- Level 5: syllable recognition -------------------------------- */
 
@@ -349,3 +477,87 @@ export const L6_WORDS = (() => {
     }),
   );
 })();
+
+/* ---------------------------------- Level 7: sound blending ---------------------------------- */
+
+// A row of a Sound Blending page: the sounds printed on the tiles, one letter each, and the word they blend into.
+// `picture: false` marks a row whose picture is not the word (the bat beside "at"), so the games do not show it.
+// `skip: true` marks a row that is left out of the games (see below).
+const blend = (word, options = {}) => ({ word, sounds: [...word], ...options });
+
+const noPicture = (word) => blend(word, { picture: false });
+
+// A row of the sheets that the games leave out, with the reason. Where the sheet itself is wrong the sheet is
+// not repeated to the children:
+//  - a picture that does not match the letters: "ap" beside a cap, "tred" beside a bed, "pled" beside a sled,
+//    "blen" beside a blender, "site" beside a kite, "stuf" beside a box of stuff (it needs a second f)
+//  - "plan" beside a map, which a child would read as "map"
+//  - the two-sound words that are only the end of a word (et, en, eg, ed, ot, mu, cu, ru, hu: net, hen, egg, bed,
+//    pot, mud, cup, run, hut without the first or last letter) and "of" beside a switch marked OFF
+//  - "fish", which the sheet splits into f-i-s-h with the sounds /s/ and /h/ (it is f-i-sh), and "sock", whose
+//    two boxes both say /k/: a game that says those sounds aloud would teach them wrongly
+const skipped = (word) => ({ word, sounds: [...word], skip: true });
+
+// Every page has four rows, top to bottom, and `L7_PAGES` lists them in that order, because a row's place is what
+// finds its picture on the page. A page's key is its vowel and number of sounds: "A3" is vowel A, three sounds.
+export const L7_PAGES = {
+  A2: [noPicture("at"), noPicture("an"), noPicture("am"), skipped("ap")],
+  A3: [blend("cat"), blend("bag"), blend("map"), blend("hat")],
+  A4: [skipped("plan"), blend("clap"), blend("flag"), blend("snap")],
+  E2: [skipped("et"), skipped("en"), skipped("eg"), skipped("ed")],
+  E3: [blend("bed"), blend("pen"), blend("red"), blend("leg")],
+  E4: [skipped("tred"), skipped("pled"), skipped("blen"), blend("step")],
+  I2: [noPicture("it"), noPicture("in"), noPicture("if"), noPicture("is")],
+  I3: [blend("pig"), blend("bin"), blend("fin"), blend("rip")],
+  I4: [skipped("site"), blend("lips"), skipped("fish"), blend("milk")],
+  O2: [blend("on"), skipped("of"), noPicture("ox"), skipped("ot")],
+  O3: [blend("dog"), blend("pot"), blend("box"), blend("fox")],
+  O4: [blend("fork"), blend("horn"), blend("pond"), skipped("sock")],
+  U2: [skipped("mu"), skipped("cu"), skipped("ru"), skipped("hu")],
+  U3: [blend("bug"), blend("cup"), blend("sun"), blend("run")],
+  U4: [blend("drum"), blend("hump"), blend("bump"), skipped("stuf")],
+};
+
+// The vowels, in the order of the pages.
+export const L7_VOWELS = ["A", "E", "I", "O", "U"];
+
+// Every word the games can use, with the key of its page and its row (0 to 3).
+export const L7_WORDS = Object.entries(L7_PAGES).flatMap(([page, rows]) =>
+  rows.flatMap((row, index) =>
+    row.skip ? [] : [{ ...row, page, vowel: page[0], count: Number(page[1]), row: index, picture: row.picture !== false }],
+  ),
+);
+
+/* ------------------------------------ Level 8: CVC words ------------------------------------ */
+
+// A consonant-vowel-consonant word: its three letters are its three sounds, and the middle one is the vowel.
+const cvc = (word) => ({ word, sounds: [...word] });
+
+// The words that have a picture on the sheets (their pictures are in phonicsSheetRows.js), in the order they first
+// appear: the pattern page (cat, bat, mat, hat), the Identify, Blend and Match pages, and so on.
+export const L8_WORDS = [
+  "cat", "bat", "mat", "hat", "dog", "sun", "bed", "cap", "pot", "map",
+  "mug", "van", "pig", "hen", "fan", "mop", "bug", "log", "pin",
+].map(cvc);
+
+// The words on the "Complete the Letters" and "Arrange the Letters" pages: a picture, and the word with a letter
+// missing or its letters mixed up.
+export const L8_SPELLING = [
+  "cat", "dog", "bed", "sun", "cap", "mug", "pig", "hen", "fan", "mop", "bug", "log",
+];
+
+// The "Change One Letter" pages: a word, the letter to change and what to change it to. The new word has no picture
+// of its own on the sheets. Left out: "mug, change g to p", which makes "mup", not a word.
+export const L8_CHANGES = [
+  { word: "cat", from: "t", to: "n", result: "can" },
+  { word: "map", from: "m", to: "c", result: "cap" },
+  { word: "pin", from: "n", to: "g", result: "pig" },
+  { word: "hen", from: "h", to: "p", result: "pen" },
+  { word: "mop", from: "m", to: "t", result: "top" },
+  { word: "log", from: "l", to: "d", result: "dog" },
+  { word: "pig", from: "p", to: "b", result: "big" },
+  { word: "bed", from: "b", to: "r", result: "red" },
+  { word: "cap", from: "c", to: "m", result: "map" },
+  { word: "sun", from: "s", to: "r", result: "run" },
+  { word: "log", from: "o", to: "e", result: "leg" },
+];

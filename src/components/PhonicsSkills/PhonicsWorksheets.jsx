@@ -38,7 +38,7 @@ function PagePreview({ pages, index, levelTitle, onClose, onMove }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
-      aria-label={`Letter ${page.letter} page`}
+      aria-label={`${page.title} page`}
       onClick={onClose}
     >
       <div
@@ -47,7 +47,7 @@ function PagePreview({ pages, index, levelTitle, onClose, onMove }) {
       >
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-lg font-bold text-kid-ink sm:text-xl">
-            Letter {page.letter}
+            {page.title}
             <span className="ml-2 text-sm font-semibold text-kid-soft">
               {index + 1} of {pages.length}
             </span>
@@ -78,7 +78,7 @@ function PagePreview({ pages, index, levelTitle, onClose, onMove }) {
         <div className="min-h-0 flex-1 overflow-auto rounded-2xl bg-white">
           <img
             src={page.image}
-            alt={`${levelTitle}: letter ${page.letter}`}
+            alt={`${levelTitle}: ${page.title}`}
             className="mx-auto block h-auto max-h-[70vh] w-auto max-w-full object-contain"
           />
         </div>
@@ -178,21 +178,22 @@ export default function PhonicsWorksheets({ level }) {
             <button
               type="button"
               onClick={() => setOpen(i)}
-              aria-label={`Preview letter ${page.letter}`}
+              aria-label={page.previewLabel}
               className="block overflow-hidden rounded-xl bg-white shadow-sm"
             >
               <img
                 src={page.image}
-                alt={`${meta.title}: letter ${page.letter}`}
+                alt={`${meta.title}: ${page.title}`}
                 loading="lazy"
                 decoding="async"
-                // Every page of a level has the same shape, but not every level has the same one
+                // Each level's pages are about the same shape, but not exactly (Level 4's P to Z are a little
+                // wider than its A to O), so the whole page is always shown rather than cropped to fit
                 style={{ aspectRatio: `${meta.pageSize[0]} / ${meta.pageSize[1]}` }}
-                className="w-full object-cover object-top"
+                className="w-full object-contain object-top"
               />
             </button>
 
-            <p className="mt-2 text-center text-base font-bold text-kid-ink sm:text-lg">Letter {page.letter}</p>
+            <p className="mt-2 text-center text-base font-bold leading-snug text-kid-ink sm:text-lg">{page.title}</p>
 
             <DownloadLink
               href={page.image}

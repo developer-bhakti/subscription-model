@@ -1,4 +1,4 @@
-// Shared details of the Phonics Skills section of Worksheets & Activities: the six levels, in the
+// Shared details of the Phonics Skills section of Worksheets & Activities: the eight levels, in the
 // order a child learns them, and how the browser's voice says each letter's sound.
 // What is actually taught (the words, sounds, stories and rhymes) comes from the school's own
 // pages and lives in phonicsLessons.js.
@@ -78,7 +78,69 @@ export const PHONICS_LEVELS = [
       "Activities to help children break a word into its beginning, middle and ending sounds.",
     pageSize: [1089, 1445],
   },
+  {
+    level: 7,
+    path: `${PHONICS_HUB_PATH}/level-7`,
+    icon: "🔗",
+    title: "Sound Blending",
+    shortTitle: "Blending",
+    preview: "c + a + t",
+    description:
+      "Activities to help children say the sounds of a word one after another and blend them into the word.",
+    pageSize: [1052, 1494],
+  },
+  {
+    level: 8,
+    path: `${PHONICS_HUB_PATH}/level-8`,
+    icon: "🐱",
+    title: "CVC Words",
+    shortTitle: "CVC Words",
+    preview: "cat · dog · sun",
+    description:
+      "Activities to help children read, build and change simple consonant–vowel–consonant words.",
+    pageSize: [1052, 1494],
+  },
 ];
+
+/* ------------------------------------------ what a page is called ------------------------------------------ */
+// Levels 1 to 6 have a page for each letter. Level 7 has a page for each vowel and number of sounds (the page
+// key "A3" is vowel A with three sounds), and Level 8 has sixteen numbered pages that each do a different job.
+
+const SOUND_COUNT_WORDS = { 2: "two", 3: "three", 4: "four" };
+
+// What each of Level 8's sixteen pages is, from its heading.
+export const L8_PAGE_TITLES = {
+  1: "The CVC Pattern",
+  2: "Identify the Sounds (1)",
+  3: "Identify the Sounds (2)",
+  4: "Blend the Sounds and Read the Word",
+  5: "Match the Pictures with CVC Words (1)",
+  6: "Match the Pictures with CVC Words (2)",
+  7: "Complete the Letters (1)",
+  8: "Complete the Letters (2)",
+  9: "Arrange the Letters (1)",
+  10: "Arrange the Letters (2)",
+  11: "Change One Letter (1)",
+  12: "Change One Letter (2)",
+  13: "Read and Choose the Picture (1)",
+  14: "Read and Choose the Picture (2)",
+  15: "Assessment Worksheet (1)",
+  16: "Assessment Worksheet (2)",
+};
+
+// The name of a page of a level: "Letter A", "Vowel A: three sounds" or "Page 7: Complete the Letters (1)".
+// `key` is the page's key (its letter, "A3" or "7").
+export const pageTitle = (level, key) => {
+  if (level === 7) return `Vowel ${key[0]}: ${SOUND_COUNT_WORDS[key[1]]} sounds`;
+  if (level === 8) return `Page ${key}: ${L8_PAGE_TITLES[key]}`;
+
+  return `Letter ${key}`;
+};
+
+// The label of the button that opens a page's preview (the first six levels keep their old wording).
+export const pagePreviewLabel = (level, key) =>
+  level <= 6 ? `Preview letter ${key}` : `Preview ${pageTitle(level, key)}`;
+
 
 // `say` is how the sound of each letter is written out so the browser's voice can speak it
 // ("buh" for /b/). Vowels use their short sounds, as on the Level 2 sheets (apple, egg, igloo,
