@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { soundSay } from "../../data/phonicsData";
 import { L8_CHANGES, L8_SPELLING, L8_WORDS } from "../../data/phonicsLessons";
-import { CvcPicture, ListenButton, PhonicsLevelLayout, QuizGame, ResultCard, TileBuildGame } from "./PhonicsShared";
+import { CvcPicture, ListenButton, MatchGame, PhonicsLevelLayout, QuizGame, TileBuildGame } from "./PhonicsShared";
 import PhonicsWorksheets, { WorksheetButton } from "./PhonicsWorksheets";
 import { pickRandom, say, saySequence, shuffle, stopSpeaking } from "./phonicsUtils";
 
@@ -147,152 +147,13 @@ function MeetTheCvcWords() {
 
 const MATCH_PAIRS = 5;
 
-const makeMatchRound = () => {
-  const words = pickRandom(L8_WORDS, MATCH_PAIRS).map(({ word }, key) => ({ key, word }));
-
-  return { left: words, right: shuffle(words) };
-};
-
-const MATCH_HELP = "Tap a picture on the left, then tap its word.";
-
-function MatchThePictures() {
-  const [round, setRound] = useState(() => makeMatchRound());
-  const [leftPick, setLeftPick] = useState(null);
-  const [matched, setMatched] = useState([]);
-  const [wrongKey, setWrongKey] = useState(null);
-  const [mistakes, setMistakes] = useState(0);
-  const [message, setMessage] = useState(MATCH_HELP);
-  const wrongTimer = useRef(null);
-
-  useEffect(() => () => clearTimeout(wrongTimer.current), []);
-
-  const pickLeft = (item) => {
-    if (matched.includes(item.key)) return;
-
-    say(item.word);
-    setLeftPick(item);
-    setMessage("Now tap the word that goes with the picture.");
-  };
-
-  const pickRight = (item) => {
-    if (matched.includes(item.key)) return;
-
-    say(item.word);
-
-    if (!leftPick) {
-      setMessage("Pick a picture on the left first.");
-      return;
-    }
-
-    if (leftPick.key === item.key) {
-      setMatched((m) => [...m, item.key]);
-      setMessage(`🎉 That is ${item.word}!`);
-      setLeftPick(null);
-    } else {
-      setMistakes((m) => m + 1);
-      setWrongKey(item.key);
-      setMessage(`😊 That picture is not ${item.word}. Try again!`);
-      clearTimeout(wrongTimer.current);
-      wrongTimer.current = setTimeout(() => setWrongKey(null), 700);
-    }
-  };
-
-  const replay = () => {
-    setRound(makeMatchRound());
-    setLeftPick(null);
-    setMatched([]);
-    setWrongKey(null);
-    setMistakes(0);
-    setMessage(MATCH_HELP);
-  };
-
-  if (matched.length === MATCH_PAIRS) {
-    return (
-      <ResultCard
-        stars={mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1}
-        message={mistakes === 0 ? "Every match first time!" : `You matched all ${MATCH_PAIRS} pictures!`}
-        onReplay={replay}
-      />
-    );
-  }
-
-  return (
-    <div className="kid-card tone-white mx-auto w-full max-w-3xl p-4 text-center sm:p-6">
-      <div className="flex items-center justify-between gap-3 text-sm font-bold text-kid-soft sm:text-base">
-        <span>Match the pictures</span>
-
-        <span className="rounded-full bg-tone-butter px-3 py-1 text-kid-ink">
-          ⭐ {matched.length} / {MATCH_PAIRS}
-        </span>
-      </div>
-
-      <div className="mt-4 rounded-3xl border-4 border-dashed border-yellow-400 bg-yellow-50 p-3 sm:p-6">
-        <div className="grid grid-cols-2 gap-3 sm:gap-6">
-          <div className="flex flex-col gap-3">
-            <h3 className="text-base font-bold text-kid-ink sm:text-xl">Pick a picture</h3>
-
-            {round.left.map((item) => {
-              const isMatched = matched.includes(item.key);
-              const isPicked = leftPick?.key === item.key;
-
-              return (
-                <button
-                  key={item.key}
-                  type="button"
-                  disabled={isMatched}
-                  onClick={() => pickLeft(item)}
-                  aria-pressed={isPicked}
-                  aria-label={`Picture of a ${item.word}`}
-                  className={`flex min-h-24 items-center justify-center rounded-2xl px-2 py-2 transition active:scale-95 ${
-                    isMatched
-                      ? "bg-green-500 ring-4 ring-green-600"
-                      : isPicked
-                        ? "bg-kid-sun ring-4 ring-yellow-500"
-                        : "bg-white ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
-                  }`}
-                >
-                  <CvcPicture word={item.word} size="sm" />
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <h3 className="text-base font-bold text-kid-ink sm:text-xl">Find its word</h3>
-
-            {round.right.map((item) => {
-              const isMatched = matched.includes(item.key);
-              const isWrong = wrongKey === item.key;
-
-              return (
-                <button
-                  key={item.word}
-                  type="button"
-                  disabled={isMatched}
-                  onClick={() => pickRight(item)}
-                  className={`flex min-h-24 items-center justify-center gap-2 rounded-2xl px-2 py-3 text-2xl font-bold transition active:scale-95 sm:text-4xl ${
-                    isMatched
-                      ? "bg-green-500 text-white ring-4 ring-green-600"
-                      : isWrong
-                        ? "bg-red-500 text-white ring-4 ring-red-600"
-                        : "bg-white text-green-800 ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
-                  }`}
-                >
-                  {upper(item.word)}
-                  {isMatched && <span aria-label="matched">✔</span>}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <p aria-live="polite" className="mt-5 min-h-8 text-base font-bold text-kid-ink sm:text-xl">
-          {message}
-        </p>
-      </div>
-    </div>
-  );
-}
+const makeMatchRound = () =>
+  pickRandom(L8_WORDS, MATCH_PAIRS).map(({ word }) => ({
+    key: word,
+    word,
+    pictureLabel: `a ${word}`,
+    picture: <CvcPicture word={word} size="sm" />,
+  }));
 
 /* --------------------------- 3. Complete the letters --------------------------- */
 // Pages 7 and 8: "Look at each picture. Say the word. Write the missing letter to complete the word." The missing letter
@@ -392,7 +253,12 @@ const makeChangeOneLetter = () =>
 
 const ACTIVITIES = [
   { id: "meet", label: "Meet the CVC Words", emoji: "🐱", render: () => <MeetTheCvcWords /> },
-  { id: "match", label: "Match the Pictures", emoji: "🔗", render: () => <MatchThePictures /> },
+  {
+    id: "match",
+    label: "Match the Pictures",
+    emoji: "🔗",
+    render: () => <MatchGame makeRound={makeMatchRound} showWord={upper} />,
+  },
   {
     id: "complete",
     label: "Complete the Letters",

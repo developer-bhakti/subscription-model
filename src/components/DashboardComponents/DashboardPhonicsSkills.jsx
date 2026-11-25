@@ -3,11 +3,11 @@ import { BackButton, ModuleGrid, PageHero } from "../KidsUI";
 import { Star } from "../KidsArt";
 import { PHONICS_LEVELS } from "../../data/phonicsData";
 
-// The Phonics Skills page of the dashboard: the eight levels as cards, in the order a child learns
+// The Phonics Skills page of the dashboard: the eleven levels as cards, in the order a child learns
 // them. The flow:
 //
-//   Phonics Skills (the sidebar)  ->  this page: the eight levels   /user/phonics-skills
-//     -> one level (PhonicsSkills/PhonicsLevel1.jsx to PhonicsLevel8.jsx)   /user/phonics-skills/level-1 to 8
+//   Phonics Skills (the sidebar)  ->  this page: the eleven levels  /user/phonics-skills
+//     -> one level (PhonicsSkills/PhonicsLevel1.jsx to PhonicsLevel11.jsx)   /user/phonics-skills/level-1 to 11
 //
 // All the pages behind it live in the PhonicsSkills folder.
 export default function DashboardPhonicsSkills() {
@@ -22,7 +22,7 @@ export default function DashboardPhonicsSkills() {
       <PageHero
         emoji="🔤"
         title="Phonics Skills"
-        subtitle="Eight steps from knowing the letters to reading whole words. Start at Level 1 and climb up!"
+        subtitle="Eleven steps from knowing the letters to reading whole sentences. Start at Level 1 and climb up!"
       />
 
       <ModuleGrid columns="sm:grid-cols-2 xl:grid-cols-4">

@@ -9,8 +9,8 @@ import PhonicsWorksheets from "../PhonicsSkills/PhonicsWorksheets";
 // The "Phonics Worksheets" page of the dashboard. The flow:
 //
 //   Worksheets (DashboardWorksheet.jsx)          the card "Phonics Worksheets" is here
-//     -> Phonics Worksheets (this page)          the eight levels as cards: /user/worksheet/phonics-worksheets
-//       -> one level (?level=1 to 8)             that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
+//     -> Phonics Worksheets (this page)          the eleven levels as cards: /user/worksheet/phonics-worksheets
+//       -> one level (?level=1 to 11)            that level's printable pages (PhonicsSkills/PhonicsWorksheets.jsx)
 //
 // It lists the Phonics levels as cards, the same way the theme-based colouring worksheets list their
 // themes, and a level opens to its printable pages. The pages are not copied: they are the very ones

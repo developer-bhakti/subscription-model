@@ -1,4 +1,4 @@
-// Shared details of the Phonics Skills section of Worksheets & Activities: the eight levels, in the
+// Shared details of the Phonics Skills section of Worksheets & Activities: the eleven levels, in the
 // order a child learns them, and how the browser's voice says each letter's sound.
 // What is actually taught (the words, sounds, stories and rhymes) comes from the school's own
 // pages and lives in phonicsLessons.js.
@@ -100,11 +100,46 @@ export const PHONICS_LEVELS = [
       "Activities to help children read, build and change simple consonant–vowel–consonant words.",
     pageSize: [1052, 1494],
   },
+  {
+    level: 9,
+    path: `${PHONICS_HUB_PATH}/level-9`,
+    icon: "🏠",
+    title: "Word Families",
+    shortTitle: "Word Families",
+    preview: "c + at = cat",
+    description:
+      "Activities to help children read and build words that share an ending, like cat, hat and mat.",
+    pageSize: [1055, 1491],
+  },
+  {
+    level: 10,
+    path: `${PHONICS_HUB_PATH}/level-10`,
+    icon: "🚢",
+    title: "Digraphs and Blends",
+    shortTitle: "Digraphs & Blends",
+    preview: "sh · ch · bl · st",
+    description:
+      "Activities to help children read two letters that make one sound (sh, ch, th) and two consonants blended together (bl, cr, st).",
+    pageSize: [1055, 1491],
+  },
+  {
+    level: 11,
+    path: `${PHONICS_HUB_PATH}/level-11`,
+    icon: "📚",
+    title: "Reading and Sentence Formation",
+    shortTitle: "Sentences",
+    preview: "The cat is sleeping.",
+    description:
+      "Activities to help children read phrases and sentences, match them with pictures and build sentences of their own.",
+    pageSize: [1054, 1492],
+  },
 ];
 
 /* ------------------------------------------ what a page is called ------------------------------------------ */
 // Levels 1 to 6 have a page for each letter. Level 7 has a page for each vowel and number of sounds (the page
 // key "A3" is vowel A with three sounds), and Level 8 has sixteen numbered pages that each do a different job.
+// Level 9 has a page for each word family (the key "A1" is the first A family, "at"), Level 10 a numbered page
+// for each digraph and blend, and Level 11 thirty numbered pages of reading and sentence work.
 
 const SOUND_COUNT_WORDS = { 2: "two", 3: "three", 4: "four" };
 
@@ -128,11 +163,55 @@ export const L8_PAGE_TITLES = {
   16: "Assessment Worksheet (2)",
 };
 
-// The name of a page of a level: "Letter A", "Vowel A: three sounds" or "Page 7: Complete the Letters (1)".
-// `key` is the page's key (its letter, "A3" or "7").
+// Level 9's pages: the word family on each, by the page's key (the start of the file's name, "A1_at Word Family...").
+export const L9_FAMILIES = {
+  A1: "at", A2: "am", A3: "an", A4: "ab", A5: "ad", A6: "ag", A7: "ap",
+  E1: "ed", E2: "eg", E3: "em", E4: "en", E5: "et",
+  I1: "ib", I2: "id", I3: "ig", I4: "in", I5: "ip", I6: "it",
+  O1: "od", O2: "og", O3: "op", O4: "ot", O5: "ow", O6: "ox", O7: "oy",
+  U1: "ub", U2: "ud", U3: "ug", U4: "um", U5: "un", U6: "ut",
+};
+
+// Level 10's pages: the digraph or blend on each, by page number (the file "D7_bl Blend..." is page 7). Pages 1 to 6
+// are digraphs (two letters, one sound) and 7 to 23 are blends (two consonants, each still heard).
+export const L10_SOUNDS = {
+  1: "sh", 2: "ch", 3: "th", 4: "wh", 5: "ph", 6: "gh",
+  7: "bl", 8: "cl", 9: "fl", 10: "pl", 11: "br", 12: "cr", 13: "dr", 14: "fr", 15: "gr", 16: "tr",
+  17: "sc", 18: "sk", 19: "sm", 20: "sn", 21: "sp", 22: "st", 23: "sw",
+};
+
+export const isDigraphPage = (page) => Number(page) <= 6;
+
+// What each of Level 11's thirty pages is, from its heading. Pages of one kind come in a run (pages 1 to 3 are all
+// "Read and Match the Phrases"), numbered within the run.
+const L11_KINDS = [
+  [1, 3, "Read and Match the Phrases"],
+  [4, 6, "Complete the Phrase"],
+  [7, 9, "Arrange the Words"],
+  [10, 12, "Read and Understand the Sentence"],
+  [13, 15, "Fill in the Missing Word"],
+  [16, 18, "Choose the Correct Sentence"],
+  [19, 22, "Build a Sentence"],
+  [23, 27, "Look at the Picture and Write"],
+  [28, 30, "Picture Sequence and Simple Story"],
+];
+
+export const l11PageTitle = (page) => {
+  const n = Number(page);
+  const [first, , kind] = L11_KINDS.find(([a, b]) => n >= a && n <= b) ?? [n, n, "Reading Practice"];
+
+  return `${kind} (${n - first + 1})`;
+};
+
+// The name of a page of a level: "Letter A", "Vowel A: three sounds", "Page 7: Complete the Letters (1)",
+// "The "at" family", "The "sh" digraph" or "Page 4: Complete the Phrase (1)". `key` is the page's key (its letter,
+// "A3", "7" or "A1").
 export const pageTitle = (level, key) => {
   if (level === 7) return `Vowel ${key[0]}: ${SOUND_COUNT_WORDS[key[1]]} sounds`;
   if (level === 8) return `Page ${key}: ${L8_PAGE_TITLES[key]}`;
+  if (level === 9) return `The "${L9_FAMILIES[key] ?? key}" family`;
+  if (level === 10) return `The "${L10_SOUNDS[key] ?? key}" ${isDigraphPage(key) ? "digraph" : "blend"}`;
+  if (level === 11) return `Page ${key}: ${l11PageTitle(key)}`;
 
   return `Letter ${key}`;
 };

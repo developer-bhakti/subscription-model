@@ -7,10 +7,12 @@ import { FRAME, emojiOf } from "../../data/phonicsLessons";
 import {
   PAGE_RATIO,
   cvcCellFor,
+  pageCell,
   pageRatio,
   rhymeCellFor,
   say,
   sheetRowBox,
+  shuffle,
   speechSupported,
   starsFor,
   stopSpeaking,
@@ -142,6 +144,34 @@ export function CvcPicture({ word, size = "lg", className = "" }) {
   );
 }
 
+const CUT_SIZES = {
+  sm: "w-20",
+  md: "w-28",
+  lg: "w-32 sm:w-40",
+  xl: "w-44 sm:w-56",
+  full: "w-full",
+};
+
+// A picture cut out of a page of Levels 9 to 11 as printed: `box` is [left, top, right, bottom] in pixels of page
+// `page` of `level` (see data/phonicsSheetRows.js). If that page is missing, the word's emoji (or a plain frame) is
+// shown instead. `label` is what the picture shows, for screen readers; leave it out where the word is written next
+// to the picture.
+export function CutPicture({ level, page, box, label = "", size = "lg", className = "" }) {
+  const cell = pageCell(level, page, box);
+
+  if (!cell) return <Picture word={label} size={size === "xl" ? "xl" : "lg"} className={className} />;
+
+  return (
+    <PageCrop
+      src={cell.src}
+      box={cell.box}
+      ratio={cell.ratio}
+      label={label}
+      className={`${CUT_SIZES[size]} shrink-0 rounded-xl bg-white ${className}`}
+    />
+  );
+}
+
 /* ------------------------------- level page frame ------------------------------- */
 
 // `activities` is a list of { id, label, emoji, render }. The first one opens by default.
@@ -188,7 +218,7 @@ export function PhonicsLevelLayout({ level, activities }) {
             {PHONICS_LEVELS.map((l) => (
               <span
                 key={l.level}
-                className={`h-2.5 w-8 rounded-full ${
+                className={`h-2.5 w-5 rounded-full sm:w-8 ${
                   l.level <= meta.level ? "bg-kid-green" : "bg-white/80"
                 }`}
               />
@@ -318,7 +348,8 @@ export function SoundOutPanel({ word, active, onPlay }) {
 //   { key, prompt, display?, speak?, items: [{ id, word, correct }] }
 // Tapping a right picture turns it green; a wrong one turns red for a moment. A round ends when
 // every right picture has been found. An item can carry `crop: { src, box, ratio }` to show a part of a
-// worksheet instead of its emoji.
+// worksheet instead of its emoji, `picture` (any element) to show that instead, or `plain: true` to show just
+// its word, written large.
 export function PickAllGame({ makeRounds }) {
   const [rounds, setRounds] = useState(() => makeRounds());
   const [index, setIndex] = useState(0);
@@ -435,6 +466,10 @@ export function PickAllGame({ makeRounds }) {
                     ratio={item.crop.ratio}
                     className="w-full max-w-36 rounded-xl bg-white"
                   />
+                ) : item.plain ? (
+                  <span className="text-3xl font-bold sm:text-4xl">{item.word}</span>
+                ) : item.picture ? (
+                  item.picture
                 ) : (
                   <>
                     <Picture word={item.word} size="lg" />
@@ -478,8 +513,15 @@ export function PickAllGame({ makeRounds }) {
 // With `hideLabels` an option shows only its picture until the child has answered (a screen reader still reads it).
 // `display` is the big thing shown under the prompt (a letter or a picture), `speak` is read aloud
 // when the question appears, and `explain` is read after the child answers. An option can carry
-// a picture: `icon` (any element, such as <Picture/>) or just an `emoji`.
-export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5xl", hideLabels = false }) {
+// a picture: `icon` (any element, such as <Picture/>) or just an `emoji`. `columns` sets the grid of the options
+// (by default it follows how many there are), and `displayClass` the size of the `display`.
+export function QuizGame({
+  makeQuestions,
+  optionTextClass = "text-4xl sm:text-5xl",
+  hideLabels = false,
+  columns: fixedColumns,
+  displayClass = "text-7xl sm:text-8xl",
+}) {
   const [questions, setQuestions] = useState(() => makeQuestions());
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -537,7 +579,12 @@ export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5x
   const answerLabel = question.options.find((o) => o.value === question.answer)?.label;
   const progress = (index / questions.length) * 100;
   const columns =
-    question.options.length >= 4 ? "grid-cols-2 md:grid-cols-4" : "grid-cols-1 sm:grid-cols-3";
+    fixedColumns ??
+    (question.options.length >= 4
+      ? "grid-cols-2 md:grid-cols-4"
+      : question.options.length === 2
+        ? "grid-cols-2"
+        : "grid-cols-1 sm:grid-cols-3");
 
   return (
     <div className="kid-card tone-white mx-auto w-full max-w-3xl p-4 text-center sm:p-6">
@@ -563,7 +610,7 @@ export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5x
         <h3 className="text-xl font-bold text-kid-ink sm:text-2xl">{question.prompt}</h3>
 
         {question.display && (
-          <div className="mt-4 text-7xl font-bold text-orange-500 sm:text-8xl">{question.display}</div>
+          <div className={`mt-4 font-bold text-orange-500 ${displayClass}`}>{question.display}</div>
         )}
 
         {question.speak && speechSupported() && (
@@ -625,11 +672,15 @@ export function QuizGame({ makeQuestions, optionTextClass = "text-4xl sm:text-5x
 //   { key, word, parts: ["c", "a", "t"], tiles: [{ id, text }] (in the order to show them), picture? }
 // A tile whose text is the next part goes into the next box and is said aloud (`sayTile(text)`, if given); any other tile
 // turns red for a moment. When every box is full the word is said. Tiles with the same text are the same tile.
+// For sentences, `noun` is "sentence" (each round's `word` is the whole sentence and its tiles are words) and
+// `textClass` makes the tiles smaller.
 export function TileBuildGame({
   makeRounds,
   heading = "Tap the tiles in order to build the word",
   sayTile,
   unit = "tile",
+  noun = "word",
+  textClass = "text-3xl sm:text-4xl",
 }) {
   const [rounds, setRounds] = useState(() => makeRounds());
   const [index, setIndex] = useState(0);
@@ -691,7 +742,7 @@ export function TileBuildGame({
     return (
       <ResultCard
         stars={mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1}
-        message={mistakes === 0 ? "Every word built first time!" : `You built all ${rounds.length} words!`}
+        message={mistakes === 0 ? `Every ${noun} built first time!` : `You built all ${rounds.length} ${noun}s!`}
         onReplay={replay}
       />
     );
@@ -701,7 +752,7 @@ export function TileBuildGame({
     <div className="kid-card tone-white mx-auto w-full max-w-3xl p-4 text-center sm:p-6">
       <div className="flex items-center justify-between gap-3 text-sm font-bold text-kid-soft sm:text-base">
         <span>
-          Word {index + 1} of {rounds.length}
+          <span className="capitalize">{noun}</span> {index + 1} of {rounds.length}
         </span>
 
         <span className="rounded-full bg-tone-butter px-3 py-1 text-kid-ink">
@@ -728,7 +779,7 @@ export function TileBuildGame({
                 key={i}
                 role="img"
                 aria-label={filled ? `Box ${i + 1}: ${part}` : `Box ${i + 1}: empty`}
-                className={`grid min-h-16 min-w-16 place-items-center rounded-2xl px-3 text-3xl font-bold sm:text-4xl ${
+                className={`grid min-h-16 min-w-16 place-items-center rounded-2xl px-3 font-bold ${textClass} ${
                   filled
                     ? "bg-green-500 text-white ring-4 ring-green-600"
                     : "border-4 border-dashed border-orange-400 bg-white text-orange-500"
@@ -752,7 +803,7 @@ export function TileBuildGame({
                 disabled={used}
                 onClick={() => tap(tile)}
                 aria-label={`The ${unit} ${tile.text}`}
-                className={`min-h-16 min-w-16 rounded-2xl px-4 py-3 text-3xl font-bold transition active:scale-95 disabled:cursor-default sm:text-4xl ${
+                className={`min-h-16 min-w-16 rounded-2xl px-4 py-3 font-bold transition active:scale-95 disabled:cursor-default ${textClass} ${
                   used
                     ? "bg-white text-green-800 opacity-30 ring-4 ring-green-100"
                     : isWrong
@@ -767,7 +818,7 @@ export function TileBuildGame({
         </div>
 
         <p aria-live="polite" className="mt-5 min-h-8 text-xl font-bold text-kid-ink sm:text-2xl">
-          {done ? `🎉 You built ${round.word}!` : wrongId !== null ? "😊 Not that one, try again!" : ""}
+          {done ? (noun === "word" ? `🎉 You built ${round.word}!` : `🎉 ${round.word}`) : wrongId !== null ? "😊 Not that one, try again!" : ""}
         </p>
 
         {done && (
@@ -775,6 +826,177 @@ export function TileBuildGame({
             {index + 1 < rounds.length ? "Next ➜" : "See my stars ⭐"}
           </button>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------- matching game ---------------------------------------- */
+
+const MATCH_HELP = "Tap a picture on the left, then tap its word.";
+
+// Pictures on the left and their words on the right, as on the "Read and Match" pages: the child taps a picture,
+// then the word that goes with it. `makeRound()` returns a fresh list of { key, word, picture } (`picture` is any
+// element, `pictureLabel` what it shows for screen readers), or { title, items } to name the round; the words are
+// shown in a different order. `showWord`
+// is how a word is written (in capitals, say), `wordClass` its size, and `noun` what the right-hand side holds.
+export function MatchGame({
+  makeRound,
+  title = "Match the pictures",
+  noun = "word",
+  showWord = (word) => word,
+  wordClass = "text-2xl sm:text-4xl",
+  help = MATCH_HELP,
+}) {
+  // Both sides in a new order, and never in the same order as each other (so the words never just line up with
+  // their pictures).
+  const fresh = () => {
+    const made = makeRound();
+    const items = Array.isArray(made) ? made : made.items;
+    const left = shuffle(items);
+    let right = shuffle(items);
+
+    for (let tries = 0; tries < 10 && items.length > 1 && right.every((item, i) => item.key === left[i].key); tries += 1) {
+      right = shuffle(items);
+    }
+
+    return { left, right, title: Array.isArray(made) ? title : made.title };
+  };
+
+  const [round, setRound] = useState(fresh);
+  const [leftPick, setLeftPick] = useState(null);
+  const [matched, setMatched] = useState([]);
+  const [wrongKey, setWrongKey] = useState(null);
+  const [mistakes, setMistakes] = useState(0);
+  const [message, setMessage] = useState(help);
+  const wrongTimer = useRef(null);
+  const total = round.left.length;
+
+  useEffect(() => () => clearTimeout(wrongTimer.current), []);
+
+  const pickLeft = (item) => {
+    if (matched.includes(item.key)) return;
+
+    say(item.word);
+    setLeftPick(item);
+    setMessage(`Now tap the ${noun} that goes with the picture.`);
+  };
+
+  const pickRight = (item) => {
+    if (matched.includes(item.key)) return;
+
+    say(item.word);
+
+    if (!leftPick) {
+      setMessage("Pick a picture on the left first.");
+      return;
+    }
+
+    if (leftPick.key === item.key) {
+      setMatched((m) => [...m, item.key]);
+      setMessage(`🎉 That is "${showWord(item.word)}"!`);
+      setLeftPick(null);
+    } else {
+      setMistakes((m) => m + 1);
+      setWrongKey(item.key);
+      setMessage(`😊 That picture is not "${showWord(item.word)}". Try again!`);
+      clearTimeout(wrongTimer.current);
+      wrongTimer.current = setTimeout(() => setWrongKey(null), 700);
+    }
+  };
+
+  const replay = () => {
+    setRound(fresh());
+    setLeftPick(null);
+    setMatched([]);
+    setWrongKey(null);
+    setMistakes(0);
+    setMessage(help);
+  };
+
+  if (matched.length === total) {
+    return (
+      <ResultCard
+        stars={mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1}
+        message={mistakes === 0 ? "Every match first time!" : `You matched all ${total} pictures!`}
+        onReplay={replay}
+      />
+    );
+  }
+
+  return (
+    <div className="kid-card tone-white mx-auto w-full max-w-3xl p-4 text-center sm:p-6">
+      <div className="flex items-center justify-between gap-3 text-sm font-bold text-kid-soft sm:text-base">
+        <span>{round.title}</span>
+
+        <span className="rounded-full bg-tone-butter px-3 py-1 text-kid-ink">
+          ⭐ {matched.length} / {total}
+        </span>
+      </div>
+
+      <div className="mt-4 rounded-3xl border-4 border-dashed border-yellow-400 bg-yellow-50 p-3 sm:p-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-base font-bold text-kid-ink sm:text-xl">Pick a picture</h3>
+
+            {round.left.map((item) => {
+              const isMatched = matched.includes(item.key);
+              const isPicked = leftPick?.key === item.key;
+
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  disabled={isMatched}
+                  onClick={() => pickLeft(item)}
+                  aria-pressed={isPicked}
+                  aria-label={`Picture of ${item.pictureLabel ?? item.word}`}
+                  className={`flex min-h-24 items-center justify-center rounded-2xl px-2 py-2 transition active:scale-95 ${
+                    isMatched
+                      ? "bg-green-500 ring-4 ring-green-600"
+                      : isPicked
+                        ? "bg-kid-sun ring-4 ring-yellow-500"
+                        : "bg-white ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
+                  }`}
+                >
+                  {item.picture}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h3 className="text-base font-bold text-kid-ink sm:text-xl">Find its {noun}</h3>
+
+            {round.right.map((item) => {
+              const isMatched = matched.includes(item.key);
+              const isWrong = wrongKey === item.key;
+
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  disabled={isMatched}
+                  onClick={() => pickRight(item)}
+                  className={`flex min-h-24 items-center justify-center gap-2 rounded-2xl px-2 py-3 font-bold leading-tight transition active:scale-95 ${wordClass} ${
+                    isMatched
+                      ? "bg-green-500 text-white ring-4 ring-green-600"
+                      : isWrong
+                        ? "bg-red-500 text-white ring-4 ring-red-600"
+                        : "bg-white text-green-800 ring-4 ring-green-300 hover:scale-105 hover:ring-green-400"
+                  }`}
+                >
+                  {showWord(item.word)}
+                  {isMatched && <span aria-label="matched">✔</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <p aria-live="polite" className="mt-5 min-h-8 text-base font-bold text-kid-ink sm:text-xl">
+          {message}
+        </p>
       </div>
     </div>
   );

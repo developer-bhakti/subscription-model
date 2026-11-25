@@ -12,7 +12,7 @@ import {
 } from "../../data/phonicsData";
 import { getLetterPage } from "../../data/phonicsFiles";
 import { L1_PAGES, L4_PICTURES, emojiOf } from "../../data/phonicsLessons";
-import { L8_PAGE_SIZE, L8_PICTURES, SHEET_CELL, SHEET_ROWS } from "../../data/phonicsSheetRows";
+import { L8_PAGE_SIZE, L8_PICTURES, PAGE_SIZES, SHEET_CELL, SHEET_ROWS } from "../../data/phonicsSheetRows";
 
 /* ------------------------- pictures cut from the worksheets ------------------------- */
 
@@ -99,6 +99,23 @@ export const cvcCellFor = (word) => {
 
   const [width, height] = L8_PAGE_SIZE;
   const [x0, y0, x1, y1] = cell.box;
+
+  return { src: file.image, box: [x0 / width, y0 / height, x1 / width, y1 / height], ratio: width / height };
+};
+
+// Width and height in pixels of one page of a level: most of a level's pages share the size in PHONICS_LEVELS, and the
+// few that differ are listed in PAGE_SIZES.
+export const pageSizeOf = (level, page) => PAGE_SIZES[level]?.[page] ?? PHONICS_LEVELS[level - 1].pageSize;
+
+// A picture cut out of a page of Levels 9 to 11, given its box [left, top, right, bottom] in pixels of that page:
+// { src, box, ratio } with the box as fractions of the page, or null if the page is missing.
+export const pageCell = (level, page, box) => {
+  const file = box ? getLetterPage(level, String(page)) : undefined;
+
+  if (!file) return null;
+
+  const [width, height] = pageSizeOf(level, String(page));
+  const [x0, y0, x1, y1] = box;
 
   return { src: file.image, box: [x0 / width, y0 / height, x1 / width, y1 / height], ratio: width / height };
 };

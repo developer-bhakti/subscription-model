@@ -9,6 +9,9 @@
 //   Level_6_Sound Segmentation/F_Sound Segmentation Worksheet.jpg
 //   Level_7_Sound Blending/Vowel A_3 Sound Blending.jpg              vowel A, three sounds (key "A3")
 //   Level_8_CVC Words/7_CVC Words Worksheet.jpg                      page 7 (key "7")
+//   Level_9_Word Family/A1_at Word Family Worksheet.jpg              the first A family, "at" (key "A1")
+//   Level_10_Diagraphs and Blends/D7_bl Blend Phonics Worksheet.jpg  page 7 (key "7")
+//   Level_11_Reading and Sentence Formation/W12_Read and ....jpg     page 12 (key "12")
 //   Level_1_.../Preschool_..._Workbook.pdf                           a whole-level PDF (not a letter page)
 //
 // On Levels 1 to 6 a file whose name starts with a single letter and an underscore ("A_...") is that letter's
@@ -32,23 +35,29 @@ const pdfs = import.meta.glob("../assets/img/**/*.pdf", {
   import: "default",
 });
 
-const LEVEL_FILE = /\/Level_(\d)_[^/]*\/([^/]+)$/;
+const LEVEL_FILE = /\/Level_(\d+)_[^/]*\/([^/]+)$/;
 const LETTER_FILE = /^([A-Z])_/;
 const VOWEL_FILE = /^Vowel ([A-Z])_(\d)/;
 const NUMBER_FILE = /^(\d+)_/;
+const FAMILY_FILE = /^([AEIOU]\d+)_/;
+const D_FILE = /^D(\d+)_/;
+const W_FILE = /^W(\d+)_/;
 
 // The key of the page a file is, or undefined if it is not a page (a workbook, say). A letter on Levels 1 to 6,
-// the vowel and number of sounds on Level 7 ("A3") and the page number on Level 8 ("7").
+// the vowel and number of sounds on Level 7 ("A3"), the page number on Levels 8, 10 and 11 ("7") and the word
+// family's place on Level 9 ("A1").
 const keyOf = (levelNumber, name) => {
   if (levelNumber === "7") return VOWEL_FILE.exec(name)?.slice(1).join("");
   if (levelNumber === "8") return NUMBER_FILE.exec(name)?.[1];
+  if (levelNumber === "9") return FAMILY_FILE.exec(name)?.[1];
+  if (levelNumber === "10") return D_FILE.exec(name)?.[1];
+  if (levelNumber === "11") return W_FILE.exec(name)?.[1];
 
   return LETTER_FILE.exec(name)?.[1];
 };
 
-// Pages in the order a child meets them: A to Z, or by number on Level 8.
-const byKey = (levelNumber) => (a, b) =>
-  levelNumber === "8" ? Number(a.letter) - Number(b.letter) : a.letter.localeCompare(b.letter);
+// Pages in the order a child meets them: A to Z, by number ("2" before "10"), or A1, A2 ... E1 ... on Level 9.
+const byKey = (a, b) => a.letter.localeCompare(b.letter, "en", { numeric: true });
 
 const isJpeg = (name) => /\.jpe?g$/i.test(name);
 
@@ -105,12 +114,12 @@ export const getLetterPage = (level, letter) => {
 };
 
 // For one level: `pages` is every page in order ({ letter, title, previewLabel, name, image, pdf? }): A to Z, or
-// by number on Level 8. `workbook` is the level's full PDF ({ name, url }) or null if there isn't one.
+// by number. `workbook` is the level's full PDF ({ name, url }) or null if there isn't one.
 export const getPhonicsFiles = (level) => {
   const found = levels[level] || emptyLevel();
 
   return {
-    pages: [...found.pages.values()].filter((page) => page.image).sort(byKey(String(level))),
+    pages: [...found.pages.values()].filter((page) => page.image).sort(byKey),
     workbook: found.workbook,
   };
 };

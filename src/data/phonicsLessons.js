@@ -11,6 +11,13 @@
 //   Level 6  "Sound Segmentation" sheets  - each word, split into the sounds written in the boxes
 //   Level 7  "Sound Blending" sheets      - the sounds of a word, to be blended into the word
 //   Level 8  "CVC Words" sheets           - three-letter words: reading, matching, spelling and changing them
+//   Level 9  "Word Family" sheets         - the words of each family (cat, bat, hat ... of the "at" family)
+//   Level 10 "Digraph" and "Blend" sheets - the four words of each digraph (sh, ch ...) and blend (bl, st ...)
+//   Level 11 "Reading Practice" sheets    - phrases, sentences and picture stories
+//
+// The sheets of Levels 9 to 11 have a number of rows that are wrong (words that are not words, pictures that do
+// not match). Each level's part below says which rows are left out of the games and why; the printed pages are
+// still there to download.
 //
 // Level 4 has a page for every letter, A to Z. If its pages are ever replaced, update the rows in L4_ROWS.
 
@@ -561,3 +568,253 @@ export const L8_CHANGES = [
   { word: "sun", from: "s", to: "r", result: "run" },
   { word: "log", from: "o", to: "e", result: "leg" },
 ];
+
+/* ------------------------------------ Level 9: word families ------------------------------------ */
+
+// The words of each Word Family page, in the order the page lists them, by the page's key (see L9_FAMILIES in
+// phonicsData.js: "A1" is the "at" family). A word is its first letter(s) and the family: "c" + "at" is "cat", and
+// "tw" + "in" is "twin". A word has a picture in the games only if it has a box in L9_PICTURES (phonicsSheetRows.js).
+//
+// Left out, because they are not words a child should learn from these pages:
+//  - not words at all: rab (beside a rabbit), ded, hed (head is spelt h-e-a-d), reg, seg, dem, sem, tem, tib, bip,
+//    bod, rox, sox, wox, bub (beside bubbles), rud, sud (beside soap suds)
+//  - names: dan (beside a boy), ben, roy (beside a king)
+//  - god (the picture is of a god), sot (it means a drunkard; the picture is a stained shirt), bum and rum
+//  - bow and row on the "ow" page: they say "oh" (a bow in a ribbon, a row boat), so they do not rhyme with cow, how
+//    and now
+// The "an" page also puts a cat and a cap among its "an" pictures, and the "ed" page a book, a face, a ladder and a
+// candle; those rows are left out too.
+//
+// Words kept without a picture, because the sheet's picture shows something else or could be read as another word:
+// ban (a banana), dab (a dance move), tab (a tablet), bad and mad (a thumbs-down and an angry face, either of which
+// could be "bad"), sag, lap, fed, led (a light bulb), beg, hem, bet (playing cards), get, fib (a cloud), bid and rid
+// (a sign saying BID, a bin), tip, bog (a pond), hog (a pig, which is the picture of "pig"), bop, bot, not, how, now,
+// hub (a wheel), gum (an eraser) and but.
+export const L9_PAGES = {
+  A1: ["cat", "bat", "hat", "mat", "rat"],
+  A2: ["ham", "jam", "ram", "yam", "dam"],
+  A3: ["ban", "can", "fan", "pan", "van"],
+  A4: ["cab", "dab", "lab", "tab"],
+  A5: ["bad", "dad", "lad", "mad", "pad"],
+  A6: ["bag", "rag", "tag", "wag", "sag"],
+  A7: ["cap", "tap", "map", "nap", "lap"],
+  E1: ["bed", "fed", "led"],
+  E2: ["beg", "leg", "peg"],
+  E3: ["gem", "hem"],
+  E4: ["hen", "men", "pen", "ten"],
+  E5: ["bet", "get", "jet", "pet", "wet"],
+  I1: ["bib", "nib", "rib", "fib"],
+  I2: ["bid", "kid", "lid", "rid", "hid"],
+  I3: ["big", "dig", "pig", "wig", "fig"],
+  I4: ["bin", "pin", "fin", "win", "twin"],
+  I5: ["dip", "lip", "sip", "tip"],
+  I6: ["bit", "fit", "hit", "pit", "sit"],
+  O1: ["nod", "pod", "rod"],
+  O2: ["bog", "dog", "fog", "hog", "log"],
+  O3: ["bop", "cop", "hop", "mop", "top"],
+  O4: ["bot", "hot", "not", "pot"],
+  O5: ["cow", "how", "now"],
+  O6: ["box", "fox"],
+  O7: ["boy", "joy", "toy"],
+  U1: ["cub", "hub", "rub", "tub"],
+  U2: ["bud", "mud"],
+  U3: ["bug", "hug", "rug", "mug"],
+  U4: ["gum", "sum"],
+  U5: ["bun", "fun", "run", "sun"],
+  U6: ["but", "cut", "hut", "nut"],
+};
+
+/* --------------------------------- Level 10: digraphs and blends --------------------------------- */
+
+// The words of each Digraph or Blend page, in the order of its "Read and Trace" rows, by page number (see L10_SOUNDS in
+// phonicsData.js: page 1 is "sh"). Each word's picture is in L10_PICTURES (phonicsSheetRows.js).
+//  - "bl": the sheet draws blueberries for "black", so black has no picture
+//  - "gr": the fourth "Read and Trace" row says "gift" beside a gift box (gift has no "gr"); the other three sections
+//    have "grill" there, which is used
+//  - "sc": "scissors" is left out, because in scissors "sc" says /s/, not the /s/ + /k/ the page teaches
+//  - "th", "ph": the "Complete the Words" rows of bath, teeth, elephant and trophy put the blank at the start of the
+//    word; the game puts it where the two letters really are (ba__, tee__)
+//  - "gh" says /f/ in laugh but makes no sound in night, light and might; the game says so
+export const L10_PAGES = {
+  1: ["ship", "shoe", "shell", "shop"],
+  2: ["chair", "cheese", "chick", "cherry"],
+  3: ["thumb", "three", "bath", "teeth"],
+  4: ["whale", "wheel", "whisk", "whistle"],
+  5: ["phone", "photo", "elephant", "trophy"],
+  6: ["laugh", "night", "light", "might"],
+  7: ["blue", "block", "blanket", "black"],
+  8: ["clock", "clown", "cloud", "cloth"],
+  9: ["flower", "flag", "fly", "flash"],
+  10: ["plant", "plane", "plate", "plum"],
+  11: ["brick", "bread", "brush", "broccoli"],
+  12: ["crab", "crown", "crayon", "crack"],
+  13: ["drum", "dragon", "dress", "drip"],
+  14: ["frog", "fruit", "fries", "frost"],
+  15: ["grapes", "green", "grass", "grill"],
+  16: ["truck", "tree", "train", "trumpet"],
+  17: ["scarf", "scale", "school"],
+  18: ["skate", "skirt", "skull", "sky"],
+  19: ["smile", "smoke", "smell", "smudge"],
+  20: ["snake", "snail", "snow", "snack"],
+  21: ["spoon", "spider", "sponge", "space"],
+  22: ["star", "stack", "stick", "stone"],
+  23: ["swan", "swim", "swing", "sweep"],
+};
+
+/* ------------------------------- Level 11: reading and sentences ------------------------------- */
+// Every page has six rows (or six cards), and a row's place is what finds its picture (L11_PICTURES in
+// phonicsSheetRows.js): row 0 is the top row.
+
+// Pages 1 to 3, "Read and Match the Phrases": each phrase with the row of its picture (the pictures are in a different
+// order from the phrases).
+export const L11_MATCH = {
+  1: [["big ball", 4], ["red apple", 0], ["little cat", 3], ["blue car", 1], ["tall tree", 5], ["hot sun", 2]],
+  2: [["green leaf", 3], ["sweet cake", 2], ["happy boy", 0], ["small bird", 5], ["pink flower", 1], ["shiny star", 4]],
+  3: [["big house", 2], ["red ball", 5], ["cold milk", 0], ["ripe mango", 3], ["fast bus", 4], ["cute dog", 1]],
+};
+
+// Pages 4 to 6, "Complete the Phrase": the start of the phrase, the right word and the other word offered, one per row.
+// Left out (null): page 5's last row, "A cold ___" with water or juice ("a cold water" is not right).
+export const L11_PHRASES = {
+  4: [["A red", "ball", "dog"], ["A cute", "cat", "bat"], ["A big", "sun", "fan"], ["A tall", "tree", "flower"], ["A fast", "bus", "car"], ["A ripe", "apple", "mango"]],
+  5: [["A blue", "car", "bus"], ["A pink", "flower", "leaf"], ["A big", "elephant", "mouse"], ["A small", "bird", "duck"], ["A fresh", "carrot", "potato"], null],
+  6: [["A sleepy", "boy", "girl"], ["A big", "umbrella", "hat"], ["A sweet", "ice cream", "cake"], ["A fast", "boy", "rabbit"], ["A white", "rabbit", "cat"], ["A flying", "kite", "bird"]],
+};
+
+// Pages 7 to 9, "Arrange the Words": the phrase each row's two words make.
+export const L11_ARRANGE = {
+  7: ["red apple", "cute dog", "blue car", "hot sun", "pink flower", "tall tree"],
+  8: ["big ball", "little cat", "fast bus", "cold milk", "ripe mango", "pretty hat"],
+  9: ["big house", "huge elephant", "shining star", "sweet cake", "fresh carrot", "flying bird"],
+};
+
+// Pages 10 to 12, "Read and Understand the Sentence": the sentence, which of its three pictures is right (0 to 2,
+// left to right), and what each picture shows.
+export const L11_UNDERSTAND = {
+  10: [
+    ["I see a cat.", 1, ["a dog", "a cat", "a rabbit"]],
+    ["The sun is hot.", 1, ["a rain cloud", "the sun", "a cloud"]],
+    ["I have a ball.", 1, ["a car", "a ball", "a school bag"]],
+    ["The tree is tall.", 1, ["a bush", "a tall tree", "a flower"]],
+    ["I like to read.", 1, ["a boy playing with a ball", "a boy reading", "a boy eating an apple"]],
+    ["The apple is red.", 1, ["a banana", "a red apple", "grapes"]],
+  ],
+  11: [
+    ["The dog is running.", 1, ["a dog sitting", "a dog running", "a dog sleeping"]],
+    ["I drink milk.", 0, ["a boy drinking milk", "a boy eating an apple", "a boy reading"]],
+    ["It is a rainy day.", 1, ["the sun", "a rain cloud", "a cloud"]],
+    ["The bird can fly.", 1, ["a bird in its nest", "a bird flying", "a bird standing"]],
+    ["I wear a hat.", 1, ["a boy in glasses", "a boy in a cap", "a boy in a scarf"]],
+    ["The flower is pink.", 1, ["a yellow flower", "a pink flower", "a red flower"]],
+  ],
+  12: [
+    ["The boy is sleeping.", 0, ["a boy sleeping", "a boy reading", "a boy eating"]],
+    ["I eat an apple.", 1, ["a boy drinking", "a boy eating an apple", "a boy eating a banana"]],
+    ["The car is red.", 1, ["a yellow car", "a red car", "a blue car"]],
+    ["It is a sunny day.", 1, ["a rain cloud", "the sun", "a cloud"]],
+    ["The girl is playing.", 1, ["a girl reading", "a girl playing with a ball", "a girl sleeping"]],
+    ["I see a bridge.", 1, ["a house", "a bridge", "a tree"]],
+  ],
+};
+
+// Pages 23, 26 and 27, "Look at the Picture and Write": the sentence printed beside each of the six pictures, the
+// cards read left to right, top to bottom.
+export const L11_PICTURE_SENTENCES = {
+  23: ["This is a dog.", "This is an apple.", "This is a bird.", "This is a cat.", "This is a car.", "This is a kite."],
+  26: [
+    "The boy is playing football.", "The girl is drinking water.", "The elephant is taking a bath.",
+    "The birds are in a nest.", "This is a school.", "This is a rainbow.",
+  ],
+  27: [
+    "This is a cow.", "The boy is sleeping.", "The girl is eating an apple.",
+    "The fish is swimming in water.", "It is raining.", "This is a house.",
+  ],
+};
+
+// Pages 13 to 15, "Fill in the Missing Word", and pages 24 and 25, "Look at the Picture and Write": each row is the
+// sentence before the blank, after it, and the word that goes in it. Pages 13 to 15 have a word bank; on 24 and 25
+// the sheet leaves the word to the child, so the word is the one the picture shows (on page 25 "The sun is ___" is
+// "hot", as on pages 10 and 19). Page 24's fourth row has two blanks on the sheet ("This is a ___ ___"); the game
+// asks for one word.
+export const L11_FILL = {
+  13: {
+    bank: ["running", "milk", "tree", "ball", "cat", "happy"],
+    rows: [["The boy is", ".", "running"], ["I drink", ".", "milk"], ["I see a", ".", "tree"], ["The", "is playing.", "cat"], ["I have a", ".", "ball"], ["I am", ".", "happy"]],
+  },
+  14: {
+    bank: ["big", "blue", "sweet", "cold", "kite", "bird"],
+    rows: [["The elephant is", ".", "big"], ["The sky is", ".", "blue"], ["I like", "mango.", "sweet"], ["I fly a", ".", "kite"], ["The", "is singing.", "bird"], ["The ice cream is", ".", "cold"]],
+  },
+  15: {
+    bank: ["fresh", "hot", "school", "banana", "sleep", "water"],
+    rows: [["I go to", ".", "school"], ["I drink", ".", "water"], ["The soup is", ".", "hot"], ["I eat a", ".", "banana"], ["The flowers are", ".", "fresh"], ["I go to", "early.", "sleep"]],
+  },
+  24: {
+    rows: [["This is a", ".", "ball"], ["I see a", ".", "bird"], ["This is a", ".", "cat"], ["This is a", ".", "tree"], ["I see a", ".", "bus"], ["This is a", ".", "flower"]],
+  },
+  25: {
+    rows: [["The boy is", ".", "eating"], ["The girl is", "a book.", "reading"], ["The dog is", ".", "running"], ["It is a", "day.", "rainy"], ["The sun is", ".", "hot"], ["This is a", ".", "car"]],
+  },
+};
+
+// Words that fit a blank as well as the right one, so they are never offered as the wrong answer ("page:row"): on
+// page 15 "I go to school" and "I go to sleep" are both good sentences.
+export const L11_ALSO_FITS = { "15:0": ["sleep"], "15:5": ["school"] };
+
+// Pages 16 to 18, "Choose the Correct Sentence": the right sentence for each row's picture, then the wrong one.
+export const L11_CHOOSE = {
+  16: [
+    ["The boy runs.", "The boy sleeps."],
+    ["The girl is sleeping.", "The girl is reading."],
+    ["The cat is sitting.", "The cat is eating."],
+    ["The boy drinks water.", "The boy eats an apple."],
+    ["The tree is tall.", "The tree is small."],
+    ["The girl is reading a book.", "The girl is playing with a ball."],
+  ],
+  17: [
+    ["The dog is running.", "The dog is eating."],
+    ["The girl is eating an apple.", "The girl is drinking milk."],
+    ["The bird can fly.", "The bird is sitting on a tree."],
+    ["The boy is playing football.", "The boy is reading a book."],
+    ["It is a rainy day.", "It is a sunny day."],
+    ["The cat is sleeping.", "The cat is drinking water."],
+  ],
+  18: [
+    ["The children are in a bus.", "The children are in a car."],
+    ["The boy is washing his hands.", "The boy is brushing his teeth."],
+    ["The girl is eating soup.", "The girl is drinking juice."],
+    ["The rabbit is eating a carrot.", "The rabbit is sleeping."],
+    ["The boy is swimming.", "The boy is riding a bicycle."],
+    ["It is night.", "It is morning."],
+  ],
+};
+
+// Pages 19 to 22, "Build a Sentence": the sentence each row's word cards make. Left out (null): page 21's third row,
+// whose cards ("the", "The", "is", "birds.", "feeding") have no card for the bird that is feeding.
+export const L11_BUILD = {
+  19: ["The cat is sleeping.", "The boy is eating.", "The sun is hot.", "The girl is reading.", "The dog is running.", "The tree is tall."],
+  20: ["The boy goes to school.", "The elephant is bathing.", "The girl is watering the plant.", "The bird is singing.", "The rainbow is beautiful.", "The boy is sleeping."],
+  21: ["The dog is running.", "The girl is drinking water.", null, "It is raining.", "She is eating fruits.", "The bus is yellow."],
+  22: ["The rabbit is eating a carrot.", "The boy is playing football.", "The girl is watering the flowers.", "The cat is sitting.", "The children are building a sandcastle.", "The sun is rising."],
+};
+
+// Pages 28 to 30, "Picture Sequence and Simple Story": three stories a page, each with three pictures. `order` lists
+// the pictures (0 to 2, left to right as printed) in the order the story happens, and `shows` says what each picture
+// shows, in the order printed.
+export const L11_STORIES = {
+  28: [
+    { title: "A Seed to a Plant", order: [1, 0, 2], shows: ["a little plant growing", "a seed going into the soil", "a flower in bloom"] },
+    { title: "A Snowman Story", order: [1, 2, 0], shows: ["the finished snowman", "children rolling a big snowball", "one snowball on top of another"] },
+    { title: "Making a Sandwich", order: [2, 1, 0], shows: ["a boy eating his sandwich", "a sandwich on a plate", "bread, tomato, cheese and lettuce"] },
+  ],
+  29: [
+    { title: "A Rainy Day", order: [2, 1, 0], shows: ["a girl splashing in a puddle", "a boy with an umbrella in the rain", "a rain cloud"] },
+    { title: "A Butterfly Story", order: [0, 1, 2], shows: ["eggs on a leaf", "a caterpillar", "a butterfly"] },
+    { title: "A Boy and His Kite", order: [0, 1, 2], shows: ["a boy holding his kite", "the boy running with the kite", "the kite flying high"] },
+  ],
+  30: [
+    { title: "Planting a Tree", order: [0, 1, 2], shows: ["a boy planting a small plant", "the boy watering it", "a big tree"] },
+    { title: "Baking a Cake", order: [0, 1, 2], shows: ["a girl mixing the batter", "the cake in the oven", "the girl with her cake"] },
+    { title: "A Trip to the Park", order: [0, 1, 2], shows: ["going into the park", "playing on the slide", "eating a snack on a bench"] },
+  ],
+};
