@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Downloaded archives (the Level 3 zip is over GitHub's 100 MB limit)
+*.zip
