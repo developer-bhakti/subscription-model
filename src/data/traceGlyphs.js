@@ -1,6 +1,6 @@
-// The shapes children trace in the Cognitive Skill "Trace It" game: the letters A-Z (capital and
-// small) and the digits 0-9, written the way they are taught in a handwriting lesson, each as a few
-// strokes in the order and direction they are written.
+// The shapes children trace in the Online Tools tracing games (Trace Numbers in Numeracy Skills, Trace Letters
+// in Literacy Skills): the letters A-Z (capital, small and cursive) and the digits 0-9, written the way they are
+// taught in a handwriting lesson, each as a few strokes in the order and direction they are written.
 //
 // Every stroke is a path in a 100 x 100 box (x to the right, y downwards) written with the absolute
 // commands M (start), L (line), Q (curve with one control point) and C (curve with two). Capital
@@ -97,6 +97,40 @@ const LOWER = {
   x: ["M 28 38 L 72 78", "M 72 38 L 28 78"],
   y: ["M 26 38 L 50 76", "M 74 38 L 42 100"],
   z: ["M 28 38 L 72 38 L 28 78 L 72 78"],
+};
+
+// Cursive small letters, as taught in UKG: each starts with a lead-in stroke from the line it sits on and ends
+// with an exit stroke that would join the next letter, so most are a single stroke (i and j add their dot, t its
+// cross and x its second slant). They sit on the same line as the small letters (y = 78), are about 34 tall
+// (y = 44), loop up to 14 (b f h k l) and down to about 104 (f g j q y z). Where the pen goes back over its own line
+// (the stem of a, d, g, q and the humps of m and n), the path simply runs back along it.
+const CURSIVE = {
+  a: ["M 12 78 C 28 70 44 50 60 46 C 52 42 40 42 34 48 C 26 56 26 72 38 77 C 48 81 58 72 62 60 L 63 44 L 63 70 C 63 78 70 80 76 77 C 80 75 84 71 88 66"],
+  b: ["M 12 78 C 32 66 54 46 56 28 C 57 14 40 10 37 22 L 34 74 C 36 80 50 82 58 74 C 66 66 66 50 58 46 C 54 45 52 49 57 50 C 64 51 76 48 90 46"],
+  c: ["M 12 78 C 26 70 42 54 58 46 C 64 43 62 38 56 40 C 44 44 32 54 32 66 C 32 76 40 80 50 78 C 62 76 74 70 88 64"],
+  d: ["M 12 78 C 28 70 44 50 60 46 C 52 42 40 42 34 48 C 26 56 26 72 38 77 C 48 81 58 72 62 60 L 64 14 L 64 70 C 64 78 70 80 76 77 C 80 75 84 71 88 66"],
+  e: ["M 12 76 C 30 72 50 62 56 52 C 60 44 52 40 46 44 C 38 50 36 66 44 74 C 52 80 70 76 88 64"],
+  f: ["M 12 78 C 32 66 54 46 56 28 C 57 14 40 10 37 22 L 36 98 C 36 106 44 104 46 96 C 48 88 44 80 38 76 C 50 76 70 72 88 64"],
+  g: ["M 12 78 C 28 70 44 50 60 46 C 52 42 40 42 34 48 C 26 56 26 72 38 77 C 48 81 58 72 62 60 L 63 44 L 63 96 C 63 106 50 108 44 100 C 38 92 50 82 63 78 C 72 75 80 70 88 64"],
+  h: ["M 12 78 C 32 66 54 46 56 28 C 57 14 40 10 37 22 L 34 78 C 38 58 46 46 56 46 C 66 46 68 54 68 62 L 68 72 C 68 78 74 80 80 76 C 84 73 86 70 90 66"],
+  i: ["M 12 78 C 24 70 36 56 44 44 L 42 70 C 42 78 48 80 54 77 C 60 74 64 70 70 64", "M 44 28 L 44 34"],
+  j: ["M 12 78 C 24 70 36 56 46 44 L 46 96 C 46 106 34 108 30 100 C 26 92 36 82 48 78 C 60 74 70 70 80 64", "M 46 28 L 46 34"],
+  k: ["M 12 78 C 32 66 54 46 56 28 C 57 14 40 10 37 22 L 34 78 C 38 60 50 44 62 48 C 72 52 66 64 52 63 L 44 62 C 56 64 62 70 64 76 C 68 80 78 76 90 66"],
+  l: ["M 12 78 C 32 66 54 46 56 28 C 57 14 40 10 37 22 L 34 70 C 34 78 40 80 48 77 C 56 74 64 70 72 64"],
+  m: ["M 10 78 C 14 60 20 46 26 46 C 30 46 30 54 28 78 L 29 62 C 32 50 38 46 44 46 C 50 46 52 52 52 60 L 52 78 L 52 62 C 55 50 61 46 67 46 C 73 46 75 52 75 60 L 75 72 C 75 78 81 80 86 76 C 89 74 92 70 94 66"],
+  n: ["M 14 78 C 18 60 24 46 30 46 C 34 46 34 54 32 78 L 33 62 C 36 50 42 46 50 46 C 58 46 60 52 60 60 L 60 72 C 60 78 66 80 72 76 C 76 74 80 70 84 66"],
+  o: ["M 12 78 C 26 70 42 52 54 44 C 44 42 32 50 32 62 C 32 74 42 80 52 78 C 62 76 66 64 64 54 C 62 46 56 42 52 44 C 56 48 70 48 88 44"],
+  p: ["M 12 78 C 22 68 32 56 38 44 L 36 104 L 37 66 C 40 52 50 46 58 46 C 68 46 70 58 66 68 C 62 78 50 80 40 76 C 52 76 70 72 88 64"],
+  q: ["M 12 78 C 28 70 44 50 60 46 C 52 42 40 42 34 48 C 26 56 26 72 38 77 C 48 81 58 72 62 60 L 63 44 L 63 100 C 63 106 70 104 72 98 C 74 90 70 82 62 78 C 72 76 80 72 88 66"],
+  r: ["M 12 78 C 22 66 32 54 38 44 C 42 48 48 50 54 48 L 54 70 C 54 78 60 80 66 77 C 72 74 78 70 84 64"],
+  s: ["M 12 78 C 22 68 34 54 42 42 C 50 50 58 58 56 68 C 54 78 42 80 34 74 C 40 78 60 76 88 64"],
+  t: ["M 12 78 C 22 64 32 44 40 26 L 38 70 C 38 78 44 80 50 77 C 58 74 66 70 74 64", "M 28 42 L 54 42"],
+  u: ["M 12 78 C 20 66 28 54 32 44 L 30 66 C 30 76 36 80 44 78 C 52 76 58 64 60 44 L 60 70 C 60 78 66 80 72 77 C 78 74 82 70 86 64"],
+  v: ["M 12 78 C 16 60 22 46 28 46 C 34 46 36 56 40 66 C 44 76 50 78 54 72 C 60 62 62 52 62 44 C 64 48 74 48 88 46"],
+  w: ["M 12 78 C 20 66 26 54 30 44 L 28 66 C 28 76 34 80 40 78 C 46 76 48 70 50 62 C 50 74 54 80 60 78 C 68 76 72 62 72 44 C 74 48 82 48 90 46"],
+  x: ["M 12 78 C 18 60 26 46 34 46 C 40 46 44 56 48 66 C 52 76 58 80 66 76 C 72 72 76 70 80 66", "M 58 46 L 36 78"],
+  y: ["M 12 78 C 16 60 22 46 28 46 C 34 46 34 56 32 66 C 32 76 38 80 46 78 C 54 76 58 64 60 44 L 60 96 C 60 106 48 108 42 100 C 38 92 48 82 60 78 C 70 74 78 70 86 64"],
+  z: ["M 12 78 C 16 60 22 46 32 46 C 46 46 56 48 52 58 C 50 64 42 66 38 66 C 50 66 58 72 56 86 C 54 98 42 102 40 96 C 38 88 52 80 64 76 C 72 72 80 70 88 66"],
 };
 
 const DIGITS = {
@@ -240,18 +274,27 @@ const NUMBER_LAYOUT = {
   3: { centres: [18, 50, 82], squeeze: 0.4, height: 0.86, pen: 6.5 },
 };
 
+// The three ways a letter can be written, with the shapes and how thick the pen is (cursive has loops that close
+// up with a thicker pen).
+const LETTER_STYLES = {
+  capital: { shapes: UPPER, pen: 9, toKey: (l) => l.toUpperCase() },
+  small: { shapes: LOWER, pen: 9, toKey: (l) => l.toLowerCase() },
+  cursive: { shapes: CURSIVE, pen: 7, toKey: (l) => l.toLowerCase() },
+};
+
 /**
  * What to trace for a letter or a number.
- *   traceFor({ letter: "A", lower: false })   traceFor({ number: 37 })
+ *   traceFor({ letter: "A", style: "capital" })   traceFor({ letter: "a", style: "cursive" })   traceFor({ number: 37 })
+ * `style` is "capital" (the default), "small" or "cursive"; `lower: true` is the same as "small".
  * Returns { strokes, pen, label }: `strokes` are lists of [x, y] points (1 unit apart, in a 100 x
  * 100 box) in the order they are written, `pen` is how thick to draw them and `label` is what to say.
  */
 export const traceFor = (item) => {
   if (item.letter) {
-    const key = item.lower ? item.letter.toLowerCase() : item.letter.toUpperCase();
-    const paths = (item.lower ? LOWER : UPPER)[key];
+    const style = LETTER_STYLES[item.style ?? (item.lower ? "small" : "capital")];
+    const key = style.toKey(item.letter);
 
-    return { strokes: fitToBox(flattenAll(paths)), pen: 9, label: key };
+    return { strokes: fitToBox(flattenAll(style.shapes[key])), pen: style.pen, label: key };
   }
 
   const digits = String(item.number).split("");

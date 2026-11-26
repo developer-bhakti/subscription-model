@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { speakAsGirl } from "../../services/speech";
+import TraceScreen from "./TraceScreen";
 
 const classes = [
   {
     id: "pg",
     name: "PG",
     emoji: "🍼",
-    desc: "Numbers 1 to 5",
+    desc: "Numbers 1 to 10",
     color: "orange",
     objectEmoji: null,
-    // Not offered in the class picker; its games are kept in case PG is switched back on.
-    notApplicable: true,
+    // PG plays only Trace Numbers (see classGames.pg); its six older games are kept below but not offered.
   },
   {
     id: "nursery",
@@ -1194,8 +1194,19 @@ const makeMatchNumber = ({ quantity, names }) => {
   return () => (coinFlip() ? matchQuantity() : matchName());
 };
 
+// Trace Numbers: the child traces the numbers 1 to `max` with a finger (see TraceScreen.jsx). Every class has it, as
+// the last of its games, with the numbers for that class: PG 1 to 10, Nursery 1 to 20, LKG 1 to 50, UKG 1 to 100.
+const traceNumbers = (classId, max) => ({
+  id: `${classId}-trace`,
+  name: "Trace Numbers",
+  emoji: "✏️",
+  desc: `Trace the numbers 1 to ${max} with your finger.`,
+  trace: { max },
+});
+
 // The games each class shows, in this order.
 const classGames = {
+  pg: [traceNumbers("pg", 10)],
   nursery: [
     {
       id: "nursery-identify",
@@ -1237,6 +1248,7 @@ const classGames = {
       desc: "Pick the side that has more or less.",
       base: "moreOrLess",
     },
+    traceNumbers("nursery", 20),
   ],
 
   lkg: [
@@ -1285,6 +1297,7 @@ const classGames = {
         names: { min: 1, max: 20 },
       }),
     },
+    traceNumbers("lkg", 50),
   ],
 
   ukg: [
@@ -1363,10 +1376,11 @@ const classGames = {
         range: { min: 0, max: 9 },
       }),
     },
+    traceNumbers("ukg", 100),
   ],
 };
 
-// PG keeps the six modes it always had.
+// A class with no list of its own would show the six shared modes (every class has a list now).
 const gamesFor = (classId) => classGames[classId] ?? modes;
 const findGame = (id) =>
   modes.find((mode) => mode.id === id) ??
@@ -1765,7 +1779,12 @@ const NumeracySkillsCognitiveSkill = () => {
         </h1>
         <p className="text-kid-soft font-medium mb-8 text-center">Which game do you want to play?</p>
 
-        <div className="tone-cycle grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+        {/* A class with a single game (PG) shows it as one card in the middle */}
+        <div
+          className={`tone-cycle grid gap-6 w-full ${
+            gamesFor(selectedClass).length === 1 ? "max-w-sm" : "sm:grid-cols-2 lg:grid-cols-3 max-w-6xl"
+          }`}
+        >
           {gamesFor(selectedClass).map((mode) => (
             <div key={mode.id} className="kid-card kid-card-hover flex flex-col p-6 text-center">
               <div className="kid-chip mx-auto h-24 w-24 text-5xl">{mode.emoji}</div>
@@ -1778,7 +1797,7 @@ const NumeracySkillsCognitiveSkill = () => {
               <div className="mt-auto pt-5">
                 <button
                   onClick={() =>
-                    mode.id === "bigOrSmall" ? setSelectedMode(mode.id) : startGame(mode.id)
+                    mode.id === "bigOrSmall" || mode.trace ? setSelectedMode(mode.id) : startGame(mode.id)
                   }
                   className="kid-btn px-8 py-3 text-lg"
                 >
@@ -1842,6 +1861,20 @@ const NumeracySkillsCognitiveSkill = () => {
   }
 
   const modeInfo = findGame(selectedMode);
+
+  // TRACE NUMBERS: its own screen, not questions
+  if (modeInfo.trace) {
+    return (
+      <TraceScreen
+        kind="numbers"
+        max={modeInfo.trace.max}
+        game={modeInfo}
+        classInfo={classInfo}
+        onBack={backToModes}
+      />
+    );
+  }
+
   const categoryInfo = bigOrSmallCategories.find((cat) => cat.id === selectedCategory);
   // A question counts as tried the moment an option is picked, so the totals stay
   // correct for a child who walks away mid-round.

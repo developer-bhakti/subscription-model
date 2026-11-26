@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { speakAsGirl } from "../../services/speech";
+import TraceScreen from "./TraceScreen";
 
 const classes = [
-  { id: "pg", name: "PG", emoji: "🍼", desc: "Starter Letters", color: "orange", notApplicable: true },
+  { id: "pg", name: "PG", emoji: "🍼", desc: "Starter Letters", color: "orange" },
   { id: "nursery", name: "Nursery", emoji: "🧸", desc: "Easy Letters", color: "pink" },
   { id: "lkg", name: "LKG", emoji: "📚", desc: "Medium Letters", color: "green" },
   { id: "ukg", name: "UKG", emoji: "🎓", desc: "Advanced Letters", color: "blue" },
@@ -22,6 +23,29 @@ const modes = [
     desc: "Pick the missing letter to complete the word.",
   },
 ];
+
+// Trace Letters: the child traces the letters with a finger (see TraceScreen.jsx). What each class traces:
+//   PG and Nursery: capital letters A to Z
+//   LKG: capital and small letters, A to Z and a to z
+//   UKG: capital letters A to Z and cursive letters a to z
+const traceLetters = {
+  pg: { styles: ["capital"], desc: "Trace the capital letters A to Z with your finger." },
+  nursery: { styles: ["capital"], desc: "Trace the capital letters A to Z with your finger." },
+  lkg: { styles: ["capital", "small"], desc: "Trace the capital and small letters, A to Z and a to z." },
+  ukg: { styles: ["capital", "cursive"], desc: "Trace the capital letters A to Z and the cursive letters a to z." },
+};
+
+const traceGame = (classId) => ({
+  id: "traceLetters",
+  name: "Trace Letters",
+  emoji: "✏️",
+  desc: traceLetters[classId].desc,
+  styles: traceLetters[classId].styles,
+});
+
+// The games a class shows: PG has only Trace Letters (its two older games are not offered), the other classes have
+// the two shared games and then Trace Letters.
+const gamesFor = (classId) => (classId === "pg" ? [traceGame(classId)] : [...modes, traceGame(classId)]);
 
 // Questions are generated in batches, and a fresh batch is added whenever the child
 // reaches the end of the last one, so a round only finishes when they decide it has.
@@ -303,15 +327,20 @@ const LiteracySkills = () => {
         </h1>
         <p className="text-kid-soft font-medium mb-8 text-center">Which game do you want to play?</p>
 
-        <div className="tone-cycle grid md:grid-cols-2 gap-8 w-full max-w-4xl">
-          {modes.map((mode) => (
+        {/* A class with a single game (PG) shows it as one card in the middle */}
+        <div
+          className={`tone-cycle grid gap-8 w-full ${
+            gamesFor(selectedClass).length === 1 ? "max-w-md" : "md:grid-cols-2 max-w-4xl"
+          }`}
+        >
+          {gamesFor(selectedClass).map((mode) => (
             <div key={mode.id} className="kid-card kid-card-hover p-8 text-center">
               <div className="kid-chip mx-auto h-28 w-28 text-6xl">{mode.emoji}</div>
               <h2 className="text-2xl font-bold mt-4 text-kid-ink">{mode.name}</h2>
               <p className="mt-3 font-medium text-kid-soft">{mode.desc}</p>
 
               <button
-                onClick={() => startGame(mode.id)}
+                onClick={() => (mode.id === "traceLetters" ? setSelectedMode(mode.id) : startGame(mode.id))}
                 className="kid-btn mt-6 px-8 py-3 text-lg"
               >
                 ▶ Play Now
@@ -330,7 +359,20 @@ const LiteracySkills = () => {
     );
   }
 
-  const modeInfo = modes.find((mode) => mode.id === selectedMode);
+  const modeInfo = gamesFor(selectedClass).find((mode) => mode.id === selectedMode);
+
+  // TRACE LETTERS: its own screen, not questions
+  if (selectedMode === "traceLetters") {
+    return (
+      <TraceScreen
+        kind="letters"
+        styles={modeInfo.styles}
+        game={modeInfo}
+        classInfo={classInfo}
+        onBack={backToModes}
+      />
+    );
+  }
   // A question counts as tried the moment an option is picked, so the totals stay
   // correct for a child who walks away mid-round.
   const attempted = current + (selected ? 1 : 0);

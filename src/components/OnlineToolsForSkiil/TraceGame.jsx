@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { traceFor } from "../../data/traceGlyphs";
 
-// One tracing board for the Cognitive Skill "Trace It" game. It shows a letter or a number as a faint
+// One tracing board for the Online Tools tracing games (Trace Numbers, Trace Letters). It shows a letter or a number as a faint
 // shape with a big dot where the pen starts. The child presses on the dot and drags along the shape
 // with a finger or the mouse; the path fills in behind them. A letter with several strokes (like A)
 // shows the dot for the next stroke each time one is finished. When the last stroke is traced,
 // `onComplete` is called once.
 //
-// Give it `letter` (and `lower` for a small letter) or `number`. To start the same shape again, change
-// its `key`.
+// Give it `letter` (with `style`: "capital", "small" or "cursive") or `number`. To start the same shape again,
+// change its `key`.
 
 const SIZE = 480; // pixels the canvas is drawn at; CSS scales it to the screen
 const UNIT = SIZE / 100; // one unit of the 100 x 100 design box in pixels
@@ -25,12 +25,12 @@ const REACH = 30; // how far along the path one move can carry the pen (design u
 
 const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 
-export default function TraceGame({ letter, lower = false, number, onComplete }) {
+export default function TraceGame({ letter, style = "capital", number, onComplete }) {
   const canvasRef = useRef(null);
   const game = useRef({ stroke: 0, index: 0, tracing: false, done: false });
   const [finished, setFinished] = useState(false);
 
-  const trace = useMemo(() => traceFor({ letter, lower, number }), [letter, lower, number]);
+  const trace = useMemo(() => traceFor({ letter, style, number }), [letter, style, number]);
   const tolerance = Math.max(10, trace.pen * 1.4);
 
   const draw = useCallback(() => {
