@@ -514,19 +514,29 @@ export function PickAllGame({ makeRounds }) {
 // `display` is the big thing shown under the prompt (a letter or a picture), `speak` is read aloud
 // when the question appears, and `explain` is read after the child answers. An option can carry
 // a picture: `icon` (any element, such as <Picture/>) or just an `emoji`. `columns` sets the grid of the options
-// (by default it follows how many there are), and `displayClass` the size of the `display`.
+// (by default it follows how many there are); it can be a function of the question, for games that mix three and
+// four options. `displayClass` sets the size of the `display`.
+//
+// With `endless` the game never runs out: past the last question a fresh list is added (the questions just asked are
+// moved to its end, so none comes straight back), a star is earned for every ten questions tried, and the game only
+// ends when the child taps "Finish & See Score" (or leaves).
+const STAR_EVERY = 10;
+const questionKey = (q) => `${typeof q.prompt === "string" ? q.prompt : ""}|${q.speak ?? ""}|${q.answer}`;
+
 export function QuizGame({
   makeQuestions,
   optionTextClass = "text-4xl sm:text-5xl",
   hideLabels = false,
   columns: fixedColumns,
   displayClass = "text-7xl sm:text-8xl",
+  endless = false,
 }) {
   const [questions, setQuestions] = useState(() => makeQuestions());
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [triedAtFinish, setTriedAtFinish] = useState(0);
 
   const question = questions[index];
 
@@ -550,8 +560,21 @@ export function QuizGame({
     if (index + 1 < questions.length) {
       setIndex((i) => i + 1);
       setSelected(null);
+    } else if (endless) {
+      // Top up with a fresh list; the last few questions asked go to its end, so none comes straight back.
+      const recent = new Set(questions.slice(-5).map(questionKey));
+      const fresh = makeQuestions();
+
+      setQuestions((list) => [
+        ...list,
+        ...fresh.filter((q) => !recent.has(questionKey(q))),
+        ...fresh.filter((q) => recent.has(questionKey(q))),
+      ]);
+      setIndex((i) => i + 1);
+      setSelected(null);
     } else {
       stopSpeaking();
+      setTriedAtFinish(questions.length);
       setFinished(true);
     }
   };
@@ -567,8 +590,8 @@ export function QuizGame({
   if (finished) {
     return (
       <ResultCard
-        stars={starsFor(score, questions.length)}
-        message={`You got ${score} out of ${questions.length} right!`}
+        stars={starsFor(score, triedAtFinish)}
+        message={`You got ${score} out of ${triedAtFinish} right!`}
         onReplay={replay}
       />
     );
@@ -577,9 +600,18 @@ export function QuizGame({
   const answered = selected !== null;
   const correct = answered && selected === question.answer;
   const answerLabel = question.options.find((o) => o.value === question.answer)?.label;
-  const progress = (index / questions.length) * 100;
+  // A question counts as tried once it has been answered.
+  const tried = index + (answered ? 1 : 0);
+  const starsEarned = Math.floor(tried / STAR_EVERY);
+  const progress = endless ? ((tried % STAR_EVERY) / STAR_EVERY) * 100 : (index / questions.length) * 100;
+
+  const finishNow = () => {
+    stopSpeaking();
+    setTriedAtFinish(tried);
+    setFinished(true);
+  };
   const columns =
-    fixedColumns ??
+    (typeof fixedColumns === "function" ? fixedColumns(question) : fixedColumns) ??
     (question.options.length >= 4
       ? "grid-cols-2 md:grid-cols-4"
       : question.options.length === 2
@@ -589,22 +621,30 @@ export function QuizGame({
   return (
     <div className="kid-card tone-white mx-auto w-full max-w-3xl p-4 text-center sm:p-6">
       <div className="flex items-center justify-between gap-3 text-sm font-bold text-kid-soft sm:text-base">
-        <span>
-          Question {index + 1} of {questions.length}
-        </span>
+        <span>{endless ? `Question ${index + 1}` : `Question ${index + 1} of ${questions.length}`}</span>
 
-        <span className="rounded-full bg-tone-butter px-3 py-1 text-kid-ink">⭐ {score}</span>
+        <span className="rounded-full bg-tone-butter px-3 py-1 text-kid-ink">
+          {endless ? `✔ ${score} right` : `⭐ ${score}`}
+        </span>
       </div>
 
       <div
         className="mt-3 h-3 w-full overflow-hidden rounded-full bg-gray-200"
         role="progressbar"
+        aria-label={endless ? "On the way to the next star" : "Questions done"}
         aria-valuemin={0}
-        aria-valuemax={questions.length}
-        aria-valuenow={index}
+        aria-valuemax={endless ? STAR_EVERY : questions.length}
+        aria-valuenow={endless ? tried % STAR_EVERY : index}
       >
         <div className="h-full rounded-full bg-green-500 transition-all" style={{ width: `${progress}%` }} />
       </div>
+
+      {endless && (
+        <p className="mt-2 text-sm font-semibold text-kid-soft">
+          {starsEarned > 0 && `${"⭐".repeat(Math.min(starsEarned, 5))}${starsEarned > 5 ? ` × ${starsEarned}` : ""} • `}
+          {STAR_EVERY - (tried % STAR_EVERY)} more for the next star
+        </p>
+      )}
 
       <div className="mt-5 rounded-3xl border-4 border-dashed border-yellow-400 bg-yellow-50 p-4 sm:p-6">
         <h3 className="text-xl font-bold text-kid-ink sm:text-2xl">{question.prompt}</h3>
@@ -657,10 +697,16 @@ export function QuizGame({
 
         {answered && (
           <button type="button" onClick={goNext} className="kid-btn kid-btn-sun mt-4 px-8 py-3 text-lg">
-            {index + 1 < questions.length ? "Next ➜" : "See my stars ⭐"}
+            {endless || index + 1 < questions.length ? "Next ➜" : "See my stars ⭐"}
           </button>
         )}
       </div>
+
+      {endless && tried > 0 && (
+        <button type="button" onClick={finishNow} className="kid-btn kid-btn-soft mt-5">
+          🏁 Finish & See Score
+        </button>
+      )}
     </div>
   );
 }
